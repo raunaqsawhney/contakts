@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+  	android:fitsSystemWindows="true"
+	android:clipToPadding="false" >
+    
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="175dip">
+        
+        <ImageView
+            android:id="@+id/header_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+        
+        <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="horizontal" >
+        
+	        <com.raunaqsawhney.contakts.MLRoundedImageView
+	            android:id="@+id/c_detail_header_photo"
+	            android:layout_width="90dip"
+	            android:layout_height="90dip"
+	            android:layout_marginLeft="20dip" 
+	            android:layout_marginTop="20dip"/>
+	        
+	        <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent" 
+		        android:orientation="vertical">
+        
+
+		       	<TextView
+		            android:id="@+id/c_detail_header_name"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="contact_name"
+		            android:layout_marginLeft="12dip"
+		            android:layout_marginTop="30dp"
+		            android:textAlignment="textStart"
+		            android:textColor="#FFF" 
+		            android:textSize="22sp"/>
+	  
+		        <TextView
+		            android:id="@+id/c_detail_header_company"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textColor="#FFF"
+		            android:layout_marginLeft="12dip"
+		            android:textSize="16sp"/>
+		        
+		        <LinearLayout 
+		            android:id="@+id/c_detail_header_quickLinks"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:orientation="horizontal"
+		            android:paddingTop="30dip">
+	            
+		            <ImageView
+		                android:id="@+id/c_detail_header_quickLinks_phone"
+		                android:layout_width="30dip"
+		                android:layout_height="30dip"
+		                android:layout_marginLeft="5dip"
+		                android:layout_marginRight="15dip"
+		                android:src="@drawable/ic_action_phone"/>
+		            
+		            <ImageView
+		                android:id="@+id/c_detail_header_quickLinks_text"
+		                android:layout_width="30dip"
+		                android:layout_height="30dip"
+		                android:layout_marginLeft="15dip"
+		                android:layout_marginRight="15dip"
+		                android:src="@drawable/ic_action_text"/>
+		            
+		           	<ImageView
+		                android:id="@+id/c_detail_header_quickLinks_email"
+		                android:layout_width="30dip"
+		                android:layout_height="30dip"
+		                android:layout_marginLeft="15dip"
+		                android:layout_marginRight="15dip"
+		                android:src="@drawable/ic_action_email"/>
+		           	
+		           	<ImageView
+		                android:id="@+id/c_detail_header_quickLinks_star"
+		                android:layout_width="30dip"
+		                android:layout_height="30dip"
+		                android:layout_marginLeft="15dip"
+		                android:layout_marginRight="15dip"
+		                android:src="@drawable/ic_star"/>
+	    
+	        </LinearLayout>
+    	</LinearLayout>
+    </LinearLayout>
+        
+        
+    </FrameLayout>
+    
+    
+    
+    <ScrollView 
+        android:id="@+id/c_detail_content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+        
+        <LinearLayout 
+            android:id="@+id/c_detail_content_main"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+	        	    
+            <LinearLayout
+                android:id="@+id/c_detail_phone_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_phone_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Phone"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+
+            </LinearLayout>
+            
+            
+            <LinearLayout
+                android:id="@+id/c_detail_email_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_email_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Email"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+
+            </LinearLayout>
+	           
+			<LinearLayout
+                android:id="@+id/c_detail_website_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+				android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_website_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Website"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+
+            </LinearLayout>
+				
+            <LinearLayout
+                android:id="@+id/c_detail_address_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_address_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Address"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+				<FrameLayout
+					android:id="@+id/frame_layout"
+					android:layout_width="match_parent"
+					android:layout_height="150dip" >
+            
+		            <fragment 
+					    xmlns:map="http://schemas.android.com/apk/res-auto"
+					    android:id="@+id/the_map"
+					    android:layout_width="match_parent"
+					    android:layout_height="match_parent"
+					    android:layout_marginTop="10dip"
+					    android:name="com.google.android.gms.maps.MapFragment"/>
+            
+        		</FrameLayout>		  
+            </LinearLayout>
+				
+            <LinearLayout
+                android:id="@+id/c_detail_relationship_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_relationship_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Relationship"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+
+            </LinearLayout>
+				
+            <LinearLayout
+                android:id="@+id/c_detail_im_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_im_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="IM"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+
+            </LinearLayout>
+				
+            <LinearLayout
+                android:id="@+id/c_detail_date_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+				android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_date_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Events"
+		            android:textColor="#18a7b5"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+
+            </LinearLayout>
+				
+            <LinearLayout
+                android:id="@+id/c_detail_note_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+				android:layout_marginTop="20dip"
+				android:layout_marginBottom="20dip">>
+                
+                <TextView 
+		            android:id="@+id/c_detail_note_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Notes"
+		            android:textColor="#18a7b5"
+		            android:textSize="21sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+				<TextView 
+		            android:id="@+id/c_detail_note_content"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:textColor="#4A4A4A"
+		            android:textSize="21sp"
+		            android:gravity="left"
+		            android:layout_marginLeft="20dip" />
+
+            </LinearLayout>
+        </LinearLayout>   
+    </ScrollView>
+</LinearLayout>

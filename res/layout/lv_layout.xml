@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <com.raunaqsawhney.contakts.MLRoundedImageView 
+        android:id="@+id/c_photo"
+        android:layout_width="65dip"
+        android:layout_height="65dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_centerVertical="true" />
+    
+ 
+    <TextView
+        android:id="@+id/c_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/c_photo"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true" 
+        android:textColor="#4A4A4A"
+        android:textSize="16sp" 
+        android:fontFamily="sans-serif-condensed" />
+ 
+</RelativeLayout>
