@@ -3,7 +3,6 @@ package com.raunaqsawhney.contakts;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
-import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.LoaderManager;
@@ -22,18 +21,14 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
@@ -41,7 +36,7 @@ import android.widget.TextView;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
+public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
 
 	/*
 	 * Declare Globals
@@ -60,9 +55,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-         * Set up the Action Bar
-         */
+        // Set up the Action Bar
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
@@ -70,6 +63,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         actionBarTitleText.setTypeface(actionBarFont);
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(24);
+        actionBarTitleText.setText("Contakts");
+   
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -82,14 +77,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         itemList.add("Facebook");
         itemList.add("Twitter");
         itemList.add("LinkedIn");
-        itemList.add("Dialer");
         ArrayAdapter<String> aAdpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
         bar.setListNavigationCallbacks(aAdpt, this);
+        bar.setSelectedNavigationItem(1);
 
 
-        /*
-         * Do Title Bar Tint only if KITKAT
-         */
+        // Only do Tint if Kitkat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
@@ -98,7 +91,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }
         
-        
+        // Set up the ListView for contacts to be displayed
         contactList = (ListView)findViewById(R.id.list);
         contactList.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -114,22 +107,20 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             }
         });
 	        
-        /*
-         * Fetch the name and contact photo uri
-         */
-	        
+
+        // Fetch Display Name and Contact Photo URI
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
         		ContactsContract.Data.PHOTO_URI
         };
         
-        
-        
+        // Put above content into XML layouts
         int[] to = new int[] {
         		R.id.c_name,
         		R.id.c_photo
         };
 	        
+        // Set the adapter to display the list
         mAdapter = new SimpleCursorAdapter(this,
                 R.layout.lv_layout, 
                 null,
@@ -137,35 +128,19 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 to, 
                 0);
         
-        /*
-	     * Indeterminate Progress Bar for not found contacts
-	     */
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        progressBar.setIndeterminate(true);
-        contactList.setEmptyView(progressBar);
-
-        // Must add the progress bar to the root of the layout
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-        root.addView(progressBar);
-	        
+        // Initialize the loader for background activity
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
         contactList.setAdapter(mAdapter);
-       
 	}
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
          getMenuInflater().inflate(R.menu.options_menu, menu);
     	
-		/*
-		* Set up the Action Bar Menu
-		*/
-                  
+
+        // Set up the Action Bar menu
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setQueryHint("Find contacts");
         searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
@@ -176,10 +151,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         search_text.setTextColor(Color.WHITE);
         search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
         
-        
         return true;
-
-    
     }
 
 	@Override
@@ -192,29 +164,17 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             baseUri = ContactsContract.Contacts.CONTENT_URI;
         }
         
-        String query = "((" + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
-                + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
-                + ContactsContract.Contacts.DISPLAY_NAME + " != '' ))";
+        //TODO: Add different filters for query
+        String query = "(" + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL)";
         
-        
-        /*
-        String photoURI = null;
-        int imageResource = getResources().getIdentifier("@drawable/ic_contact_picture", null, getPackageName());
-        Drawable res = getResources().getDrawable(imageResource);
-         */
-
         String[] projection = new String[] {
         	ContactsContract.Contacts._ID,
         	ContactsContract.Contacts.DISPLAY_NAME,
         	ContactsContract.Contacts.PHOTO_URI
         };
         
-        
-        //System.out.println(photoURI);
-		System.out.println(ContactsContract.Contacts.PHOTO_URI);
-
         CursorLoader cursorLoader = new CursorLoader(
-        		MainActivity.this, 
+        		GoogleActivity.this, 
         		baseUri,
                 projection, 
                 query, 
@@ -227,12 +187,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		mAdapter.swapCursor(arg1);
-		System.out.println(ContactsContract.Contacts.PHOTO_URI);
-		if (ContactsContract.Contacts.PHOTO_URI == null)
-		{
-			ImageView c_photo = (ImageView) findViewById(R.id.c_photo);
-			c_photo.setImageResource(R.drawable.ic_contact_picture);
-		}
 	}
 
 	@Override
@@ -279,18 +233,18 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         	case 0:
         		// Show default (Phone included) list
         		System.out.println("PHONE");
+        		Intent pIntent = new Intent(GoogleActivity.this, MainActivity.class);
+        		GoogleActivity.this.startActivity(pIntent);
         		break;
         	case 1:
         		// Show all Google synced contacts
         		System.out.println("GOOGLE");
-        		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
-        		MainActivity.this.startActivity(gIntent);
         		break;
         	case 2:
         		// Show Facebook contacts 
         		System.out.println("FB");
-        		Intent fbIntent = new Intent(MainActivity.this, FacebookActivity.class);
-        		MainActivity.this.startActivity(fbIntent);
+        		Intent myIntent = new Intent(GoogleActivity.this, FacebookActivity.class);
+        		GoogleActivity.this.startActivity(myIntent);
         		break;
         	case 3:
         		// Show Twitter contacts
@@ -299,14 +253,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         	case 4:
         		// Show LinkedIn contacts
         		System.out.println("LINKEDIN");
-        	case 5:
-        		Intent dIntent = new Intent(MainActivity.this, DialerActivity.class);
-        		MainActivity.this.startActivity(dIntent);
     		default:
     			break;
         }
 
 		return false;
 	}
-	
 }

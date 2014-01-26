@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -41,7 +42,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener {
@@ -82,7 +82,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	
 	String contact_id;
 	String lookupkey;
-	static String latLong;
 	
     Contact contact = new Contact();
     	
@@ -115,6 +114,46 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         contact_id = getIntent().getStringExtra("contact_id");
         getContactInfo(contact_id);
 
+        Boolean isStarred = checkStarredStatus(contact_id);
+        
+        if (isStarred == true)
+        {
+        	System.out.println("TRUE");
+            ImageView star_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_star);
+            star_quicklink.setImageResource(R.drawable.ic_star_gold);
+        } else if (isStarred == false){
+        	System.out.println("FALSE");
+            ImageView star_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_star);
+            star_quicklink.setImageResource(R.drawable.ic_star);
+        }
+        
+        // Set up the QuickLinks
+        final ImageView star_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_star);
+        star_quicklink.setOnClickListener(new View.OnClickListener() {
+        	
+        	@Override
+            public void onClick(View v) {
+        		
+                String[] fv = new String[] { contact.getName() };
+
+                if (checkStarredStatus(contact_id)) {
+                    star_quicklink.setImageResource(R.drawable.ic_star);
+                    
+                    ContentValues values = new ContentValues();
+                    values.put(ContactsContract.Contacts.STARRED, 0);
+                    getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
+                    
+                } else {
+                    star_quicklink.setImageResource(R.drawable.ic_star_gold);
+                    ContentValues values = new ContentValues();
+                    values.put(ContactsContract.Contacts.STARRED, 1);
+                    getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
+                }
+        	}
+        });
+        
+        
+        
         // Set up the QuickLinks
         ImageView call_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_phone);
         call_quicklink.setOnClickListener(new View.OnClickListener() {
@@ -248,6 +287,43 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         
     }
 
+	private Boolean checkStarredStatus(String contact_id2) {
+
+		int starred = 0;
+		Boolean boolStarred = false;
+		
+	    String[] projection = new String[] {
+	            ContactsContract.Contacts._ID,
+	            ContactsContract.Contacts.STARRED};
+
+	    @SuppressWarnings("deprecation")
+	    final Cursor cursor = managedQuery(
+	            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  
+	            projection,
+	            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+	            new String[]{contact_id},
+	            null);
+	
+	    while (cursor.moveToNext()) {
+	        starred = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.STARRED));
+
+	        System.out.println("isStarredStatus:" + starred);
+	    }
+	    cursor.close();
+	    
+	    if (starred == 1)
+	    {
+	    	boolStarred = true;
+	    	System.out.println("boolStarred = true");
+	    }
+	    else if (starred ==  0)
+	    {
+	    	boolStarred = false;
+	    	System.out.println("boolStarred = false");
+	    }
+	    return boolStarred;
+	}
+
 	private void getContactInfo(String contact_id) {
 		
         getNameInfo(contact_id);
@@ -271,8 +347,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		
 		ContentResolver cr = getContentResolver();
 		
-		Cursor photoCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+		Cursor photoCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
+                ContactsContract.Contacts._ID +" = ?",
                 new String[]{contact_id}, null);
 		
 		while (photoCur.moveToNext()) {
@@ -297,8 +373,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         if (inputStream != null) {
         	headerBG.setImageBitmap(BlurImage(BitmapFactory.decodeStream(inputStream)));
         } else {
-        	// TODO: Change default image to something nicer
-        	headerBG.setImageBitmap(BlurImage(BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg)));
+        	headerBG.setImageBitmap((BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg)));
         }        
 	}
 
@@ -1120,13 +1195,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                 
 		ContentResolver cr = getContentResolver();
 		
-		Cursor nameCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+		Cursor nameCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
+                ContactsContract.Contacts._ID + " =? ",
                 new String[]{contact_id}, null);
         
         while (nameCur.moveToNext()) {
             name = nameCur.getString(
-            		nameCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            		nameCur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            
             contact.setName(name);  
             
             // DEBUG
@@ -1325,10 +1401,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.menu_edit:
-
-	        	Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-	    		Cursor cursor = this.getContentResolver().query(uri, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-	    	
 	    		Intent i = new Intent(Intent.ACTION_EDIT);
 	    		Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)); 
 	    		i.setData(contactUri);

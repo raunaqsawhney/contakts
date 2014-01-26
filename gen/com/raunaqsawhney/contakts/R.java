@@ -438,7 +438,7 @@ containing a value of this type.
         public static final int com_facebook_list_section_header_background=0x7f020055;
         public static final int com_facebook_loginbutton_silver=0x7f020056;
         public static final int com_facebook_logo=0x7f020057;
-        public static final int com_facebook_picker_default_separator_color=0x7f02009c;
+        public static final int com_facebook_picker_default_separator_color=0x7f02009d;
         public static final int com_facebook_picker_item_background=0x7f020058;
         public static final int com_facebook_picker_list_focused=0x7f020059;
         public static final int com_facebook_picker_list_longpressed=0x7f02005a;
@@ -502,14 +502,15 @@ containing a value of this type.
         public static final int ic_plusone_standard_off_client=0x7f020094;
         public static final int ic_plusone_tall_off_client=0x7f020095;
         public static final int ic_star=0x7f020096;
-        public static final int line=0x7f020097;
-        public static final int searchviewredversion=0x7f020098;
-        public static final int star=0x7f020099;
-        public static final int tesla=0x7f02009a;
-        public static final int underline=0x7f02009b;
+        public static final int ic_star_gold=0x7f020097;
+        public static final int line=0x7f020098;
+        public static final int searchviewredversion=0x7f020099;
+        public static final int star=0x7f02009a;
+        public static final int tesla=0x7f02009b;
+        public static final int underline=0x7f02009c;
     }
     public static final class id {
-        public static final int action_settings=0x7f060041;
+        public static final int action_settings=0x7f06004b;
         public static final int c_detail_address_header=0x7f060019;
         public static final int c_detail_address_layout=0x7f060018;
         public static final int c_detail_content=0x7f060010;
@@ -537,8 +538,9 @@ containing a value of this type.
         public static final int c_detail_relationship_layout=0x7f06001c;
         public static final int c_detail_website_header=0x7f060017;
         public static final int c_detail_website_layout=0x7f060016;
-        public static final int c_name=0x7f06003e;
-        public static final int c_photo=0x7f06003d;
+        public static final int c_name=0x7f060048;
+        public static final int c_photo=0x7f060047;
+        public static final int callBtn=0x7f060045;
         public static final int com_facebook_login_activity_progress_bar=0x7f060029;
         public static final int com_facebook_picker_activity_circle=0x7f060028;
         public static final int com_facebook_picker_checkbox=0x7f06002b;
@@ -559,23 +561,32 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_login_button=0x7f06003b;
         public static final int com_facebook_usersettingsfragment_logo_image=0x7f060039;
         public static final int com_facebook_usersettingsfragment_profile_name=0x7f06003a;
-        public static final int dialog_lv=0x7f06003c;
+        public static final int dialog_lv=0x7f060046;
+        public static final int fiveBtn=0x7f060043;
+        public static final int fourBtn=0x7f060042;
         public static final int frame_layout=0x7f06001a;
         public static final int header_bg=0x7f060007;
         public static final int hybrid=0x7f060004;
         public static final int large=0x7f060006;
         public static final int list=0x7f060026;
-        public static final int menu_add=0x7f060043;
-        public static final int menu_edit=0x7f060040;
-        public static final int menu_search=0x7f060042;
+        public static final int menu_add=0x7f06004d;
+        public static final int menu_edit=0x7f06004a;
+        public static final int menu_search=0x7f06004c;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
+        public static final int oneBtn=0x7f06003e;
+        public static final int phoneNumberField=0x7f06003c;
         public static final int picker_subtitle=0x7f060036;
+        public static final int row1=0x7f06003d;
+        public static final int row2=0x7f060041;
         public static final int satellite=0x7f060002;
+        public static final int sixBtn=0x7f060044;
         public static final int small=0x7f060005;
         public static final int terrain=0x7f060003;
         public static final int the_map=0x7f06001b;
-        public static final int title=0x7f06003f;
+        public static final int threeBtn=0x7f060040;
+        public static final int title=0x7f060049;
+        public static final int twoBtn=0x7f06003f;
         public static final int welcome=0x7f060025;
     }
     public static final class integer {
@@ -599,10 +610,11 @@ containing a value of this type.
         public static final int com_facebook_placepickerfragment_list_row=0x7f03000e;
         public static final int com_facebook_search_bar_layout=0x7f03000f;
         public static final int com_facebook_usersettingsfragment=0x7f030010;
-        public static final int dialog=0x7f030011;
-        public static final int drawer_nav_item=0x7f030012;
-        public static final int lv_layout=0x7f030013;
-        public static final int titleview=0x7f030014;
+        public static final int dialer=0x7f030011;
+        public static final int dialog=0x7f030012;
+        public static final int drawer_nav_item=0x7f030013;
+        public static final int lv_layout=0x7f030014;
+        public static final int titleview=0x7f030015;
     }
     public static final class menu {
         public static final int contact_detail=0x7f0b0000;

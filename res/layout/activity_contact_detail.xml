@@ -90,8 +90,7 @@
 		                android:layout_width="30dip"
 		                android:layout_height="30dip"
 		                android:layout_marginLeft="15dip"
-		                android:layout_marginRight="15dip"
-		                android:src="@drawable/ic_star"/>
+		                android:layout_marginRight="15dip"/>
 	    
 	        </LinearLayout>
     	</LinearLayout>
