@@ -56,10 +56,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	String itemid;
 	
    @Override
-   protected void onCreate(Bundle savedInstanceState) {
+public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_main);	
+       
+        
         /*
          * Set up the Action Bar
          */

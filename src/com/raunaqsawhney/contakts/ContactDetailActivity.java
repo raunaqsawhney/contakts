@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -115,7 +116,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         getContactInfo(contact_id);
 
         Boolean isStarred = checkStarredStatus(contact_id);
-        
         if (isStarred == true)
         {
         	System.out.println("TRUE");
@@ -133,7 +133,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         	
         	@Override
             public void onClick(View v) {
-        		
                 String[] fv = new String[] { contact.getName() };
 
                 if (checkStarredStatus(contact_id)) {
@@ -142,7 +141,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                     ContentValues values = new ContentValues();
                     values.put(ContactsContract.Contacts.STARRED, 0);
                     getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
-                    
                 } else {
                     star_quicklink.setImageResource(R.drawable.ic_star_gold);
                     ContentValues values = new ContentValues();
@@ -151,17 +149,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                 }
         	}
         });
-        
-        
-        
-        // Set up the QuickLinks
+
         ImageView call_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_phone);
         call_quicklink.setOnClickListener(new View.OnClickListener() {
         	
         	@Override
             public void onClick(View v) {
                 final ArrayList<String> allContacts = new ArrayList<String>();
-        		                
+
                 Cursor phoneCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
@@ -173,7 +168,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         		
         		ListView lvDialog = new ListView(ContactDetailActivity.this);
         		
-        		
         		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
         		lvDialog.setAdapter(arrayAdapter); 
         		
@@ -183,7 +177,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         		builder.setTitle("Call");
         		final Dialog dialog = builder.create();
 
-        		dialog.show();
+        		if (allContacts.isEmpty()) {
+        			Toast.makeText(getApplicationContext(), contact.getName() + " does not has any phone numbers.", Toast.LENGTH_LONG).show();
+        		} else  {
+        			dialog.show();
+        		}
         		
         		lvDialog.setOnItemClickListener(new OnItemClickListener() {
         		    @Override
@@ -227,7 +225,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         		builder.setTitle("Message");
         		final Dialog dialog = builder.create();
 
-        		dialog.show();
+        		if (allContacts.isEmpty()) {
+        			Toast.makeText(getApplicationContext(), contact.getName() + " does not has any phone numbers.", Toast.LENGTH_LONG).show();
+        		} else  {
+        			dialog.show();
+        		}
         		
         		lvDialog.setOnItemClickListener(new OnItemClickListener() {
         		    @Override
@@ -269,7 +271,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         		builder.setTitle("Email");
         		final Dialog dialog = builder.create();
 
-        		dialog.show();
+        		if (allContacts.isEmpty()) {
+        			Toast.makeText(getApplicationContext(), contact.getName() + " does not has any email addresses.", Toast.LENGTH_LONG).show();
+        		} else  {
+        			dialog.show();
+        		}
         		
         		lvDialog.setOnItemClickListener(new OnItemClickListener() {
         		    @Override
@@ -284,7 +290,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         		});
         	}
         });
-        
     }
 
 	private Boolean checkStarredStatus(String contact_id2) {
@@ -309,7 +314,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 
 	        System.out.println("isStarredStatus:" + starred);
 	    }
-	    cursor.close();
 	    
 	    if (starred == 1)
 	    {
@@ -337,7 +341,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
 		getPhoto(contact_id);
-		
+ 
 	}
 
 
@@ -363,7 +367,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	        	contactPhoto.setImageURI((Uri.parse(photo)));   
 	        }
         }
-        photoCur.close();
+        //photoCur.close();
         
         headerBG = (ImageView) findViewById(R.id.header_bg);
         
@@ -373,6 +377,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         if (inputStream != null) {
         	headerBG.setImageBitmap(BlurImage(BitmapFactory.decodeStream(inputStream)));
         } else {
+        	// TODO: Change default image to something nicer
         	headerBG.setImageBitmap((BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg)));
         }        
 	}
@@ -452,7 +457,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	imLayout.setVisibility(View.VISIBLE);
             }
         }
-        imCur.close();
+        //imCur.close();
         
         /*
          * IM is now in object, now populate fields
@@ -590,7 +595,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	relationshipLayout.setVisibility(View.VISIBLE);
             }
         }
-        relationshipCur.close();
+        //relationshipCur.close();
         
         final TextView lblRelationshipType = new TextView(this);
         final TextView lblRelationshipContent = new TextView(this);
@@ -680,7 +685,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             }
             
         }
-        dateCur.close();	
+        //dateCur.close();	
         
         /*
          * Date is now in object, now populate fields
@@ -769,7 +774,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	noteLayout.setVisibility(View.VISIBLE);
             }
         }
-        noteCur.close();
+        //noteCur.close();
         lblNoteContent.setText(note);
 	}
 
@@ -794,7 +799,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // DEBUG
             //System.out.println("Company: " + company);
         }
-        orgCur.close();
+        //orgCur.close();
         lblCompany.setText(company);
         lblCompany.setEllipsize(TextUtils.TruncateAt.END);
         
@@ -876,7 +881,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	websiteLayout.setVisibility(View.VISIBLE);
             }
         }
-        webCur.close();
+        //webCur.close();
         
         /*
          * Date is now in object, now populate fields
@@ -996,7 +1001,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	addressLayout.setVisibility(View.VISIBLE);
             }
         }
-        addrCur.close();
+        //addrCur.close();
         
         /*
          * Address is now in object, now populate fields
@@ -1118,7 +1123,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	emailLayout.setVisibility(View.VISIBLE);
             }
         }
-        emailCur.close();	
+        //emailCur.close();	
       
         /*
          * Email is now in object, now populate fields
@@ -1208,7 +1213,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // DEBUG
             //System.out.println("Name: " + name);
         }
-        nameCur.close();
+        //nameCur.close();
         lblName.setText(name);
         lblName.setEllipsize(TextUtils.TruncateAt.END);
         ActionBar ab = getActionBar();
@@ -1314,7 +1319,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             	phoneLayout.setVisibility(View.VISIBLE);
             }
         }
-        phoneCur.close();    
+        //phoneCur.close();    
    
         /*
          * Phone is now in object, now populate fields

@@ -63,11 +63,11 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         actionBarTitleText.setTypeface(actionBarFont);
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(24);
-        actionBarTitleText.setText("Contakts");
-   
+        //actionBarTitleText.setText("Contakts");
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
+        bar.setHomeButtonEnabled(true);
         bar.setDisplayShowHomeEnabled(false);
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         
@@ -103,7 +103,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
                 startActivity(intent);
-		        
             }
         });
 	        
