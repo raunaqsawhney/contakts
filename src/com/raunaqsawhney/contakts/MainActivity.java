@@ -301,8 +301,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		// Show LinkedIn contacts
         		System.out.println("LINKEDIN");
         	case 5:
-        		Intent dIntent = new Intent(MainActivity.this, DialerActivity.class);
-        		MainActivity.this.startActivity(dIntent);
+        		Intent liIntent = new Intent(MainActivity.this, LinkedInLoginActivity.class);
+        		MainActivity.this.startActivity(liIntent);
     		default:
     			break;
         }

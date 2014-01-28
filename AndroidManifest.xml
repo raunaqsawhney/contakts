@@ -68,7 +68,8 @@
         <activity android:label="@string/app_name" android:name="FacebookActivity"/>
        	<activity android:label="@string/app_name" android:name="GoogleActivity"/>
         <activity android:label="@string/app_name" android:name="DialerActivity"/>
-       	
+       	<activity android:label="@string/app_name" android:name="LinkedInLoginActivity"/>
+        <activity android:label="@string/app_name" android:name="LinkedInOAuthActivity"/>
     </application>
 
 </manifest>
