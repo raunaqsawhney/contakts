@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-  	android:fitsSystemWindows="true"
-	android:clipToPadding="false" >
+  	android:fitsSystemWindows="true">
     
     
     <FrameLayout
@@ -98,9 +97,7 @@
         
         
     </FrameLayout>
-    
-    
-    
+
     <ScrollView 
         android:id="@+id/c_detail_content"
         android:layout_width="fill_parent"

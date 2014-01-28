@@ -31,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -43,6 +44,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
 
+	
 	/*
 	 * Declare Globals
 	 */
@@ -56,11 +58,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	String itemid;
 	
    @Override
-public void onCreate(Bundle savedInstanceState) {
+   public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
-       
-        
+
         /*
          * Set up the Action Bar
          */
@@ -76,7 +77,7 @@ public void onCreate(Bundle savedInstanceState) {
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        
+       
         ArrayList<String> itemList = new ArrayList<String>();
         itemList.add("Phone");
         itemList.add("Google");
@@ -86,7 +87,6 @@ public void onCreate(Bundle savedInstanceState) {
         itemList.add("Dialer");
         ArrayAdapter<String> aAdpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
         bar.setListNavigationCallbacks(aAdpt, this);
-
 
         /*
          * Do Title Bar Tint only if KITKAT
@@ -259,7 +259,7 @@ public void onCreate(Bundle savedInstanceState) {
 	    switch (item.getItemId()) {
 	        case R.id.menu_add:
 	            createNewContact();
-	            return true;
+	            return true;    
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -309,5 +309,4 @@ public void onCreate(Bundle savedInstanceState) {
 
 		return false;
 	}
-	
 }

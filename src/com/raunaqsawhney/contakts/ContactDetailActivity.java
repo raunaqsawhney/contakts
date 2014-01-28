@@ -1,7 +1,9 @@
 package com.raunaqsawhney.contakts;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import android.annotation.SuppressLint;
@@ -19,6 +21,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +47,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener {
@@ -85,6 +96,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	String lookupkey;
 	
     Contact contact = new Contact();
+    
+    GoogleMap googleMap;
+
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -952,11 +966,18 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 
 	private void getAddressInfo(String contact_id) {
 		
+		Geocoder geocoder = new Geocoder(getApplicationContext());  
+		List<Address> addresses = null;
+		double latitude = 0;
+		double longitude = 0;
+		
+		googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.the_map)).getMap();
+		
 		int count = 0;
 		
         lblAddress = (TextView) findViewById(R.id.c_detail_address_header);
         lblAddress.setTypeface(Typeface.createFromAsset(getAssets(), font));
-
+        
         LinearLayout addressLayout = (LinearLayout) findViewById(R.id.c_detail_address_layout);
         
 		ContentResolver cr = getContentResolver();
@@ -989,7 +1010,24 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         			break;
             }
             
-            contact.addAddresses(address + ":" + addressType);     
+            contact.addAddresses(address + ":" + addressType);  
+            try {
+				addresses = geocoder.getFromLocationName(address, 1);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            if(addresses.size() > 0) {
+                latitude= addresses.get(0).getLatitude();
+                longitude= addresses.get(0).getLongitude();
+            }
+            
+            final LatLng latlng = new LatLng(latitude , longitude);
+            Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
+            
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+            googleMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );    
+
             count++;
 
             // DEBUG
@@ -1064,7 +1102,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                 	startActivity(geoIntent); // Initiate lookup
                 }
             });
-            
         }
 	}
 
