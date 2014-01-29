@@ -1026,7 +1026,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
             
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-            googleMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );    
+            googleMap.animateCamera( CameraUpdateFactory.zoomTo( 20.0f ) );    
 
             count++;
 

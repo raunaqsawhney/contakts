@@ -242,8 +242,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         	case 2:
         		// Show Facebook contacts 
         		System.out.println("FB");
-        		Intent myIntent = new Intent(GoogleActivity.this, FacebookActivity.class);
-        		GoogleActivity.this.startActivity(myIntent);
+        		//Intent myIntent = new Intent(GoogleActivity.this, FacebookActivity.class);
+        		//GoogleActivity.this.startActivity(myIntent);
         		break;
         	case 3:
         		// Show Twitter contacts

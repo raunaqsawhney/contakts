@@ -1,5 +1,6 @@
 package com.raunaqsawhney.contakts;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
@@ -8,10 +9,14 @@ import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -31,8 +36,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -40,9 +46,12 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.meetme.android.horizontallistview.HorizontalListView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
+
+    private HorizontalListView mHlvSimpleList;
 
 	
 	/*
@@ -155,7 +164,66 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    loaderManager.initLoader(0, null, this);	
 	    
         contactList.setAdapter(mAdapter);
+        
+        setupFavList();
        
+	}
+
+	private void setupFavList() {
+
+		ImageView favIcon = (ImageView) findViewById(R.id.fav_photo);
+		
+		Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
+
+	    String[] projection = new String[] {
+	            ContactsContract.Contacts._ID,
+	            ContactsContract.Contacts.LOOKUP_KEY,
+	            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+	            ContactsContract.Contacts.STARRED};
+
+	    String selection =ContactsContract.Contacts.STARRED + "='1'";
+
+	    @SuppressWarnings("deprecation")
+		Cursor cursor = managedQuery(queryUri, projection, selection,null,null);
+
+	    long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
+	    
+	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
+	    if(bitmap!=null){
+	    favIcon.setImageBitmap(bitmap);
+	    }
+	    else{
+
+	    }
+	    
+	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_THUMBNAIL_URI};
+	    int to[] = new int[]{
+	    		R.id.fav_photo,
+	    };
+
+	    ListAdapter adapter = new SimpleCursorAdapter(
+	            this,
+	            R.layout.fav_layout,
+	            cursor,
+	            from,
+	            to,
+	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		
+        final HorizontalListView mHlvSimpleList = (HorizontalListView) findViewById(R.id.HorizontalListView);
+        
+        // Assign adapter to the HorizontalListView
+        mHlvSimpleList.setAdapter(adapter);
+	
+}
+
+	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
+		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
+	    if (input == null) {
+
+	        return null;
+	    }
+	    return BitmapFactory.decodeStream(input);		
 	}
 
 	@Override
@@ -289,9 +357,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		break;
         	case 2:
         		// Show Facebook contacts 
-        		System.out.println("FB");
-        		Intent fbIntent = new Intent(MainActivity.this, FacebookActivity.class);
-        		MainActivity.this.startActivity(fbIntent);
+        		//System.out.println("CALL DATA");
+        		//Intent fbIntent = new Intent(MainActivity.this, CallDataActivity.class);
+        		//MainActivity.this.startActivity(fbIntent);
         		break;
         	case 3:
         		// Show Twitter contacts
@@ -301,8 +369,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		// Show LinkedIn contacts
         		System.out.println("LINKEDIN");
         	case 5:
-        		Intent liIntent = new Intent(MainActivity.this, LinkedInLoginActivity.class);
-        		MainActivity.this.startActivity(liIntent);
+        		//Intent liIntent = new Intent(MainActivity.this, LinkedInLoginActivity.class);
+        		//MainActivity.this.startActivity(liIntent);
     		default:
     			break;
         }
