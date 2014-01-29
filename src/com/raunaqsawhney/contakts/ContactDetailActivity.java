@@ -411,7 +411,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		getIMInfo(contact_id);
 		getPhoto(contact_id);
 		
-		
+		getLookupKey(contact_id);
+	}
+
+
+	private void getLookupKey(String contact_id) {
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
 
@@ -426,11 +430,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
  
 		while (cursor.moveToNext()) {
 	        lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-	        System.out.println(lookupKey);
-		}
-		
+	        //System.out.println(lookupKey);
+		}		
 	}
-
 
 	private void getPhoto(String contact_id) {
 		
