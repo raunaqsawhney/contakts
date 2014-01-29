@@ -480,6 +480,7 @@ containing a value of this type.
         public static final int list=0x7f050028;
         public static final int margin=0x7f050002;
         public static final int menu_add=0x7f050041;
+        public static final int menu_dial=0x7f050042;
         public static final int menu_edit=0x7f05003d;
         public static final int menu_search=0x7f050040;
         public static final int menu_share=0x7f05003e;

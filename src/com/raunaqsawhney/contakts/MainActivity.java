@@ -273,6 +273,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        case R.id.menu_add:
 	            createNewContact();
 	            return true;    
+	        case R.id.menu_dial:
+	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+	    		startActivity(dialIntent);
+	            return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

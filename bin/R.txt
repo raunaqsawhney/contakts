@@ -218,6 +218,7 @@ int id left 0x7f050000
 int id list 0x7f050028
 int id margin 0x7f050002
 int id menu_add 0x7f050041
+int id menu_dial 0x7f050042
 int id menu_edit 0x7f05003d
 int id menu_search 0x7f050040
 int id menu_share 0x7f05003e
