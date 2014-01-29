@@ -64,6 +64,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	private ArrayAdapter<String> listAdapter;
 	private ListView navListView;
 	
+	String lookupKey = null;
+	
 	String theme = "#18A7B5";
 	String font = "RobotoCondensed-Regular.ttf";
 	String fontContent = "RobotoCondensed-Light.ttf";
@@ -408,7 +410,25 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
 		getPhoto(contact_id);
+		
+		
+		// Look Up Key
+		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
+
+		
+		@SuppressWarnings("deprecation")
+		Cursor cursor = managedQuery(
+	            ContactsContract.Contacts.CONTENT_URI,  
+	            proj,
+	            ContactsContract.Contacts._ID + "=?",
+	            new String[]{contact_id},
+	            null);
  
+		while (cursor.moveToNext()) {
+	        lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+	        System.out.println(lookupKey);
+		}
+		
 	}
 
 
@@ -1510,14 +1530,23 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.menu_edit:
-	    		Intent i = new Intent(Intent.ACTION_EDIT);
+	    		Intent edit_intent = new Intent(Intent.ACTION_EDIT);
 	    		Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)); 
-	    		i.setData(contactUri);
-	    	    i.putExtra("finishActivityOnSaveCompleted", true);
+	    		edit_intent.setData(contactUri);
+	    		edit_intent.putExtra("finishActivityOnSaveCompleted", true);
 
-	    		startActivity(i);
-
+	    		startActivity(edit_intent);
 	        	return true;
+	        case R.id.menu_share:
+	        	Uri filePath = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
+	        	Intent share_intent = new Intent();
+	        	share_intent.setAction(android.content.Intent.ACTION_SEND);
+	        	share_intent.setType("text/x-vcard");
+	        	share_intent.putExtra(Intent.EXTRA_STREAM, (filePath));
+	        	
+	        	startActivity(Intent.createChooser(share_intent, "Share with"));
+	        	return true;
+	        	
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

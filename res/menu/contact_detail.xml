@@ -5,5 +5,10 @@
             android:showAsAction="ifRoom"
             android:title="Edit"
             android:icon="@drawable/ic_action_edit"/>
+	<item
+           android:id="@+id/menu_share"
+           android:showAsAction="ifRoom"
+           android:title="Share"
+           android:icon="@android:drawable/ic_menu_share"/>
 
 </menu>

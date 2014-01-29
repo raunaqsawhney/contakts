@@ -435,7 +435,7 @@ containing a value of this type.
         public static final int web_hi_res_512=0x7f02007e;
     }
     public static final class id {
-        public static final int action_settings=0x7f05003e;
+        public static final int action_settings=0x7f05003f;
         public static final int c_detail_address_header=0x7f05001c;
         public static final int c_detail_address_layout=0x7f05001b;
         public static final int c_detail_content=0x7f050013;
@@ -479,9 +479,10 @@ containing a value of this type.
         public static final int left=0x7f050000;
         public static final int list=0x7f050028;
         public static final int margin=0x7f050002;
-        public static final int menu_add=0x7f050040;
+        public static final int menu_add=0x7f050041;
         public static final int menu_edit=0x7f05003d;
-        public static final int menu_search=0x7f05003f;
+        public static final int menu_search=0x7f050040;
+        public static final int menu_share=0x7f05003e;
         public static final int nav_menu=0x7f050039;
         public static final int nav_name=0x7f05003a;
         public static final int none=0x7f050005;
