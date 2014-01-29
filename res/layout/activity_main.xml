@@ -5,20 +5,6 @@
     tools:context=".MainActivity"
     android:orientation="vertical" >
         
-    <com.meetme.android.horizontallistview.HorizontalListView
-	   xmlns:widget="http://schemas.android.com/apk/res-auto"
-	   xmlns:android="http://schemas.android.com/apk/res/android"
-	   android:id="@+id/HorizontalListView"
-	   android:layout_width="fill_parent"
-	   android:layout_height="175dip"
-	   android:clipToPadding="false"
-	   android:fitsSystemWindows="true" 
-	   android:choiceMode = "singleChoice"
-	   android:soundEffectsEnabled="true"
-	   android:fadeScrollbars="true"
-       android:fadingEdgeLength="5dp"
-       android:requiresFadingEdge="horizontal" />
-    
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
@@ -33,11 +19,9 @@
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
         android:scrollingCache="true"
-        android:soundEffectsEnabled="true"
-        android:layout_below="@+id/HorizontalListView">
+        android:soundEffectsEnabled="true">
 
     </ListView>
     
-    
-   
+
 </RelativeLayout> 
