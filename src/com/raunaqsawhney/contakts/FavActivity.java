@@ -66,7 +66,6 @@ public class FavActivity extends Activity {
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
        
         // Do Tint only if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -85,6 +84,9 @@ public class FavActivity extends Activity {
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setBehindWidth(800);
         menu.setShadowDrawable(R.drawable.shadow);
+        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       

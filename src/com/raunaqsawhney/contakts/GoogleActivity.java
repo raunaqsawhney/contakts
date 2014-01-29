@@ -135,6 +135,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setBehindWidth(800);
         menu.setShadowDrawable(R.drawable.shadow);
+        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
