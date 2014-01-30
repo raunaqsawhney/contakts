@@ -1,7 +1,7 @@
 package com.raunaqsawhney.contakts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -38,7 +38,7 @@ import android.widget.TextView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
+public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener, OnItemClickListener {
 
 	/*
 	 * Declare Globals
@@ -126,7 +126,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	    loaderManager.initLoader(0, null, this);	
 	    
         contactList.setAdapter(mAdapter);
-        
+        View header = getLayoutInflater().inflate(R.layout.google_header, null);
+        contactList.addHeaderView(header);
+
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -141,31 +143,22 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
-		ArrayList<String> navList = new ArrayList<String>();
-		navList.addAll(Arrays.asList(nav));
+        final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
+		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+
+		List<RowItem> rowItems;
 		
-		listAdapter = new ArrayAdapter<String>(this,
-	            R.layout.nav_item_layout, R.id.nav_name, navList);
+		rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < nav.length; i++) {
+            RowItem item = new RowItem(navPhoto[i], nav[i]);
+            rowItems.add(item);
+        }
+		
+		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+                R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-                String item = String.valueOf(navListView.getItemAtPosition(position));
-                if (item == "Favourites") {
-                	Intent stIntent = new Intent(GoogleActivity.this, FavActivity.class);
-            		GoogleActivity.this.startActivity(stIntent);
-                } else if (item == "Phone Contacts") {
-                	Intent pIntent = new Intent(GoogleActivity.this, MainActivity.class);
-                	GoogleActivity.this.startActivity(pIntent);
-                } else if (item == "Google Contacts") {
-                	Intent gIntent = new Intent(GoogleActivity.this, GoogleActivity.class);
-                	GoogleActivity.this.startActivity(gIntent);
-                }
-            }
-        });
+		navListView.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -283,5 +276,22 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
     			break;
         }
 		return false;
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+		long selected = (navListView.getItemIdAtPosition(position));
+		
+		if (selected == 0) {
+		   	Intent stIntent = new Intent(GoogleActivity.this, FavActivity.class);
+		   	GoogleActivity.this.startActivity(stIntent);
+	   } else if (selected == 1) {
+		   Intent pIntent = new Intent(GoogleActivity.this, MainActivity.class);
+		   GoogleActivity.this.startActivity(pIntent);
+	   } else if (selected == 2) {
+	   		Intent gIntent = new Intent(GoogleActivity.this, GoogleActivity.class);
+	   		GoogleActivity.this.startActivity(gIntent);
+	   }		
 	}
 }

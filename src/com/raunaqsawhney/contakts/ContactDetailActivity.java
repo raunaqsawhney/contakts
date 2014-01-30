@@ -15,6 +15,7 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,6 +25,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,13 +55,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class ContactDetailActivity extends Activity implements OnClickListener {
+public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
 	
 	private SlidingMenu menu;
 	private ArrayAdapter<String> listAdapter;
@@ -134,7 +136,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }
         
-        
+        // Set up the Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -149,32 +151,22 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
-		ArrayList<String> navList = new ArrayList<String>();
-		navList.addAll(Arrays.asList(nav));
+        final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
+		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+
+		List<RowItem> rowItems;
 		
-		listAdapter = new ArrayAdapter<String>(this,
-	            R.layout.nav_item_layout, R.id.nav_name, navList);
+		rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < nav.length; i++) {
+            RowItem item = new RowItem(navPhoto[i], nav[i]);
+            rowItems.add(item);
+        }
+		
+		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+                R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-                String item = String.valueOf(navListView.getItemAtPosition(position));
-                if (item == "Favourites") {
-                	Intent stIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
-                	ContactDetailActivity.this.startActivity(stIntent);
-                } else if (item == "Phone Contacts") {
-                	Intent pIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
-                	ContactDetailActivity.this.startActivity(pIntent);
-                } else if (item == "Google Contacts") {
-                	Intent gIntent = new Intent(ContactDetailActivity.this, GoogleActivity.class);
-                	ContactDetailActivity.this.startActivity(gIntent);
-                }
-            }
-        });
-        
+		navListView.setOnItemClickListener(this);
         
         contact_id = getIntent().getStringExtra("contact_id");
         getContactInfo(contact_id);
@@ -321,7 +313,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                         ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                         new String[]{contact_id},
                         null);
-                
                 startManagingCursor(emailCur);
 
                 while (emailCur.moveToNext()) {
@@ -372,11 +363,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 
 	    @SuppressWarnings("deprecation")
 	    final Cursor cursor = managedQuery(
-	            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  
+	            ContactsContract.Contacts.CONTENT_URI,  
 	            projection,
-	            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+	            ContactsContract.Contacts._ID + "=?",
 	            new String[]{contact_id},
 	            null);
+	    startManagingCursor(cursor);
 	
 	    while (cursor.moveToNext()) {
 	        starred = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.STARRED));
@@ -387,12 +379,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	    if (starred == 1)
 	    {
 	    	boolStarred = true;
-	    	System.out.println("boolStarred = true");
 	    }
 	    else if (starred ==  0)
 	    {
 	    	boolStarred = false;
-	    	System.out.println("boolStarred = false");
 	    }
 	    return boolStarred;
 	}
@@ -574,7 +564,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	        // set some properties of phoneTypeTextView
 	        imTypeTextView.setText(currentType);
 	        imTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
-	        imTypeTextView.setTextSize(15);
+	        imTypeTextView.setTextSize(14);
 	        imTypeTextView.setWidth(200);
 	        imTypeTextView.setPadding(0, 10, 0, 10);
 	        imTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -698,7 +688,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         // set some properties of phoneTypeTextView
         lblRelationshipType.setText(contact.getRelationshipType());
         lblRelationshipType.setTypeface(Typeface.createFromAsset(getAssets(), font));
-        lblRelationshipType.setTextSize(15);
+        lblRelationshipType.setTextSize(14);
         lblRelationshipType.setWidth(200);
         lblRelationshipType.setPadding(0, 10, 0, 10);
         lblRelationshipType.setEllipsize(TextUtils.TruncateAt.END);
@@ -707,7 +697,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         // set some properties of phoneNumberTextView
         lblRelationshipContent.setText(contact.getRelationship());
         lblRelationshipContent.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-        lblRelationshipContent.setTextSize(21);
+        lblRelationshipContent.setTextSize(22);
         lblRelationshipContent.setPadding(30, 10, 0, 10);
         lblRelationshipContent.setEllipsize(TextUtils.TruncateAt.END);
         
@@ -804,7 +794,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	        // set some properties of phoneTypeTextView
 	        dateTypeTextView.setText(currentType);
 	        dateTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
-	        dateTypeTextView.setTextSize(15);
+	        dateTypeTextView.setTextSize(14);
 	        dateTypeTextView.setWidth(200);
 	        dateTypeTextView.setPadding(0, 10, 0, 10);
 	        dateTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -814,7 +804,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneNumberTextView
             dateTextView.setText(currentDate);
             dateTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            dateTextView.setTextSize(21);
+            dateTextView.setTextSize(22);
             dateTextView.setPadding(30, 10, 0, 10);
             dateTextView.setEllipsize(TextUtils.TruncateAt.END);
 	  
@@ -1003,7 +993,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneTypeTextView
             websiteTypeTextView.setText(currentType);
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
-            websiteTypeTextView.setTextSize(15);
+            websiteTypeTextView.setTextSize(14);
             websiteTypeTextView.setWidth(200);
             websiteTypeTextView.setPadding(0, 10, 0, 10);
             websiteTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1013,7 +1003,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneNumberTextView
             websiteTextView.setText(currentWebsite);
             websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            websiteTextView.setTextSize(21);
+            websiteTextView.setTextSize(22);
             websiteTextView.setPadding(30, 10, 0, 10);
             websiteTextView.setEllipsize(TextUtils.TruncateAt.END);
       
@@ -1096,35 +1086,35 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             }
             
             contact.addAddresses(address + ":" + addressType);  
-            try {
-				addresses = geocoder.getFromLocationName(address, 1);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            if(addresses.size() > 0) {
-                latitude= addresses.get(0).getLatitude();
-                longitude= addresses.get(0).getLongitude();
-            }
-            
-            final LatLng latlng = new LatLng(latitude , longitude);
-            Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
-            
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-            googleMap.animateCamera( CameraUpdateFactory.zoomTo( 20.0f ) );    
+            Boolean isNetworkAvailable = checkOnlineStatus();
+
+            if (isNetworkAvailable) {
+            	try {
+    				addresses = geocoder.getFromLocationName(address, 1);
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+                if(addresses.size() > 0) {
+                    latitude= addresses.get(0).getLatitude();
+                    longitude= addresses.get(0).getLongitude();
+                }
+                
+                final LatLng latlng = new LatLng(latitude , longitude);
+                Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
+                
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
+            } else {
+            	Toast.makeText(getApplicationContext(), 
+                        "Google Map not visible. You are not connected to the Internet. ", Toast.LENGTH_LONG).show();            }
 
             count++;
-
-            // DEBUG
-            //System.out.println("Address: " + address + "\tType: " + addressType);
-            
             if (address != null)
             {
-                ////System.out.println("WEBSITE - NOT NULL");
             	addressLayout.setVisibility(View.VISIBLE);
             }
         }
-        //addrCur.close();
         
         /*
          * Address is now in object, now populate fields
@@ -1148,7 +1138,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneTypeTextView
             addressTypeTextView.setText(currentType);
             addressTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
-            addressTypeTextView.setTextSize(15);
+            addressTypeTextView.setTextSize(14);
             addressTypeTextView.setWidth(200);
             addressTypeTextView.setPadding(0, 10, 0, 10);
             addressTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1158,7 +1148,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneNumberTextView
             addressTextView.setText(currentAddress);
             addressTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            addressTextView.setTextSize(21);
+            addressTextView.setTextSize(22);
             addressTextView.setPadding(30, 10, 0, 10);
             addressTextView.setEllipsize(TextUtils.TruncateAt.END);
 
@@ -1190,6 +1180,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         }
 	}
 
+
+	private Boolean checkOnlineStatus() {
+		ConnectivityManager CManager =
+		        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo NInfo = CManager.getActiveNetworkInfo();
+		    if (NInfo != null && NInfo.isConnectedOrConnecting()) {
+		        return true;
+		    }
+		    return false;
+	}
 
 	private void getEmailInfo(String contact_id) {
 		
@@ -1271,7 +1271,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneTypeTextView
             emailTypeTextView.setText(currentType);
             emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
-            emailTypeTextView.setTextSize(15);
+            emailTypeTextView.setTextSize(14);
             emailTypeTextView.setWidth(200);
             emailTypeTextView.setPadding(0, 10, 0, 10);
             emailTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1281,9 +1281,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneNumberTextView
             emailTextView.setText(currentEmail);
             emailTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            emailTextView.setTextSize(21);
+            emailTextView.setTextSize(22);
             emailTextView.setPadding(30, 10, 0, 10);
+            emailTextView.setSingleLine();
             emailTextView.setEllipsize(TextUtils.TruncateAt.END);
+
 
             
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -1471,7 +1473,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneTypeTextView
             phoneTypeTextView.setText(currentType);
             phoneTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
-            phoneTypeTextView.setTextSize(15);
+            phoneTypeTextView.setTextSize(14);
             phoneTypeTextView.setWidth(200);
             phoneTypeTextView.setPadding(0, 10, 0, 10);
             phoneTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1482,7 +1484,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
             // set some properties of phoneNumberTextView
             phoneNumberTextView.setText(currentPhone);
             phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            phoneNumberTextView.setTextSize(21);
+            phoneNumberTextView.setTextSize(22);
             phoneNumberTextView.setPadding(30, 10, 0, 10);
             phoneNumberTextView.setEllipsize(TextUtils.TruncateAt.END);
 
@@ -1576,7 +1578,24 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View arg0) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+		long selected = (navListView.getItemIdAtPosition(position));
+		
+		if (selected == 0) {
+		   	Intent stIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
+		   	ContactDetailActivity.this.startActivity(stIntent);
+	   } else if (selected == 1) {
+		   Intent pIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
+		   ContactDetailActivity.this.startActivity(pIntent);
+	   } else if (selected == 2) {
+	   		Intent gIntent = new Intent(ContactDetailActivity.this, GoogleActivity.class);
+	   		ContactDetailActivity.this.startActivity(gIntent);
+	   }		
+	}
+
+	@Override
+	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
 	}

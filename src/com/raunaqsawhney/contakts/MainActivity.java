@@ -1,10 +1,9 @@
 package com.raunaqsawhney.contakts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import android.app.ActionBar;
-import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -39,11 +38,9 @@ import android.widget.TextView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor> {
+public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
-	/*
-	 * Declare Globals
-	 */
+	// Declare Globals
 	String theme = "#18A7B5";
 	String font = "RobotoCondensed-Regular.ttf";
 
@@ -56,15 +53,14 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	private SlidingMenu menu;
 	private ArrayAdapter<String> listAdapter;
 	private ListView navListView;
+	private ArrayAdapter<String> listAdapter2;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
 
-        /*
-         * Set up the Action Bar
-         */
+        // Set up Action Bar
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
@@ -77,17 +73,14 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
        
-        /*
-         * Do Title Bar Tint only if KITKAT
-         */
+
+        // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
-	        // Holo light action bar color is #DDDDDD
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }
-        
         
         contactList = (ListView)findViewById(R.id.list);
         contactList.setOnItemClickListener(new OnItemClickListener() {
@@ -96,7 +89,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
-				// Explicit Intent Example
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
                 startActivity(intent);
@@ -104,10 +96,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             }
         });
         
-	        
-        /*
-         * Fetch the name and contact photo uri
-         */
+        // Fetch name and contact photo URI
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
         		ContactsContract.Data.PHOTO_URI
@@ -118,6 +107,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		R.id.c_photo
         };
         
+        // Init the listview adapter
         mAdapter = new SimpleCursorAdapter(this,
                 R.layout.lv_layout, 
                 null,
@@ -128,8 +118,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
-        contactList.setAdapter(mAdapter);
+	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
+	    contactList.addHeaderView(header);
+	    
+	    contactList.setAdapter(mAdapter);
 
+        // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -144,42 +138,30 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
-		ArrayList<String> navList = new ArrayList<String>();
-		navList.addAll(Arrays.asList(nav));
+		final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
+		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+
+		List<RowItem> rowItems;
 		
-		listAdapter = new ArrayAdapter<String>(this,
-	            R.layout.nav_item_layout, R.id.nav_name, navList);
+		rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < nav.length; i++) {
+            RowItem item = new RowItem(navPhoto[i], nav[i]);
+            rowItems.add(item);
+        }
 		
+		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+                R.layout.nav_item_layout, rowItems);
+
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-                String item = String.valueOf(navListView.getItemAtPosition(position));
-                if (item == "Favourites") {
-                	Intent stIntent = new Intent(MainActivity.this, FavActivity.class);
-            		MainActivity.this.startActivity(stIntent);
-                } else if (item == "Phone Contacts") {
-                	Intent pIntent = new Intent(MainActivity.this, MainActivity.class);
-            		MainActivity.this.startActivity(pIntent);
-                } else if (item == "Google Contacts") {
-                	Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
-            		MainActivity.this.startActivity(gIntent);
-                }
-            }
-        });
-	}
-   
-	@Override
+		navListView.setOnItemClickListener(this);		
+   }
+     
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-         getMenuInflater().inflate(R.menu.options_menu, menu);
+		
+        getMenuInflater().inflate(R.menu.options_menu, menu);
     	
-		/*
-		* Set up the Action Bar Menu
-		*/
-                  
+		// Set up Action Bar       
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setQueryHint("Find contacts");
         searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
@@ -190,10 +172,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         search_text.setTextColor(Color.WHITE);
         search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
         
-        
         return true;
-
-    
     }
 
 	@Override
@@ -210,23 +189,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
                 + ContactsContract.Contacts.DISPLAY_NAME + " != '' ))";
         
-        
-        /*
-        String photoURI = null;
-        int imageResource = getResources().getIdentifier("@drawable/ic_contact_picture", null, getPackageName());
-        Drawable res = getResources().getDrawable(imageResource);
-         */
-
         String[] projection = new String[] {
         	ContactsContract.Contacts._ID,
         	ContactsContract.Contacts.DISPLAY_NAME,
         	ContactsContract.Contacts.PHOTO_URI
         };
         
-        
-        //System.out.println(photoURI);
-		//System.out.println(ContactsContract.Contacts.PHOTO_URI);
-
         CursorLoader cursorLoader = new CursorLoader(
         		MainActivity.this, 
         		baseUri,
@@ -271,21 +239,32 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.menu_add:
-	            createNewContact();
-	            return true;    
-	        case R.id.menu_dial:
 	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
 	    		startActivity(dialIntent);
-	            return true; 
+	            return true;    
+	        case R.id.menu_dial:
+	    		Intent intent = new Intent(Intent.ACTION_INSERT, 
+	    	        	ContactsContract.Contacts.CONTENT_URI);
+	    		startActivity(intent);
+	    		return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-
 	}
 
-	private void createNewContact() {
-		Intent intent = new Intent(Intent.ACTION_INSERT, 
-                ContactsContract.Contacts.CONTENT_URI);
-		startActivity(intent);	
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+		long selected = (navListView.getItemIdAtPosition(position));
+		
+		if (selected == 0) {
+		   	Intent stIntent = new Intent(MainActivity.this, FavActivity.class);
+			MainActivity.this.startActivity(stIntent);
+	   } else if (selected == 1) {
+		   Intent pIntent = new Intent(MainActivity.this, MainActivity.class);
+		   MainActivity.this.startActivity(pIntent);
+	   } else if (selected == 2) {
+	   		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
+	   		MainActivity.this.startActivity(gIntent);
+	   }		
 	}
 }

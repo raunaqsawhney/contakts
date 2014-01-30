@@ -3,6 +3,7 @@ package com.raunaqsawhney.contakts;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -34,7 +35,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class FavActivity extends Activity {
+public class FavActivity extends Activity implements OnItemClickListener{
 	
 	private SlidingMenu menu;
 	private ArrayAdapter<String> listAdapter;
@@ -90,31 +91,22 @@ public class FavActivity extends Activity {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
-		ArrayList<String> navList = new ArrayList<String>();
-		navList.addAll(Arrays.asList(nav));
+        final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
+		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+
+		List<RowItem> rowItems;
 		
-		listAdapter = new ArrayAdapter<String>(this,
-	            R.layout.nav_item_layout, R.id.nav_name, navList);
+		rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < nav.length; i++) {
+            RowItem item = new RowItem(navPhoto[i], nav[i]);
+            rowItems.add(item);
+        }
+		
+		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+                R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-                String item = String.valueOf(navListView.getItemAtPosition(position));
-                if (item == "Favourites") {
-                	Intent stIntent = new Intent(FavActivity.this, FavActivity.class);
-                	FavActivity.this.startActivity(stIntent);
-                } else if (item == "Phone Contacts") {
-                	Intent pIntent = new Intent(FavActivity.this, MainActivity.class);
-                	FavActivity.this.startActivity(pIntent);
-                } else if (item == "Google Contacts") {
-                	Intent gIntent = new Intent(FavActivity.this, GoogleActivity.class);
-                	FavActivity.this.startActivity(gIntent);
-                }
-            }
-        });
+		navListView.setOnItemClickListener(this);
 	}
 
 	private void setupFavList() {
@@ -176,6 +168,7 @@ public class FavActivity extends Activity {
         
         // Assign adapter to the HorizontalListView
         favGrid.setAdapter(adapter);
+        
 	
    }
 
@@ -187,6 +180,23 @@ public class FavActivity extends Activity {
 	        return null;
 	    }
 	    return BitmapFactory.decodeStream(input);		
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+		long selected = (navListView.getItemIdAtPosition(position));
+		
+		if (selected == 0) {
+		   	Intent stIntent = new Intent(FavActivity.this, FavActivity.class);
+		   	FavActivity.this.startActivity(stIntent);
+	   } else if (selected == 1) {
+		   Intent pIntent = new Intent(FavActivity.this, MainActivity.class);
+		   FavActivity.this.startActivity(pIntent);
+	   } else if (selected == 2) {
+	   		Intent gIntent = new Intent(FavActivity.this, GoogleActivity.class);
+	   		FavActivity.this.startActivity(gIntent);
+	   }		
 	}
 
 }
