@@ -3,6 +3,7 @@ package com.raunaqsawhney.contakts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -54,9 +55,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener {
+	
+	private SlidingMenu menu;
+	private ArrayAdapter<String> listAdapter;
+	private ListView navListView;
+	
+	String lookupKey = null;
 	
 	String theme = "#18A7B5";
 	String font = "RobotoCondensed-Regular.ttf";
@@ -126,6 +134,48 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }
         
+        
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidth(8);
+        menu.setFadeDegree(0.8f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setBehindWidth(800);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.setMenu(R.layout.menu_frame);
+        navListView = (ListView) findViewById(R.id.nav_menu);
+      
+		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
+		ArrayList<String> navList = new ArrayList<String>();
+		navList.addAll(Arrays.asList(nav));
+		
+		listAdapter = new ArrayAdapter<String>(this,
+	            R.layout.nav_item_layout, R.id.nav_name, navList);
+		
+		navListView.setAdapter(listAdapter);
+		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                String item = String.valueOf(navListView.getItemAtPosition(position));
+                if (item == "Favourites") {
+                	Intent stIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
+                	ContactDetailActivity.this.startActivity(stIntent);
+                } else if (item == "Phone Contacts") {
+                	Intent pIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
+                	ContactDetailActivity.this.startActivity(pIntent);
+                } else if (item == "Google Contacts") {
+                	Intent gIntent = new Intent(ContactDetailActivity.this, GoogleActivity.class);
+                	ContactDetailActivity.this.startActivity(gIntent);
+                }
+            }
+        });
+        
+        
         contact_id = getIntent().getStringExtra("contact_id");
         getContactInfo(contact_id);
 
@@ -174,6 +224,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                 Cursor phoneCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
+                startManagingCursor(phoneCur);
                 
                 while (phoneCur.moveToNext()) {
                     allContacts.add(phoneCur.getString(
@@ -221,6 +272,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                 Cursor phoneCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
+                startManagingCursor(phoneCur);
+
                 
                 while (phoneCur.moveToNext()) {
                     allContacts.add(phoneCur.getString(
@@ -269,6 +322,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                         new String[]{contact_id},
                         null);
                 
+                startManagingCursor(emailCur);
+
                 while (emailCur.moveToNext()) {
                     allContacts.add(emailCur.getString(
                     		emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS))); 
@@ -355,9 +410,29 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
 		getPhoto(contact_id);
- 
+		
+		getLookupKey(contact_id);
 	}
 
+
+	private void getLookupKey(String contact_id) {
+		// Look Up Key
+		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
+
+		
+		@SuppressWarnings("deprecation")
+		Cursor cursor = managedQuery(
+	            ContactsContract.Contacts.CONTENT_URI,  
+	            proj,
+	            ContactsContract.Contacts._ID + "=?",
+	            new String[]{contact_id},
+	            null);
+ 
+		while (cursor.moveToNext()) {
+	        lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+	        //System.out.println(lookupKey);
+		}		
+	}
 
 	private void getPhoto(String contact_id) {
 		
@@ -368,6 +443,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		Cursor photoCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
                 ContactsContract.Contacts._ID +" = ?",
                 new String[]{contact_id}, null);
+        startManagingCursor(photoCur);
+
 		
 		while (photoCur.moveToNext()) {
 	        photo = photoCur.getString(photoCur.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
@@ -416,6 +493,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         
         Cursor imCur = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, imWhere, imWhereParams, null);
+        startManagingCursor(imCur);
+
         
         while (imCur.moveToNext()) {
             im = imCur.getString(imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA));
@@ -542,6 +621,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         ContactsContract.CommonDataKinds.Relation.CONTENT_ITEM_TYPE};
         
         Cursor relationshipCur = cr.query(ContactsContract.Data.CONTENT_URI, null, relationshipWhere, relationshipWhereParams, null);
+        startManagingCursor(relationshipCur);
 
         while (relationshipCur.moveToNext()) {
             relationship = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.NAME));
@@ -665,6 +745,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE};
         
         Cursor dateCur = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
+        startManagingCursor(dateCur);
 
         while (dateCur.moveToNext()) {
             date = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
@@ -774,6 +855,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE};
         
         Cursor noteCur = cr.query(ContactsContract.Data.CONTENT_URI, null, noteWhere, noteWhereParams, null);
+        startManagingCursor(noteCur);
 
         while (noteCur.moveToNext()) {
             note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
@@ -805,7 +887,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         
 		Cursor orgCur = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, orgWhere, orgWhereParams, null);
-        
+        startManagingCursor(orgCur);
+
         while (orgCur.moveToNext()) {
             company = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
             contact.setOrganization(company); 
@@ -848,7 +931,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         
 		Cursor webCur = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, websiteWhere, websiteWhereParams, null);
-        
+        startManagingCursor(webCur);
+
         while (webCur.moveToNext()) {
             website = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
             
@@ -989,7 +1073,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
         
 		Cursor addrCur = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, addressWhere, addressWhereParams, null);
-        
+        startManagingCursor(addrCur);
+
         while (addrCur.moveToNext()) {
             address = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
             
@@ -1124,6 +1209,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
                 ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                 new String[]{contact_id},
                 null);
+        startManagingCursor(emailCur);
+
 		
         while (emailCur.moveToNext()) {
             email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
@@ -1240,7 +1327,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		Cursor nameCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
                 ContactsContract.Contacts._ID + " =? ",
                 new String[]{contact_id}, null);
-        
+        startManagingCursor(nameCur);
+
         while (nameCur.moveToNext()) {
             name = nameCur.getString(
             		nameCur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -1274,7 +1362,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		Cursor phoneCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                 new String[]{contact_id}, null);
-        
+        startManagingCursor(phoneCur);
+
         while (phoneCur.moveToNext()) {
             number = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             
@@ -1443,19 +1532,29 @@ public class ContactDetailActivity extends Activity implements OnClickListener {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.menu_edit:
-	    		Intent i = new Intent(Intent.ACTION_EDIT);
+	    		Intent edit_intent = new Intent(Intent.ACTION_EDIT);
 	    		Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)); 
-	    		i.setData(contactUri);
-	    	    i.putExtra("finishActivityOnSaveCompleted", true);
+	    		edit_intent.setData(contactUri);
+	    		edit_intent.putExtra("finishActivityOnSaveCompleted", true);
 
-	    		startActivity(i);
-
+	    		startActivity(edit_intent);
 	        	return true;
+	        case R.id.menu_share:
+	        	Uri filePath = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
+	        	Intent share_intent = new Intent();
+	        	share_intent.setAction(android.content.Intent.ACTION_SEND);
+	        	share_intent.setType("text/x-vcard");
+	        	share_intent.putExtra(Intent.EXTRA_STREAM, (filePath));
+	        	
+	        	startActivity(Intent.createChooser(share_intent, "Share with"));
+	        	return true;
+	        	
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 
 	}
+	
 	
 	@SuppressLint("NewApi")
 	Bitmap BlurImage (Bitmap input)

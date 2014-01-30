@@ -9,7 +9,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="10dip"
         android:layout_marginLeft="10dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="10dip"
         android:layout_marginBottom="5dip"
         android:layout_centerVertical="true" />
     
@@ -22,7 +22,8 @@
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
         android:textColor="#4A4A4A"
-        android:textSize="16sp" 
+        android:textSize="17sp"
+        android:layout_marginLeft="10dip" 
         android:fontFamily="sans-serif-condensed" />
  
 </RelativeLayout>

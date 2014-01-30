@@ -1,6 +1,7 @@
 package com.raunaqsawhney.contakts;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -34,6 +35,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
@@ -49,6 +51,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	String photoURI;
 	ListView contactList;
 	String itemid;
+	
+	private SlidingMenu menu;
+	private ArrayAdapter<String> listAdapter;
+	private ListView navListView;
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +75,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setHomeButtonEnabled(true);
         bar.setDisplayShowHomeEnabled(false);
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        
-        ArrayList<String> itemList = new ArrayList<String>();
-        itemList.add("Phone");
-        itemList.add("Google");
-        itemList.add("Facebook");
-        itemList.add("Twitter");
-        itemList.add("LinkedIn");
-        ArrayAdapter<String> aAdpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
-        bar.setListNavigationCallbacks(aAdpt, this);
-        bar.setSelectedNavigationItem(1);
-
-
+       
         // Only do Tint if Kitkat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -132,6 +126,46 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	    loaderManager.initLoader(0, null, this);	
 	    
         contactList.setAdapter(mAdapter);
+        
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidth(8);
+        menu.setFadeDegree(0.8f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setBehindWidth(800);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.setMenu(R.layout.menu_frame);
+        navListView = (ListView) findViewById(R.id.nav_menu);
+      
+		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
+		ArrayList<String> navList = new ArrayList<String>();
+		navList.addAll(Arrays.asList(nav));
+		
+		listAdapter = new ArrayAdapter<String>(this,
+	            R.layout.nav_item_layout, R.id.nav_name, navList);
+		
+		navListView.setAdapter(listAdapter);
+		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                String item = String.valueOf(navListView.getItemAtPosition(position));
+                if (item == "Favourites") {
+                	Intent stIntent = new Intent(GoogleActivity.this, FavActivity.class);
+            		GoogleActivity.this.startActivity(stIntent);
+                } else if (item == "Phone Contacts") {
+                	Intent pIntent = new Intent(GoogleActivity.this, MainActivity.class);
+                	GoogleActivity.this.startActivity(pIntent);
+                } else if (item == "Google Contacts") {
+                	Intent gIntent = new Intent(GoogleActivity.this, GoogleActivity.class);
+                	GoogleActivity.this.startActivity(gIntent);
+                }
+            }
+        });
 	}
 
 	@Override
@@ -240,22 +274,14 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		System.out.println("GOOGLE");
         		break;
         	case 2:
-        		// Show Facebook contacts 
-        		System.out.println("FB");
-        		//Intent myIntent = new Intent(GoogleActivity.this, FacebookActivity.class);
-        		//GoogleActivity.this.startActivity(myIntent);
+        		// Show Starred contacts 
+        		System.out.println("STARRED");
+        		Intent stIntent = new Intent(GoogleActivity.this, FavActivity.class);
+        		GoogleActivity.this.startActivity(stIntent);
         		break;
-        	case 3:
-        		// Show Twitter contacts
-        		System.out.println("TWITTER");
-        		break;
-        	case 4:
-        		// Show LinkedIn contacts
-        		System.out.println("LINKEDIN");
     		default:
     			break;
         }
-
 		return false;
 	}
 }

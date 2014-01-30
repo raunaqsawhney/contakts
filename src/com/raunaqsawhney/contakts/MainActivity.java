@@ -1,22 +1,17 @@
 package com.raunaqsawhney.contakts;
 
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.app.ActionBar;
-import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -27,32 +22,24 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.meetme.android.horizontallistview.HorizontalListView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener {
-
-    private HorizontalListView mHlvSimpleList;
-
+public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor> {
 	
 	/*
 	 * Declare Globals
@@ -66,6 +53,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	ListView contactList;
 	String itemid;
 	
+	private SlidingMenu menu;
+	private ArrayAdapter<String> listAdapter;
+	private ListView navListView;
+
    @Override
    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,18 +76,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
        
-        ArrayList<String> itemList = new ArrayList<String>();
-        itemList.add("Phone");
-        itemList.add("Google");
-        itemList.add("Facebook");
-        itemList.add("Twitter");
-        itemList.add("LinkedIn");
-        itemList.add("Dialer");
-        ArrayAdapter<String> aAdpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
-        bar.setListNavigationCallbacks(aAdpt, this);
-
         /*
          * Do Title Bar Tint only if KITKAT
          */
@@ -123,23 +103,21 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		        
             }
         });
+        
 	        
         /*
          * Fetch the name and contact photo uri
          */
-	        
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
         		ContactsContract.Data.PHOTO_URI
         };
         
-        
-        
         int[] to = new int[] {
         		R.id.c_name,
         		R.id.c_photo
         };
-	        
+        
         mAdapter = new SimpleCursorAdapter(this,
                 R.layout.lv_layout, 
                 null,
@@ -147,85 +125,52 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 to, 
                 0);
         
-        /*
-	     * Indeterminate Progress Bar for not found contacts
-	     */
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        progressBar.setIndeterminate(true);
-        contactList.setEmptyView(progressBar);
-
-        // Must add the progress bar to the root of the layout
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-        root.addView(progressBar);
-	        
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
         contactList.setAdapter(mAdapter);
-        
-        setupFavList();
-       
-	}
 
-	private void setupFavList() {
-
-		ImageView favIcon = (ImageView) findViewById(R.id.fav_photo);
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidth(8);
+        menu.setFadeDegree(0.8f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setBehindWidth(800);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.setMenu(R.layout.menu_frame);
+        navListView = (ListView) findViewById(R.id.nav_menu);
+      
+		String[] nav = new String[] { "Favourites", "Phone Contacts", "Google Contacts" };
+		ArrayList<String> navList = new ArrayList<String>();
+		navList.addAll(Arrays.asList(nav));
 		
-		Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
-
-	    String[] projection = new String[] {
-	            ContactsContract.Contacts._ID,
-	            ContactsContract.Contacts.LOOKUP_KEY,
-	            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-	            ContactsContract.Contacts.STARRED};
-
-	    String selection =ContactsContract.Contacts.STARRED + "='1'";
-
-	    @SuppressWarnings("deprecation")
-		Cursor cursor = managedQuery(queryUri, projection, selection,null,null);
-
-	    long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
-	    
-	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
-	    if(bitmap!=null){
-	    favIcon.setImageBitmap(bitmap);
-	    }
-	    else{
-
-	    }
-	    
-	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_THUMBNAIL_URI};
-	    int to[] = new int[]{
-	    		R.id.fav_photo,
-	    };
-
-	    ListAdapter adapter = new SimpleCursorAdapter(
-	            this,
-	            R.layout.fav_layout,
-	            cursor,
-	            from,
-	            to,
-	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		listAdapter = new ArrayAdapter<String>(this,
+	            R.layout.nav_item_layout, R.id.nav_name, navList);
 		
-        final HorizontalListView mHlvSimpleList = (HorizontalListView) findViewById(R.id.HorizontalListView);
-        
-        // Assign adapter to the HorizontalListView
-        mHlvSimpleList.setAdapter(adapter);
-	
-}
-
-	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
-		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-	    if (input == null) {
-
-	        return null;
-	    }
-	    return BitmapFactory.decodeStream(input);		
+		navListView.setAdapter(listAdapter);
+		navListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                String item = String.valueOf(navListView.getItemAtPosition(position));
+                if (item == "Favourites") {
+                	Intent stIntent = new Intent(MainActivity.this, FavActivity.class);
+            		MainActivity.this.startActivity(stIntent);
+                } else if (item == "Phone Contacts") {
+                	Intent pIntent = new Intent(MainActivity.this, MainActivity.class);
+            		MainActivity.this.startActivity(pIntent);
+                } else if (item == "Google Contacts") {
+                	Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
+            		MainActivity.this.startActivity(gIntent);
+                }
+            }
+        });
 	}
-
+   
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -280,7 +225,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         
         //System.out.println(photoURI);
-		System.out.println(ContactsContract.Contacts.PHOTO_URI);
+		//System.out.println(ContactsContract.Contacts.PHOTO_URI);
 
         CursorLoader cursorLoader = new CursorLoader(
         		MainActivity.this, 
@@ -328,6 +273,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        case R.id.menu_add:
 	            createNewContact();
 	            return true;    
+	        case R.id.menu_dial:
+	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+	    		startActivity(dialIntent);
+	            return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -338,43 +287,5 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		Intent intent = new Intent(Intent.ACTION_INSERT, 
                 ContactsContract.Contacts.CONTENT_URI);
 		startActivity(intent);	
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(int arg0, long arg1) {
-
-		switch(arg0)
-        {
-        	case 0:
-        		// Show default (Phone included) list
-        		System.out.println("PHONE");
-        		break;
-        	case 1:
-        		// Show all Google synced contacts
-        		System.out.println("GOOGLE");
-        		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
-        		MainActivity.this.startActivity(gIntent);
-        		break;
-        	case 2:
-        		// Show Facebook contacts 
-        		//System.out.println("CALL DATA");
-        		//Intent fbIntent = new Intent(MainActivity.this, CallDataActivity.class);
-        		//MainActivity.this.startActivity(fbIntent);
-        		break;
-        	case 3:
-        		// Show Twitter contacts
-        		System.out.println("TWITTER");
-        		break;
-        	case 4:
-        		// Show LinkedIn contacts
-        		System.out.println("LINKEDIN");
-        	case 5:
-        		//Intent liIntent = new Intent(MainActivity.this, LinkedInLoginActivity.class);
-        		//MainActivity.this.startActivity(liIntent);
-    		default:
-    			break;
-        }
-
-		return false;
 	}
 }
