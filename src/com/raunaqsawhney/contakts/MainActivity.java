@@ -41,7 +41,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	// Declare Globals
-	String theme = "#18A7B5";
+	String theme = "#FF2D55";
 	String font = "RobotoCondensed-Regular.ttf";
 
 	SimpleCursorAdapter mAdapter;
