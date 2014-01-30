@@ -2,11 +2,7 @@ package com.raunaqsawhney.contakts;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,6 +21,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
@@ -33,7 +30,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FavActivity extends Activity implements OnItemClickListener{
 	

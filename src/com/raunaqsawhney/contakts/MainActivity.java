@@ -37,7 +37,6 @@ import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.readystatesoftware.systembartint.SystemBarTintManager.SystemBarConfig;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
@@ -52,9 +51,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	String itemid;
 	
 	private SlidingMenu menu;
-	private ArrayAdapter<String> listAdapter;
 	private ListView navListView;
-	private ArrayAdapter<String> listAdapter2;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -143,7 +140,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
+		final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts"};
 		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
 
 		List<RowItem> rowItems;
@@ -271,6 +268,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   } else if (selected == 2) {
 	   		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
 	   		MainActivity.this.startActivity(gIntent);
-	   }		
+	   }	
 	}
 }
