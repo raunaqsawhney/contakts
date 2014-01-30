@@ -128,12 +128,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         bar.setHomeButtonEnabled(true);
         bar.setDisplayShowHomeEnabled(false);
 
-        // Tint if KitKat
+     // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
+	        tintManager.setNavigationBarTintEnabled(true);
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
+	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
         // Set up the Sliding Menu

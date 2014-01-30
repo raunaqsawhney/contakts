@@ -68,13 +68,14 @@ public class FavActivity extends Activity implements OnItemClickListener{
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
        
-        // Do Tint only if KitKat
+     // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
-	        // Holo light action bar color is #DDDDDD
+	        tintManager.setNavigationBarTintEnabled(true);
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
+	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
         menu = new SlidingMenu(this);

@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.readystatesoftware.systembartint.SystemBarTintManager.SystemBarConfig;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
@@ -73,16 +74,19 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
        
+        contactList = (ListView)findViewById(R.id.list);
 
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
+	        tintManager.setNavigationBarTintEnabled(true);
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
+	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
-        contactList = (ListView)findViewById(R.id.list);
+        
         contactList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,7 +126,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    contactList.addHeaderView(header);
 	    
 	    contactList.setAdapter(mAdapter);
-
+	    
+	    
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -137,7 +142,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
-      
+        
 		final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
 		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
 
@@ -155,6 +160,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);		
    }
+   
      
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -238,11 +244,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
-	        case R.id.menu_add:
+	        case R.id.menu_dial:
 	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
 	    		startActivity(dialIntent);
 	            return true;    
-	        case R.id.menu_dial:
+	        case R.id.menu_add:
 	    		Intent intent = new Intent(Intent.ACTION_INSERT, 
 	    	        	ContactsContract.Contacts.CONTENT_URI);
 	    		startActivity(intent);
