@@ -10,5 +10,6 @@
     <string name="app_id">464083147027207</string>
     <string name="title_activity_fb">FBActivity</string>
     <string name="title_activity_linked_in">LinkedInActivity</string>
+    <string name="title_activity_log">LogActivity</string>
 
 </resources>

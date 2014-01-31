@@ -1,26 +1,23 @@
 package com.raunaqsawhney.contakts;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.brickred.socialauth.Profile;
+import org.brickred.socialauth.android.DialogListener;
+import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
+import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FBActivity extends Activity {
@@ -33,8 +30,7 @@ public class FBActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fb);
 		
-
-		
+       		
 		// Set up the Action Bar
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
@@ -59,15 +55,10 @@ public class FBActivity extends Activity {
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
+        
+        
 	}
 	
-	
-	@Override
-	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	      super.onActivityResult(requestCode, resultCode, data);
-	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-	  }
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,5 +66,4 @@ public class FBActivity extends Activity {
 		getMenuInflater().inflate(R.menu.fb, menu);
 		return true;
 	}
-
 }

@@ -84,6 +84,10 @@
             android:name="com.raunaqsawhney.contakts.LinkedInActivity"
             android:label="@string/title_activity_linked_in" >
         </activity>
+        <activity
+            android:name="com.raunaqsawhney.contakts.LogActivity"
+            android:label="@string/title_activity_log" >
+        </activity>
     </application>
 
 </manifest>
