@@ -22,7 +22,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FBActivity extends Activity {
 	
-	String theme = "#FF2D55";
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 
 	@Override

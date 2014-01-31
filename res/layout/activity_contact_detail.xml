@@ -43,7 +43,7 @@
 		            android:layout_marginTop="30dp"
 		            android:textAlignment="textStart"
 		            android:textColor="#FFF" 
-		            android:textSize="22sp"/>
+		            android:textSize="21sp"/>
 	  
 		        <TextView
 		            android:id="@+id/c_detail_header_company"
@@ -51,7 +51,7 @@
 		            android:layout_height="wrap_content"
 		            android:textColor="#FFF"
 		            android:layout_marginLeft="12dip"
-		            android:textSize="18sp"/>
+		            android:textSize="17sp"/>
 		        
 		        <LinearLayout 
 		            android:id="@+id/c_detail_header_quickLinks"
@@ -122,7 +122,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Phone"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -149,7 +149,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Email"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip"/>
                 
@@ -175,7 +175,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Website"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -201,7 +201,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Address"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -241,7 +241,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Relationship"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="18sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -268,7 +268,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="IM"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -294,7 +294,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Events"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -321,7 +321,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Notes"
-		            android:textColor="#FF2D55"
+		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 

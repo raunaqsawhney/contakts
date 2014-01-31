@@ -38,7 +38,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	private SlidingMenu menu;
 	private ListView navListView;
 	
-	String theme = "#FF2D55";
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 	
 	   @Override

@@ -67,7 +67,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	String lookupKey = null;
 	
-	String theme = "#FF2D55";
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 	String fontContent = "Roboto-Thin.ttf";
 	
@@ -120,7 +120,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		.getIdentifier("action_bar_title", "id","android"));
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
-        actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setTextSize(21);
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
