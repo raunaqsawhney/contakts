@@ -37,10 +37,6 @@ public class MLRoundedImageView extends ImageView {
 		{
 			drawable = getResources().getDrawable(R.drawable.ic_contact_picture);
 		}
-		
-		if (drawable == null) {
-			return;
-		}
  
 		if (getWidth() == 0 || getHeight() == 0) {
 			return;
@@ -50,8 +46,6 @@ public class MLRoundedImageView extends ImageView {
 		
 		Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 		
-
- 
 		int w = getWidth(), h = getHeight();
  
 		Bitmap roundBitmap = getCroppedBitmap(bitmap, w);

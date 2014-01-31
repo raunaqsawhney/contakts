@@ -52,7 +52,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	
 	private SlidingMenu menu;
 	private ListView navListView;
-	private ListView navSecListView;
 
 
    @Override
@@ -88,7 +87,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
 				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -122,11 +120,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header);
 	    contactList.setAdapter(mAdapter);
-	    
-	    
+
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT_RIGHT);
+        menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidth(8);
         menu.setFadeDegree(0.8f);
@@ -137,10 +134,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
-        menu.setSecondaryMenu(R.layout.menu_sec_frame);
         
         navListView = (ListView) findViewById(R.id.nav_menu);
-        navSecListView = (ListView) findViewById(R.id.nav_menu_sec);
         
 		final String[] nav = { "Favourites",
 				"Phone Contacts",
@@ -157,18 +152,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				R.drawable.ic_nav_twitter,
 				R.drawable.ic_action_linkedin_512
 		};
-		
-		final String[] navSec = { "Sort Name",
-				"Sort Name",
-				"Sort Company",
-				"Facebook",
-		};
-		
-		final Integer[] navSecPhoto = { R.drawable.ic_nav_star,
-				R.drawable.ic_nav_phone,
-				R.drawable.ic_nav_google,
-				R.drawable.ic_nav_fb,
-		};
 
 		List<RowItem> rowItems;
 		
@@ -183,8 +166,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);	
-		
-		navSecListView.setAdapter(listAdapter);
    }
      
     @Override
@@ -232,7 +213,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 projection, 
                 query, 
                 null,
-                Contacts.DISPLAY_NAME + " DESC");
+                Contacts.DISPLAY_NAME + " ASC");
         
         return cursorLoader;
 	}
@@ -296,7 +277,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
 	   		MainActivity.this.startActivity(gIntent);
 	   } else if (selected == 3) {
-	   		Intent fbIntent = new Intent(MainActivity.this, LogActivity.class);
+	   		Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);
 	   		MainActivity.this.startActivity(fbIntent);
 	   } else if (selected == 5) {
 	   		Intent liIntent = new Intent(MainActivity.this, LinkedInActivity.class);

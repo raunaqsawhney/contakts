@@ -445,7 +445,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int FBwelcome=0x7f050028;
-        public static final int action_settings=0x7f050048;
+        public static final int action_settings=0x7f050047;
         public static final int c_detail_address_header=0x7f05001c;
         public static final int c_detail_address_layout=0x7f05001b;
         public static final int c_detail_content=0x7f050013;
@@ -493,15 +493,14 @@ containing a value of this type.
         public static final int li_btn=0x7f050029;
         public static final int list=0x7f05002c;
         public static final int margin=0x7f050002;
-        public static final int menu_add=0x7f05004b;
-        public static final int menu_dial=0x7f05004a;
-        public static final int menu_edit=0x7f050046;
-        public static final int menu_search=0x7f050049;
-        public static final int menu_share=0x7f050047;
+        public static final int menu_add=0x7f05004a;
+        public static final int menu_dial=0x7f050049;
+        public static final int menu_edit=0x7f050045;
+        public static final int menu_search=0x7f050048;
+        public static final int menu_share=0x7f050046;
         public static final int nav_menu=0x7f050040;
-        public static final int nav_menu_sec=0x7f050041;
-        public static final int nav_name=0x7f050043;
-        public static final int nav_photo=0x7f050042;
+        public static final int nav_name=0x7f050042;
+        public static final int nav_photo=0x7f050041;
         public static final int none=0x7f050005;
         public static final int normal=0x7f050006;
         public static final int oneBtn=0x7f05002f;
@@ -513,12 +512,12 @@ containing a value of this type.
         public static final int satellite=0x7f050007;
         public static final int selected_view=0x7f050004;
         public static final int sixBtn=0x7f050035;
-        public static final int slidingmenumain=0x7f050044;
+        public static final int slidingmenumain=0x7f050043;
         public static final int terrain=0x7f050008;
         public static final int textView1=0x7f05002a;
         public static final int the_map=0x7f05001e;
         public static final int threeBtn=0x7f050031;
-        public static final int title=0x7f050045;
+        public static final int title=0x7f050044;
         public static final int twoBtn=0x7f050030;
     }
     public static final class integer {
@@ -538,11 +537,10 @@ containing a value of this type.
         public static final int google_header=0x7f03000a;
         public static final int lv_layout=0x7f03000b;
         public static final int menu_frame=0x7f03000c;
-        public static final int menu_sec_frame=0x7f03000d;
-        public static final int nav_item_layout=0x7f03000e;
-        public static final int phone_header=0x7f03000f;
-        public static final int slidingmenumain=0x7f030010;
-        public static final int titleview=0x7f030011;
+        public static final int nav_item_layout=0x7f03000d;
+        public static final int phone_header=0x7f03000e;
+        public static final int slidingmenumain=0x7f03000f;
+        public static final int titleview=0x7f030010;
     }
     public static final class menu {
         public static final int contact_detail=0x7f0b0000;
