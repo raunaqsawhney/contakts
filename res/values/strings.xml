@@ -8,6 +8,7 @@
     <string name="title_activity_main">Contakts</string>
     <string name="title_activity_contact_detail">ContactDetailActivity</string>
     <string name="app_id">464083147027207</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_fb">FBActivity</string>
+    <string name="title_activity_linked_in">LinkedInActivity</string>
 
 </resources>

@@ -38,12 +38,10 @@ import android.widget.TextView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnNavigationListener, OnItemClickListener {
+public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 
-	/*
-	 * Declare Globals
-	 */
-	String theme = "#18A7B5";
+	// Declare Globals
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 
 	SimpleCursorAdapter mAdapter;
@@ -53,7 +51,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	String itemid;
 	
 	private SlidingMenu menu;
-	private ArrayAdapter<String> listAdapter;
 	private ListView navListView;
 	
    @Override
@@ -61,22 +58,19 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set up the Action Bar
-        int titleId = getResources().getIdentifier("action_bar_title", "id",
-                "android");
-        TextView actionBarTitleText = (TextView) findViewById(titleId);
-        Typeface actionBarFont = Typeface.createFromAsset(getAssets(), "Harabara.ttf");
-        actionBarTitleText.setTypeface(actionBarFont);
+        // Set up Action Bar
+        TextView actionBarTitleText = (TextView) findViewById(getResources()
+        		.getIdentifier("action_bar_title", "id","android"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(24);
-        //actionBarTitleText.setText("Contakts");
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
-        bar.setHomeButtonEnabled(true);
         bar.setDisplayShowHomeEnabled(false);
+        bar.setHomeButtonEnabled(true);
        
-     // Do Tint if KitKat
+        // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
@@ -88,10 +82,12 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         
         // Set up the ListView for contacts to be displayed
         contactList = (ListView)findViewById(R.id.list);
+        
         contactList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				startManagingCursor(cursor);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
 				// Explicit Intent Example
@@ -144,8 +140,21 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
-		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+        final String[] nav = { "Favourites",
+				"Phone Contacts",
+				"Google Contacts",
+				"Facebook",
+				"Twitter",
+				"LinkedIn"
+		};
+		
+		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_phone,
+				R.drawable.ic_nav_google,
+				R.drawable.ic_nav_fb,
+				R.drawable.ic_nav_twitter,
+				R.drawable.ic_action_linkedin_512
+		};
 
 		List<RowItem> rowItems;
 		
@@ -166,8 +175,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
     public boolean onCreateOptionsMenu(Menu menu) {
          getMenuInflater().inflate(R.menu.options_menu, menu);
     	
-
-        // Set up the Action Bar menu
+        // Set up the Action Bar menu Search
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setQueryHint("Find contacts");
         searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
@@ -191,7 +199,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
             baseUri = ContactsContract.Contacts.CONTENT_URI;
         }
         
-        //TODO: Add different filters for query
         String query = "(" + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL)";
         
         String[] projection = new String[] {
@@ -237,46 +244,18 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
+        	case R.id.menu_dial:
+        		Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+        		startActivity(dialIntent);
+            return true;
 	        case R.id.menu_add:
-	            createNewContact();
-	            return true;
+	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, 
+	            ContactsContract.Contacts.CONTENT_URI);
+	    		startActivity(addIntent);	
+	    		return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-
-	}
-
-	private void createNewContact() {
-		Intent intent = new Intent(Intent.ACTION_INSERT, 
-                ContactsContract.Contacts.CONTENT_URI);
-		startActivity(intent);	
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(int arg0, long arg1) {
-
-		switch(arg0)
-        {
-        	case 0:
-        		// Show default (Phone included) list
-        		System.out.println("PHONE");
-        		Intent pIntent = new Intent(GoogleActivity.this, MainActivity.class);
-        		GoogleActivity.this.startActivity(pIntent);
-        		break;
-        	case 1:
-        		// Show all Google synced contacts
-        		System.out.println("GOOGLE");
-        		break;
-        	case 2:
-        		// Show Starred contacts 
-        		System.out.println("STARRED");
-        		Intent stIntent = new Intent(GoogleActivity.this, FavActivity.class);
-        		GoogleActivity.this.startActivity(stIntent);
-        		break;
-    		default:
-    			break;
-        }
-		return false;
 	}
 	
 	@Override
@@ -293,6 +272,12 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	   } else if (selected == 2) {
 	   		Intent gIntent = new Intent(GoogleActivity.this, GoogleActivity.class);
 	   		GoogleActivity.this.startActivity(gIntent);
+	   } else if (selected == 3) {
+	   		Intent fbIntent = new Intent(GoogleActivity.this, FBActivity.class);
+	   		GoogleActivity.this.startActivity(fbIntent);
+	   } else if (selected == 5) {
+	   		Intent liIntent = new Intent(GoogleActivity.this, LinkedInActivity.class);
+	   		GoogleActivity.this.startActivity(liIntent);
 	   }		
 	}
 }

@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -62,12 +63,11 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
 	
 	private SlidingMenu menu;
-	private ArrayAdapter<String> listAdapter;
 	private ListView navListView;
 	
 	String lookupKey = null;
 	
-	String theme = "#18A7B5";
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 	String fontContent = "RobotoCondensed-Light.ttf";
 	
@@ -112,22 +112,22 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_contact_detail);
         
         // Set up Action Bar
-        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
-        TextView actionBarTitleText = (TextView) findViewById(titleId);
-        Typeface actionBarFont = Typeface.createFromAsset(getAssets(), font);
-        actionBarTitleText.setTypeface(actionBarFont);
+        TextView actionBarTitleText = (TextView) findViewById(getResources()
+        		.getIdentifier("action_bar_title", "id","android"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
+        actionBarTitleText.setTextSize(24);
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
-
-        bar.setHomeButtonEnabled(true);
         bar.setDisplayShowHomeEnabled(false);
-
-     // Do Tint if KitKat
+        bar.setHomeButtonEnabled(true);
+       
+        // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
@@ -137,7 +137,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
-        // Set up the Sliding Menu
+        // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -152,8 +152,21 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
-		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+        final String[] nav = { "Favourites",
+				"Phone Contacts",
+				"Google Contacts",
+				"Facebook",
+				"Twitter",
+				"LinkedIn"
+		};
+		
+		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_phone,
+				R.drawable.ic_nav_google,
+				R.drawable.ic_nav_fb,
+				R.drawable.ic_nav_twitter,
+				R.drawable.ic_action_linkedin_512
+		};
 
 		List<RowItem> rowItems;
 		
@@ -194,7 +207,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
                 if (checkStarredStatus(contact_id)) {
                     star_quicklink.setImageResource(R.drawable.ic_star);
-                    
                     ContentValues values = new ContentValues();
                     values.put(ContactsContract.Contacts.STARRED, 0);
                     getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
@@ -577,8 +589,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             imTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             imTextView.setTextSize(20);
             imTextView.setPadding(30, 10, 0, 10);
+            imTextView.setSingleLine();
             imTextView.setEllipsize(TextUtils.TruncateAt.END);
-	        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 	        	     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 	        
 	        final int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
@@ -700,6 +713,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         lblRelationshipContent.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
         lblRelationshipContent.setTextSize(22);
         lblRelationshipContent.setPadding(30, 10, 0, 10);
+        lblRelationshipContent.setSingleLine();
         lblRelationshipContent.setEllipsize(TextUtils.TruncateAt.END);
         
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -807,8 +821,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             dateTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             dateTextView.setTextSize(22);
             dateTextView.setPadding(30, 10, 0, 10);
+            dateTextView.setSingleLine();
             dateTextView.setEllipsize(TextUtils.TruncateAt.END);
-	  
+            
 	        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 	        	     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 	        
@@ -889,6 +904,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
         //orgCur.close();
         lblCompany.setText(company);
+        lblCompany.setSingleLine();
         lblCompany.setEllipsize(TextUtils.TruncateAt.END);
         
         lblCompany.setOnClickListener(new OnClickListener() {
@@ -1006,8 +1022,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             websiteTextView.setTextSize(22);
             websiteTextView.setPadding(30, 10, 0, 10);
+            websiteTextView.setSingleLine();
             websiteTextView.setEllipsize(TextUtils.TruncateAt.END);
-      
+            
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
             	     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             
@@ -1343,6 +1360,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
         //nameCur.close();
         lblName.setText(name);
+        lblName.setSingleLine();
         lblName.setEllipsize(TextUtils.TruncateAt.END);
         ActionBar ab = getActionBar();
         ab.setTitle(name);
@@ -1487,8 +1505,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             phoneNumberTextView.setTextSize(22);
             phoneNumberTextView.setPadding(30, 10, 0, 10);
+            phoneNumberTextView.setSingleLine();
             phoneNumberTextView.setEllipsize(TextUtils.TruncateAt.END);
-
                        
             phoneContentLayout.addView(phoneNumberTextView);
             

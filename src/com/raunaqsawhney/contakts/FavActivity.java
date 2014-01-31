@@ -22,7 +22,6 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -37,37 +36,35 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class FavActivity extends Activity implements OnItemClickListener{
 	
 	private SlidingMenu menu;
-	private ArrayAdapter<String> listAdapter;
 	private ListView navListView;
 	
-	String theme = "#18A7B5";
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 	
 	   @Override
 	   protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.fav_activity);
-	        
+	       
 	        setupActionBar();
-	        setupFavList();
+	        setupFavList();        
 	   }
 
 	   private void setupActionBar() {
 	   
-		// Setup ActionBar
-        int titleId = getResources().getIdentifier("action_bar_title", "id",
-                "android");
-        TextView actionBarTitleText = (TextView) findViewById(titleId);
-        Typeface actionBarFont = Typeface.createFromAsset(getAssets(), "Harabara.ttf");
-        actionBarTitleText.setTypeface(actionBarFont);
+        // Set up Action Bar
+        TextView actionBarTitleText = (TextView) findViewById(getResources()
+        		.getIdentifier("action_bar_title", "id","android"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(24);
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
+        bar.setHomeButtonEnabled(true);
        
-     // Do Tint if KitKat
+        // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
@@ -77,6 +74,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
+        // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -91,8 +89,21 @@ public class FavActivity extends Activity implements OnItemClickListener{
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts" };
-		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+        final String[] nav = { "Favourites",
+				"Phone Contacts",
+				"Google Contacts",
+				"Facebook",
+				"Twitter",
+				"LinkedIn"
+		};
+		
+		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_phone,
+				R.drawable.ic_nav_google,
+				R.drawable.ic_nav_fb,
+				R.drawable.ic_nav_twitter,
+				R.drawable.ic_action_linkedin_512
+		};
 
 		List<RowItem> rowItems;
 		
@@ -107,6 +118,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
+		
 	}
 
 	private void setupFavList() {
@@ -130,11 +142,10 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	    long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
 	    
 	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
-	    if(bitmap!=null){
-	    favIcon.setImageBitmap(bitmap);
-	    }
-	    else{
-
+	    if(bitmap!=null) {
+	    	favIcon.setImageBitmap(bitmap);
+	    } else {
+	    	// NOTHING
 	    }
 	    
 	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
@@ -168,8 +179,6 @@ public class FavActivity extends Activity implements OnItemClickListener{
         
         // Assign adapter to the HorizontalListView
         favGrid.setAdapter(adapter);
-        
-	
    }
 
 	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
@@ -196,7 +205,12 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	   } else if (selected == 2) {
 	   		Intent gIntent = new Intent(FavActivity.this, GoogleActivity.class);
 	   		FavActivity.this.startActivity(gIntent);
+	   }  else if (selected == 3) {
+	   		Intent fbIntent = new Intent(FavActivity.this, FBActivity.class);
+	   		FavActivity.this.startActivity(fbIntent);
+	   } else if (selected == 5) {
+	   		Intent liIntent = new Intent(FavActivity.this, LinkedInActivity.class);
+	   		FavActivity.this.startActivity(liIntent);
 	   }		
 	}
-
 }

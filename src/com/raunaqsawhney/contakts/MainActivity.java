@@ -41,7 +41,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	// Declare Globals
-	String theme = "#FF2D55";
+	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 
 	SimpleCursorAdapter mAdapter;
@@ -59,11 +59,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         setContentView(R.layout.activity_main);	
 
         // Set up Action Bar
-        int titleId = getResources().getIdentifier("action_bar_title", "id",
-                "android");
-        TextView actionBarTitleText = (TextView) findViewById(titleId);
-        Typeface actionBarFont = Typeface.createFromAsset(getAssets(), "Harabara.ttf");
-        actionBarTitleText.setTypeface(actionBarFont);
+        TextView actionBarTitleText = (TextView) findViewById(getResources()
+        		.getIdentifier("action_bar_title", "id","android"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(24);
         
@@ -88,12 +86,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
+				startManagingCursor(cursor);
 				
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
                 startActivity(intent);
-		        
             }
         });
         
@@ -108,7 +106,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		R.id.c_photo
         };
         
-        // Init the listview adapter
+        // Initialize the listview adapter
         mAdapter = new SimpleCursorAdapter(this,
                 R.layout.lv_layout, 
                 null,
@@ -121,7 +119,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    
 	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header);
-	    
 	    contactList.setAdapter(mAdapter);
 	    
 	    
@@ -140,8 +137,21 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites", "Phone Contacts", "Google Contacts"};
-		final Integer[] navPhoto = { R.drawable.ic_nav_star, R.drawable.ic_nav_phone, R.drawable.ic_nav_google };
+		final String[] nav = { "Favourites",
+				"Phone Contacts",
+				"Google Contacts",
+				"Facebook",
+				"Twitter",
+				"LinkedIn"
+		};
+		
+		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_phone,
+				R.drawable.ic_nav_google,
+				R.drawable.ic_nav_fb,
+				R.drawable.ic_nav_twitter,
+				R.drawable.ic_action_linkedin_512
+		};
 
 		List<RowItem> rowItems;
 		
@@ -157,7 +167,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);		
    }
-   
      
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -212,7 +221,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		mAdapter.swapCursor(arg1);
-		System.out.println(ContactsContract.Contacts.PHOTO_URI);
 		if (ContactsContract.Contacts.PHOTO_URI == null)
 		{
 			ImageView c_photo = (ImageView) findViewById(R.id.c_photo);
@@ -246,9 +254,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    		startActivity(dialIntent);
 	            return true;    
 	        case R.id.menu_add:
-	    		Intent intent = new Intent(Intent.ACTION_INSERT, 
+	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, 
 	    	        	ContactsContract.Contacts.CONTENT_URI);
-	    		startActivity(intent);
+	    		startActivity(addIntent);
 	    		return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -268,6 +276,13 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   } else if (selected == 2) {
 	   		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
 	   		MainActivity.this.startActivity(gIntent);
+	   } else if (selected == 3) {
+	   		Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);
+	   		MainActivity.this.startActivity(fbIntent);
+	   } else if (selected == 5) {
+	   		Intent liIntent = new Intent(MainActivity.this, LinkedInActivity.class);
+	   		MainActivity.this.startActivity(liIntent);
 	   }	
+		//TODO: ADD TWITTER
 	}
 }

@@ -26,8 +26,8 @@
         android:textSize="20sp" 
         android:fontFamily="sans-serif-condensed" 
         android:layout_marginLeft="10dip"
-        android:paddingTop="22dip"
-        android:paddingBottom="20dip"
+        android:paddingTop="20dip"
+        android:paddingBottom="10dip"
         android:text="Favourites"/>
   
 	</LinearLayout>
