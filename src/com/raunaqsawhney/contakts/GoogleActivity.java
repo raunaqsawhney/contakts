@@ -41,7 +41,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 
 	// Declare Globals
-	String theme = "#34AADC";
+	String theme = "#FF2D55";
 	String font = "RobotoCondensed-Regular.ttf";
 
 	SimpleCursorAdapter mAdapter;
@@ -61,7 +61,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-ThinItalic.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         

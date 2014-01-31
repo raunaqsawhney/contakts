@@ -67,9 +67,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	String lookupKey = null;
 	
-	String theme = "#34AADC";
+	String theme = "#FF2D55";
 	String font = "RobotoCondensed-Regular.ttf";
-	String fontContent = "RobotoCondensed-Light.ttf";
+	String fontContent = "Roboto-Thin.ttf";
 	
 	TextView lblNumber;
 	TextView lblName;
@@ -118,7 +118,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-ThinItalic.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -587,7 +587,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             // set some properties of phoneNumberTextView
             imTextView.setText(currentIM);
             imTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            imTextView.setTextSize(20);
+            imTextView.setTextSize(18);
             imTextView.setPadding(30, 10, 0, 10);
             imTextView.setSingleLine();
             imTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -711,7 +711,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         // set some properties of phoneNumberTextView
         lblRelationshipContent.setText(contact.getRelationship());
         lblRelationshipContent.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-        lblRelationshipContent.setTextSize(22);
+        lblRelationshipContent.setTextSize(18);
         lblRelationshipContent.setPadding(30, 10, 0, 10);
         lblRelationshipContent.setSingleLine();
         lblRelationshipContent.setEllipsize(TextUtils.TruncateAt.END);
@@ -819,7 +819,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             // set some properties of phoneNumberTextView
             dateTextView.setText(currentDate);
             dateTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            dateTextView.setTextSize(22);
+            dateTextView.setTextSize(18);
             dateTextView.setPadding(30, 10, 0, 10);
             dateTextView.setSingleLine();
             dateTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1020,7 +1020,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             // set some properties of phoneNumberTextView
             websiteTextView.setText(currentWebsite);
             websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            websiteTextView.setTextSize(22);
+            websiteTextView.setTextSize(18);
             websiteTextView.setPadding(30, 10, 0, 10);
             websiteTextView.setSingleLine();
             websiteTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1166,7 +1166,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             // set some properties of phoneNumberTextView
             addressTextView.setText(currentAddress);
             addressTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            addressTextView.setTextSize(22);
+            addressTextView.setTextSize(18);
             addressTextView.setPadding(30, 10, 0, 10);
             addressTextView.setEllipsize(TextUtils.TruncateAt.END);
 
@@ -1299,7 +1299,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             // set some properties of phoneNumberTextView
             emailTextView.setText(currentEmail);
             emailTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            emailTextView.setTextSize(22);
+            emailTextView.setTextSize(18);
             emailTextView.setPadding(30, 10, 0, 10);
             emailTextView.setSingleLine();
             emailTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -1503,7 +1503,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             // set some properties of phoneNumberTextView
             phoneNumberTextView.setText(currentPhone);
             phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-            phoneNumberTextView.setTextSize(22);
+            phoneNumberTextView.setTextSize(18);
             phoneNumberTextView.setPadding(30, 10, 0, 10);
             phoneNumberTextView.setSingleLine();
             phoneNumberTextView.setEllipsize(TextUtils.TruncateAt.END);

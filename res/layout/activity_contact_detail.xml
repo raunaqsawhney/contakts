@@ -122,7 +122,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Phone"
-		            android:textColor="#18a7b5"
+		            android:textColor="#FF2D55"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -149,7 +149,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Email"
-		            android:textColor="#18a7b5"
+		            android:textColor="#FF2D55"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip"/>
                 
@@ -175,7 +175,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Website"
-		            android:textColor="#18a7b5"
+		            android:textColor="#FF2D55"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -201,7 +201,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Address"
-		            android:textColor="#18a7b5"
+		            android:textColor="#FF2D55"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -241,8 +241,8 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Relationship"
-		            android:textColor="#18a7b5"
-		            android:textSize="20sp"
+		            android:textColor="#FF2D55"
+		            android:textSize="18sp"
 		            android:layout_marginLeft="20dip" />
                 
                 <View 
@@ -268,7 +268,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="IM"
-		            android:textColor="#18a7b5"
+		            android:textColor="#FF2D55"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -294,7 +294,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Events"
-		            android:textColor="#18a7b5"
+		            android:textColor="#FF2D55"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -321,8 +321,8 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="Notes"
-		            android:textColor="#18a7b5"
-		            android:textSize="21sp"
+		            android:textColor="#FF2D55"
+		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
                 <View 
@@ -337,7 +337,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:textColor="#4A4A4A"
-		            android:textSize="21sp"
+		            android:textSize="18sp"
 		            android:gravity="left"
 		            android:layout_marginLeft="20dip" />
 
