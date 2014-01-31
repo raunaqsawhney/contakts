@@ -55,9 +55,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-ThinItalic.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
-        actionBarTitleText.setTextSize(24);
+        actionBarTitleText.setTextSize(22);
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));

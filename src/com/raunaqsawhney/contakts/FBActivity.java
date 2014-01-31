@@ -35,11 +35,10 @@ public class FBActivity extends Activity {
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
-        Typeface actionBarFont = Typeface.createFromAsset(getAssets(), "Harabara.ttf");
-        actionBarTitleText.setTypeface(actionBarFont);
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-ThinItalic.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
-        actionBarTitleText.setTextSize(24);
-        //actionBarTitleText.setText("Contakts");
+        actionBarTitleText.setTextSize(22);
+
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
