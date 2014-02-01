@@ -69,7 +69,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
-	String fontContent = "Roboto-Thin.ttf";
+	String fontContent = "Roboto-Light.ttf";
 	
 	TextView lblNumber;
 	TextView lblName;
@@ -118,7 +118,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(21);
         

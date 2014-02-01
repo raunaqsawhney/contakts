@@ -140,9 +140,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		final String[] nav = { "Favourites",
 				"Phone Contacts",
 				"Google Contacts",
-				"Facebook",
+				"Facebook Friends",
 				"Twitter",
-				"LinkedIn"
+				"LinkedIn Connections"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,

@@ -4,6 +4,8 @@ public class fbFriend {
 	
 	private String id; 
 	private String name;
+	private String url;
+	private String presence;
 	
 	
 	
@@ -17,6 +19,15 @@ public class fbFriend {
 	    this.id = id;
 	}
 	
+
+	public void setURL(String urlImg) {
+		this.url = urlImg;
+	}
+	
+	public void setPresence(String presence) {
+		this.presence = presence;
+	}
+	
     // Getters
     public String getName() {
         return name;
@@ -26,6 +37,15 @@ public class fbFriend {
     public String getID() {
         return id;
     }
+    
+    public String getURL() {
+        return url;
+    }
+    
+    public String getPresence() {
+        return presence;
+    }
+
 
 }
 
