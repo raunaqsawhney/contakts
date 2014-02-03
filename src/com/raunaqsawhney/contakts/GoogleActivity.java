@@ -140,20 +140,18 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Twitter",
-				"LinkedIn"
+				"Settings"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_twitter,
-				R.drawable.ic_action_linkedin_512
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -258,7 +256,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	    }
 	}
 	
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		long selected = (navListView.getItemIdAtPosition(position));
@@ -275,9 +272,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	   } else if (selected == 3) {
 	   		Intent fbIntent = new Intent(GoogleActivity.this, FBActivity.class);
 	   		GoogleActivity.this.startActivity(fbIntent);
-	   } else if (selected == 5) {
-	   		Intent liIntent = new Intent(GoogleActivity.this, LinkedInActivity.class);
+	   } else if (selected == 4) {
+	   		Intent liIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 	   		GoogleActivity.this.startActivity(liIntent);
-	   }		
+	   }	
+		//TODO: ADD TWITTER
 	}
 }

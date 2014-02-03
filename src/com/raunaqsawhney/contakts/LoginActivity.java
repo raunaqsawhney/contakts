@@ -158,7 +158,7 @@ public class LoginActivity extends Activity implements OnItemClickListener {
 		
 		if (selected == 0) {
 		   	Intent stIntent = new Intent(LoginActivity.this, FavActivity.class);
-		   	LoginActivity.this.startActivity(stIntent);
+			LoginActivity.this.startActivity(stIntent);
 	   } else if (selected == 1) {
 		   Intent pIntent = new Intent(LoginActivity.this, MainActivity.class);
 		   LoginActivity.this.startActivity(pIntent);

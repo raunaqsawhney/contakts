@@ -89,20 +89,18 @@ public class FavActivity extends Activity implements OnItemClickListener{
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Twitter",
-				"LinkedIn"
+				"Settings"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_twitter,
-				R.drawable.ic_action_linkedin_512
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -191,7 +189,6 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	    return BitmapFactory.decodeStream(input);		
 	}
 	
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		long selected = (navListView.getItemIdAtPosition(position));
@@ -205,12 +202,13 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	   } else if (selected == 2) {
 	   		Intent gIntent = new Intent(FavActivity.this, GoogleActivity.class);
 	   		FavActivity.this.startActivity(gIntent);
-	   }  else if (selected == 3) {
+	   } else if (selected == 3) {
 	   		Intent fbIntent = new Intent(FavActivity.this, FBActivity.class);
 	   		FavActivity.this.startActivity(fbIntent);
-	   } else if (selected == 5) {
-	   		Intent liIntent = new Intent(FavActivity.this, LinkedInActivity.class);
+	   } else if (selected == 4) {
+	   		Intent liIntent = new Intent(FavActivity.this, LoginActivity.class);
 	   		FavActivity.this.startActivity(liIntent);
-	   }		
+	   }	
+		//TODO: ADD TWITTER
 	}
 }

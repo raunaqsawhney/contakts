@@ -124,17 +124,15 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		final String[] nav = { "Favourites",
 				"Phone Contacts",
 				"Google Contacts",
-				"Facebook Friends",
-				"Twitter",
-				"LinkedIn Connections"
+				"Facebook",
+				"Settings"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_twitter,
-				R.drawable.ic_action_linkedin_512
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -276,8 +274,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	   } else if (selected == 3) {
 	   		Intent fbIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
 	   		FriendDetailActivity.this.startActivity(fbIntent);
-	   } else if (selected == 5) {
-	   		Intent liIntent = new Intent(FriendDetailActivity.this, LinkedInActivity.class);
+	   } else if (selected == 4) {
+	   		Intent liIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
 	   		FriendDetailActivity.this.startActivity(liIntent);
 	   }	
 		//TODO: ADD TWITTER

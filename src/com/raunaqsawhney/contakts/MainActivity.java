@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -255,11 +254,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, 
 	    	        	ContactsContract.Contacts.CONTENT_URI);
 	    		startActivity(addIntent);
-	    		return true; 
-	        case R.id.action_settings:
-	        	Intent actionIntent = new Intent(MainActivity.this, LoginActivity.class);
-		   		MainActivity.this.startActivity(actionIntent);
-	    		startActivity(actionIntent);
 	    		return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);

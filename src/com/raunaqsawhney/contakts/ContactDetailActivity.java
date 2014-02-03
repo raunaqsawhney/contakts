@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -44,7 +41,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -54,11 +50,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphObject;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -122,7 +114,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setContentView(R.layout.activity_contact_detail);
         
@@ -163,20 +154,18 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Twitter",
-				"LinkedIn"
+				"Settings"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_twitter,
-				R.drawable.ic_action_linkedin_512
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -427,59 +416,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
 		getLookupKey(contact_id);
 		
-		checkforFB(contact_id);
 	}
 
-
-	private void checkforFB(String contact_id) {
-		String fbName = null;
-		
-		Cursor nameFBCur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,
-                ContactsContract.Contacts._ID + " =? ",
-                new String[]{contact_id}, null);
-        startManagingCursor(nameFBCur);
-
-        while (nameFBCur.moveToNext()) {
-          fbName = nameFBCur.getString(
-            		nameFBCur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-        }
-        
-        Session session = Session.getActiveSession();
-		
-		if (session.isOpened()) {
-			String fqlQuery = "select name, username from user where name = " + fbName;
-			System.out.println("FQL:" + fqlQuery);
-			final Bundle params = new Bundle();
-			params.putString("q", fqlQuery);
-			
-			Request request = new Request(session, "/fql", params, HttpMethod.GET, new Request.Callback() { 
-				public void onCompleted(Response response) {
-        		        parseResponse(response);
-        		    }
-					private void parseResponse(Response response) {
-						try
-					    {
-
-					        GraphObject go  = response.getGraphObject();
-					        JSONObject  jso = go.getInnerJSONObject();
-					        JSONArray   arr = jso.getJSONArray( "data" );
-					        
-					        for ( int i = 0; i < ( arr.length() ); i++ )
-					        {
-					        	
-					            JSONObject json_obj = arr.getJSONObject( i );
-					            friendUserName = json_obj.getString( "username");
-					            System.out.println(friendUserName);
-					        }
-					    } catch ( Throwable t )
-					    {
-					        t.printStackTrace();
-					    }
-					}
-				});
-				Request.executeBatchAsync(request);
-		}
-	}
 
 	private void getLookupKey(String contact_id) {
 		// Look Up Key
@@ -1659,7 +1597,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		return result;
 	}
 
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		long selected = (navListView.getItemIdAtPosition(position));
@@ -1673,7 +1610,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	   } else if (selected == 2) {
 	   		Intent gIntent = new Intent(ContactDetailActivity.this, GoogleActivity.class);
 	   		ContactDetailActivity.this.startActivity(gIntent);
-	   }		
+	   } else if (selected == 3) {
+	   		Intent fbIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
+	   		ContactDetailActivity.this.startActivity(fbIntent);
+	   } else if (selected == 4) {
+	   		Intent liIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
+	   		ContactDetailActivity.this.startActivity(liIntent);
+	   }	
+		//TODO: ADD TWITTER
 	}
 
 	@Override
