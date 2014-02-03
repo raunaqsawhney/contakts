@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -51,6 +54,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphObject;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -100,6 +108,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	String relationship;
 	String relationshipType;
 	String website;
+	String friendUserName;
+
 	
 	String contact_id;
 	String lookupkey;
@@ -112,6 +122,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setContentView(R.layout.activity_contact_detail);
         
@@ -415,8 +426,60 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getPhoto(contact_id);
 		
 		getLookupKey(contact_id);
+		
+		checkforFB(contact_id);
 	}
 
+
+	private void checkforFB(String contact_id) {
+		String fbName = null;
+		
+		Cursor nameFBCur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,
+                ContactsContract.Contacts._ID + " =? ",
+                new String[]{contact_id}, null);
+        startManagingCursor(nameFBCur);
+
+        while (nameFBCur.moveToNext()) {
+          fbName = nameFBCur.getString(
+            		nameFBCur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+        }
+        
+        Session session = Session.getActiveSession();
+		
+		if (session.isOpened()) {
+			String fqlQuery = "select name, username from user where name = " + fbName;
+			System.out.println("FQL:" + fqlQuery);
+			final Bundle params = new Bundle();
+			params.putString("q", fqlQuery);
+			
+			Request request = new Request(session, "/fql", params, HttpMethod.GET, new Request.Callback() { 
+				public void onCompleted(Response response) {
+        		        parseResponse(response);
+        		    }
+					private void parseResponse(Response response) {
+						try
+					    {
+
+					        GraphObject go  = response.getGraphObject();
+					        JSONObject  jso = go.getInnerJSONObject();
+					        JSONArray   arr = jso.getJSONArray( "data" );
+					        
+					        for ( int i = 0; i < ( arr.length() ); i++ )
+					        {
+					        	
+					            JSONObject json_obj = arr.getJSONObject( i );
+					            friendUserName = json_obj.getString( "username");
+					            System.out.println(friendUserName);
+					        }
+					    } catch ( Throwable t )
+					    {
+					        t.printStackTrace();
+					    }
+					}
+				});
+				Request.executeBatchAsync(request);
+		}
+	}
 
 	private void getLookupKey(String contact_id) {
 		// Look Up Key

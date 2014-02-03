@@ -1,0 +1,69 @@
+String fqlQuery = "select uid, name, pic_big, email from user where uid in (select uid2 from friend where uid1 = me()) order by name";
+	    		    			final Bundle params = new Bundle();
+	    		    			params.putString("q", fqlQuery);
+	    	                	
+	    			        	Request request = new Request(session, 
+	    			        		    "/fql", 
+	    			        		    params, 
+	    			        		    HttpMethod.GET, 
+	    			        		    new Request.Callback(){ 
+	    			        		        public void onCompleted(Response response) {
+	    			        		        parseResponse(response);
+	    			        		    }
+	    									private void parseResponse(Response response) {
+	    										try
+	    									    {
+	    											System.out.println(response.toString());
+	    									        GraphObject go  = response.getGraphObject();
+	    									        JSONObject  jso = go.getInnerJSONObject();
+	    									        JSONArray   arr = jso.getJSONArray( "data" );
+
+	    									        for ( int i = 0; i < ( arr.length() ); i++ )
+	    									        {
+	    									            fbFriend friend = new fbFriend();
+	    									        	
+	    									            JSONObject json_obj = arr.getJSONObject( i );
+	    									            
+	    									            String uid     = json_obj.getString("uid");
+	    									            String name   = json_obj.getString("name");
+	    									            String urlImg = json_obj.getString("pic_big");
+	    									            String email = json_obj.getString("email");
+
+	    									            System.out.println(email);
+	    									            
+	    									            friend.setID(uid);
+	    									            friend.setName(name);
+	    									            friend.setURL(urlImg);
+	    									            							            
+	    									            friendList.add(friend);			            
+	    									        }
+	    									        
+	    								            FriendAdapter adapter = new FriendAdapter(FBActivity.this, friendList);
+	    								            ListView fbListView = (ListView) findViewById(R.id.fbList);
+
+	    								    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
+	    								            fbListView.addHeaderView(header);
+	    								            
+	    								            fbListView.setOnItemClickListener(new OnItemClickListener() {
+	    								                @Override
+	    								                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	    								    				
+	    								    				fbFriend selectedFriend = new fbFriend();
+	    								    				selectedFriend = (fbFriend) parent.getItemAtPosition(position);
+	    								                    Intent intent = new Intent(getApplicationContext(), FriendDetailActivity.class);
+	    								                    intent.putExtra("friend_id", selectedFriend.getID());
+	    								                    startActivity(intent);
+	    								                }
+	    								            });
+	    								            
+	    								            fbListView.setAdapter(adapter);
+	    									    }
+	    									    catch ( Throwable t )
+	    									    {
+	    									        t.printStackTrace();
+	    									    }								
+	    									}
+	    				        		});
+	    				        		Request.executeBatchAsync(request);
+	    	                }
+	    	            }

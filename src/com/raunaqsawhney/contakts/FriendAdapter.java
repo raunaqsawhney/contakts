@@ -64,7 +64,7 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
           convertView = inflater.inflate(R.layout.fb_friend_layout, null);
           viewHolder.name = (TextView) convertView.findViewById(R.id.friend_name);
           viewHolder.photo = (ImageView) convertView.findViewById(R.id.friend_photo);
-          viewHolder.presence = (TextView) convertView.findViewById(R.id.friend_presence);
+          //viewHolder.presence = (TextView) convertView.findViewById(R.id.friend_presence);
           convertView.setTag(viewHolder);
        } else {
            viewHolder = (ViewHolder) convertView.getTag();
@@ -73,11 +73,6 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
        viewHolder.name.setText(friend.getName());
        
        imageLoader.displayImage(friend.getURL(), viewHolder.photo, options);
-       
-       viewHolder.presence.setText(friend.getPresence());
-       
-       
-
        
        // Return the completed view to render on screen
        return convertView;

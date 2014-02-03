@@ -161,6 +161,34 @@
 				   android:layout_marginRight="20dip" />
 
             </LinearLayout>
+            
+            
+            <LinearLayout
+                android:id="@+id/c_detail_social_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+				android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/c_detail_social_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Events"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" />
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+
+            </LinearLayout>
+            
 	           
 			<LinearLayout
                 android:id="@+id/c_detail_website_layout"

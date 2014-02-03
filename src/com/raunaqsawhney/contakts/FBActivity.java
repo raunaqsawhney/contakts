@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
@@ -12,21 +13,23 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
 import com.facebook.model.GraphObject;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -40,6 +43,19 @@ public class FBActivity extends Activity implements OnItemClickListener {
 
 	private ListView navListView;
 	private SlidingMenu menu;
+	
+	String uid;
+	String name;
+	String urlImg;
+	String coverUrl;
+    String username;
+	String birthday;
+	String current_loc_city;
+	String current_loc_state;
+	String current_loc_country;
+	String current_home_city;
+	String current_home_state;
+	String current_home_country;
 
 
 	@Override
@@ -118,91 +134,126 @@ public class FBActivity extends Activity implements OnItemClickListener {
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
         
-        
-        startFB();
+		startfb();
 	}
 	
 
-	private void startFB() {
-		
-		String fqlQuery = "select uid, name, pic_big, is_app_user, online_presence from user where uid in (select uid2 from friend where uid1 = me())";
+	
+	private void startfb() {
+		String fqlQuery = "select uid, name, pic_big, pic_cover, username, birthday, current_location, hometown_location, work_history, education_history from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
 		
-		// start Facebook Login
-	    Session.openActiveSession(this, true, new Session.StatusCallback() {
+		System.out.println("startfb started, done fqlquery building");
+		
+		Session session = Session.getActiveSession();
+		System.out.println("got active session");
 
-	      // callback when session changes state
-	      @Override
-	      public void call(Session session, SessionState state, Exception exception) {
-	        if (session.isOpened()) {
+		Request request = new Request(session, 
+    		    "/fql", 
+    		    params, 
+    		    HttpMethod.GET, 
+    		    new Request.Callback(){ 
+					public void onCompleted(Response response) {
+    		        parseResponse(response);
+    		    }
+					private void parseResponse(Response response) {
+						try
+					    {
+					        GraphObject go  = response.getGraphObject();
+					        JSONObject  jso = go.getInnerJSONObject();
+					        JSONArray   arr = jso.getJSONArray( "data" );
 
-	        	Request request = new Request(session, 
-	        		    "/fql", 
-	        		    params, 
-	        		    HttpMethod.GET, 
-	        		    new Request.Callback(){ 
-	        		        public void onCompleted(Response response) {
-	        		        Log.i("FB", "Got results: " + response.toString());
-	        		        
-	        		        parseResponse(response);
-	        		    }
+					        for ( int i = 0; i < ( arr.length() ); i++ )
+					        {
+					            fbFriend friend = new fbFriend();
+					        	
+					            JSONObject json_obj = arr.getJSONObject( i );
+					            
+					            uid     = json_obj.getString("uid");
+					            name   	= json_obj.getString("name");
+					            urlImg 	= json_obj.getString("pic_big");
+					            username = json_obj.getString("username");
+					            
+					            try {
+						            birthday = json_obj.getString("birthday");
+						            current_loc_city = json_obj.getJSONObject("current_location").getString("city");
+						            current_loc_state = json_obj.getJSONObject("current_location").getString("state");
+						            current_loc_country = json_obj.getJSONObject("current_location").getString("country");
+						            current_home_city = json_obj.getJSONObject("hometown_location").getString("city");
+						            current_home_state = json_obj.getJSONObject("hometown_location").getString("state");
+						            current_home_country = json_obj.getJSONObject("hometown_location").getString("country");
+						            coverUrl = json_obj.getJSONObject("pic_cover").getString("source");
 
-							private void parseResponse(Response response) {
-								try
-							    {
-							        GraphObject go  = response.getGraphObject();
-							        JSONObject  jso = go.getInnerJSONObject();
-							        JSONArray   arr = jso.getJSONArray( "data" );
+					            } catch (JSONException e) {
+					            	//Log.d("JSON", "NULL ITEM");
+					            }
+					            
+					            
+					            friend.setID(uid);
+					            friend.setName(name);
+					            friend.setURL(urlImg);
+					            friend.setCoverUrl(coverUrl);
+					            friend.setUsername(username);
+					            friend.setBirthday(birthday);
+					            friend.setCurrentLocCity(current_loc_city);
+					            friend.setCurrentLocState(current_loc_state);
+					            friend.setCurrentLocCountry(current_loc_country);
+					            friend.setCurrentHomeCity(current_home_city);
+					            friend.setCurrentHomeState(current_home_state);
+					            friend.setCurrentHomeCountry(current_home_country);
+					            							            
+					            friendList.add(friend);			            
+					        }
+					        
+				            FriendAdapter adapter = new FriendAdapter(FBActivity.this, friendList);
+				            ListView fbListView = (ListView) findViewById(R.id.fbList);
 
-							        for ( int i = 0; i < ( arr.length() ); i++ )
-							        {
-							            fbFriend friend = new fbFriend();
-							        	
-							            JSONObject json_obj = arr.getJSONObject( i );
-							            
-							            String id     = json_obj.getString( "uid"           );
-							            String name   = json_obj.getString( "name"          );
-							            String urlImg = json_obj.getString( "pic_big"    );
-							            String presence = json_obj.getString( "online_presence"    );
+				    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
+				            fbListView.addHeaderView(header);
+				            
+				            fbListView.setOnItemClickListener(new OnItemClickListener() {
+				                @Override
+				                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				    				
+				    				fbFriend selectedFriend = new fbFriend();
+				    				
+				    				selectedFriend = (fbFriend) parent.getItemAtPosition(position);
+				                    Intent intent = new Intent(getApplicationContext(), FriendDetailActivity.class);
+				                    intent.putExtra("friend_id", selectedFriend.getID());
+				                    intent.putExtra("friend_name", selectedFriend.getName());
+				                    intent.putExtra("friend_imgurl", selectedFriend.getURL());
+				                    intent.putExtra("friend_coverUrl", selectedFriend.getCoverUrl());
+				                    intent.putExtra("friend_username", selectedFriend.getUsername());
+				                    intent.putExtra("friend_birthday", selectedFriend.getBirthday());
+				                    intent.putExtra("friend_loc_city", selectedFriend.getCurrentLocCity());
+				                    intent.putExtra("friend_loc_state", selectedFriend.getCurrentLocState());
+				                    intent.putExtra("friend_loc_country", selectedFriend.getCurrentLocCountry());
+				                    intent.putExtra("friend_home_city", selectedFriend.getCurrentHomeCity());
+				                    intent.putExtra("friend_home_state", selectedFriend.getCurrentHomeState());
+				                    intent.putExtra("friend_home_country", selectedFriend.getCurrentHomeCountry());
 
-							            friend.setID(id);
-							            friend.setName(name);
-							            friend.setURL(urlImg);
-							            friend.setPresence(presence);
-							            							            
-							            friendList.add(friend);
-							         
-							            System.out.println("URI:" + Uri.parse(urlImg));
-							            
-							        }
-							        // Create the adapter to convert the array to views
-						            FriendAdapter adapter = new FriendAdapter(FBActivity.this, friendList);
-						            // Attach the adapter to a ListView
-						            ListView fbListView = (ListView) findViewById(R.id.fbList);
-
-						    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
-						            fbListView.addHeaderView(header);
-						            fbListView.setAdapter(adapter);
-							    }
-							    catch ( Throwable t )
-							    {
-							        t.printStackTrace();
-							    }								
-							}
-	        		});
-	        		Request.executeBatchAsync(request);
-	        }
-	      }
-	    });
+				                    startActivity(intent);
+				                }
+				            });
+				            
+				            fbListView.setAdapter(adapter);
+					    }
+					    catch ( Throwable t )
+					    {
+					        t.printStackTrace();
+					    }								
+					}
+    		});
+    		Request.executeBatchAsync(request);
 	}
-
-
+	
 	@Override
-	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	      super.onActivityResult(requestCode, resultCode, data);
-	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-	  }
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.fb, menu);
+	    return true;
+	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -225,5 +276,42 @@ public class FBActivity extends Activity implements OnItemClickListener {
 	   		FBActivity.this.startActivity(liIntent);
 	   }	
 		//TODO: ADD TWITTER
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.fb_logout:
+	        	logoutFromFB();
+	        	
+	        	Intent fbLogoutIntent = new Intent(FBActivity.this, MainActivity.class);
+	        	FBActivity.this.startActivity(fbLogoutIntent);
+	        	
+	            return true;    
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	private void logoutFromFB() {
+		Session session = Session.getActiveSession();
+	    if (session != null) {
+
+	        if (!session.isClosed()) {
+	            session.closeAndClearTokenInformation();
+	            //clear your preferences if saved
+	        }
+	    } else {
+
+	        session = new Session(getBaseContext());
+	        Session.setActiveSession(session);
+
+	        session.closeAndClearTokenInformation();
+	            //clear your preferences if saved
+	    }
+	    
+	    Toast.makeText(getApplicationContext(), 
+	               "Logged out of Facebook.", Toast.LENGTH_LONG).show();
 	}
 }

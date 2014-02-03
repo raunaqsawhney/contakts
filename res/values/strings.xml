@@ -11,5 +11,7 @@
     <string name="title_activity_fb">FBActivity</string>
     <string name="title_activity_linked_in">LinkedInActivity</string>
     <string name="title_activity_log">LogActivity</string>
+    <string name="title_activity_friend_detail">FriendDetailActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

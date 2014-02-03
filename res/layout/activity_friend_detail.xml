@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+  	android:fitsSystemWindows="true">
+    
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dip">
+        
+        <ImageView
+            android:id="@+id/cover_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+        
+		<ImageView
+            android:id="@+id/cover_photo_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="#80000000"/>
+        
+        <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="horizontal" >
+        
+	        <com.raunaqsawhney.contakts.MLRoundedImageView
+	            android:id="@+id/f_detail_header_photo"
+	            android:layout_width="90dip"
+	            android:layout_height="90dip"
+	            android:layout_marginLeft="20dip" 
+	            android:layout_marginTop="20dip"/>
+	        
+	        <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent" 
+		        android:orientation="vertical">
+        
+
+		       	<TextView
+		            android:id="@+id/f_detail_header_name"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="friend_name"
+		            android:layout_marginLeft="12dip"
+		            android:layout_marginTop="30dp"
+		            android:textAlignment="textStart"
+		            android:textColor="#FFF" 
+		            android:textSize="22sp"
+		            android:fontFamily="sans-serif-light"/>
+	  
+		        <TextView
+		            android:id="@+id/f_detail_header_company"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textColor="#FFF"
+		            android:layout_marginLeft="12dip"
+		            android:textSize="16sp"/>
+		        
+			</LinearLayout>
+		</LinearLayout>
+	</FrameLayout>
+	
+    <ScrollView 
+        android:id="@+id/f_detail_content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+        
+        <LinearLayout 
+            android:id="@+id/f_detail_content_main"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+	        	    
+            <LinearLayout
+                android:id="@+id/f_detail_username_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/f_detail_username_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Username"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" 
+		            android:fontFamily="sans-serif-condensed"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+				<TextView 
+		            android:id="@+id/f_detail_username_content"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:textSize="18sp"
+		            android:layout_marginLeft="20dip"
+		            android:singleLine="true"
+		            android:ellipsize="end" 
+		            android:fontFamily="sans-serif-light"/>
+			</LinearLayout>
+			
+            <LinearLayout
+                android:id="@+id/f_detail_birthday_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/f_detail_birthday_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Birthday"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" 
+		            android:fontFamily="sans-serif-condensed"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+				<TextView 
+		            android:id="@+id/f_detail_birthday_content"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:textSize="18sp"
+		            android:layout_marginLeft="20dip"
+		            android:singleLine="true"
+		            android:ellipsize="end" 
+		            android:fontFamily="sans-serif-light"/>
+			</LinearLayout>
+			
+            
+			<LinearLayout
+                android:id="@+id/f_detail_username_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/f_detail_currentloc_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Current Location"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" 
+		            android:fontFamily="sans-serif-condensed"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+				<TextView 
+		            android:id="@+id/f_detail_currentloc_content"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:textSize="18sp"
+		            android:layout_marginLeft="20dip"
+		            android:singleLine="true"
+		            android:ellipsize="end" 
+		            android:fontFamily="sans-serif-light"/>
+			</LinearLayout>
+			
+			<LinearLayout
+                android:id="@+id/f_detail_hometown_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/f_detail_hometown_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Hometown"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" 
+		            android:fontFamily="sans-serif-condensed"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+				<TextView 
+		            android:id="@+id/f_detail_hometown_content"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:textSize="18sp"
+		            android:layout_marginLeft="20dip"
+		            android:singleLine="true"
+		            android:ellipsize="end" 
+		            android:fontFamily="sans-serif-light"/>
+			</LinearLayout>
+            
+            
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
+			
