@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">       
     <color name="selector">#d8d8d8</color> 
+    
+    
+    <color name ="skyBlue">#34AADC</color>
+    <color name ="salmon">#FF5E3A</color>
+    <color name ="hotPink">#FF2A68</color>
+    <color name ="orange">#FF9500</color>
+    <color name ="tangerine">#FF5E3A</color>
+    <color name ="lightYellow">#FFDB4C</color>
+    <color name ="brightYellow">#FFCD02</color>
+    <color name ="mint">#87FC70</color>
+    <color name ="brightGreen">#0BD318</color>
+    <color name ="royalBlue">#1D62F0</color>
+	<color name ="purple">#5856D6</color>
+	<color name ="babyPink">#FF4981</color>
+    <color name ="magenta">#C643FC</color>
+	<color name ="red">#FF3B30</color>
+                        
+    
 </resources>

@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,10 +37,13 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FavActivity extends Activity implements OnItemClickListener{
 	
+	SharedPreferences pref = getApplicationContext().getSharedPreferences("ThemePref", 0); // 0 - for private mode
+	Editor editor = pref.edit();
+	
 	private SlidingMenu menu;
 	private ListView navListView;
 	
-	String theme = "#34AADC";
+	String theme = "#34AADC";;
 	String font = "RobotoCondensed-Regular.ttf";
 	
 	   @Override

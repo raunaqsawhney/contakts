@@ -16,6 +16,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,6 +63,9 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
+	
+	SharedPreferences pref = getApplicationContext().getSharedPreferences("ThemePref", 0); // 0 - for private mode
+	Editor editor = pref.edit();
 	
 	private SlidingMenu menu;
 	private ListView navListView;
