@@ -13,11 +13,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -25,6 +28,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class WelcomeActivity extends Activity {
 
 	private String ownerPhoto;
+	int i = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +100,48 @@ public class WelcomeActivity extends Activity {
         		" that matters to you.\n\n" + "Just swipe right anywhere on the screen to open the navigation menu," +
         				" and explore your contacts!");
         
+        
+        
+        
         Button welcomeButton = (Button) findViewById(R.id.c_welcome_button);
         welcomeButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent welcomeIntent = new Intent(WelcomeActivity.this, MainActivity.class);
-      		   	WelcomeActivity.this.startActivity(welcomeIntent);
+
+			public void onClick(View v) {
+            	
+            	
+            	final ProgressBar mProgressBar;
+                final TextView mProgressText;
+
+            	CountDownTimer mCountDownTimer;
+            	
+
+            	mProgressBar = (ProgressBar)findViewById(R.id.progressBar1);
+            	mProgressText = (TextView) findViewById(R.id.progress_text);
+            	mProgressText.setVisibility(View.VISIBLE);
+            	mProgressBar.setVisibility(View.VISIBLE);
+            	mProgressBar.setIndeterminate(true);
+            	
+            	mProgressBar.setProgress(i);
+            	mCountDownTimer = new CountDownTimer(4000, 1000) {
+
+            	        @Override
+            	        public void onTick(long millisUntilFinished) {
+            	            Log.v("Log_tag", "Tick of Progress"+ i + millisUntilFinished);
+            	            i++;
+            	            mProgressBar.setProgress(i);
+
+            	        }
+
+            	        @Override
+            	        public void onFinish() {
+            	            i++;
+            	            mProgressBar.setProgress(i);
+            	            mProgressText.setText("Done");
+            	            Intent welcomeIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+                  		   	WelcomeActivity.this.startActivity(welcomeIntent);
+            	        }
+            	    };
+            	    mCountDownTimer.start();
             }
         });
 	}
