@@ -17,6 +17,8 @@
 	<color name ="babyPink">#FF4981</color>
     <color name ="magenta">#C643FC</color>
 	<color name ="red">#FF3B30</color>
+	
+	<color name="apptheme_color">#34aadc</color>
                         
     
 </resources>

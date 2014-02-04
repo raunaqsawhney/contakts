@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -36,7 +36,9 @@ import com.facebook.model.GraphObject;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class FBActivity extends Activity implements OnItemClickListener {
+public class FBActivity extends Activity implements OnItemClickListener  {
+	
+	FriendAdapter adapter;
 	
 	String font = "RobotoCondensed-Regular.ttf";
 	
@@ -134,6 +136,8 @@ public class FBActivity extends Activity implements OnItemClickListener {
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
         
+		
+		
 		startfb();
 	}
 	
@@ -149,6 +153,19 @@ public class FBActivity extends Activity implements OnItemClickListener {
 		Session session = Session.getActiveSession();
 		System.out.println("got active session");
 
+		if (session == null) {
+			new AlertDialog.Builder(this)
+		    .setTitle("Error")
+		    .setMessage("You have not logged into a Facebook account.")
+		    .setNeutralButton("Settings", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) { 
+		        	Intent settingIntent = new Intent(FBActivity.this, LoginActivity.class);
+		        	FBActivity.this.startActivity(settingIntent);
+		        }
+		    })
+		    .show();
+		}
+		
 		Request request = new Request(session, 
     		    "/fql", 
     		    params, 
@@ -173,42 +190,17 @@ public class FBActivity extends Activity implements OnItemClickListener {
 					            uid     = json_obj.getString("uid");
 					            name   	= json_obj.getString("name");
 					            urlImg 	= json_obj.getString("pic_big");
-					            //username = json_obj.getString("username");
-					            
-					            /*
-					            try {
-						            birthday = json_obj.getString("birthday");
-						            current_loc_city = json_obj.getJSONObject("current_location").getString("city");
-						            current_loc_state = json_obj.getJSONObject("current_location").getString("state");
-						            current_loc_country = json_obj.getJSONObject("current_location").getString("country");
-						            current_home_city = json_obj.getJSONObject("hometown_location").getString("city");
-						            current_home_state = json_obj.getJSONObject("hometown_location").getString("state");
-						            current_home_country = json_obj.getJSONObject("hometown_location").getString("country");
-						            coverUrl = json_obj.getJSONObject("pic_cover").getString("source");
-
-					            } catch (JSONException e) {
-					            	//Log.d("JSON", "NULL ITEM");
-					            }
-					            */
 					            
 					            friend.setID(uid);
 					            friend.setName(name);
 					            friend.setURL(urlImg);
-					            //friend.setCoverUrl(coverUrl);
-					            //friend.setUsername(username);
-					            //friend.setBirthday(birthday);
-					            //friend.setCurrentLocCity(current_loc_city);
-					            //friend.setCurrentLocState(current_loc_state);
-					            //friend.setCurrentLocCountry(current_loc_country);
-					            //friend.setCurrentHomeCity(current_home_city);
-					            //friend.setCurrentHomeState(current_home_state);
-					            //friend.setCurrentHomeCountry(current_home_country);
 					            							            
 					            friendList.add(friend);			            
 					        }
 					        
-				            FriendAdapter adapter = new FriendAdapter(FBActivity.this, friendList);
-				            ListView fbListView = (ListView) findViewById(R.id.fbList);
+					    	adapter = new FriendAdapter(FBActivity.this, friendList);
+
+					    	ListView  fbListView = (ListView) findViewById(R.id.fbList);
 
 				    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
 				            fbListView.addHeaderView(header);
@@ -222,22 +214,12 @@ public class FBActivity extends Activity implements OnItemClickListener {
 				    				selectedFriend = (fbFriend) parent.getItemAtPosition(position);
 				                    Intent intent = new Intent(getApplicationContext(), FriendDetailActivity.class);
 				                    intent.putExtra("friend_id", selectedFriend.getID());
-				                    //intent.putExtra("friend_name", selectedFriend.getName());
-				                    //intent.putExtra("friend_imgurl", selectedFriend.getURL());
-				                    //intent.putExtra("friend_coverUrl", selectedFriend.getCoverUrl());
-				                    //intent.putExtra("friend_username", selectedFriend.getUsername());
-				                    //intent.putExtra("friend_birthday", selectedFriend.getBirthday());
-				                    //intent.putExtra("friend_loc_city", selectedFriend.getCurrentLocCity());
-				                    //intent.putExtra("friend_loc_state", selectedFriend.getCurrentLocState());
-				                    //intent.putExtra("friend_loc_country", selectedFriend.getCurrentLocCountry());
-				                    //intent.putExtra("friend_home_city", selectedFriend.getCurrentHomeCity());
-				                    //intent.putExtra("friend_home_state", selectedFriend.getCurrentHomeState());
-				                    //intent.putExtra("friend_home_country", selectedFriend.getCurrentHomeCountry());
 
 				                    startActivity(intent);
 				                }
 				            });
 				            
+
 				            fbListView.setAdapter(adapter);
 					    }
 					    catch ( Throwable t )
@@ -253,7 +235,10 @@ public class FBActivity extends Activity implements OnItemClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.fb, menu);
-	    return true;
+	    
+        
+        
+        return super.onCreateOptionsMenu(menu);
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

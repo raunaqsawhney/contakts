@@ -275,7 +275,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		   Intent pIntent = new Intent(MainActivity.this, MainActivity.class);
 		   MainActivity.this.startActivity(pIntent);
 	   } else if (selected == 2) {
-	   		Intent gIntent = new Intent(MainActivity.this, GoogleActivity.class);
+	   		Intent gIntent = new Intent(MainActivity.this, WelcomeActivity.class);
 	   		MainActivity.this.startActivity(gIntent);
 	   } else if (selected == 3) {
 	   		Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);

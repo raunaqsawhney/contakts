@@ -15,5 +15,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="color_dialog_title">Pick Theme</string>
     <string name="title_activity_li">LIActivity</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 
 </resources>

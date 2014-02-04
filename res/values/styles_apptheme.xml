@@ -20,5 +20,15 @@
       <item name="android:background">@drawable/apptheme_spinner_background_holo_light</item>
       <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
   </style>
+  
+  
+<style parent="android:Widget.Holo.Button" name="ButtonAppTheme">
+	<item name="android:background">@drawable/apptheme_btn_default_holo_dark</item>
+</style>
+
+
+<style parent="android:Widget.Holo.ImageButton" name="ImageButtonAppTheme">
+	<item name="android:background">@drawable/apptheme_btn_default_holo_dark</item>
+</style>
 
 </resources>

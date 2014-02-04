@@ -5,6 +5,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical" >
 	
+
     <ListView
         android:id="@+id/fbList"
         android:layout_width="fill_parent"
