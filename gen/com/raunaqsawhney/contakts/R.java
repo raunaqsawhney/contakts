@@ -813,11 +813,12 @@ containing a value of this type.
         public static final int contact_detail=0x7f0b0000;
         public static final int fb=0x7f0b0001;
         public static final int friend_detail=0x7f0b0002;
-        public static final int linked_in=0x7f0b0003;
-        public static final int log=0x7f0b0004;
-        public static final int login=0x7f0b0005;
-        public static final int main=0x7f0b0006;
-        public static final int options_menu=0x7f0b0007;
+        public static final int li=0x7f0b0003;
+        public static final int linked_in=0x7f0b0004;
+        public static final int log=0x7f0b0005;
+        public static final int login=0x7f0b0006;
+        public static final int main=0x7f0b0007;
+        public static final int options_menu=0x7f0b0008;
     }
     public static final class string {
         public static final int action_settings=0x7f070037;
@@ -951,6 +952,7 @@ containing a value of this type.
         public static final int title_activity_contact_detail=0x7f07003b;
         public static final int title_activity_fb=0x7f07003d;
         public static final int title_activity_friend_detail=0x7f070040;
+        public static final int title_activity_li=0x7f070043;
         public static final int title_activity_linked_in=0x7f07003e;
         public static final int title_activity_log=0x7f07003f;
         public static final int title_activity_login=0x7f070041;

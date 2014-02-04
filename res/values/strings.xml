@@ -13,5 +13,7 @@
     <string name="title_activity_log">LogActivity</string>
     <string name="title_activity_friend_detail">FriendDetailActivity</string>
     <string name="title_activity_login">LoginActivity</string>
-	 <string name="color_dialog_title">Pick Theme</string>
+    <string name="color_dialog_title">Pick Theme</string>
+    <string name="title_activity_li">LIActivity</string>
+
 </resources>
