@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -12,7 +11,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -20,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.Html;
@@ -29,7 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -37,13 +35,13 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.facebook.Session;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class GoogleActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 
 	// Declare Globals
-	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 
 	SimpleCursorAdapter mAdapter;
@@ -59,6 +57,11 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+		Session.openActiveSessionFromCache(getBaseContext());
+        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "#34AADC");
 
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
@@ -82,52 +85,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
-        // Set up the ListView for contacts to be displayed
-        contactList = (ListView)findViewById(R.id.list);
-        
-        contactList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
-				
-				// Explicit Intent Example
-                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-                intent.putExtra("contact_id", contact_id);
-                startActivity(intent);
-            }
-        });
-	        
-
-        // Fetch Display Name and Contact Photo URI
-        String[] from = new String[] {
-        		ContactsContract.Data.DISPLAY_NAME,
-        		ContactsContract.Data.PHOTO_URI
-        };
-        
-        // Put above content into XML layouts
-        int[] to = new int[] {
-        		R.id.c_name,
-        		R.id.c_photo
-        };
-	        
-        // Set the adapter to display the list
-        mAdapter = new SimpleCursorAdapter(this,
-                R.layout.lv_layout, 
-                null,
-                from,
-                to, 
-                0);
-        
-        // Initialize the loader for background activity
-	    LoaderManager loaderManager = getLoaderManager();
-	    loaderManager.initLoader(0, null, this);	
-	    
-        contactList.setAdapter(mAdapter);
-        View header = getLayoutInflater().inflate(R.layout.google_header, null);
-        contactList.addHeaderView(header);
-
+        // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -169,6 +127,51 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
+        
+        // Set up the ListView for contacts to be displayed
+        contactList = (ListView)findViewById(R.id.list);
+        contactList.setOnItemClickListener(new OnItemClickListener() {
+            @SuppressWarnings("deprecation")
+			@Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				startManagingCursor(cursor);
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
+				
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", contact_id);
+                startActivity(intent);
+            }
+        });
+	        
+        // Fetch Display Name and Contact Photo URI
+        String[] from = new String[] {
+        		ContactsContract.Data.DISPLAY_NAME,
+        		ContactsContract.Data.PHOTO_URI
+        };
+        
+        // Put above content into XML layouts
+        int[] to = new int[] {
+        		R.id.c_name,
+        		R.id.c_photo
+        };
+	        
+        // Set the adapter to display the list
+        mAdapter = new SimpleCursorAdapter(this,
+                R.layout.lv_layout, 
+                null,
+                from,
+                to, 
+                0);
+        
+        // Initialize the loader for background activity
+	    LoaderManager loaderManager = getLoaderManager();
+	    loaderManager.initLoader(0, null, this);	
+	    
+        contactList.setAdapter(mAdapter);
+        View header = getLayoutInflater().inflate(R.layout.google_header, null);
+        contactList.addHeaderView(header);
+
 	}
 
 	@Override
@@ -278,6 +281,5 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	   		Intent liIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 	   		GoogleActivity.this.startActivity(liIntent);
 	   }	
-		//TODO: ADD TWITTER
 	}
 }

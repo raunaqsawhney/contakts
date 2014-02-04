@@ -4,28 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,27 +46,32 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FriendDetailActivity extends Activity implements OnItemClickListener, StatusCallback {
 	
-	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
-	
+	String fontContent = "Roboto-Light.ttf";
+
 	private ListView navListView;
 	private SlidingMenu menu;
 	
-	private String friend_name;
-	private String friend_imgurl;
-	private String friend_coverUrl;
-	private String friend_birthday;
-	private String friend_username;
-	private String friend_loc_city;
-	private String friend_loc_state;
-	private String friend_loc_country;
-	private String friend_home_city;
-	private String friend_home_state;
-	private String friend_home_country;
+	private String friend_id;
+	private String name;
+	private String urlImg;
+	private String username;
+	private String birthday;
+	private String current_loc_city;
+	private String current_loc_state;
+	private String current_loc_country;
+	private String current_home_city;
+	private String current_home_state;
+	private String current_home_country;
+	private String coverUrl;
 
-	
 	private ImageLoader imageLoader;
 	DisplayImageOptions options;
+	
+	ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
+	ArrayList<String> educationHistory = new ArrayList<String>();
+	ArrayList<String> workHistory = new ArrayList<String>();
+
 	
 	String friendName;
 	String friendPhotoUri;
@@ -73,10 +79,17 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	String friendCoverPhotoUri;
 	String friendUserName;
 	
-	TextView friendNameTV;
-	ImageView friendPhotoUriIV;
-	ImageView friendCoverPhotoUriIV;
-	TextView friendUsernameTV;
+	
+	TextView friend_name_tv; 
+	TextView friend_username_tv;
+	TextView friend_birthday_tv;
+	TextView friend_curloc_tv;
+	TextView friend_hometown_tv;
+	ImageView friend_imgurl_iv;
+	ImageView friend_cover_iv;
+	
+	int eduCount = 0;
+	int workCount = 0;
 	
 	Session.OpenRequest openRequest = null;
 
@@ -85,6 +98,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_detail);
 		
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "#34AADC");
 		
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
@@ -165,94 +180,228 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
        .build();
        imageLoader.init(config);
        
-       friend_name = getIntent().getStringExtra("friend_name");
-       friend_imgurl = getIntent().getStringExtra("friend_imgurl");
-       friend_coverUrl = getIntent().getStringExtra("friend_coverUrl");
-       friend_username = getIntent().getStringExtra("friend_username");
-       friend_birthday = getIntent().getStringExtra("friend_birthday");
-       friend_loc_city = getIntent().getStringExtra("friend_loc_city");
-       friend_loc_state = getIntent().getStringExtra("friend_loc_city");
-       friend_loc_country = getIntent().getStringExtra("friend_loc_country");
-       friend_home_city = getIntent().getStringExtra("friend_home_city");
-       friend_home_state = getIntent().getStringExtra("friend_home_state");
-       friend_home_country = getIntent().getStringExtra("friend_home_country");
-       
+       friend_id = getIntent().getStringExtra("friend_id");
        fetchFriendInfo();
        
 	}
 	
 	private void fetchFriendInfo() {
+		
+		String fqlQuery = "select name, pic_big, pic_cover, username, birthday, current_location, hometown_location, work_history, education_history from user where uid = " + friend_id;
+		System.out.println(fqlQuery);
+		
+		final Bundle params = new Bundle();
+		params.putString("q", fqlQuery);
+		
+		System.out.println("startfb started, done fqlquery building");
+		
+		Session session = Session.getActiveSession();
+		System.out.println("got active session");
 
-		TextView friend_name_tv = new TextView(this);
-		TextView friend_username_tv = new TextView(this);
-		TextView friend_birthday_tv = new TextView(this);
-		TextView friend_curloc_tv = new TextView(this);
-		TextView friend_hometown_tv = new TextView(this);
-		ImageView friend_imgurl_iv = new ImageView(this);
-		ImageView friend_cover_iv = new ImageView(this);
-		
-		friend_name_tv = (TextView) findViewById(R.id.f_detail_header_name);
-		friend_username_tv = (TextView) findViewById(R.id.f_detail_username_content);
-		friend_birthday_tv = (TextView) findViewById(R.id.f_detail_birthday_content);
-		friend_curloc_tv = (TextView) findViewById(R.id.f_detail_currentloc_content);
-		friend_hometown_tv = (TextView) findViewById(R.id.f_detail_hometown_content);
-		friend_imgurl_iv = (ImageView) findViewById(R.id.f_detail_header_photo);
-		friend_cover_iv = (ImageView) findViewById(R.id.cover_photo);
+		Request request = new Request(session, 
+    		    "/fql", 
+    		    params, 
+    		    HttpMethod.GET, 
+    		    new Request.Callback(){ 
+			
+					public void onCompleted(Response response) {
+    		        parseResponse(response);
+    		    }
+					private void parseResponse(Response response) {
+						try
+					    {
+							System.out.println(response.toString());
+					        GraphObject go  = response.getGraphObject();
+					        JSONObject  jso = go.getInnerJSONObject();
+					        JSONArray   arr = jso.getJSONArray( "data" );
 
-		friend_name_tv.setText(friend_name);
-		ActionBar ab = getActionBar();
-        ab.setTitle(friend_name);
-		
-		friend_username_tv.setText(friend_username);
-		friend_birthday_tv.setText(friend_birthday);
-		friend_curloc_tv.setText(friend_loc_city + ", " + friend_loc_state + ", " + friend_loc_country);
-		friend_hometown_tv.setText(friend_home_city + ", " + friend_home_state + ", " + friend_home_country);
-		
-	    imageLoader.displayImage(friend_imgurl, friend_imgurl_iv, options);
-	    imageLoader.displayImage(friend_coverUrl, friend_cover_iv, options);
-	    
-	    
-	    friend_username_tv.setOnClickListener(new OnClickListener() {
-	        @Override
-	        public void onClick(View v) {
-	        	String url = friend_username;
-	        	if (!url.startsWith("https://") && !url.startsWith("http://")){
-	        	    url = "http://www.facebook.com/" + url;
-	        	}
-	        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-	        	startActivity(openUrlIntent);
-	        }
-	    });
-		
+					        for ( int i = 0; i < ( arr.length() ); i++ )
+					        {
+					            fbFriend friend = new fbFriend();
+					        	
+					            JSONObject json_obj = arr.getJSONObject( i );
+					            
+					            name   	= json_obj.getString("name");
+					            urlImg 	= json_obj.getString("pic_big");
+					            username = json_obj.getString("username");
+					            
+					            try {
+						            birthday = json_obj.getString("birthday");
+						            if (birthday == "null")
+						            	birthday = "No birthday found";
+					            } catch (JSONException e) {
+					            	birthday = "No birthday found";
+					            }
+					            
+					            try {
+						            current_loc_city = json_obj.getJSONObject("current_location").getString("city");
+					            } catch (JSONException e) {
+					            	current_loc_city = "";
+					            }
+					            
+					            try {
+						            current_loc_state = json_obj.getJSONObject("current_location").getString("state");
+					            } catch (JSONException e) {
+					            	current_loc_state = "";
+					            }
+					            
+					            try {
+						            current_loc_country = json_obj.getJSONObject("current_location").getString("country");
+					            } catch (JSONException e) {
+					            	current_loc_country = "";
+					            } 
+					            
+					            try {
+						            current_home_city = json_obj.getJSONObject("hometown_location").getString("city");
+					            } catch (JSONException e) {
+					            	current_home_city = "";
+					            }
+					            
+					            try {
+						            current_home_state = json_obj.getJSONObject("hometown_location").getString("state");
+					            } catch (JSONException e) {
+					            	current_home_state = "";
+					            }
+					            
+					            try {
+						            current_home_country = json_obj.getJSONObject("hometown_location").getString("country");
+					            } catch (JSONException e) {
+					            	current_home_country = "";
+					            }
+					            
+					            try {
+						            coverUrl = json_obj.getJSONObject("pic_cover").getString("source");
+					            } catch (JSONException e) {
+					            	coverUrl = null;
+					            }
+					            
+					            try {
+					            	String currSchool;
+					            	JSONObject currHistory;
+					            	JSONArray eduArray = json_obj.getJSONArray("education_history");
+					            	int length = eduArray.length();
+					            	
+					            	for (int j = 0; j < length; j++) {
+					            		currHistory = eduArray.getJSONObject(j);
+					            		currSchool = currHistory.getString("name");
+					            		
+					            		System.out.println("Added " + currSchool);
+					            		educationHistory.add(currSchool);
+					            		eduCount++;
+					            	}
+					            } catch (JSONException e) {
+					            	//
+					            }
+					            
+					            try {
+					            	String currWork;
+					            	JSONObject currWorkHistory;
+					            	JSONArray workArray = json_obj.getJSONArray("work_history");
+					            	int length = workArray.length();
+					            	
+					            	for (int j = 0; j < length; j++) {
+					            		currWorkHistory = workArray.getJSONObject(j);
+					            		currWork = currWorkHistory.getString("company_name");
+					            		
+					            		System.out.println("Added " + currWork);
+					            		workHistory.add(currWork);
+					            		workCount++;
+					            	}
+					            } catch (JSONException e) {
+					            	
+					            }
+ 					            
+					            friend.setName(name);
+					            friend.setURL(urlImg);
+					            friend.setCoverUrl(coverUrl);
+					            friend.setUsername(username);
+					            friend.setBirthday(birthday);
+					            friend.setCurrentLocCity(current_loc_city);
+					            friend.setCurrentLocState(current_loc_state);
+					            friend.setCurrentLocCountry(current_loc_country);
+					            friend.setCurrentHomeCity(current_home_city);
+					            friend.setCurrentHomeState(current_home_state);
+					            friend.setCurrentHomeCountry(current_home_country);
+					            
+					            
+					    		friend_name_tv = (TextView) findViewById(R.id.f_detail_header_name);
+					    		friend_username_tv = (TextView) findViewById(R.id.f_detail_username_content);
+					    		friend_birthday_tv = (TextView) findViewById(R.id.f_detail_birthday_content);
+					    		friend_curloc_tv = (TextView) findViewById(R.id.f_detail_currentloc_content);
+					    		friend_hometown_tv = (TextView) findViewById(R.id.f_detail_hometown_content);
+					    		friend_imgurl_iv = (ImageView) findViewById(R.id.f_detail_header_photo);
+					    		friend_cover_iv = (ImageView) findViewById(R.id.cover_photo);
+					    		
+					            LinearLayout eduLayout = (LinearLayout) findViewById(R.id.f_detail_education_layout);
+
+					    		final TextView[] eduTextViews = new TextView[eduCount];
+					    		for (int k = 0; k < eduCount; k++) {
+					    			final TextView eduTextView = new TextView(getBaseContext());
+					    			
+					    			eduTextView.setText(educationHistory.get(k));
+					    			eduTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+					    			eduTextView.setTextSize(18);
+					    			eduTextView.setSingleLine();
+					    			eduTextView.setEllipsize(TextUtils.TruncateAt.END);
+					    			eduTextView.setTextColor(Color.BLACK);
+					    			eduTextView.setPadding(60, 10, 0, 10);
+					    			
+					    			eduLayout.addView(eduTextView);
+					    			eduTextViews[k] = eduTextView;
+					    		}
+					    		
+					            LinearLayout workLayout = (LinearLayout) findViewById(R.id.f_detail_workhistory_layout);
+
+					    		final TextView[] workTextViews = new TextView[workCount];
+					    		for (int m = 0; m < workCount; m++) {
+					    			final TextView workTextView = new TextView(getBaseContext());
+					    			
+					    			workTextView.setText(workHistory.get(m));
+					    			workTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+					    			workTextView.setTextSize(18);
+					    			workTextView.setSingleLine();
+					    			workTextView.setEllipsize(TextUtils.TruncateAt.END);
+					    			workTextView.setTextColor(Color.BLACK);
+					    			workTextView.setPadding(60, 10, 0, 10);
+					    			
+					    			workLayout.addView(workTextView);
+					    			workTextViews[m] = workTextView;
+					    		}
+					    		
+					    		friend_name_tv.setText(friend.getName());
+					    		ActionBar ab = getActionBar();
+					            ab.setTitle(friend.getName());
+					    		
+					    		friend_username_tv.setText(friend.getUsername());
+					    		friend_birthday_tv.setText(friend.getBirthday());
+					    		
+					    		friend_curloc_tv.setText(friend.getCurrentLocCity() + ", " + friend.getCurrentLocState() + ", " + friend.getCurrentLocCountry());
+					    		friend_hometown_tv.setText(friend.getCurrentHomeCity() + ", " + friend.getCurrentHomeState() + ", " + friend.getCurrentHomeCountry());
+					    	    
+					    		imageLoader.displayImage(friend.getCoverUrl(), friend_cover_iv, options);
+					    	    imageLoader.displayImage(friend.getURL(), friend_imgurl_iv, options);
+					    	    
+					    	    friend_username_tv.setOnClickListener(new OnClickListener() {
+					    	        @Override
+					    	        public void onClick(View v) {
+					    	        	String url = friend_username_tv.getText().toString();
+					    	        	if (!url.startsWith("https://") && !url.startsWith("http://")){
+					    	        	    url = "http://www.facebook.com/" + url;
+					    	        	}
+					    	        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					    	        	startActivity(openUrlIntent);
+					    	        }
+					    	    });							            
+					        }
+					    }
+					    catch ( Throwable t )
+					    {
+					        t.printStackTrace();
+					    }								
+					}
+    		});
+    		Request.executeBatchAsync(request);
 	}
-	
-	/*private void fetchFriendInfo(String friend_id) {
-	
-    
-    friendNameTV = (TextView) findViewById(R.id.f_detail_header_name);
-    friendPhotoUriIV = (ImageView) findViewById(R.id.f_detail_header_photo);
-    friendCoverPhotoUriIV = (ImageView) findViewById(R.id.cover_photo);
-    friendUsernameTV = (TextView) findViewById(R.id.f_detail_username_content);
-    
-    friendNameTV.setText(friendName);
-    imageLoader.displayImage(friendPhotoUri, friendPhotoUriIV, options);
-    imageLoader.displayImage(friendCoverPhotoUri, friendCoverPhotoUriIV, options);
-    
-    friendUsernameTV.setText(friendUserName);
-    friendUsernameTV.setPadding(0,10,0,10);
-    friendUsernameTV.setOnClickListener(new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-        	String url = friendUsernameTV.getText().toString();
-        	if (!url.startsWith("https://") && !url.startsWith("http://")){
-        	    url = "http://www.facebook.com/" + url;
-        	}
-        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-	
-	}*/
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -17,7 +17,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +30,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -53,6 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.facebook.Session;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -64,15 +65,11 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
 	
-	SharedPreferences pref = getApplicationContext().getSharedPreferences("ThemePref", 0); // 0 - for private mode
-	Editor editor = pref.edit();
-	
 	private SlidingMenu menu;
 	private ListView navListView;
 	
 	String lookupKey = null;
 	
-	String theme = "#34AADC";
 	String font = "RobotoCondensed-Regular.ttf";
 	String fontContent = "Roboto-Light.ttf";
 	
@@ -121,6 +118,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_contact_detail);
+        
+		Session.openActiveSessionFromCache(getBaseContext());
+        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "#34AADC");
         
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
@@ -190,6 +192,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         contact_id = getIntent().getStringExtra("contact_id");
         getContactInfo(contact_id);
 
+        // Check for Favourites
         Boolean isStarred = checkStarredStatus(contact_id);
         if (isStarred == true)
         {
@@ -227,7 +230,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         ImageView call_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_phone);
         call_quicklink.setOnClickListener(new View.OnClickListener() {
         	
-        	@Override
+        	@SuppressWarnings("deprecation")
+			@Override
             public void onClick(View v) {
                 final ArrayList<String> allContacts = new ArrayList<String>();
 
@@ -275,7 +279,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         ImageView text_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_text);
         text_quicklink.setOnClickListener(new View.OnClickListener() {
         	
-        	@Override
+        	@SuppressWarnings("deprecation")
+			@Override
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
                 
@@ -321,7 +326,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         ImageView email_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_email);
         email_quicklink.setOnClickListener(new View.OnClickListener() {
         	
-        	@Override
+        	@SuppressWarnings("deprecation")
+			@Override
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
                 
@@ -370,6 +376,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         });
     }
 
+	@SuppressWarnings("deprecation")
 	private Boolean checkStarredStatus(String contact_id2) {
 
 		int starred = 0;
@@ -379,7 +386,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.STARRED};
 
-	    @SuppressWarnings("deprecation")
 	    final Cursor cursor = managedQuery(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            projection,
@@ -423,7 +429,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
 	}
 
-
 	private void getLookupKey(String contact_id) {
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
@@ -439,10 +444,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
  
 		while (cursor.moveToNext()) {
 	        lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-	        //System.out.println(lookupKey);
 		}		
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getPhoto(String contact_id) {
 		
         contactPhoto = (ImageView) findViewById(R.id.c_detail_header_photo);
@@ -467,7 +472,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	contactPhoto.setImageURI((Uri.parse(photo)));   
 	        }
         }
-        //photoCur.close();
         
         headerBG = (ImageView) findViewById(R.id.header_bg);
         
@@ -482,17 +486,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }        
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getIMInfo(String contact_id) {
 		
 		int count = 0;
 		
-		// View
         lblIMInfo = (TextView) findViewById(R.id.c_detail_im_header);
         lblIMInfo.setTypeface(Typeface.createFromAsset(getAssets(), font));
         
         LinearLayout imLayout = (LinearLayout) findViewById(R.id.c_detail_im_layout);
 		
-		// Logic 
         ContentResolver cr = getContentResolver();
         String imType = null;
 
@@ -549,28 +552,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             contact.addIM(im  + ":" + imType); 
             count++;
-            
-            // Debug
-            System.out.println("IM: " + im + "\tType: " + imType);
-            
+                        
             if (im != null && !im.isEmpty())
             {
-                ////System.out.println("IM - NOT NULL");
             	imLayout.setVisibility(View.VISIBLE);
             }
         }
-        //imCur.close();
         
-        /*
-         * IM is now in object, now populate fields
-         */
-		final int N = count; // total number of textviews to add
-        final TextView[] imTextViews = new TextView[N]; // create an empty array;
+		final int N = count; 
+        final TextView[] imTextViews = new TextView[N]; 
         String currentIM = null;
         String currentType = null;
         
         for (int i = 0; i < N; i++) {
-	    	// create a new textview
 	        final TextView imTextView = new TextView(this);
 	        final TextView imTypeTextView = new TextView(this);
 	        final LinearLayout imContentLayout = new LinearLayout(this);
@@ -580,7 +574,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        currentIM = tokens.nextToken();;
 	        currentType = tokens.nextToken();
 	           
-	        // set some properties of phoneTypeTextView
 	        imTypeTextView.setText(currentType);
 	        imTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        imTypeTextView.setTextSize(14);
@@ -590,7 +583,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	        imContentLayout.addView(imTypeTextView);
 
-            // set some properties of phoneNumberTextView
             imTextView.setText(currentIM);
             imTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             imTextView.setTextSize(18);
@@ -607,23 +599,20 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        imContentLayout.setLayoutParams(layoutParams);
 	        imContentLayout.addView(imTextView);
 	                    
-	        // add the textview to the linearlayout
 	        imLayout.addView(imContentLayout);
 	        
-	        // save a reference to the textview for later
 	        imTextViews[i] = imTextView;
         }
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getRelationshipInfo(String contact_id) {
 		
-		// View
         lblRelationship = (TextView) findViewById(R.id.c_detail_relationship_header);
         lblRelationship.setTypeface(Typeface.createFromAsset(getAssets(), font));
         
         LinearLayout relationshipLayout = (LinearLayout) findViewById(R.id.c_detail_relationship_layout);
         
-		// Logic
         ContentResolver cr = getContentResolver();
         
         String relationshipWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -689,23 +678,17 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             contact.setRelationship(relationship);
             contact.setRelationshipType(relationshipType);
-            
-            // DEBUG
-            //System.out.println("Relationship: " + relationship + "\tType: " + relationshipType);
-            
+                        
             if (relationship != null && !relationship.isEmpty())
             {
-                ////System.out.println("Relationship - NOT NULL");
             	relationshipLayout.setVisibility(View.VISIBLE);
             }
         }
-        //relationshipCur.close();
         
         final TextView lblRelationshipType = new TextView(this);
         final TextView lblRelationshipContent = new TextView(this);
         final LinearLayout relationshipContentLayout = new LinearLayout(this);
 
-        // set some properties of phoneTypeTextView
         lblRelationshipType.setText(contact.getRelationshipType());
         lblRelationshipType.setTypeface(Typeface.createFromAsset(getAssets(), font));
         lblRelationshipType.setTextSize(14);
@@ -713,8 +696,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         lblRelationshipType.setPadding(0, 10, 0, 10);
         lblRelationshipType.setEllipsize(TextUtils.TruncateAt.END);
 
-
-        // set some properties of phoneNumberTextView
         lblRelationshipContent.setText(contact.getRelationship());
         lblRelationshipContent.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
         lblRelationshipContent.setTextSize(18);
@@ -733,21 +714,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
        relationshipContentLayout.addView(lblRelationshipType);
        relationshipContentLayout.addView(lblRelationshipContent);
                    
-       // add the textview to the linearlayout
        relationshipLayout.addView(relationshipContentLayout);   
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getDatesInfo(String contact_id) {
 		
 		int count = 0;
 		
-		// View
         lblDate = (TextView) findViewById(R.id.c_detail_date_header);
         lblDate.setTypeface(Typeface.createFromAsset(getAssets(), font));
 		
         LinearLayout dateLayout = (LinearLayout) findViewById(R.id.c_detail_date_layout);
         
-		// Logic
         ContentResolver cr = getContentResolver();
 		String dateType = null;
         
@@ -781,28 +760,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             contact.addDates(date + ":" + dateType);
             count++;
             
-            // DEBUG
-            //System.out.println("Date: " + date + "\tType: " + dateType);
-            
             if (date != null && !date.isEmpty())
             {
-                ////System.out.println("DATE - NOT NULL");
             	dateLayout.setVisibility(View.VISIBLE);
             }
             
         }
-        //dateCur.close();	
         
-        /*
-         * Date is now in object, now populate fields
-         */
-		final int N = count; // total number of textviews to add
-        final TextView[] dateTextViews = new TextView[N]; // create an empty array;
+		final int N = count; 
+        final TextView[] dateTextViews = new TextView[N]; 
         String currentDate = null;
         String currentType = null;
         
         for (int i = 0; i < N; i++) {
-	    	// create a new textview
 	        final TextView dateTextView = new TextView(this);
 	        final TextView dateTypeTextView = new TextView(this);
 	        final LinearLayout dateContentLayout = new LinearLayout(this);
@@ -812,7 +782,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        currentDate = tokens.nextToken();;
 	        currentType = tokens.nextToken();
 	           
-	        // set some properties of phoneTypeTextView
 	        dateTypeTextView.setText(currentType);
 	        dateTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        dateTypeTextView.setTextSize(14);
@@ -822,7 +791,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
             dateContentLayout.addView(dateTypeTextView);
 
-            // set some properties of phoneNumberTextView
             dateTextView.setText(currentDate);
             dateTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             dateTextView.setTextSize(18);
@@ -840,17 +808,15 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        dateContentLayout.setLayoutParams(layoutParams);
 	        dateContentLayout.addView(dateTextView);
 	                    
-	        // add the textview to the linearlayout
 	        dateLayout.addView(dateContentLayout);
 	        
-	        // save a reference to the textview for later
 	        dateTextViews[i] = dateTextView;
         }
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getNotesInfo(String contact_id) {
 
-		// View
         lblNote = (TextView) findViewById(R.id.c_detail_note_header);
         lblNote.setTypeface(Typeface.createFromAsset(getAssets(), font));
         		
@@ -859,7 +825,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         LinearLayout noteLayout = (LinearLayout) findViewById(R.id.c_detail_note_layout);
         
-		// Logic
 		ContentResolver cr = getContentResolver();
 		
         String noteWhere = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -873,8 +838,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
             contact.setNotes(note);
             
-            // DEBUG
-            //System.out.println("Note: " + note);
             
             if (note != null || !note.isEmpty())
             {
@@ -882,10 +845,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	noteLayout.setVisibility(View.VISIBLE);
             }
         }
-        //noteCur.close();
         lblNoteContent.setText(note);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getOrganizationInfo(String contact_id) {
 
         lblCompany = (TextView) findViewById(R.id.c_detail_header_company);
@@ -905,10 +868,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             company = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
             contact.setOrganization(company); 
             
-            // DEBUG
-            //System.out.println("Company: " + company);
         }
-        //orgCur.close();
+        
         lblCompany.setText(company);
         lblCompany.setSingleLine();
         lblCompany.setEllipsize(TextUtils.TruncateAt.END);
@@ -925,6 +886,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	}
 
 
+	@SuppressWarnings("deprecation")
 	private void getWebsiteInfo(String contact_id) {
 		
         int count = 0;
@@ -936,7 +898,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
 		ContentResolver cr = getContentResolver();
 		String websiteType = null;
-		
 		
 		String websiteWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
         String[] websiteWhereParams = new String[]{contact_id,
@@ -979,31 +940,21 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         			break;
             }
             
-            // Don't need to show type in actual layout
             contact.addWebsites(website + "$" + websiteType);  
             count++;
-            
-            // DEBUG
-            //System.out.println("Website: " + website + "\tType: " + websiteType);
-            
+                        
             if (website != null)
             {
-                ////System.out.println("WEBSITE - NOT NULL");
             	websiteLayout.setVisibility(View.VISIBLE);
             }
         }
-        //webCur.close();
         
-        /*
-         * Date is now in object, now populate fields
-         */
-		final int N = count; // total number of textviews to add
-        final TextView[] websiteTextViews = new TextView[N]; // create an empty array;
+		final int N = count; 
+        final TextView[] websiteTextViews = new TextView[N]; 
         String currentWebsite = null;
         String currentType = null;
         
         for (int i = 0; i < N; i++){
-        	// create a new textview
             final TextView websiteTextView = new TextView(this);
             final TextView websiteTypeTextView = new TextView(this);
             final LinearLayout websiteContentLayout = new LinearLayout(this);
@@ -1013,7 +964,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             currentWebsite = tokens.nextToken();;
             currentType = tokens.nextToken();
                
-            // set some properties of phoneTypeTextView
             websiteTypeTextView.setText(currentType);
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             websiteTypeTextView.setTextSize(14);
@@ -1023,7 +973,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
             websiteContentLayout.addView(websiteTypeTextView);
 
-            // set some properties of phoneNumberTextView
             websiteTextView.setText(currentWebsite);
             websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             websiteTextView.setTextSize(18);
@@ -1041,10 +990,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             websiteContentLayout.setLayoutParams(layoutParams);
             websiteContentLayout.addView(websiteTextView);
                         
-            // add the textview to the linearlayout
             websiteLayout.addView(websiteContentLayout);
             
-            // save a reference to the textview for later
             websiteTextViews[i] = websiteTextView;
             
             websiteTextView.setOnClickListener(new OnClickListener() {
@@ -1062,6 +1009,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getAddressInfo(String contact_id) {
 		
 		Geocoder geocoder = new Geocoder(getApplicationContext());  
@@ -1116,7 +1064,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	try {
     				addresses = geocoder.getFromLocationName(address, 1);
     			} catch (IOException e) {
-    				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
                 if(addresses.size() > 0) {
@@ -1125,7 +1072,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 }
                 
                 final LatLng latlng = new LatLng(latitude , longitude);
-                Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
+                @SuppressWarnings("unused")
+				Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
                 
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
                 googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
@@ -1140,16 +1088,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             }
         }
         
-        /*
-         * Address is now in object, now populate fields
-         */
-		final int N = count; // total number of textviews to add
-        final TextView[] addressTextViews = new TextView[N]; // create an empty array;
+		final int N = count; 
+        final TextView[] addressTextViews = new TextView[N]; 
         String currentAddress = null;
         String currentType = null;
         
         for (int i = 0; i < N; i++){
-        	// create a new textview
             final TextView addressTextView = new TextView(this);
             final TextView addressTypeTextView = new TextView(this);
             final LinearLayout addressContentLayout = new LinearLayout(this);
@@ -1159,7 +1103,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             currentAddress = tokens.nextToken();
             currentType = tokens.nextToken();
                
-            // set some properties of phoneTypeTextView
             addressTypeTextView.setText(currentType);
             addressTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             addressTypeTextView.setTextSize(14);
@@ -1169,7 +1112,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
             addressContentLayout.addView(addressTypeTextView);
 
-            // set some properties of phoneNumberTextView
             addressTextView.setText(currentAddress);
             addressTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             addressTextView.setTextSize(18);
@@ -1186,10 +1128,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             addressContentLayout.setLayoutParams(layoutParams);
             addressContentLayout.addView(addressTextView);
                         
-            // add the textview to the linearlayout
             addressLayout.addView(addressContentLayout);
             
-            // save a reference to the textview for later
             addressTextViews[i] = addressTextView;
             
             addressTextView.setOnClickListener(new OnClickListener() {
@@ -1198,7 +1138,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 public void onClick(View v) {
                 	String addressQuery = addressTextView.getText().toString();
                 	Intent geoIntent = new Intent (android.content.Intent.ACTION_VIEW, Uri.parse ("geo:0,0?q=" + addressQuery)); // Prepare intent
-                	startActivity(geoIntent); // Initiate lookup
+                	startActivity(geoIntent); 
                 }
             });
         }
@@ -1215,6 +1155,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		    return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getEmailInfo(String contact_id) {
 		
 		int count = 0;
@@ -1262,27 +1203,18 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             contact.addEmailID(email + ":" + emailType);
             count++;
             
-            // DEBUG
-            //System.out.println("Email: " + email + "\tType: " + emailType);
-            
             if (email != null)
             {
-                ////System.out.println("WEBSITE - NOT NULL");
             	emailLayout.setVisibility(View.VISIBLE);
             }
         }
-        //emailCur.close();	
       
-        /*
-         * Email is now in object, now populate fields
-         */
-        final int N = count; // total number of textviews to add
-        final TextView[] emailTextViews = new TextView[N]; // create an empty array;
+        final int N = count; 
+        final TextView[] emailTextViews = new TextView[N]; 
         String currentEmail = null;
         String currentType = null;
         
         for (int i = 0; i < N; i++){
-        	// create a new textview
             final TextView emailTextView = new TextView(this);
             final TextView emailTypeTextView = new TextView(this);
             final LinearLayout emailContentLayout = new LinearLayout(this);
@@ -1292,7 +1224,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             currentEmail = tokens.nextToken();;
             currentType = tokens.nextToken();
                
-            // set some properties of phoneTypeTextView
             emailTypeTextView.setText(currentType);
             emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             emailTypeTextView.setTextSize(14);
@@ -1302,7 +1233,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
             emailContentLayout.addView(emailTypeTextView);
 
-            // set some properties of phoneNumberTextView
             emailTextView.setText(currentEmail);
             emailTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             emailTextView.setTextSize(18);
@@ -1322,10 +1252,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             emailContentLayout.setLayoutParams(layoutParams);
             emailContentLayout.addView(emailTextView);
                         
-            // add the textview to the linearlayout
             emailLayout.addView(emailContentLayout);
             
-            // save a reference to the textview for later
             emailTextViews[i] = emailTextView;
             
             emailTextView.setOnClickListener(new OnClickListener() {
@@ -1334,7 +1262,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 public void onClick(View v) {
                 	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto",emailTextView.getText().toString(), null));
-                	//TODO: change domain name signature
                 	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android");
     		    	startActivity(Intent.createChooser(emailIntent, "Send Email"));
                 }
@@ -1343,6 +1270,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	}
 
 
+	@SuppressWarnings("deprecation")
 	private void getNameInfo(String contact_id) {
 		
         lblName = (TextView) findViewById(R.id.c_detail_header_name);
@@ -1361,10 +1289,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             contact.setName(name);  
             
-            // DEBUG
-            //System.out.println("Name: " + name);
         }
-        //nameCur.close();
         lblName.setText(name);
         lblName.setSingleLine();
         lblName.setEllipsize(TextUtils.TruncateAt.END);
@@ -1372,7 +1297,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         ab.setTitle(name);
 	}
 
-
+	@SuppressWarnings("deprecation")
 	private void getPhoneInfo(String contact_id) {
 		
 		int count = 0;
@@ -1462,29 +1387,20 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             contact.addPhoneNumer(number + ":" + phoneType);
             count++;
-            
-            // DEBUG
-            //System.out.println("Phone: " + number + "\tType: " + phoneType);
-            
+
             if (number != null)
             {
-                ////System.out.println("WEBSITE - NOT NULL");
             	phoneLayout.setVisibility(View.VISIBLE);
             }
         }
-        //phoneCur.close();    
    
-        /*
-         * Phone is now in object, now populate fields
-         */
-        final int N = count; // total number of textviews to add
-        final TextView[] phoneTextViews = new TextView[N]; // create an empty array;
+        final int N = count; 
+        final TextView[] phoneTextViews = new TextView[N]; 
         String currentPhone = null;
         String currentType = null;
         String unformattedNumber = null;
         
         for (int i = 0; i < N; i++){
-        	// create a new textview
             final TextView phoneNumberTextView = new TextView(this);
             final TextView phoneTypeTextView = new TextView(this);
             final LinearLayout phoneContentLayout = new LinearLayout(this);
@@ -1495,7 +1411,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             currentPhone = PhoneNumberUtils.formatNumber(unformattedNumber);
             currentType = tokens.nextToken();
                
-            // set some properties of phoneTypeTextView
             phoneTypeTextView.setText(currentType);
             phoneTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             phoneTypeTextView.setTextSize(14);
@@ -1503,10 +1418,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             phoneTypeTextView.setPadding(0, 10, 0, 10);
             phoneTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
 
-            
             phoneContentLayout.addView(phoneTypeTextView);
 
-            // set some properties of phoneNumberTextView
             phoneNumberTextView.setText(currentPhone);
             phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             phoneNumberTextView.setTextSize(18);
@@ -1527,7 +1440,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                         
             phoneLayout.addView(phoneContentLayout);
             
-            // save a reference to the textview for later
             phoneTextViews[i] = phoneNumberTextView;	
             
             phoneNumberTextView.setOnClickListener(new OnClickListener() {
@@ -1556,8 +1468,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-	    switch (item.getItemId()) {
+
+		switch (item.getItemId()) {
 	        case R.id.menu_edit:
 	    		Intent edit_intent = new Intent(Intent.ACTION_EDIT);
 	    		Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)); 
@@ -1622,12 +1534,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	   		Intent liIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
 	   		ContactDetailActivity.this.startActivity(liIntent);
 	   }	
-		//TODO: ADD TWITTER
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		
 	}
 }

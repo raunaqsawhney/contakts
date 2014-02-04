@@ -17,7 +17,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,10 +38,6 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FBActivity extends Activity implements OnItemClickListener {
 	
-	SharedPreferences pref = getApplicationContext().getSharedPreferences("ThemePref", 0); // 0 - for private mode
-	Editor editor = pref.edit();
-	
-	String theme="#34AADC";;
 	String font = "RobotoCondensed-Regular.ttf";
 	
     ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
@@ -62,11 +58,13 @@ public class FBActivity extends Activity implements OnItemClickListener {
 	String current_home_state;
 	String current_home_country;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fb);
+		
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "#34AADC");
 	
        		
 		// Set up the Action Bar
@@ -76,7 +74,6 @@ public class FBActivity extends Activity implements OnItemClickListener {
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
-
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -143,7 +140,7 @@ public class FBActivity extends Activity implements OnItemClickListener {
 
 	
 	private void startfb() {
-		String fqlQuery = "select uid, name, pic_big, pic_cover, username, birthday, current_location, hometown_location, work_history, education_history from user where uid in (select uid2 from friend where uid1 = me()) order by name";
+		String fqlQuery = "select uid, name, pic_big from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
 		
@@ -176,8 +173,9 @@ public class FBActivity extends Activity implements OnItemClickListener {
 					            uid     = json_obj.getString("uid");
 					            name   	= json_obj.getString("name");
 					            urlImg 	= json_obj.getString("pic_big");
-					            username = json_obj.getString("username");
+					            //username = json_obj.getString("username");
 					            
+					            /*
 					            try {
 						            birthday = json_obj.getString("birthday");
 						            current_loc_city = json_obj.getJSONObject("current_location").getString("city");
@@ -191,20 +189,20 @@ public class FBActivity extends Activity implements OnItemClickListener {
 					            } catch (JSONException e) {
 					            	//Log.d("JSON", "NULL ITEM");
 					            }
-					            
+					            */
 					            
 					            friend.setID(uid);
 					            friend.setName(name);
 					            friend.setURL(urlImg);
-					            friend.setCoverUrl(coverUrl);
-					            friend.setUsername(username);
-					            friend.setBirthday(birthday);
-					            friend.setCurrentLocCity(current_loc_city);
-					            friend.setCurrentLocState(current_loc_state);
-					            friend.setCurrentLocCountry(current_loc_country);
-					            friend.setCurrentHomeCity(current_home_city);
-					            friend.setCurrentHomeState(current_home_state);
-					            friend.setCurrentHomeCountry(current_home_country);
+					            //friend.setCoverUrl(coverUrl);
+					            //friend.setUsername(username);
+					            //friend.setBirthday(birthday);
+					            //friend.setCurrentLocCity(current_loc_city);
+					            //friend.setCurrentLocState(current_loc_state);
+					            //friend.setCurrentLocCountry(current_loc_country);
+					            //friend.setCurrentHomeCity(current_home_city);
+					            //friend.setCurrentHomeState(current_home_state);
+					            //friend.setCurrentHomeCountry(current_home_country);
 					            							            
 					            friendList.add(friend);			            
 					        }
@@ -224,17 +222,17 @@ public class FBActivity extends Activity implements OnItemClickListener {
 				    				selectedFriend = (fbFriend) parent.getItemAtPosition(position);
 				                    Intent intent = new Intent(getApplicationContext(), FriendDetailActivity.class);
 				                    intent.putExtra("friend_id", selectedFriend.getID());
-				                    intent.putExtra("friend_name", selectedFriend.getName());
-				                    intent.putExtra("friend_imgurl", selectedFriend.getURL());
-				                    intent.putExtra("friend_coverUrl", selectedFriend.getCoverUrl());
-				                    intent.putExtra("friend_username", selectedFriend.getUsername());
-				                    intent.putExtra("friend_birthday", selectedFriend.getBirthday());
-				                    intent.putExtra("friend_loc_city", selectedFriend.getCurrentLocCity());
-				                    intent.putExtra("friend_loc_state", selectedFriend.getCurrentLocState());
-				                    intent.putExtra("friend_loc_country", selectedFriend.getCurrentLocCountry());
-				                    intent.putExtra("friend_home_city", selectedFriend.getCurrentHomeCity());
-				                    intent.putExtra("friend_home_state", selectedFriend.getCurrentHomeState());
-				                    intent.putExtra("friend_home_country", selectedFriend.getCurrentHomeCountry());
+				                    //intent.putExtra("friend_name", selectedFriend.getName());
+				                    //intent.putExtra("friend_imgurl", selectedFriend.getURL());
+				                    //intent.putExtra("friend_coverUrl", selectedFriend.getCoverUrl());
+				                    //intent.putExtra("friend_username", selectedFriend.getUsername());
+				                    //intent.putExtra("friend_birthday", selectedFriend.getBirthday());
+				                    //intent.putExtra("friend_loc_city", selectedFriend.getCurrentLocCity());
+				                    //intent.putExtra("friend_loc_state", selectedFriend.getCurrentLocState());
+				                    //intent.putExtra("friend_loc_country", selectedFriend.getCurrentLocCountry());
+				                    //intent.putExtra("friend_home_city", selectedFriend.getCurrentHomeCity());
+				                    //intent.putExtra("friend_home_state", selectedFriend.getCurrentHomeState());
+				                    //intent.putExtra("friend_home_country", selectedFriend.getCurrentHomeCountry());
 
 				                    startActivity(intent);
 				                }

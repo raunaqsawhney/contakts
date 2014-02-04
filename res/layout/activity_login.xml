@@ -15,15 +15,16 @@
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
-	    android:layout_marginTop="126dp" />
+	    android:layout_marginTop="53dp" />
 
 	<Button
 	    android:id="@+id/colorPicker"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignLeft="@+id/authButton"
-	    android:layout_centerVertical="true"
-	    android:layout_marginLeft="36dp"
-	    android:text="color" />
+	    android:layout_alignRight="@+id/authButton"
+	    android:layout_below="@+id/authButton"
+	    android:layout_marginTop="59dp"
+	    android:text="Theme" />
 
 </RelativeLayout>

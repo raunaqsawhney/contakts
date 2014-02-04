@@ -18,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.Html;
@@ -35,13 +36,13 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.facebook.Session;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	// Declare Globals
-	String theme = "#34AADC";
 	String font = "Roboto-Light.ttf";
 
 	SimpleCursorAdapter mAdapter;
@@ -59,6 +60,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
         
+		Session.openActiveSessionFromCache(getBaseContext());
+        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "#34AADC"); 
+        
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
@@ -70,8 +76,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
        
-        contactList = (ListView)findViewById(R.id.list);
-
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -82,45 +86,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
-        
-        contactList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-                intent.putExtra("contact_id", contact_id);
-                startActivity(intent);
-            }
-        });
-        
-        // Fetch name and contact photo URI
-        String[] from = new String[] {
-        		ContactsContract.Data.DISPLAY_NAME,
-        		ContactsContract.Data.PHOTO_URI
-        };
-        
-        int[] to = new int[] {
-        		R.id.c_name,
-        		R.id.c_photo
-        };
-        
-        // Initialize the listview adapter
-        mAdapter = new SimpleCursorAdapter(this,
-                R.layout.lv_layout, 
-                null,
-                from,
-                to, 
-                0);
-        
-	    LoaderManager loaderManager = getLoaderManager();
-	    loaderManager.initLoader(0, null, this);	
-	    
-	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
-	    contactList.addHeaderView(header);
-	    contactList.setAdapter(mAdapter);
-
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -163,7 +128,47 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 R.layout.nav_item_layout, rowItems);
 
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);	
+		navListView.setOnItemClickListener(this);
+        
+        contactList = (ListView)findViewById(R.id.list);
+        contactList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", contact_id);
+                startActivity(intent);
+            }
+        });
+        
+        // Fetch name and contact photo URI
+        String[] from = new String[] {
+        		ContactsContract.Data.DISPLAY_NAME,
+        		ContactsContract.Data.PHOTO_URI
+        };
+        
+        int[] to = new int[] {
+        		R.id.c_name,
+        		R.id.c_photo
+        };
+        
+        // Initialize the listview adapter
+        mAdapter = new SimpleCursorAdapter(this,
+                R.layout.lv_layout, 
+                null,
+                from,
+                to, 
+                0);
+        
+	    LoaderManager loaderManager = getLoaderManager();
+	    loaderManager.initLoader(0, null, this);	
+	    
+	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
+	    contactList.addHeaderView(header);
+	    contactList.setAdapter(mAdapter);
+	    
    }
      
     @Override
@@ -245,15 +250,13 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.menu_dial:
 	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
 	    		startActivity(dialIntent);
 	            return true;    
 	        case R.id.menu_add:
-	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, 
-	    	        	ContactsContract.Contacts.CONTENT_URI);
+	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
 	    		startActivity(addIntent);
 	    		return true; 
 	        default:
@@ -281,6 +284,5 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   		Intent liIntent = new Intent(MainActivity.this, LoginActivity.class);
 	   		MainActivity.this.startActivity(liIntent);
 	   }	
-		//TODO: ADD TWITTER
 	}
 }

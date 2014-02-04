@@ -10,7 +10,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +19,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,30 +32,32 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.facebook.Session;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FavActivity extends Activity implements OnItemClickListener{
-	
-	SharedPreferences pref = getApplicationContext().getSharedPreferences("ThemePref", 0); // 0 - for private mode
-	Editor editor = pref.edit();
-	
+
 	private SlidingMenu menu;
 	private ListView navListView;
 	
-	String theme = "#34AADC";;
 	String font = "RobotoCondensed-Regular.ttf";
 	
 	   @Override
 	   protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.fav_activity);
+	        
+			Session.openActiveSessionFromCache(getBaseContext());
+	        
+	        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	        String theme = prefs.getString("theme", "#34AADC");
 	       
-	        setupActionBar();
+	        setupActionBar(theme);
 	        setupFavList();        
 	   }
 
-	   private void setupActionBar() {
+	   private void setupActionBar(String theme) {
 	   
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()

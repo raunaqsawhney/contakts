@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +23,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.FacebookException;
 import com.facebook.Session;
@@ -35,10 +35,8 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class LoginActivity extends FragmentActivity implements OnItemClickListener {
-	
 
 	// Declare Globals
-	String theme = "#34AADC";
 	String font = "Roboto-Light.ttf";
 	
 	
@@ -50,9 +48,12 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "#34AADC");
 		
-		//SharedPreferences pref = getApplicationContext().getSharedPreferences("ThemePref", 0); 
-		//final Editor editor = pref.edit();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final Editor edit = preferences.edit();
+
 		
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
@@ -77,7 +78,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
         
-     // Set up Sliding Menu
+        // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -134,7 +135,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				Color.parseColor("#FFCC00"),
 				Color.parseColor("#4CD964"),
 				Color.parseColor("#007AFF"),
-				Color.parseColor("#5856D6")}, Color.parseColor("#34AADC"), 3, 2);
+				Color.parseColor("#5856D6")}, Color.parseColor(theme), 3, 2);
 		
 		
 		colorPickerDialog.setOnColorSelectedListener(new OnColorSelectedListener() {
@@ -151,11 +152,11 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				} else if (color == -53931) {
 					themeColor = "#FF2D55";
 				} else if (color == -13312 ) {
-					themeColor = "#FF3B30";
+					themeColor = "#FFCC00";
 				} else if (color == -27392 ) {
 					themeColor = "#FF9500";
 				} else if (color == -50384) {
-					themeColor = "#FFCC00";
+					themeColor = "#FF3B30";
 				} else if (color == -11740828 ) {
 					themeColor = "#4CD964";
 				} else if (color == -16745729) {
@@ -164,10 +165,14 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 					themeColor = "#5856D6";
 				}
 				
-				//editor.putString("theme", themeColor); // Storing integer
-				//editor.commit();
-				System.out.println(color);
-			}
+				edit.putString("theme", themeColor);
+				edit.apply(); 
+				
+				System.out.println(themeColor);
+				
+			   	Intent goBackToMain = new Intent(LoginActivity.this, MainActivity.class);
+				LoginActivity.this.startActivity(goBackToMain);			
+				}
 		});
 		
 		colorPicker.setOnClickListener(new View.OnClickListener() {

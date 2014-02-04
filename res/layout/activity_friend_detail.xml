@@ -146,6 +146,58 @@
 		            android:fontFamily="sans-serif-light"/>
 			</LinearLayout>
 			
+           <LinearLayout
+                android:id="@+id/f_detail_education_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/f_detail_hometown_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Education"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" 
+		            android:fontFamily="sans-serif-condensed"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+			</LinearLayout>
+			
+			<LinearLayout
+                android:id="@+id/f_detail_workhistory_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dip">
+                
+                <TextView 
+		            android:id="@+id/f_detail_work_header"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Work"
+		            android:textColor="#34AADC"
+		            android:textSize="20sp"
+		            android:layout_marginLeft="20dip" 
+		            android:fontFamily="sans-serif-condensed"/>
+                
+                <View 
+				   android:layout_width="fill_parent"
+				   android:layout_height="1dp"       
+				   android:background="#C7C7CC"
+				   android:layout_marginLeft="20dip"
+				   android:layout_marginRight="20dip" />
+                
+			</LinearLayout>
+			
             
 			<LinearLayout
                 android:id="@+id/f_detail_username_layout"
