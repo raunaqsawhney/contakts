@@ -11,6 +11,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -43,7 +44,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	// Declare Globals
-	String font = "Roboto-Light.ttf";
+	String fontContent=null;
 
 	SimpleCursorAdapter mAdapter;
 	String mFilter;
@@ -60,15 +61,26 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
         
+        // TODO: Move this to welcome when release
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final Editor edit = preferences.edit();
+		
+		edit.putString("font","RobotoCondensed-Regular.ttf");
+		edit.putString("fontContent","Roboto-Light.ttf");
+		edit.putString("fontTitle", "Harabara.ttf");
+		edit.apply();
+        
 		Session.openActiveSessionFromCache(getBaseContext());
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC"); 
+        String theme = prefs.getString("theme", "#34AADC");
+        fontContent = prefs.getString("fontContent", null);
+        String fontTitle = prefs.getString("fontTitle", null);
         
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -185,7 +197,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
         search_text.setTextColor(Color.WHITE);
-        search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
+        search_text.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
         
         return true;
     }

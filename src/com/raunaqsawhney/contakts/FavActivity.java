@@ -52,6 +52,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	        
 	        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	        String theme = prefs.getString("theme", "#34AADC");
+	        
 	       
 	        setupActionBar(theme);
 	        setupFavList();        
