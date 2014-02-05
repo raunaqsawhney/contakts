@@ -24,7 +24,6 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
     private static class ViewHolder {
         TextView name;
         ImageView photo;
-        TextView presence;
     }
 
 	private ImageLoader imageLoader;

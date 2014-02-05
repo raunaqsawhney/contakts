@@ -37,7 +37,9 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class LoginActivity extends FragmentActivity implements OnItemClickListener {
 
 	// Declare Globals
-	String font = "Roboto-Light.ttf";
+	String font;
+	String fontContent;
+	String fontTitle;
 	
 	
 	private SlidingMenu menu;
@@ -50,7 +52,11 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString("theme", "#34AADC");
-		
+        font = prefs.getString("font", null);
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);
+        
+        
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final Editor edit = preferences.edit();
 
@@ -58,7 +64,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         

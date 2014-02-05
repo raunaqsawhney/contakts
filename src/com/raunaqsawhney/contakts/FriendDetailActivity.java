@@ -46,8 +46,9 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FriendDetailActivity extends Activity implements OnItemClickListener, StatusCallback {
 	
-	String font = "RobotoCondensed-Regular.ttf";
-	String fontContent = "Roboto-Light.ttf";
+	String font;
+	String fontContent;
+	String fontTitle;
 
 	private ListView navListView;
 	private SlidingMenu menu;
@@ -91,6 +92,10 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	int eduCount = 0;
 	int workCount = 0;
 	
+	boolean isThereEducation = false;
+	boolean isThereWork = false;
+
+	
 	Session.OpenRequest openRequest = null;
 
 	@Override
@@ -100,11 +105,15 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString("theme", "#34AADC");
-		
+        font = prefs.getString("font", null);
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);
+        
+        
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(21);
         
@@ -170,7 +179,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         this.imageLoader = ImageLoader.getInstance();
         
         options = new DisplayImageOptions.Builder()
-       .showImageOnLoading(R.drawable.ic_contact_picture)
        .imageScaleType(ImageScaleType.NONE) // default
        .build();
        
@@ -227,20 +235,22 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            
 					            try {
 						            birthday = json_obj.getString("birthday");
-						            if (birthday == "null")
-						            	birthday = "No birthday found";
+						            if (birthday != "null") {
+						            	LinearLayout birthdayLayout = (LinearLayout) findViewById(R.id.f_detail_birthday_layout);
+						            	birthdayLayout.setVisibility(View.VISIBLE);
+						            }
 					            } catch (JSONException e) {
-					            	birthday = "No birthday found";
+					            	// Handled by not showing the view
 					            }
 					            
 					            try {
-						            current_loc_city = json_obj.getJSONObject("current_location").getString("city");
+						            current_loc_city = json_obj.getJSONObject("current_location").getString("city") + ", ";
 					            } catch (JSONException e) {
 					            	current_loc_city = "";
 					            }
 					            
 					            try {
-						            current_loc_state = json_obj.getJSONObject("current_location").getString("state");
+						            current_loc_state = json_obj.getJSONObject("current_location").getString("state") + ", ";
 					            } catch (JSONException e) {
 					            	current_loc_state = "";
 					            }
@@ -252,13 +262,13 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            } 
 					            
 					            try {
-						            current_home_city = json_obj.getJSONObject("hometown_location").getString("city");
+						            current_home_city = json_obj.getJSONObject("hometown_location").getString("city") + ", ";
 					            } catch (JSONException e) {
 					            	current_home_city = "";
 					            }
 					            
 					            try {
-						            current_home_state = json_obj.getJSONObject("hometown_location").getString("state");
+						            current_home_state = json_obj.getJSONObject("hometown_location").getString("state") + ", ";
 					            } catch (JSONException e) {
 					            	current_home_state = "";
 					            }
@@ -272,14 +282,18 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            try {
 						            coverUrl = json_obj.getJSONObject("pic_cover").getString("source");
 					            } catch (JSONException e) {
-					            	coverUrl = null;
+					            	coverUrl = "http://farm4.staticflickr.com/3793/9601614175_f989049ff8_z.jpg";
 					            }
+					            
+					            LinearLayout eduLayout = (LinearLayout) findViewById(R.id.f_detail_education_layout);
 					            
 					            try {
 					            	String currSchool;
 					            	JSONObject currHistory;
 					            	JSONArray eduArray = json_obj.getJSONArray("education_history");
 					            	int length = eduArray.length();
+					            	if (length > 0)
+						            	eduLayout.setVisibility(View.VISIBLE);
 					            	
 					            	for (int j = 0; j < length; j++) {
 					            		currHistory = eduArray.getJSONObject(j);
@@ -290,14 +304,18 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            		eduCount++;
 					            	}
 					            } catch (JSONException e) {
-					            	//
+					            	// Handled by not showing the layout
 					            }
 					            
+					            LinearLayout workLayout = (LinearLayout) findViewById(R.id.f_detail_workhistory_layout);
+
 					            try {
 					            	String currWork;
 					            	JSONObject currWorkHistory;
 					            	JSONArray workArray = json_obj.getJSONArray("work_history");
 					            	int length = workArray.length();
+					            	if (length > 0)
+						            	workLayout.setVisibility(View.VISIBLE);
 					            	
 					            	for (int j = 0; j < length; j++) {
 					            		currWorkHistory = workArray.getJSONObject(j);
@@ -308,7 +326,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            		workCount++;
 					            	}
 					            } catch (JSONException e) {
-					            	
+					            	// Handled by not showing the layout
 					            }
  					            
 					            friend.setName(name);
@@ -323,7 +341,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            friend.setCurrentHomeState(current_home_state);
 					            friend.setCurrentHomeCountry(current_home_country);
 					            
-					            
 					    		friend_name_tv = (TextView) findViewById(R.id.f_detail_header_name);
 					    		friend_username_tv = (TextView) findViewById(R.id.f_detail_username_content);
 					    		friend_birthday_tv = (TextView) findViewById(R.id.f_detail_birthday_content);
@@ -331,10 +348,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    		friend_hometown_tv = (TextView) findViewById(R.id.f_detail_hometown_content);
 					    		friend_imgurl_iv = (ImageView) findViewById(R.id.f_detail_header_photo);
 					    		friend_cover_iv = (ImageView) findViewById(R.id.cover_photo);
-					    		
-					            LinearLayout eduLayout = (LinearLayout) findViewById(R.id.f_detail_education_layout);
 
-					    		final TextView[] eduTextViews = new TextView[eduCount];
+				    			final TextView[] eduTextViews = new TextView[eduCount];
 					    		for (int k = 0; k < eduCount; k++) {
 					    			final TextView eduTextView = new TextView(getBaseContext());
 					    			
@@ -349,10 +364,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			eduLayout.addView(eduTextView);
 					    			eduTextViews[k] = eduTextView;
 					    		}
-					    		
-					            LinearLayout workLayout = (LinearLayout) findViewById(R.id.f_detail_workhistory_layout);
 
-					    		final TextView[] workTextViews = new TextView[workCount];
+				            	final TextView[] workTextViews = new TextView[workCount];
 					    		for (int m = 0; m < workCount; m++) {
 					    			final TextView workTextView = new TextView(getBaseContext());
 					    			
@@ -367,16 +380,35 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			workLayout.addView(workTextView);
 					    			workTextViews[m] = workTextView;
 					    		}
-					    		
-					    		friend_name_tv.setText(friend.getName());
+
+						    	friend_name_tv.setText(friend.getName());
 					    		ActionBar ab = getActionBar();
 					            ab.setTitle(friend.getName());
 					    		
 					    		friend_username_tv.setText(friend.getUsername());
 					    		friend_birthday_tv.setText(friend.getBirthday());
 					    		
-					    		friend_curloc_tv.setText(friend.getCurrentLocCity() + ", " + friend.getCurrentLocState() + ", " + friend.getCurrentLocCountry());
-					    		friend_hometown_tv.setText(friend.getCurrentHomeCity() + ", " + friend.getCurrentHomeState() + ", " + friend.getCurrentHomeCountry());
+					    		LinearLayout curLocLayout = (LinearLayout) findViewById(R.id.f_detail_currentloc_layout);
+					    		
+					    		if (friend.getCurrentLocCity() == "" || friend.getCurrentLocState() == "" || friend.getCurrentLocCountry() == "") {
+					    			System.out.println(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry() + "GONE");
+					    			curLocLayout.setVisibility(View.GONE);
+					    		} else {
+					    			curLocLayout.setVisibility(View.VISIBLE);
+					    			System.out.println(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry() + "VISIBLE");
+						    		friend_curloc_tv.setText(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry());
+					    		}
+					    		
+					    		LinearLayout homeLayout = (LinearLayout) findViewById(R.id.f_detail_hometown_layout);
+					    		
+					    		if (friend.getCurrentHomeCity() == "" || friend.getCurrentHomeState() == "" || friend.getCurrentHomeCountry() == "") {
+					    			System.out.println(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry() + "GONE");
+					    			homeLayout.setVisibility(View.GONE);
+					    		} else {
+					    			homeLayout.setVisibility(View.VISIBLE);
+					    			System.out.println(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry() + "VISIBLE");
+						    		friend_hometown_tv.setText(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry());
+					    		}
 					    	    
 					    		imageLoader.displayImage(friend.getCoverUrl(), friend_cover_iv, options);
 					    	    imageLoader.displayImage(friend.getURL(), friend_imgurl_iv, options);

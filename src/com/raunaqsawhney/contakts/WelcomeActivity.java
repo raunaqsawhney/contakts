@@ -6,6 +6,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -14,8 +16,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +38,25 @@ public class WelcomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+		
+        Boolean firstRunDone = false;
+        firstRunDone = prefs.getBoolean("firstRunDone", false);
+        
+        if (firstRunDone) {
+        	Intent firstRunDoneIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+  		   	WelcomeActivity.this.startActivity(firstRunDoneIntent);
+  		   	finish();
+        } else {
+        	edit.putBoolean("firstRunDone", true);
+    		edit.putString("font","RobotoCondensed-Regular.ttf");
+    		edit.putString("fontContent","Roboto-Light.ttf");
+    		edit.putString("fontTitle", "Harabara.ttf");
+    		edit.apply();
+        }
 
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
@@ -59,6 +82,7 @@ public class WelcomeActivity extends Activity {
 		getPersonProfile();
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	private void getPersonProfile() {
 		
@@ -96,11 +120,8 @@ public class WelcomeActivity extends Activity {
         ownerIV.setImageURI(Uri.parse(ownerPhoto));
         
         TextView infoTV = (TextView) findViewById(R.id.c_welcome_info);
-        infoTV.setText("Contakts is a beautiful new way to connect with everyone" +
-        		" that matters to you.\n\n" + "Just swipe right anywhere on the screen to open the navigation menu," +
-        				" and explore your contacts!");
-        
-        
+        infoTV.setText(R.string.welcomeInfo);
+        infoTV.setGravity(Gravity.FILL_HORIZONTAL);
         
         
         Button welcomeButton = (Button) findViewById(R.id.c_welcome_button);
@@ -139,6 +160,7 @@ public class WelcomeActivity extends Activity {
             	            mProgressText.setText("Done");
             	            Intent welcomeIntent = new Intent(WelcomeActivity.this, MainActivity.class);
                   		   	WelcomeActivity.this.startActivity(welcomeIntent);
+                  		   	finish();
             	        }
             	    };
             	    mCountDownTimer.start();

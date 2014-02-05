@@ -44,7 +44,9 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	// Declare Globals
-	String fontContent=null;
+	String theme;
+	String fontContent;
+	String fontTitle;
 
 	SimpleCursorAdapter mAdapter;
 	String mFilter;
@@ -58,24 +60,17 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
+       
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
         
-        // TODO: Move this to welcome when release
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final Editor edit = preferences.edit();
-		
-		edit.putString("font","RobotoCondensed-Regular.ttf");
-		edit.putString("fontContent","Roboto-Light.ttf");
-		edit.putString("fontTitle", "Harabara.ttf");
-		edit.apply();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);
         
 		Session.openActiveSessionFromCache(getBaseContext());
-        
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
-        fontContent = prefs.getString("fontContent", null);
-        String fontTitle = prefs.getString("fontTitle", null);
         
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()

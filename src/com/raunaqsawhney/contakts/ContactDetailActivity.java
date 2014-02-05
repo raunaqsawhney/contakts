@@ -70,8 +70,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	String lookupKey = null;
 	
-	String font ;
-	String fontContent ;
+	String font;
+	String fontContent;
+	String fontTitle;
 	
 	TextView lblNumber;
 	TextView lblName;
@@ -123,14 +124,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString("theme", "#34AADC");
-        fontContent = prefs.getString("fontContent", null);
         font = prefs.getString("font", null);
-        String fontTitle = prefs.getString("fontTitle", null);
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);
         
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontContent)); // Only here the font is not same as fontTitle
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(21);
         

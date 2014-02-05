@@ -116,7 +116,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dip">
+                android:layout_marginTop="20dip"
+                android:visibility="gone">
                 
                 <TextView 
 		            android:id="@+id/f_detail_birthday_header"
@@ -151,7 +152,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dip">
+                android:layout_marginTop="20dip"
+                android:visibility="gone">
                 
                 <TextView 
 		            android:id="@+id/f_detail_hometown_header"
@@ -177,7 +179,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dip">
+                android:layout_marginTop="20dip"
+                android:visibility="gone">
                 
                 <TextView 
 		            android:id="@+id/f_detail_work_header"
@@ -200,11 +203,12 @@
 			
             
 			<LinearLayout
-                android:id="@+id/f_detail_username_layout"
+                android:id="@+id/f_detail_currentloc_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dip">
+                android:layout_marginTop="20dip"
+                android:visibility="gone">
                 
                 <TextView 
 		            android:id="@+id/f_detail_currentloc_header"
@@ -239,7 +243,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dip">
+                android:layout_marginTop="20dip"
+                android:visibility="gone">
                 
                 <TextView 
 		            android:id="@+id/f_detail_hometown_header"

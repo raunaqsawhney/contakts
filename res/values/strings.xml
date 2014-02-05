@@ -16,5 +16,9 @@
     <string name="color_dialog_title">Pick Theme</string>
     <string name="title_activity_li">LIActivity</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
+    
+    <string name="welcomeInfo">Contakts is a beautiful new way to connect with
+         everyone that matters to you.\n\nSimply swipe right anywhere on the screen
+          to open the navigation menu and start connecting with everyone!</string>
 
 </resources>

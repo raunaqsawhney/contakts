@@ -41,8 +41,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	private SlidingMenu menu;
 	private ListView navListView;
 	
-	String font = "RobotoCondensed-Regular.ttf";
-	
+	String font;
+	String fontContent;
+	String fontTitle;
 	   @Override
 	   protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -52,7 +53,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	        
 	        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	        String theme = prefs.getString("theme", "#34AADC");
-	        
+	        font = prefs.getString("font", null);
+	        fontContent = prefs.getString("fontContent", null);
+	        fontTitle = prefs.getString("fontTitle", null);
 	       
 	        setupActionBar(theme);
 	        setupFavList();        
@@ -63,7 +66,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         

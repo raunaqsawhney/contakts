@@ -40,7 +40,10 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	
 	FriendAdapter adapter;
 	
-	String font = "RobotoCondensed-Regular.ttf";
+	String font;
+	String fontContent;
+	String fontTitle;
+	
 	
     ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
 
@@ -67,13 +70,15 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString("theme", "#34AADC");
-	
+        font = prefs.getString("font", null);
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);
        		
 		// Set up the Action Bar
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), "Harabara.ttf"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
