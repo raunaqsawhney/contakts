@@ -115,6 +115,8 @@
             android:label="@string/title_activity_linked_in" 
             android:launchMode="singleInstance">
         </activity>
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+		android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     </application>
 
 </manifest>
