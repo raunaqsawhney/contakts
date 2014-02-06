@@ -36,6 +36,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.facebook.Session;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -178,6 +180,16 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         contactList.setAdapter(mAdapter);
         View header = getLayoutInflater().inflate(R.layout.google_header, null);
         contactList.addHeaderView(header);
+        
+        // Look up the AdView as a resource and load a request.
+	    AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest request = new AdRequest.Builder()
+	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+	    .addKeyword("games")
+	    .addKeyword("apps")
+	    .addKeyword("social")
+	    .build();
+	    adView.loadAd(request);
 
 	}
 
