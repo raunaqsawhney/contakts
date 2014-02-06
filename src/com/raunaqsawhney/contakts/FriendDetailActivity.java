@@ -95,12 +95,10 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	ImageView friend_imgurl_iv;
 	ImageView friend_cover_iv;
 	
-	TextView lessItems;
 	
 	int eduCount = 0;
 	int workCount = 0;
 	
-	int itemCount = 0;
 	
 	boolean isThereEducation = false;
 	boolean isThereWork = false;
@@ -160,15 +158,16 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
+        final String[] nav = { "Favourites",
+				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
 				"Settings"
 		};
 		
-		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
@@ -246,7 +245,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            String first_name = json_obj.getString("first_name");
 					            urlImg 	= json_obj.getString("pic_big");
 					            username = json_obj.getString("username");
-					            itemCount+=1;
 					            
 					            try {
 						            birthday = json_obj.getString("birthday");
@@ -254,7 +252,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 						            if (birthday != "null") {
 						            	LinearLayout birthdayLayout = (LinearLayout) findViewById(R.id.f_detail_birthday_layout);
 						            	birthdayLayout.setVisibility(View.VISIBLE);
-							            itemCount += 1;
 
 						            	SimpleDateFormat format1 = new SimpleDateFormat("MM/dd");
 						            	Date dt1 = format1.parse(birthday_date);
@@ -349,7 +346,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            	int length = eduArray.length();
 					            	if (length > 0)
 						            	eduLayout.setVisibility(View.VISIBLE);
-						            	itemCount += 1;
 
 					            	
 					            	for (int j = 0; j < length; j++) {
@@ -373,7 +369,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            	int length = workArray.length();
 					            	if (length > 0)
 						            	workLayout.setVisibility(View.VISIBLE);
-						            	itemCount += 1;
 
 					            	
 					            	for (int j = 0; j < length; j++) {
@@ -478,7 +473,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			curLocLayout.setVisibility(View.GONE);
 					    		} else {
 					    			curLocLayout.setVisibility(View.VISIBLE);
-						            itemCount += 1;
 					    			System.out.println(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry() + "VISIBLE");
 						    		friend_curloc_tv.setText(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry());
 					    		}
@@ -490,7 +484,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			homeLayout.setVisibility(View.GONE);
 					    		} else {
 					    			homeLayout.setVisibility(View.VISIBLE);
-						            itemCount += 1;
 					    			System.out.println(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry() + "VISIBLE");
 						    		friend_hometown_tv.setText(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry());
 					    		}
@@ -509,15 +502,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    	        	startActivity(openUrlIntent);
 					    	        }
 					    	    });
-				    	    	System.out.println(itemCount);
-
-					    	    if (itemCount <= 1) {
-					    	    	lessItems = (TextView) findViewById(R.id.f_detail_less_item_message);
-					    	    	lessItems.setVisibility(View.VISIBLE);
-					    	    	
-					    	    	lessItems.setText("Looks like " + first_name + " does not have a lot of information" +
-					    	    			" on Facebook.");
-					    	    }
 					        }
 					    }
 						
@@ -553,22 +537,24 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent stIntent = new Intent(FriendDetailActivity.this, FavActivity.class);
-		   	FriendDetailActivity.this.startActivity(stIntent);
+		   	Intent favIntent = new Intent(FriendDetailActivity.this, FavActivity.class);
+		   	FriendDetailActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent pIntent = new Intent(FriendDetailActivity.this, MainActivity.class);
-		   FriendDetailActivity.this.startActivity(pIntent);
+		   Intent freqIntent = new Intent(FriendDetailActivity.this, FrequentActivity.class);
+		   FriendDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 2) {
-	   		Intent gIntent = new Intent(FriendDetailActivity.this, GoogleActivity.class);
-	   		FriendDetailActivity.this.startActivity(gIntent);
+	   		Intent phoneIntent = new Intent(FriendDetailActivity.this, MainActivity.class);
+	   		FriendDetailActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 3) {
-	   		Intent fbIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
-	   		FriendDetailActivity.this.startActivity(fbIntent);
+	   		Intent googleIntent = new Intent(FriendDetailActivity.this, GoogleActivity.class);
+	   		FriendDetailActivity.this.startActivity(googleIntent);
 	   } else if (selected == 4) {
-	   		Intent liIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
-	   		FriendDetailActivity.this.startActivity(liIntent);
-	   }	
-		//TODO: ADD TWITTER
+	   		Intent FBIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
+	   		FriendDetailActivity.this.startActivity(FBIntent);
+	   } else if (selected == 5) {
+		   	Intent loIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
+		   	FriendDetailActivity.this.startActivity(loIntent);
+	   }
 	}
 
 	@Override

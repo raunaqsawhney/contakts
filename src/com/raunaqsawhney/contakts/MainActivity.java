@@ -110,18 +110,18 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         navListView = (ListView) findViewById(R.id.nav_menu);
         
 		final String[] nav = { "Favourites",
+				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"LinkedIn",
 				"Settings"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_twitter,
 				R.drawable.ic_nav_settings
 		};
 
@@ -288,23 +288,23 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent stIntent = new Intent(MainActivity.this, FavActivity.class);
-			MainActivity.this.startActivity(stIntent);
+		   	Intent favIntent = new Intent(MainActivity.this, FavActivity.class);
+		   	MainActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent pIntent = new Intent(MainActivity.this, MainActivity.class);
-		   MainActivity.this.startActivity(pIntent);
+		   Intent freqIntent = new Intent(MainActivity.this, FrequentActivity.class);
+		   MainActivity.this.startActivity(freqIntent);
 	   } else if (selected == 2) {
-	   		Intent gIntent = new Intent(MainActivity.this, WelcomeActivity.class);
-	   		MainActivity.this.startActivity(gIntent);
+	   		Intent phoneIntent = new Intent(MainActivity.this, MainActivity.class);
+	   		MainActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 3) {
-	   		Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);
-	   		MainActivity.this.startActivity(fbIntent);
+	   		Intent googleIntent = new Intent(MainActivity.this, GoogleActivity.class);
+	   		MainActivity.this.startActivity(googleIntent);
 	   } else if (selected == 4) {
-	   		Intent liIntent = new Intent(MainActivity.this, WelcomeActivity.class);
-	   		MainActivity.this.startActivity(liIntent);
+	   		Intent FBIntent = new Intent(MainActivity.this, FBActivity.class);
+	   		MainActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(MainActivity.this, LoginActivity.class);
-	   		MainActivity.this.startActivity(loIntent);
+		   	MainActivity.this.startActivity(loIntent);
 	   }
 	}
 }

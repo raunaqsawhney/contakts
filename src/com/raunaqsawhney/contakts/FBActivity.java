@@ -113,7 +113,8 @@ public class FBActivity extends Activity implements OnItemClickListener  {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
+        final String[] nav = { "Favourites",
+				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
@@ -121,6 +122,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
@@ -251,22 +253,24 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent stIntent = new Intent(FBActivity.this, FavActivity.class);
-		   	FBActivity.this.startActivity(stIntent);
+		   	Intent favIntent = new Intent(FBActivity.this, FavActivity.class);
+		   	FBActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent pIntent = new Intent(FBActivity.this, MainActivity.class);
-		   FBActivity.this.startActivity(pIntent);
+		   Intent freqIntent = new Intent(FBActivity.this, FrequentActivity.class);
+		   FBActivity.this.startActivity(freqIntent);
 	   } else if (selected == 2) {
-	   		Intent gIntent = new Intent(FBActivity.this, GoogleActivity.class);
-	   		FBActivity.this.startActivity(gIntent);
+	   		Intent phoneIntent = new Intent(FBActivity.this, MainActivity.class);
+	   		FBActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 3) {
-	   		Intent fbIntent = new Intent(FBActivity.this, FBActivity.class);
-	   		FBActivity.this.startActivity(fbIntent);
+	   		Intent googleIntent = new Intent(FBActivity.this, GoogleActivity.class);
+	   		FBActivity.this.startActivity(googleIntent);
 	   } else if (selected == 4) {
-	   		Intent liIntent = new Intent(FBActivity.this, LoginActivity.class);
-	   		FBActivity.this.startActivity(liIntent);
-	   }	
-		//TODO: ADD TWITTER
+	   		Intent FBIntent = new Intent(FBActivity.this, FBActivity.class);
+	   		FBActivity.this.startActivity(FBIntent);
+	   } else if (selected == 5) {
+		   	Intent loIntent = new Intent(FBActivity.this, LoginActivity.class);
+		   	FBActivity.this.startActivity(loIntent);
+	   }
 	}
 	
 	@Override

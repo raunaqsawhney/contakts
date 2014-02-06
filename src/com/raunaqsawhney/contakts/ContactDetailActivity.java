@@ -165,7 +165,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
+        final String[] nav = { "Favourites",
+				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
@@ -173,6 +174,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
@@ -430,13 +432,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getPhoto(contact_id);
 		
 		getLookupKey(contact_id);
-		
 	}
 
 	private void getLookupKey(String contact_id) {
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
-
 		
 		@SuppressWarnings("deprecation")
 		Cursor cursor = managedQuery(
@@ -1523,21 +1523,24 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent stIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
-		   	ContactDetailActivity.this.startActivity(stIntent);
+		   	Intent favIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
+		   	ContactDetailActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent pIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
-		   ContactDetailActivity.this.startActivity(pIntent);
+		   Intent freqIntent = new Intent(ContactDetailActivity.this, FrequentActivity.class);
+		   ContactDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 2) {
-	   		Intent gIntent = new Intent(ContactDetailActivity.this, GoogleActivity.class);
-	   		ContactDetailActivity.this.startActivity(gIntent);
+	   		Intent phoneIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
+	   		ContactDetailActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 3) {
-	   		Intent fbIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
-	   		ContactDetailActivity.this.startActivity(fbIntent);
+	   		Intent googleIntent = new Intent(ContactDetailActivity.this, GoogleActivity.class);
+	   		ContactDetailActivity.this.startActivity(googleIntent);
 	   } else if (selected == 4) {
-	   		Intent liIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
-	   		ContactDetailActivity.this.startActivity(liIntent);
-	   }	
+	   		Intent FBIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
+	   		ContactDetailActivity.this.startActivity(FBIntent);
+	   } else if (selected == 5) {
+		   	Intent loIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
+		   	ContactDetailActivity.this.startActivity(loIntent);
+	   }
 	}
 
 	@Override

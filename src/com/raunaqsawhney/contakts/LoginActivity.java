@@ -100,7 +100,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
+        final String[] nav = { "Favourites",
+				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
@@ -108,12 +109,13 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
-
+		
 		List<RowItem> rowItems;
 		
 		rowItems = new ArrayList<RowItem>();
@@ -235,22 +237,24 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent stIntent = new Intent(LoginActivity.this, FavActivity.class);
-			LoginActivity.this.startActivity(stIntent);
+		   	Intent favIntent = new Intent(LoginActivity.this, FavActivity.class);
+		   	LoginActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent pIntent = new Intent(LoginActivity.this, MainActivity.class);
-		   LoginActivity.this.startActivity(pIntent);
+		   Intent freqIntent = new Intent(LoginActivity.this, FrequentActivity.class);
+		   LoginActivity.this.startActivity(freqIntent);
 	   } else if (selected == 2) {
-	   		Intent gIntent = new Intent(LoginActivity.this, GoogleActivity.class);
-	   		LoginActivity.this.startActivity(gIntent);
+	   		Intent phoneIntent = new Intent(LoginActivity.this, MainActivity.class);
+	   		LoginActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 3) {
-	   		Intent fbIntent = new Intent(LoginActivity.this, FBActivity.class);
-	   		LoginActivity.this.startActivity(fbIntent);
+	   		Intent googleIntent = new Intent(LoginActivity.this, GoogleActivity.class);
+	   		LoginActivity.this.startActivity(googleIntent);
 	   } else if (selected == 4) {
-	   		Intent liIntent = new Intent(LoginActivity.this, LoginActivity.class);
-	   		LoginActivity.this.startActivity(liIntent);
-	   }	
-		//TODO: ADD TWITTER
+	   		Intent FBIntent = new Intent(LoginActivity.this, FBActivity.class);
+	   		LoginActivity.this.startActivity(FBIntent);
+	   } else if (selected == 5) {
+		   	Intent loIntent = new Intent(LoginActivity.this, LoginActivity.class);
+		   	LoginActivity.this.startActivity(loIntent);
+	   }
 	}
 
 }

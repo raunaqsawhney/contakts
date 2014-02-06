@@ -18,17 +18,16 @@
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="themeButton">Theme</string>
     <string name="themeButtonInfo">Change the look of the app to your liking by
-         picking a theme of your choice!</string>    
-         
+         picking a theme of your choice!</string>
     <string name="welcomeInfo">Contakts is a beautiful new way to connect with
          everyone that matters to you.\n\nSimply swipe right anywhere on the screen
           to open the navigation menu and start connecting with everyone!</string>
-          
     <string name="fbInfo">Contakts allows you to connect with your Facebook friends
         easily. Just login to you Facebook account, by tapping on the button below.
         \n\nYou will be asked to accept permissions, allowing us to present you with all
         the information you need to keep in touch with your friends.\n\nNo personal information
         is collected or stored by Contakts.</string>
     <string name="admob_id">a152f39c37b61f7</string>
-        
+    <string name="title_activity_frequent">FrequentActivity</string>
+
 </resources>
