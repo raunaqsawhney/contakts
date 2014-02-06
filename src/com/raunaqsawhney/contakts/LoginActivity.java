@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
@@ -13,6 +16,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -24,6 +28,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.facebook.FacebookException;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -44,6 +49,21 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	
 	private SlidingMenu menu;
 	private ListView navListView;
+	
+	IInAppBillingService mService;
+
+	ServiceConnection mServiceConn = new ServiceConnection() {
+	   @Override
+	   public void onServiceDisconnected(ComponentName name) {
+	       mService = null;
+	   }
+
+	   @Override
+	   public void onServiceConnected(ComponentName name, 
+	      IBinder service) {
+	       mService = IInAppBillingService.Stub.asInterface(service);
+	   }
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +75,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);
+        
+        bindService(new 
+                Intent("com.android.vending.billing.InAppBillingService.BIND"),
+                        mServiceConn, Context.BIND_AUTO_CREATE);
         
         
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -256,5 +280,12 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		   	LoginActivity.this.startActivity(loIntent);
 	   }
 	}
-
+	
+	@Override
+	public void onDestroy() {
+	    super.onDestroy();
+	    if (mService != null) {
+	        unbindService(mServiceConn);
+	    }   
+	}
 }
