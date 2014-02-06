@@ -1,6 +1,9 @@
 package com.raunaqsawhney.contakts;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -19,8 +22,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -58,6 +63,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	private String urlImg;
 	private String username;
 	private String birthday;
+	private String birthday_date;
 	private String current_loc_city;
 	private String current_loc_state;
 	private String current_loc_country;
@@ -89,11 +95,17 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	ImageView friend_imgurl_iv;
 	ImageView friend_cover_iv;
 	
+	TextView lessItems;
+	
 	int eduCount = 0;
 	int workCount = 0;
 	
+	int itemCount = 0;
+	
 	boolean isThereEducation = false;
 	boolean isThereWork = false;
+	
+	Calendar calendar = Calendar.getInstance(); 
 
 	
 	Session.OpenRequest openRequest = null;
@@ -120,7 +132,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -155,6 +167,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				"Settings"
 		};
 		
+		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -179,7 +192,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         this.imageLoader = ImageLoader.getInstance();
         
         options = new DisplayImageOptions.Builder()
-       .imageScaleType(ImageScaleType.NONE) // default
+       .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
        .build();
        
        
@@ -187,7 +200,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
        .discCacheExtraOptions(100, 100, CompressFormat.PNG, 100, null)
        .build();
        imageLoader.init(config);
-       
+              
        friend_id = getIntent().getStringExtra("friend_id");
        fetchFriendInfo();
        
@@ -195,7 +208,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	
 	private void fetchFriendInfo() {
 		
-		String fqlQuery = "select name, pic_big, pic_cover, username, birthday, current_location, hometown_location, work_history, education_history from user where uid = " + friend_id;
+		String fqlQuery = "select name, first_name, pic_big, pic_cover, username, birthday, birthday_date, current_location, hometown_location, work_history, education_history from user where uid = " + friend_id;
 		System.out.println(fqlQuery);
 		
 		final Bundle params = new Bundle();
@@ -230,14 +243,56 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            JSONObject json_obj = arr.getJSONObject( i );
 					            
 					            name   	= json_obj.getString("name");
+					            String first_name = json_obj.getString("first_name");
 					            urlImg 	= json_obj.getString("pic_big");
 					            username = json_obj.getString("username");
+					            itemCount+=1;
 					            
 					            try {
 						            birthday = json_obj.getString("birthday");
+						            birthday_date = json_obj.getString("birthday_date");
 						            if (birthday != "null") {
 						            	LinearLayout birthdayLayout = (LinearLayout) findViewById(R.id.f_detail_birthday_layout);
 						            	birthdayLayout.setVisibility(View.VISIBLE);
+							            itemCount += 1;
+
+						            	SimpleDateFormat format1 = new SimpleDateFormat("MM/dd");
+						            	Date dt1 = format1.parse(birthday_date);
+ 
+						            	String month = (String) android.text.format.DateFormat.format("MM", dt1); 
+						            	String day = (String) android.text.format.DateFormat.format("dd", dt1); 
+						            	
+						            	String friendBirthday = month+"/"+day;
+						            	
+						            	Calendar c = Calendar.getInstance();
+						            	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+						            	String todayDate = sdf.format(c.getTime());
+						            	
+						            	System.out.println("TODAY: " + todayDate);
+						            	System.out.println("BIRTHDAY:" + friendBirthday);
+						            	
+						            	if (todayDate.equalsIgnoreCase(friendBirthday))
+						            	{
+						            		System.out.println("BIRTHDAY!" + first_name);
+						            		LinearLayout birthdayIconLayout = (LinearLayout) findViewById(R.id.f_detail_header_birthday_layout);
+						            		birthdayIconLayout.setVisibility(View.VISIBLE);
+						            		
+						            		TextView birthdayText = (TextView) findViewById(R.id.f_detail_header_birthday_text);
+						            		birthdayText.setText("Wish " + first_name + " a Happy Birthday!");
+						            		
+						            		birthdayText.setOnClickListener(new OnClickListener() {
+								    	        @Override
+								    	        public void onClick(View v) {
+								    	        	String url = friend_username_tv.getText().toString();
+								    	        	if (!url.startsWith("https://") && !url.startsWith("http://")){
+								    	        	    url = "http://www.facebook.com/" + url;
+								    	        	}
+								    	        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+								    	        	startActivity(openUrlIntent);
+								    	        }
+								    	    });
+						            	}
+						            		
 						            }
 					            } catch (JSONException e) {
 					            	// Handled by not showing the view
@@ -294,6 +349,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            	int length = eduArray.length();
 					            	if (length > 0)
 						            	eduLayout.setVisibility(View.VISIBLE);
+						            	itemCount += 1;
+
 					            	
 					            	for (int j = 0; j < length; j++) {
 					            		currHistory = eduArray.getJSONObject(j);
@@ -316,6 +373,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            	int length = workArray.length();
 					            	if (length > 0)
 						            	workLayout.setVisibility(View.VISIBLE);
+						            	itemCount += 1;
+
 					            	
 					            	for (int j = 0; j < length; j++) {
 					            		currWorkHistory = workArray.getJSONObject(j);
@@ -361,6 +420,18 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			eduTextView.setTextColor(Color.BLACK);
 					    			eduTextView.setPadding(60, 10, 0, 10);
 					    			
+					    			eduTextView.setOnClickListener(new OnClickListener() {
+						    	        @Override
+						    	        public void onClick(View v) {
+						    	        	String url = eduTextView.getText().toString();
+						    	        	if (!url.startsWith("https://") && !url.startsWith("http://")){
+						    	        	    url = "http://www.google.com/#q=" + url;
+						    	        	}
+						    	        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+						    	        	startActivity(openUrlIntent);
+						    	        }
+						    	    });
+					    			
 					    			eduLayout.addView(eduTextView);
 					    			eduTextViews[k] = eduTextView;
 					    		}
@@ -376,6 +447,18 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			workTextView.setEllipsize(TextUtils.TruncateAt.END);
 					    			workTextView.setTextColor(Color.BLACK);
 					    			workTextView.setPadding(60, 10, 0, 10);
+					    			
+					    			workTextView.setOnClickListener(new OnClickListener() {
+						    	        @Override
+						    	        public void onClick(View v) {
+						    	        	String url = workTextView.getText().toString();
+						    	        	if (!url.startsWith("https://") && !url.startsWith("http://")){
+						    	        	    url = "http://www.google.com/#q=" + url;
+						    	        	}
+						    	        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+						    	        	startActivity(openUrlIntent);
+						    	        }
+						    	    });
 					    			
 					    			workLayout.addView(workTextView);
 					    			workTextViews[m] = workTextView;
@@ -395,6 +478,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			curLocLayout.setVisibility(View.GONE);
 					    		} else {
 					    			curLocLayout.setVisibility(View.VISIBLE);
+						            itemCount += 1;
 					    			System.out.println(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry() + "VISIBLE");
 						    		friend_curloc_tv.setText(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry());
 					    		}
@@ -406,6 +490,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			homeLayout.setVisibility(View.GONE);
 					    		} else {
 					    			homeLayout.setVisibility(View.VISIBLE);
+						            itemCount += 1;
 					    			System.out.println(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry() + "VISIBLE");
 						    		friend_hometown_tv.setText(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry());
 					    		}
@@ -423,9 +508,19 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    	        	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 					    	        	startActivity(openUrlIntent);
 					    	        }
-					    	    });							            
+					    	    });
+				    	    	System.out.println(itemCount);
+
+					    	    if (itemCount <= 1) {
+					    	    	lessItems = (TextView) findViewById(R.id.f_detail_less_item_message);
+					    	    	lessItems.setVisibility(View.VISIBLE);
+					    	    	
+					    	    	lessItems.setText("Looks like " + first_name + " does not have a lot of information" +
+					    	    			" on Facebook.");
+					    	    }
 					        }
 					    }
+						
 					    catch ( Throwable t )
 					    {
 					        t.printStackTrace();
@@ -441,6 +536,17 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		getMenuInflater().inflate(R.menu.friend_detail, menu);
 		return true;
 	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

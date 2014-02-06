@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,25 +6,57 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity" >
+    tools:context=".LoginActivity" 
+    android:orientation="vertical">
 
-	<com.facebook.widget.LoginButton
-	    android:id="@+id/authButton"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentLeft="true"
-	    android:layout_alignParentRight="true"
-	    android:layout_alignParentTop="true"
-	    android:layout_marginTop="53dp" />
 
-	<Button
-	    android:id="@+id/colorPicker"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignLeft="@+id/authButton"
-	    android:layout_alignRight="@+id/authButton"
-	    android:layout_below="@+id/authButton"
-	    android:layout_marginTop="59dp"
-	    android:text="Theme" />
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/themeButtonInfo" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/colorPicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/skyBlue"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+		android:layout_marginTop="10dp"
+        android:text="@string/themeButton"
+        android:textColor="@android:color/white" />
+    
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="50dip" >
+
+            <TextView
+                android:id="@+id/fbInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textSize="16sp"
+                android:text="@string/fbInfo" />
+            
+	        <com.facebook.widget.LoginButton
+	            android:id="@+id/authButton"
+	            android:layout_marginTop="10dip"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" />
+
+    	</LinearLayout>
+    </ScrollView>
+        
+
+</LinearLayout>

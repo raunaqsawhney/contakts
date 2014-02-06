@@ -11,7 +11,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -113,6 +112,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
+				"LinkedIn",
 				"Settings"
 		};
 		
@@ -120,6 +120,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
+				R.drawable.ic_nav_twitter,
 				R.drawable.ic_nav_settings
 		};
 
@@ -288,8 +289,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   		Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);
 	   		MainActivity.this.startActivity(fbIntent);
 	   } else if (selected == 4) {
-	   		Intent liIntent = new Intent(MainActivity.this, LoginActivity.class);
+	   		Intent liIntent = new Intent(MainActivity.this, WelcomeActivity.class);
 	   		MainActivity.this.startActivity(liIntent);
-	   }	
+	   } else if (selected == 5) {
+		   	Intent loIntent = new Intent(MainActivity.this, LoginActivity.class);
+	   		MainActivity.this.startActivity(loIntent);
+	   }
 	}
 }
