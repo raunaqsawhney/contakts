@@ -6,8 +6,11 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -24,6 +27,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,6 +35,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -186,6 +191,46 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		
         GridView favGrid = (GridView) findViewById(R.id.favGrid);
+        
+        favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@SuppressWarnings("deprecation")
+			@Override
+			public boolean onItemLongClick(final AdapterView<?> parent, View view,
+					final int position, long id) {
+				AlertDialog alertDialog = new AlertDialog.Builder(
+                       FavActivity.this).create();
+				
+				// Setting Dialog Title
+		        alertDialog.setTitle("Remove Favourite");
+		        
+		        // Setting Dialog Message
+		        alertDialog.setMessage("Are you sure you want to remove this contact from your favourites?");
+		        
+		        // Setting OK Button
+		        alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int which) {
+		                	
+		                	Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+		    				String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+		                	
+		                    String[] fv = new String[] { displayName };
+		                    
+		                	ContentValues values = new ContentValues();
+		                    values.put(ContactsContract.Contacts.STARRED, 0);
+		                    getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
+		                    
+		                    Intent intent = new Intent(getApplicationContext(), FavActivity.class);
+		                    startActivity(intent);
+		        	}
+		        });
+		        // Showing Alert Message
+		        alertDialog.show();
+				return true;
+			}
+            
+        });
+        
         favGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -200,7 +245,6 @@ public class FavActivity extends Activity implements OnItemClickListener{
             }
         });
         
-        // Assign adapter to the HorizontalListView
         favGrid.setAdapter(adapter);
    }
 

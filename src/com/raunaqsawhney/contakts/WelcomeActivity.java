@@ -100,12 +100,12 @@ public class WelcomeActivity extends Activity {
                 null, null);
         startManagingCursor(ownerCur);
 
-        while (ownerCur.moveToNext()) {
+    	while (ownerCur.moveToNext()) {
         	ownerName = ownerCur.getString(
             		ownerCur.getColumnIndex(ContactsContract.Profile.DISPLAY_NAME));   
         }
         
-		Cursor ownerPhotoCur = getContentResolver().query(ContactsContract.Profile.CONTENT_URI,null,
+        Cursor ownerPhotoCur = getContentResolver().query(ContactsContract.Profile.CONTENT_URI,null,
                 null,
                 null, null);
         startManagingCursor(ownerCur);
@@ -117,10 +117,18 @@ public class WelcomeActivity extends Activity {
         
         TextView ownerTV = (TextView) findViewById(R.id.c_welcome_text);
         ownerTV.setTextAlignment(4);
-        ownerTV.setText("Hello, " + ownerName +"!");
         
+        if (ownerName == null)
+            ownerTV.setText("Hello!");
+        else 
+            ownerTV.setText("Hello, " + ownerName +"!");
+
         ImageView ownerIV = (ImageView) findViewById(R.id.c_welcome_photo);
-        ownerIV.setImageURI(Uri.parse(ownerPhoto));
+        try {
+            ownerIV.setImageURI(Uri.parse(ownerPhoto));
+        } catch (NullPointerException e) {
+            ownerIV.setImageURI(null);
+        }
         
         TextView infoTV = (TextView) findViewById(R.id.c_welcome_info);
         infoTV.setText(R.string.welcomeInfo);
