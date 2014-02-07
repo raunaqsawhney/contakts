@@ -47,6 +47,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	String font;
 	String fontTitle;
 	String fontContent;
+	String theme;
 
 	SimpleCursorAdapter mAdapter;
 	String mFilter;
@@ -62,15 +63,32 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-		Session.openActiveSessionFromCache(getBaseContext());
+        setupGlobalPrefs();
+        setupActionBar();
+        setupSlidingMenu();
+        initializeLoader();
         
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
+		Session.openActiveSessionFromCache(getBaseContext());
+
+        
+
+        
+        
+
+	}
+
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
+        fontTitle = prefs.getString("fontTitle", null);	
+	}
 
-        // Set up Action Bar
+	private void setupActionBar() {
+		
+		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
@@ -90,8 +108,11 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
+        }	
+	}
+
+	private void setupSlidingMenu() {
+		
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -135,9 +156,12 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);
-        
-        // Set up the ListView for contacts to be displayed
+		navListView.setOnItemClickListener(this);	
+	}
+
+	private void initializeLoader() {
+		
+		// Set up the ListView for contacts to be displayed
         contactList = (ListView)findViewById(R.id.list);
         contactList.setOnItemClickListener(new OnItemClickListener() {
             @SuppressWarnings("deprecation")
@@ -179,37 +203,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	    
         contactList.setAdapter(mAdapter);
         View header = getLayoutInflater().inflate(R.layout.google_header, null);
-        contactList.addHeaderView(header);
-        
-        // Look up the AdView as a resource and load a request.
-	    AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);
-
+        contactList.addHeaderView(header);	
 	}
-
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-         getMenuInflater().inflate(R.menu.options_menu, menu);
-    	
-        // Set up the Action Bar menu Search
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setQueryHint("Find contacts");
-        searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
-        
-        searchView.setOnQueryTextListener(this);        
-        
-        AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
-        search_text.setTextColor(Color.WHITE);
-        search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
-        
-        return true;
-    }
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
@@ -261,6 +256,24 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	public boolean onQueryTextSubmit(String arg0) {
 		return false;
 	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+         getMenuInflater().inflate(R.menu.options_menu, menu);
+    	
+        // Set up the Action Bar menu Search
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setQueryHint("Find contacts");
+        searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
+        
+        searchView.setOnQueryTextListener(this);        
+        
+        AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
+        search_text.setTextColor(Color.WHITE);
+        search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
+        
+        return true;
+    }
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

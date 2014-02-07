@@ -44,26 +44,34 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	String font;
 	String fontContent;
 	String fontTitle;
-	   @Override
-	   protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.fav_activity);
-	        
-			Session.openActiveSessionFromCache(getBaseContext());
-	        
-	        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-	        String theme = prefs.getString("theme", "#34AADC");
-	        font = prefs.getString("font", null);
-	        fontContent = prefs.getString("fontContent", null);
-	        fontTitle = prefs.getString("fontTitle", null);
-	       
-	        setupActionBar(theme);
-	        setupFavList();        
-	   }
+	String theme;
+	
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fav_activity);
+        
+        setupGlobalPrefs();
+        setupActionBar();
+        setupSlidingMenu();
+        setupFavList();
+        
+		Session.openActiveSessionFromCache(getBaseContext());
+		
+   }
 
-	   private void setupActionBar(String theme) {
-	   
-        // Set up Action Bar
+	private void setupGlobalPrefs() {
+		   
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		theme = prefs.getString("theme", "#34AADC");
+		font = prefs.getString("font", null);
+		fontContent = prefs.getString("fontContent", null);
+		fontTitle = prefs.getString("fontTitle", null);	
+	}
+
+	private void setupActionBar() {
+		   
+		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
@@ -84,8 +92,11 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }
-        
-        // Set up Sliding Menu
+	}
+
+	private void setupSlidingMenu() {
+		
+		// Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -128,9 +139,10 @@ public class FavActivity extends Activity implements OnItemClickListener{
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);
+		navListView.setOnItemClickListener(this);	
 		
 	}
+
 
 	private void setupFavList() {
 		

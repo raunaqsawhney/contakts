@@ -73,6 +73,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	String font;
 	String fontContent;
 	String fontTitle;
+	String theme;
 	
 	TextView lblNumber;
 	TextView lblName;
@@ -104,7 +105,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	String relationshipType;
 	String website;
 	String friendUserName;
-
 	
 	String contact_id;
 	String lookupkey;
@@ -112,7 +112,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     Contact contact = new Contact();
     
     GoogleMap googleMap;
-
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,15 +119,31 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
         setContentView(R.layout.activity_contact_detail);
         
-		Session.openActiveSessionFromCache(getBaseContext());
+        contact_id = getIntent().getStringExtra("contact_id");
         
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
+        setupGlobalPrefs();
+        setupActionBar();
+        setupSlidingMenu();
+        setupQuickLinks();
+        
+        getContactInfo(contact_id);
+        
+        Session.openActiveSessionFromCache(getBaseContext());
+
+    }
+
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
-        
-        // Set up Action Bar
+        fontTitle = prefs.getString("fontTitle", null);		
+	}
+
+	private void setupActionBar() {
+		
+		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontContent)); // Only here the font is not same as fontTitle
@@ -148,8 +163,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
+        }		
+	}
+
+	private void setupSlidingMenu() {
+		
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -193,12 +211,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);
-        
-        contact_id = getIntent().getStringExtra("contact_id");
-        getContactInfo(contact_id);
-
-        // Check for Favourites
+		navListView.setOnItemClickListener(this);		
+	}
+	
+	private void setupQuickLinks() {
+		
+		// Check for Favourites
         Boolean isStarred = checkStarredStatus(contact_id);
         if (isStarred == true)
         {
@@ -379,8 +397,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		    }
         		});
         	}
-        });
-    }
+        });		
+	}
 
 	@SuppressWarnings("deprecation")
 	private Boolean checkStarredStatus(String contact_id2) {
@@ -430,8 +448,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
 		getPhoto(contact_id);
-		
 		getLookupKey(contact_id);
+		
 	}
 
 	private void getLookupKey(String contact_id) {

@@ -54,6 +54,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	String font;
 	String fontContent;
 	String fontTitle;
+	String theme;
 
 	private ListView navListView;
 	private SlidingMenu menu;
@@ -71,6 +72,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	private String current_home_state;
 	private String current_home_country;
 	private String coverUrl;
+	private Boolean isAppUser;
 
 	private ImageLoader imageLoader;
 	DisplayImageOptions options;
@@ -79,13 +81,11 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	ArrayList<String> educationHistory = new ArrayList<String>();
 	ArrayList<String> workHistory = new ArrayList<String>();
 
-	
 	String friendName;
 	String friendPhotoUri;
 	String friendIsAppUser;
 	String friendCoverPhotoUri;
 	String friendUserName;
-	
 	
 	TextView friend_name_tv; 
 	TextView friend_username_tv;
@@ -94,17 +94,15 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	TextView friend_hometown_tv;
 	ImageView friend_imgurl_iv;
 	ImageView friend_cover_iv;
-	
+	TextView friend_is_app_user;
 	
 	int eduCount = 0;
 	int workCount = 0;
-	
 	
 	boolean isThereEducation = false;
 	boolean isThereWork = false;
 	
 	Calendar calendar = Calendar.getInstance(); 
-
 	
 	Session.OpenRequest openRequest = null;
 
@@ -113,13 +111,25 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_detail);
 		
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
+		setupGlobalPrefs();
+		setupActionBar();
+		setupSlidingMenu();
+		setupImageLoader();
+		fetchFriendInfo();
+       
+	}
+	
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
-        
-        
+        fontTitle = prefs.getString("fontTitle", null);		
+	}
+
+	private void setupActionBar() {
+		
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
@@ -140,8 +150,11 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
+        }		
+	}
+
+	private void setupSlidingMenu() {
+		
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -186,8 +199,11 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
                 R.layout.nav_item_layout, rowItems);
 
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);
-                
+		navListView.setOnItemClickListener(this);		
+	}
+	
+	private void setupImageLoader() {
+		
         this.imageLoader = ImageLoader.getInstance();
         
         options = new DisplayImageOptions.Builder()
@@ -200,23 +216,17 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
        .build();
        imageLoader.init(config);
               
-       friend_id = getIntent().getStringExtra("friend_id");
-       fetchFriendInfo();
-       
+       friend_id = getIntent().getStringExtra("friend_id");		
 	}
-	
+
 	private void fetchFriendInfo() {
 		
-		String fqlQuery = "select name, first_name, pic_big, pic_cover, username, birthday, birthday_date, current_location, hometown_location, work_history, education_history from user where uid = " + friend_id;
-		System.out.println(fqlQuery);
+		String fqlQuery = "select name, is_app_user, first_name, pic_big, pic_cover, username, birthday, birthday_date, current_location, hometown_location, work_history, education_history from user where uid = " + friend_id;
 		
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
 		
-		System.out.println("startfb started, done fqlquery building");
-		
 		Session session = Session.getActiveSession();
-		System.out.println("got active session");
 
 		Request request = new Request(session, 
     		    "/fql", 
@@ -230,7 +240,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					private void parseResponse(Response response) {
 						try
 					    {
-							System.out.println(response.toString());
 					        GraphObject go  = response.getGraphObject();
 					        JSONObject  jso = go.getInnerJSONObject();
 					        JSONArray   arr = jso.getJSONArray( "data" );
@@ -245,6 +254,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            String first_name = json_obj.getString("first_name");
 					            urlImg 	= json_obj.getString("pic_big");
 					            username = json_obj.getString("username");
+					            isAppUser = json_obj.getBoolean("is_app_user");
 					            
 					            try {
 						            birthday = json_obj.getString("birthday");
@@ -264,13 +274,9 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 						            	Calendar c = Calendar.getInstance();
 						            	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
 						            	String todayDate = sdf.format(c.getTime());
-						            	
-						            	System.out.println("TODAY: " + todayDate);
-						            	System.out.println("BIRTHDAY:" + friendBirthday);
-						            	
+						            							            	
 						            	if (todayDate.equalsIgnoreCase(friendBirthday))
 						            	{
-						            		System.out.println("BIRTHDAY!" + first_name);
 						            		LinearLayout birthdayIconLayout = (LinearLayout) findViewById(R.id.f_detail_header_birthday_layout);
 						            		birthdayIconLayout.setVisibility(View.VISIBLE);
 						            		
@@ -352,7 +358,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            		currHistory = eduArray.getJSONObject(j);
 					            		currSchool = currHistory.getString("name");
 					            		
-					            		System.out.println("Added " + currSchool);
 					            		educationHistory.add(currSchool);
 					            		eduCount++;
 					            	}
@@ -375,7 +380,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            		currWorkHistory = workArray.getJSONObject(j);
 					            		currWork = currWorkHistory.getString("company_name");
 					            		
-					            		System.out.println("Added " + currWork);
 					            		workHistory.add(currWork);
 					            		workCount++;
 					            	}
@@ -402,7 +406,13 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    		friend_hometown_tv = (TextView) findViewById(R.id.f_detail_hometown_content);
 					    		friend_imgurl_iv = (ImageView) findViewById(R.id.f_detail_header_photo);
 					    		friend_cover_iv = (ImageView) findViewById(R.id.cover_photo);
-
+					    		friend_is_app_user = (TextView) findViewById(R.id.f_detail_header_isappuser);
+					    		
+					    		if (isAppUser)
+						    		friend_is_app_user.setText("on Contakts");
+					    		else 
+						    		friend_is_app_user.setText("");
+					    		
 				    			final TextView[] eduTextViews = new TextView[eduCount];
 					    		for (int k = 0; k < eduCount; k++) {
 					    			final TextView eduTextView = new TextView(getBaseContext());
@@ -469,22 +479,18 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    		LinearLayout curLocLayout = (LinearLayout) findViewById(R.id.f_detail_currentloc_layout);
 					    		
 					    		if (friend.getCurrentLocCity() == "" || friend.getCurrentLocState() == "" || friend.getCurrentLocCountry() == "") {
-					    			System.out.println(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry() + "GONE");
 					    			curLocLayout.setVisibility(View.GONE);
 					    		} else {
 					    			curLocLayout.setVisibility(View.VISIBLE);
-					    			System.out.println(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry() + "VISIBLE");
 						    		friend_curloc_tv.setText(friend.getCurrentLocCity() + friend.getCurrentLocState() + friend.getCurrentLocCountry());
 					    		}
 					    		
 					    		LinearLayout homeLayout = (LinearLayout) findViewById(R.id.f_detail_hometown_layout);
 					    		
 					    		if (friend.getCurrentHomeCity() == "" || friend.getCurrentHomeState() == "" || friend.getCurrentHomeCountry() == "") {
-					    			System.out.println(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry() + "GONE");
 					    			homeLayout.setVisibility(View.GONE);
 					    		} else {
 					    			homeLayout.setVisibility(View.VISIBLE);
-					    			System.out.println(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry() + "VISIBLE");
 						    		friend_hometown_tv.setText(friend.getCurrentHomeCity() + friend.getCurrentHomeState() + friend.getCurrentHomeCountry());
 					    		}
 					    	    

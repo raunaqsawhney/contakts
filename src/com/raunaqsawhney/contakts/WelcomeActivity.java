@@ -39,7 +39,14 @@ public class WelcomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
 		
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		setupGlobalPrefs();
+		setupActionBar();
+		getPersonProfile();
+	}
+
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
@@ -56,8 +63,11 @@ public class WelcomeActivity extends Activity {
     		edit.putString("fontContent","Roboto-Light.ttf");
     		edit.putString("fontTitle", "Harabara.ttf");
     		edit.apply();
-        }
+        }		
+	}
 
+	private void setupActionBar() {
+		
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
@@ -77,9 +87,7 @@ public class WelcomeActivity extends Activity {
 	        int actionBarColor = Color.parseColor("#34AADC");
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-		
-		getPersonProfile();
+        }		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -87,10 +95,7 @@ public class WelcomeActivity extends Activity {
 	private void getPersonProfile() {
 		
 		String ownerName = null;
-
-		ContentResolver cr = getContentResolver();
-		
-		Cursor ownerCur = cr.query(ContactsContract.Profile.CONTENT_URI,null,
+		Cursor ownerCur = getContentResolver().query(ContactsContract.Profile.CONTENT_URI,null,
                 null,
                 null, null);
         startManagingCursor(ownerCur);
@@ -98,10 +103,9 @@ public class WelcomeActivity extends Activity {
         while (ownerCur.moveToNext()) {
         	ownerName = ownerCur.getString(
             		ownerCur.getColumnIndex(ContactsContract.Profile.DISPLAY_NAME));   
-        	System.out.println(ownerName);
         }
         
-		Cursor ownerPhotoCur = cr.query(ContactsContract.Profile.CONTENT_URI,null,
+		Cursor ownerPhotoCur = getContentResolver().query(ContactsContract.Profile.CONTENT_URI,null,
                 null,
                 null, null);
         startManagingCursor(ownerCur);
@@ -109,7 +113,6 @@ public class WelcomeActivity extends Activity {
         while (ownerPhotoCur.moveToNext()) {
         	ownerPhoto = ownerPhotoCur.getString(
         			ownerPhotoCur.getColumnIndex(ContactsContract.Profile.PHOTO_URI));   
-        	System.out.println(ownerName);
         }
         
         TextView ownerTV = (TextView) findViewById(R.id.c_welcome_text);
@@ -123,19 +126,16 @@ public class WelcomeActivity extends Activity {
         infoTV.setText(R.string.welcomeInfo);
         infoTV.setGravity(Gravity.FILL_HORIZONTAL);
         
-        
         Button welcomeButton = (Button) findViewById(R.id.c_welcome_button);
         welcomeButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-            	
             	
             	final ProgressBar mProgressBar;
                 final TextView mProgressText;
 
             	CountDownTimer mCountDownTimer;
             	
-
             	mProgressBar = (ProgressBar)findViewById(R.id.progressBar1);
             	mProgressText = (TextView) findViewById(R.id.progress_text);
             	mProgressText.setVisibility(View.VISIBLE);
@@ -147,17 +147,14 @@ public class WelcomeActivity extends Activity {
 
             	        @Override
             	        public void onTick(long millisUntilFinished) {
-            	            Log.v("Log_tag", "Tick of Progress"+ i + millisUntilFinished);
             	            i++;
             	            mProgressBar.setProgress(i);
-
             	        }
 
             	        @Override
             	        public void onFinish() {
             	            i++;
             	            mProgressBar.setProgress(i);
-            	            mProgressText.setText("Done");
             	            Intent welcomeIntent = new Intent(WelcomeActivity.this, MainActivity.class);
                   		   	WelcomeActivity.this.startActivity(welcomeIntent);
                   		   	finish();
@@ -168,7 +165,6 @@ public class WelcomeActivity extends Activity {
         });
 	}
 	
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

@@ -43,6 +43,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	String font;
 	String fontContent;
 	String fontTitle;
+	String theme;
 	
 	
     ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
@@ -68,12 +69,24 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fb);
 		
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
+		setupGlobalPrefs();
+		setupActionBar();
+		setupSlidingMenu();
+		startfb();
+		
+	}
+	
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
-       		
+        fontTitle = prefs.getString("fontTitle", null);		
+	}
+
+	private void setupActionBar() {
+		
 		// Set up the Action Bar
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
@@ -95,8 +108,11 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
+        }		
+	}
+
+	private void setupSlidingMenu() {
+		
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -141,15 +157,9 @@ public class FBActivity extends Activity implements OnItemClickListener  {
                 R.layout.nav_item_layout, rowItems);
 
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);
-        
-		
-		
-		startfb();
+		navListView.setOnItemClickListener(this);		
 	}
-	
 
-	
 	private void startfb() {
 		String fqlQuery = "select uid, name, pic_big from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();

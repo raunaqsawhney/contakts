@@ -41,6 +41,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	String font;
 	String fontContent;
 	String fontTitle;
+	String theme;
 	
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -50,14 +51,25 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_frequent);
 		
-Session.openActiveSessionFromCache(getBaseContext());
-        
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
+		setupGlobalPrefs();
+		setupActionBar();
+		setupSlidingMenu();
+		fetchFrequents();
+		
+		Session.openActiveSessionFromCache(getBaseContext());
+	}
+
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
+        fontTitle = prefs.getString("fontTitle", null);		
+	}
 
+	private void setupActionBar() {
+		
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
@@ -78,9 +90,12 @@ Session.openActiveSessionFromCache(getBaseContext());
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
-        // Set up Sliding Menu
+        }		
+	}
+
+	private void setupSlidingMenu() {
+		
+		 // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -123,9 +138,7 @@ Session.openActiveSessionFromCache(getBaseContext());
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);
-		
-		fetchFrequents();
+		navListView.setOnItemClickListener(this);		
 	}
 
 	private void fetchFrequents() {
@@ -230,5 +243,4 @@ Session.openActiveSessionFromCache(getBaseContext());
 		   	FrequentActivity.this.startActivity(loIntent);
 	   }
 	}
-
 }

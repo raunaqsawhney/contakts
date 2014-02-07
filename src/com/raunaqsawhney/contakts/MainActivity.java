@@ -65,14 +65,41 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
         
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        setupGlobalPrefs();
+        setupActionBar();
+        setupSlidingMenu();
+        initializeLoader();
+        //enableAds();
+        
+        // Enable open Facebook Session
+		Session.openActiveSessionFromCache(getBaseContext());
+ 
+   }
+     
+    private void enableAds() {
+    	/*
+    	AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest request = new AdRequest.Builder()
+	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+	    .addKeyword("games")
+	    .addKeyword("apps")
+	    .addKeyword("social")
+	    .build();
+	    adView.loadAd(request);	
+	    */
+    }
+
+	private void setupGlobalPrefs() {
+    	
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         theme = prefs.getString("theme", "#34AADC");
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
-        
-		Session.openActiveSessionFromCache(getBaseContext());
-        
-        // Set up Action Bar
+        fontTitle = prefs.getString("fontTitle", null);	
+	}
+
+	private void setupActionBar() {
+
+		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
@@ -91,9 +118,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
-        // Set up Sliding Menu
+        }	
+	}
+
+	private void setupSlidingMenu() {
+		
+		// Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -131,9 +161,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         for (int i = 0; i < nav.length; i++) {
             RowItem item = new RowItem(navPhoto[i], nav[i]);
             rowItems.add(item);
-        }
-		
-		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+        }	
+        
+        CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
                 R.layout.nav_item_layout, rowItems);
 
 		navListView.setAdapter(listAdapter);
@@ -151,8 +181,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 startActivity(intent);
             }
         });
-        
-        // Fetch name and contact photo URI
+	}
+
+	private void initializeLoader() {
+		
+		// Fetch name and contact photo URI
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
         		ContactsContract.Data.PHOTO_URI
@@ -176,38 +209,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    
 	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header);
-	    contactList.setAdapter(mAdapter);
-	    
-	    // Look up the AdView as a resource and load a request.
-	    AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);
-	    
-   }
-     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-		
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-    	
-		// Set up Action Bar       
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setQueryHint("Find contacts");
-        searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
-        
-        searchView.setOnQueryTextListener(this);        
-        
-        AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
-        search_text.setTextColor(Color.WHITE);
-        search_text.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-        
-        return true;
-    }
+	    contactList.setAdapter(mAdapter);	
+	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
@@ -267,22 +270,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		return false;
 	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_dial:
-	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-	    		startActivity(dialIntent);
-	            return true;    
-	        case R.id.menu_add:
-	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-	    		startActivity(addIntent);
-	    		return true; 
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		long selected = (navListView.getItemIdAtPosition(position));
@@ -306,5 +293,40 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		   	Intent loIntent = new Intent(MainActivity.this, LoginActivity.class);
 		   	MainActivity.this.startActivity(loIntent);
 	   }
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+    	
+		// Set up Action Bar       
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setQueryHint("Find contacts");
+        searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
+        
+        searchView.setOnQueryTextListener(this);        
+        
+        AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
+        search_text.setTextColor(Color.WHITE);
+        search_text.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+        
+        return true;
+    }
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_dial:
+	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+	    		startActivity(dialIntent);
+	            return true;    
+	        case R.id.menu_add:
+	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+	    		startActivity(addIntent);
+	    		return true; 
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }

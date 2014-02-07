@@ -16,8 +16,6 @@ public class fbFriend {
 	private String username;
 	private String coverUrl;
 	
-	
-	
 	//Setters
 	public void setName(String name) {
 	    this.name = name;

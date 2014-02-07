@@ -3,7 +3,8 @@
     
     <item 
         android:id="@+id/fb_logout"
-        android:showAsAction="never"
-        android:title="Logout"/>
+        android:showAsAction="always"
+        android:title="Logout"
+        android:icon="@drawable/ic_action_logout"/>
 
 </menu>

@@ -45,11 +45,16 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	String font;
 	String fontContent;
 	String fontTitle;
+	String theme;
 	
 	
 	private SlidingMenu menu;
 	private ListView navListView;
 	
+	SharedPreferences preferences;
+	Editor edit;
+	
+	/*
 	IInAppBillingService mService;
 
 	ServiceConnection mServiceConn = new ServiceConnection() {
@@ -63,29 +68,63 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	      IBinder service) {
 	       mService = IInAppBillingService.Stub.asInterface(service);
 	   }
-	};
+	};*/
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString("theme", "#34AADC");
+		setupGlobalPrefs();
+		setupActionBar();
+		setupSlidingMenu();
+		setupColorPref();
+		setupFBLogin();
+		
+        
+        //TODO: In- App Purchasing
+        //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
+ 	}
+
+	private void setupFBLogin() {
+		
+		LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
+		authButton.setOnErrorListener(new OnErrorListener() {
+	   
+			@Override
+			public void onError(FacebookException error) {
+			}
+		});
+			authButton.setReadPermissions(Arrays.asList("basic_info",
+					"friends_birthday",
+					"friends_hometown",
+					"friends_location",
+					"friends_work_history",
+					"friends_education_history"));
+		
+			authButton.setSessionStatusCallback(new Session.StatusCallback() {
+				@Override
+				public void call(Session session, SessionState state, Exception exception) {
+					if (session.isOpened()) {
+						// DO NOTHING, Return to Settings/Login Activity
+					}
+				}
+			});		
+	}
+
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);
+        fontTitle = prefs.getString("fontTitle", null);	
         
-        bindService(new 
-                Intent("com.android.vending.billing.InAppBillingService.BIND"),
-                        mServiceConn, Context.BIND_AUTO_CREATE);
-        
-        
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final Editor edit = preferences.edit();
-
+	}
+	
+	private void setupActionBar() {
 		
-        // Set up Action Bar
+		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
         actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
@@ -96,7 +135,6 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
         bar.setDisplayHomeAsUpEnabled(true);
-       
 
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -106,8 +144,11 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
 	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
-        }
-        
+        }		
+	}
+
+	private void setupSlidingMenu() {
+		
         // Set up Sliding Menu
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -152,7 +193,13 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
                 R.layout.nav_item_layout, rowItems);
 
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);	
+		navListView.setOnItemClickListener(this);			
+	}
+	
+	private void setupColorPref() {
+		
+		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		edit = preferences.edit();
 		
 		Button colorPicker = new Button(this);
 		colorPicker = (Button) findViewById(R.id.colorPicker);
@@ -168,7 +215,6 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				Color.parseColor("#4CD964"),
 				Color.parseColor("#007AFF"),
 				Color.parseColor("#5856D6")}, Color.parseColor(theme), 3, 2);
-		
 		
 		colorPickerDialog.setOnColorSelectedListener(new OnColorSelectedListener() {
 
@@ -199,9 +245,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				
 				edit.putString("theme", themeColor);
 				edit.apply(); 
-				
-				System.out.println(themeColor);
-				
+								
 			   	Intent goBackToMain = new Intent(LoginActivity.this, MainActivity.class);
 				LoginActivity.this.startActivity(goBackToMain);			
 				}
@@ -212,35 +256,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
             	
             	colorPickerDialog.show(getSupportFragmentManager(), "colorpicker");
             }
-        });
-		
-		
-		  
-	LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
-	authButton.setOnErrorListener(new OnErrorListener() {
-   
-		@Override
-		public void onError(FacebookException error) {
-			Log.i("FB LOGIN", "Error " + error.getMessage());
-		}
-	});
-		// set permission list, Don't foeget to add email
-		authButton.setReadPermissions(Arrays.asList("basic_info",
-				"friends_birthday",
-				"friends_hometown",
-				"friends_location",
-				"friends_work_history",
-				"friends_education_history"));
-	
-		authButton.setSessionStatusCallback(new Session.StatusCallback() {
-			@Override
-			public void call(Session session, SessionState state, Exception exception) {
-				if (session.isOpened()) {
-					//Intent FBIntent = new Intent(LoginActivity.this, FBActivity.class);
-					//LoginActivity.this.startActivity(FBIntent);	
-				}
-			}
-		});
+        });		
 	}
 
 	@Override
@@ -281,6 +297,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	   }
 	}
 	
+	/*
 	@Override
 	public void onDestroy() {
 	    super.onDestroy();
@@ -288,4 +305,5 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	        unbindService(mServiceConn);
 	    }   
 	}
+	*/
 }

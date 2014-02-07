@@ -17,9 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class FriendAdapter extends ArrayAdapter<fbFriend> {
-	
 
-	
     // View lookup cache
     private static class ViewHolder {
         TextView name;
@@ -51,7 +49,6 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 		 
-		
        // Get the data item for this position
        fbFriend friend = getItem(position);    
        
