@@ -12,8 +12,10 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -105,6 +107,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	Calendar calendar = Calendar.getInstance(); 
 	
 	Session.OpenRequest openRequest = null;
+	private boolean firstRunDoneFreDet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -122,10 +125,25 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+		
+		theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);		
+        fontTitle = prefs.getString("fontTitle", null);	
+        
+        firstRunDoneFreDet = prefs.getBoolean("firstRunFreDet", false);
+        if (!firstRunDoneFreDet) {
+        	edit.putBoolean("firstRunFreDet", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle("Friend Details")
+		    .setMessage("Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.")
+		    		.setNeutralButton("Okay", null)
+		    .show();
+        }	
 	}
 
 	private void setupActionBar() {
@@ -171,12 +189,13 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -184,7 +203,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -560,7 +580,10 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
 		   	FriendDetailActivity.this.startActivity(loIntent);
-	   }
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(FriendDetailActivity.this, InfoActivity.class);
+		   	FriendDetailActivity.this.startActivity(iIntent);
+	   } 
 	}
 
 	@Override

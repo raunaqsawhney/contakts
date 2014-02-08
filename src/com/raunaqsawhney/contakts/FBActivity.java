@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -44,7 +45,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	String fontContent;
 	String fontTitle;
 	String theme;
-	
+		
 	
     ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
 
@@ -79,10 +80,12 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
         theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);		
+       
 	}
 
 	private void setupActionBar() {
@@ -129,12 +132,13 @@ public class FBActivity extends Activity implements OnItemClickListener  {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -142,7 +146,8 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -280,7 +285,10 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(FBActivity.this, LoginActivity.class);
 		   	FBActivity.this.startActivity(loIntent);
-	   }
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(FBActivity.this, InfoActivity.class);
+		   	FBActivity.this.startActivity(iIntent);
+	   } 
 	}
 	
 	@Override

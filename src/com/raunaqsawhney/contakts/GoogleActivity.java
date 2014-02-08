@@ -70,11 +70,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         
 		Session.openActiveSessionFromCache(getBaseContext());
 
-        
-
-        
-        
-
 	}
 
 	private void setupGlobalPrefs() {
@@ -128,12 +123,13 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -141,7 +137,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -315,6 +312,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 		   	GoogleActivity.this.startActivity(loIntent);
-	   }
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(GoogleActivity.this, InfoActivity.class);
+		   	GoogleActivity.this.startActivity(iIntent);
+	   } 
 	}
 }

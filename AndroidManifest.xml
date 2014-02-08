@@ -75,14 +75,11 @@
                 android:name="com.raunaqsawhney.contakts.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        
         <activity
             android:name="com.raunaqsawhney.contakts.FBActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
-            
         </activity>
-
         <activity
             android:name="com.raunaqsawhney.contakts.FriendDetailActivity"
             android:label=""
@@ -93,12 +90,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.raunaqsawhney.contakts.FBActivity" />
         </activity>
-        
         <activity
             android:name="com.raunaqsawhney.contakts.LoginActivity"
-            android:label="@string/app_name" 
+            android:label="@string/app_name"
             android:parentActivityName="com.raunaqsawhney.contakts.MainActivity" >
-           
             <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/app_id" />
@@ -107,9 +102,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.raunaqsawhney.contakts.MainActivity" />
-            
         </activity>
-        
         <activity
             android:name="com.raunaqsawhney.contakts.WelcomeActivity"
             android:label="@string/app_name" >
@@ -119,13 +112,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.raunaqsawhney.contakts.FrequentActivity"
-            android:label="@string/app_name">
-            
+            android:label="@string/app_name" >
         </activity>
-        
+        <activity
+            android:name="com.raunaqsawhney.contakts.GraphActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.raunaqsawhney.contakts.InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
     </application>
 
 </manifest>

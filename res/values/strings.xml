@@ -29,5 +29,7 @@
         is collected or stored by Contakts.</string>
     <string name="admob_id">a152f39c37b61f7</string>
     <string name="title_activity_frequent">FrequentActivity</string>
+    <string name="title_activity_graph">GraphActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
 
 </resources>

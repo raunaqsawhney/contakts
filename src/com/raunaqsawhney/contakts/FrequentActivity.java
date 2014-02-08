@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -110,12 +111,13 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -123,7 +125,8 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -154,10 +157,10 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 3)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 15)";
 
 	    @SuppressWarnings("deprecation")
-		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
+		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
 
 	    long id = cursor.getColumnIndex(ContactsContract.Contacts._ID);
 	    
@@ -241,6 +244,21 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(FrequentActivity.this, LoginActivity.class);
 		   	FrequentActivity.this.startActivity(loIntent);
-	   }
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(FrequentActivity.this, InfoActivity.class);
+		   	FrequentActivity.this.startActivity(iIntent);
+	   } 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_graph:
+	        	Intent graphIntent = new Intent(FrequentActivity.this, GraphActivity.class);
+	    	   	FrequentActivity.this.startActivity(graphIntent);
+	    	   	return true;    
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }

@@ -13,6 +13,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +51,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	String fontContent;
 	String fontTitle;
 	String theme;
+	private boolean firstRunDoneFav;
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,25 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	private void setupGlobalPrefs() {
 		   
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+		
 		theme = prefs.getString("theme", "#34AADC");
-		font = prefs.getString("font", null);
-		fontContent = prefs.getString("fontContent", null);
-		fontTitle = prefs.getString("fontTitle", null);	
+        font = prefs.getString("font", null);
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);	
+        
+        firstRunDoneFav = prefs.getBoolean("firstRunDoneFav", false);
+        if (!firstRunDoneFav) {
+        	edit.putBoolean("firstRunDoneFav", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle("Favourites")
+		    .setMessage("Here you can see a grid of all your starred contacts. To remove a favourite, simply tap and hold on a contact.")
+		    		.setNeutralButton("Okay", null)
+		    .show();
+        }
 	}
 
 	private void setupActionBar() {
@@ -116,12 +133,13 @@ public class FavActivity extends Activity implements OnItemClickListener{
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -129,7 +147,8 @@ public class FavActivity extends Activity implements OnItemClickListener{
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -280,6 +299,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(FavActivity.this, LoginActivity.class);
 		   	FavActivity.this.startActivity(loIntent);
-	   }
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(FavActivity.this, InfoActivity.class);
+		   	FavActivity.this.startActivity(iIntent);
+	   } 
 	}
 }

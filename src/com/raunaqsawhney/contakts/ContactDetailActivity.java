@@ -17,6 +17,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -112,6 +113,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     Contact contact = new Contact();
     
     GoogleMap googleMap;
+	private boolean firstRunDoneConDet;
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,10 +137,25 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+		
+		theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);		
+        fontTitle = prefs.getString("fontTitle", null);	
+        
+        firstRunDoneConDet = prefs.getBoolean("firstRunConDet", false);
+        if (!firstRunDoneConDet) {
+        	edit.putBoolean("firstRunDoeConDet", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle("Contact Details")
+		    .setMessage("Here you can see all data associated with a contact. Simply tap on any item and learn more about it.")
+		    		.setNeutralButton("Okay", null)
+		    .show();
+        }
 	}
 
 	private void setupActionBar() {
@@ -183,12 +200,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -196,7 +214,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -392,8 +411,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
         		                "mailto",allContacts.get(position), null));
         		    	//TODO: Change domain name signature
-                    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android.\nGet it today: contakts.com");
-        		    	startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+        		    	startActivity(emailIntent);
         		    }
         		});
         	}
@@ -1284,8 +1303,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 public void onClick(View v) {
                 	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto",emailTextView.getText().toString(), null));
-                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android");
-    		    	startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+    		    	startActivity(emailIntent);
                 }
             });
         }
@@ -1558,7 +1577,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
 		   	ContactDetailActivity.this.startActivity(loIntent);
-	   }
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(ContactDetailActivity.this, InfoActivity.class);
+		   	ContactDetailActivity.this.startActivity(iIntent);
+	   } 
 	}
 
 	@Override

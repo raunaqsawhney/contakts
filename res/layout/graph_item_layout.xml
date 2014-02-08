@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <com.raunaqsawhney.contakts.MLRoundedImageView 
+        android:id="@+id/freq_photo"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="5dip"
+        android:layout_centerVertical="true" />
+    
+ 
+    <TextView
+        android:id="@+id/freq_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/freq_photo"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true" 
+        android:textColor="#4A4A4A"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dip" 
+        android:fontFamily="sans-serif-condensed" />
+    
+    <TextView
+        android:id="@+id/freq_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true" 
+        android:textSize="26sp"
+        android:layout_marginRight="15dip"
+        android:fontFamily="sans-serif-light" />
+ 
+</RelativeLayout>

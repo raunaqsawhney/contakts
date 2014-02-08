@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dip"
+    tools:context=".GraphActivity" 
+    android:orientation="vertical">
+
+	<com.echo.holographlibrary.PieGraph
+	        android:layout_width="match_parent"
+	        android:layout_height="200dip"
+	        android:id="@+id/graph"/>
+	
+    <ListView
+        android:id="@+id/freq_graph_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:clipToPadding="false"
+        android:divider="@drawable/custom_divider"
+        android:dividerHeight="0.10dp"
+        android:fadeScrollbars="true"
+        android:fastScrollEnabled="true"
+        android:fitsSystemWindows="true"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        android:paddingTop="10dip"
+        android:scrollingCache="true"
+        android:soundEffectsEnabled="true">
+
+    </ListView>
+	
+</LinearLayout>

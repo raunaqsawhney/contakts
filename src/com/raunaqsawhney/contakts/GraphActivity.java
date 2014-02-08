@@ -1,0 +1,280 @@
+package com.raunaqsawhney.contakts;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.echo.holographlibrary.PieGraph;
+import com.echo.holographlibrary.PieSlice;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+public class GraphActivity extends Activity implements OnItemClickListener {
+	
+	Hashtable<String, String> hashtable = new Hashtable<String, String>();		
+	
+	String font;
+	String fontContent;
+	String fontTitle;
+	String theme;
+	
+	String contact_id;
+	
+	private SlidingMenu menu;
+	private ListView navListView;
+	
+    ArrayList<FreqContact> freqContactList = new ArrayList<FreqContact>();
+
+	private boolean firstRunDoneGraph;
+	
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_graph);
+		
+		setupGlobalPrefs();
+		setupActionBar();
+		setupSlidingMenu();
+		
+		createData();
+	}
+
+	private void setupGlobalPrefs() {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+		
+		theme = prefs.getString("theme", "#34AADC");
+        font = prefs.getString("font", null);
+        fontContent = prefs.getString("fontContent", null);
+        fontTitle = prefs.getString("fontTitle", null);	
+        
+        firstRunDoneGraph = prefs.getBoolean("firstRunDoneGraph", false);
+        if (!firstRunDoneGraph) {
+        	edit.putBoolean("firstRunDoneGraph", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle("Contact Graphs")
+		    .setMessage("Here you can visually see who you contact the most via phone," +
+		    		" messaging and email, combined to give a raw score listed next to each contact")
+		    		.setNeutralButton("Okay", null)
+		    .show();
+        }
+	}
+
+	private void setupActionBar() {
+		
+		// Set up Action Bar
+        TextView actionBarTitleText = (TextView) findViewById(getResources()
+        		.getIdentifier("action_bar_title", "id","android"));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTextColor(Color.WHITE);
+        actionBarTitleText.setTextSize(22);
+        
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
+        bar.setDisplayShowHomeEnabled(false);
+        bar.setHomeButtonEnabled(true);
+       
+        // Do Tint if KitKat
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+	        tintManager.setStatusBarTintEnabled(true);
+	        tintManager.setNavigationBarTintEnabled(true);
+	        int actionBarColor = Color.parseColor(theme);
+	        tintManager.setStatusBarTintColor(actionBarColor);
+	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
+        }				
+	}
+
+	private void setupSlidingMenu() {
+		
+		// Set up Sliding Menu
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidth(8);
+        menu.setFadeDegree(0.8f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setBehindWidth(800);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.setMenu(R.layout.menu_frame);
+        navListView = (ListView) findViewById(R.id.nav_menu);
+      
+		final String[] nav = { "Favourites",
+				"Most Contacted",
+				"Phone Contacts",
+				"Google Contacts",
+				"Facebook",
+				"Settings",
+				"About"
+		};
+		
+		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_popular,
+				R.drawable.ic_nav_phone,
+				R.drawable.ic_nav_google,
+				R.drawable.ic_nav_fb,
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
+		};
+
+		List<RowItem> rowItems;
+		
+		rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < nav.length; i++) {
+            RowItem item = new RowItem(navPhoto[i], nav[i]);
+            rowItems.add(item);
+        }
+		
+		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+                R.layout.nav_item_layout, rowItems);
+		
+		navListView.setAdapter(listAdapter);
+		navListView.setOnItemClickListener(this);			
+	}
+
+	private void createData() {
+				
+		Integer count = 0;
+		
+		String [] colorArray;
+		colorArray = new String[10];
+
+		colorArray[0] = "#34AADC";
+		colorArray[1] = "#FF5E3A";
+		colorArray[2] = "#FF2A68";
+		colorArray[3] = "#FF9500";
+		colorArray[4] = "#87FC70";
+		colorArray[5] = "#FFDB4C";
+		colorArray[6] = "#0BD318";
+		colorArray[7] = "#1D62F0";
+		colorArray[8] = "#5856D6";
+		colorArray[9] = "#C643FC";
+		
+		PieGraph pie = (PieGraph)findViewById(R.id.graph);
+		PieSlice slice;
+				
+		Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
+
+	    String[] projection = new String[] {
+	            ContactsContract.Contacts._ID,
+	            ContactsContract.Contacts.LOOKUP_KEY,
+	            ContactsContract.Contacts.DISPLAY_NAME,
+	            ContactsContract.Contacts.PHOTO_URI,
+	            ContactsContract.Contacts.TIMES_CONTACTED};
+
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 15)";
+
+	    @SuppressWarnings("deprecation")
+		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
+	    
+	    while (cursor.moveToNext() && count != 9) {
+	    	
+	    	FreqContact curFreqContact = new FreqContact();
+	    	
+	        curFreqContact.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+	        curFreqContact.setTimesContacted(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
+	        curFreqContact.setURL(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+	        curFreqContact.setCount(count);
+		    contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+	        	        	       				        
+			slice = new PieSlice();
+			slice.setColor(Color.parseColor(colorArray[count]));
+			slice.setTitle(curFreqContact.getName());
+			slice.setValue(Float.parseFloat(curFreqContact.getTimesContacted()));
+			pie.addSlice(slice); 
+			
+			freqContactList.add(curFreqContact);
+			
+			count++;
+	    }    
+	    
+
+	    GraphAdapter adapter = new GraphAdapter(GraphActivity.this, freqContactList);
+	    
+	    ListView freqGraphList = (ListView) findViewById(R.id.freq_graph_list);
+	    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
+				
+				// Explicit Intent Example
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", Long.valueOf(contact_id));
+                startActivity(intent);
+		        
+            }
+        });
+        
+	    freqGraphList.setAdapter(adapter);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.graph, menu);
+		return true;
+	}
+	
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+		long selected = (navListView.getItemIdAtPosition(position));
+		
+		if (selected == 0) {
+		   	Intent favIntent = new Intent(GraphActivity.this, FavActivity.class);
+		   	GraphActivity.this.startActivity(favIntent);
+	   } else if (selected == 1) {
+		   Intent freqIntent = new Intent(GraphActivity.this, FrequentActivity.class);
+		   GraphActivity.this.startActivity(freqIntent);
+	   } else if (selected == 2) {
+	   		Intent phoneIntent = new Intent(GraphActivity.this, MainActivity.class);
+	   		GraphActivity.this.startActivity(phoneIntent);
+	   } else if (selected == 3) {
+	   		Intent googleIntent = new Intent(GraphActivity.this, GoogleActivity.class);
+	   		GraphActivity.this.startActivity(googleIntent);
+	   } else if (selected == 4) {
+	   		Intent FBIntent = new Intent(GraphActivity.this, FBActivity.class);
+	   		GraphActivity.this.startActivity(FBIntent);
+	   } else if (selected == 5) {
+		   	Intent loIntent = new Intent(GraphActivity.this, LoginActivity.class);
+		   	GraphActivity.this.startActivity(loIntent);
+	   }  else if (selected == 6) {
+		   	Intent iIntent = new Intent(GraphActivity.this, InfoActivity.class);
+		   	GraphActivity.this.startActivity(iIntent);
+	   } 
+	}
+
+}

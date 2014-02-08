@@ -144,7 +144,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -152,7 +153,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 
 		List<RowItem> rowItems;
@@ -292,7 +294,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(MainActivity.this, LoginActivity.class);
 		   	MainActivity.this.startActivity(loIntent);
-	   }
+	   } else if (selected == 6) {
+		   	Intent iIntent = new Intent(MainActivity.this, InfoActivity.class);
+		   	MainActivity.this.startActivity(iIntent);
+	   } 
 	}
 	
 	@Override

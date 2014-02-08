@@ -165,12 +165,13 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { "Favourites",
+		final String[] nav = { "Favourites",
 				"Most Contacted",
 				"Phone Contacts",
 				"Google Contacts",
 				"Facebook",
-				"Settings"
+				"Settings",
+				"About"
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -178,7 +179,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
+				R.drawable.ic_nav_settings,
+				R.drawable.ic_nav_about
 		};
 		
 		List<RowItem> rowItems;
@@ -294,7 +296,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	   } else if (selected == 5) {
 		   	Intent loIntent = new Intent(LoginActivity.this, LoginActivity.class);
 		   	LoginActivity.this.startActivity(loIntent);
-	   }
+	   } else if (selected == 6) {
+		   	Intent iIntent = new Intent(LoginActivity.this, InfoActivity.class);
+		   	LoginActivity.this.startActivity(iIntent);
+	   } 
 	}
 	
 	/*
