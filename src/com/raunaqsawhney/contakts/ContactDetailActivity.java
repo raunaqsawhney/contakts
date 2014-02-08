@@ -113,7 +113,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     Contact contact = new Contact();
     
     GoogleMap googleMap;
-	private boolean firstRunDoneConDet;
+	boolean firstRunDoneConDet;
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,9 +145,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
-        firstRunDoneConDet = prefs.getBoolean("firstRunConDet", false);
+        firstRunDoneConDet = prefs.getBoolean("firstRunDoneConDet", false);
         if (!firstRunDoneConDet) {
-        	edit.putBoolean("firstRunDoeConDet", true);
+        	edit.putBoolean("firstRunDoneConDet", true);
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
