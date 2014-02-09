@@ -6,6 +6,7 @@ public class FreqContact {
 	private Integer count;
 	private String url;
 	private String timesContacted;
+	private String id;
 
 	//Setters
 	public void setName(String name) {
@@ -24,6 +25,10 @@ public class FreqContact {
 		this.timesContacted = timesContacted;
 	}
 	
+	public void setID(String id) {
+		this.id = id;;
+	}
+	
 	// Getters
     public String getName() {
         return name;
@@ -39,6 +44,10 @@ public class FreqContact {
     
     public String getTimesContacted() {
         return timesContacted;
+    }
+    
+    public String getID() {
+    	return id;
     }
 
 }

@@ -279,7 +279,7 @@ int drawable searchviewredversion 0x7f0200ab
 int drawable shadow 0x7f0200ac
 int drawable star 0x7f0200ad
 int drawable underline 0x7f0200ae
-int id action_settings 0x7f070083
+int id action_settings 0x7f070084
 int id authButton 0x7f07004f
 int id c_detail_address_header 0x7f070021
 int id c_detail_address_layout 0x7f070020
@@ -370,6 +370,7 @@ int id fav_photo 0x7f070070
 int id fbInfo 0x7f07004e
 int id fbList 0x7f07002d
 int id fb_logout 0x7f070081
+int id fb_publish 0x7f070082
 int id frame_layout 0x7f070022
 int id freqList 0x7f07002e
 int id freq_count 0x7f070077
@@ -391,11 +392,11 @@ int id left 0x7f070000
 int id linearLayout1 0x7f07004d
 int id list 0x7f070050
 int id margin 0x7f070002
-int id menu_add 0x7f070086
-int id menu_dial 0x7f070085
+int id menu_add 0x7f070087
+int id menu_dial 0x7f070086
 int id menu_edit 0x7f07007f
-int id menu_graph 0x7f070082
-int id menu_search 0x7f070084
+int id menu_graph 0x7f070083
+int id menu_search 0x7f070085
 int id menu_share 0x7f070080
 int id nav_menu 0x7f07007b
 int id nav_name 0x7f07007d
@@ -528,6 +529,7 @@ int string common_signin_button_text_long 0x7f050014
 int string fbInfo 0x7f050048
 int string hello_world 0x7f050038
 int string search_hint 0x7f050039
+int string shareMarketingText 0x7f05004d
 int string themeButton 0x7f050045
 int string themeButtonInfo 0x7f050046
 int string title_activity_contact_detail 0x7f05003b

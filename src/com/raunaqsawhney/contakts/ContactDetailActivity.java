@@ -163,7 +163,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontContent)); // Only here the font is not same as fontTitle
+        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(21);
         
@@ -411,7 +411,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
         		                "mailto",allContacts.get(position), null));
         		    	//TODO: Change domain name signature
-                    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+                    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
         		    	startActivity(emailIntent);
         		    }
         		});
@@ -1303,7 +1303,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 public void onClick(View v) {
                 	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto",emailTextView.getText().toString(), null));
-                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
     		    	startActivity(emailIntent);
                 }
             });

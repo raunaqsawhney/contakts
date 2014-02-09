@@ -5,10 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
@@ -16,10 +13,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,7 +23,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.vending.billing.IInAppBillingService;
 import com.facebook.FacebookException;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -46,8 +40,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	String fontContent;
 	String fontTitle;
 	String theme;
-	
-	
+		
 	private SlidingMenu menu;
 	private ListView navListView;
 	
@@ -74,6 +67,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		
+		Session.openActiveSessionFromCache(getBaseContext());
+		Session.openActiveSession(this, false, null);
 		
 		setupGlobalPrefs();
 		setupActionBar();
@@ -127,7 +123,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         

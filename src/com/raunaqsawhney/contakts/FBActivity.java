@@ -12,13 +12,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,13 +33,16 @@ import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
+import com.facebook.widget.FacebookDialog;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FBActivity extends Activity implements OnItemClickListener  {
 	
 	FriendAdapter adapter;
+	private UiLifecycleHelper uiHelper;
 	
 	String font;
 	String fontContent;
@@ -70,6 +73,9 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fb);
 		
+		uiHelper = new UiLifecycleHelper(this, null);
+	    uiHelper.onCreate(savedInstanceState);
+		
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -94,7 +100,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -300,8 +306,15 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	        	
 	        	Intent fbLogoutIntent = new Intent(FBActivity.this, MainActivity.class);
 	        	FBActivity.this.startActivity(fbLogoutIntent);
+	            return true; 
+	            
+	        case R.id.fb_publish:
+	        	FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
+	            .setLink("https://www.contaktsapp.com")
+	            .build();
+			    uiHelper.trackPendingDialogCall(shareDialog.present());
+			    return true;
 	        	
-	            return true;    
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -326,5 +339,46 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	    
 	    Toast.makeText(getApplicationContext(), 
 	               "Logged out of Facebook.", Toast.LENGTH_LONG).show();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+
+	    uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+	        @Override
+	        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+	            //Log.e("Activity", String.format("Error: %s", error.toString()));
+	        }
+
+	        @Override
+	        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+	            //Log.i("Activity", "Success!");
+	        }
+	    });
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    uiHelper.onResume();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    uiHelper.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    uiHelper.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+	    super.onDestroy();
+	    uiHelper.onDestroy();
 	}
 }

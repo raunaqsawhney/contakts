@@ -31,5 +31,7 @@
     <string name="title_activity_frequent">FrequentActivity</string>
     <string name="title_activity_graph">GraphActivity</string>
     <string name="title_activity_info">InfoActivity</string>
+    <string name="shareMarketingText"></string>
 
+    
 </resources>

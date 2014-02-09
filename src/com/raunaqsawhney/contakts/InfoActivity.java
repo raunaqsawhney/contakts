@@ -65,7 +65,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -137,8 +137,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	private void showInfo() {
 		
 		ListView listview = (ListView) findViewById(R.id.infoList);
-	    String[] values = new String[] { "Share with your friends", "Send Feedback", "Rate on Google Play",
-	        "Like on Facebook", "Website", "Terms of Service" };
+	    String[] values = new String[] { "Share with your friends", "Send Feedback", "Rate on Google Play", "Website", "Terms of Service" };
 
 	    ArrayList<String> list = new ArrayList<String>();
 	    for (int i = 0; i < values.length; ++i) {
@@ -158,24 +157,33 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	            int position, long id) {
 	        	
 	        	switch(position) {
-	        	case 0:
-	        		break;
 	        	case 1:
+	        		Intent shareWithFriendsIntent = new Intent();
+	        		shareWithFriendsIntent.setAction(Intent.ACTION_SEND);
+	        		shareWithFriendsIntent.putExtra(Intent.EXTRA_TEXT, "Connect with everyone, easily. Contakts is a beautiful" +
+	        				" new way to get in touch with people that matter to you most. Get it today: www.contaktsapp.com"); 
+	        		shareWithFriendsIntent.setType("text/plain");
+	        		startActivity(shareWithFriendsIntent);
+	        		break;
+	        	case 2:
 	        		Intent feedBackIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto","contaktsapp@gmail.com", null));
-	        		feedBackIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Feedback sent from Contakts for Android.");
+	        		feedBackIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nFeedback sent from Contakts for Android.");
     		    	startActivity(feedBackIntent);
-	        	case 2:
 	        		break;
 	        	case 3:
 	        		break;
 	        	case 4:
-	        		Intent websiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("contaktsapp.com"));
-                	startActivity(websiteIntent);
-	        	break;
+	        		String url = "http://www.contaktsapp.com";
+	        		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
+	        		websiteIntent.setData(Uri.parse(url));
+	        		startActivity(websiteIntent);
+	        		break;
 	        	case 5:
-	        		Intent tosIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("contaktsapp.com/tos"));
-                	startActivity(tosIntent);
+	        		String urlTOS = "http://www.contaktsapp.com/tos";
+	        		Intent websiteTOSIntent = new Intent(Intent.ACTION_VIEW);
+	        		websiteTOSIntent.setData(Uri.parse(urlTOS));
+	        		startActivity(websiteTOSIntent);
                 	break;
         		default:
         			break;

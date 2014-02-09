@@ -9,8 +9,20 @@
     tools:context=".InfoActivity" >
 
     <ListView
-        android:layout_width="wrap_content"
+        android:id="@+id/infoList"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/infoList" />
+        android:choiceMode="singleChoice"
+        android:clipToPadding="false"
+        android:dividerHeight="0.10dp"
+        android:fadeScrollbars="true"
+        android:fastScrollEnabled="true"
+        android:fitsSystemWindows="true"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:scrollingCache="true"
+        android:soundEffectsEnabled="true">
+
+    </ListView>
 
 </LinearLayout>

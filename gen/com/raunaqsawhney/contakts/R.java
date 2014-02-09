@@ -663,7 +663,7 @@ containing a value of this type.
         public static final int underline=0x7f0200ae;
     }
     public static final class id {
-        public static final int action_settings=0x7f070083;
+        public static final int action_settings=0x7f070084;
         public static final int authButton=0x7f07004f;
         public static final int c_detail_address_header=0x7f070021;
         public static final int c_detail_address_layout=0x7f070020;
@@ -754,6 +754,7 @@ containing a value of this type.
         public static final int fbInfo=0x7f07004e;
         public static final int fbList=0x7f07002d;
         public static final int fb_logout=0x7f070081;
+        public static final int fb_publish=0x7f070082;
         public static final int frame_layout=0x7f070022;
         public static final int freqList=0x7f07002e;
         public static final int freq_count=0x7f070077;
@@ -775,11 +776,11 @@ containing a value of this type.
         public static final int linearLayout1=0x7f07004d;
         public static final int list=0x7f070050;
         public static final int margin=0x7f070002;
-        public static final int menu_add=0x7f070086;
-        public static final int menu_dial=0x7f070085;
+        public static final int menu_add=0x7f070087;
+        public static final int menu_dial=0x7f070086;
         public static final int menu_edit=0x7f07007f;
-        public static final int menu_graph=0x7f070082;
-        public static final int menu_search=0x7f070084;
+        public static final int menu_graph=0x7f070083;
+        public static final int menu_search=0x7f070085;
         public static final int menu_share=0x7f070080;
         public static final int nav_menu=0x7f07007b;
         public static final int nav_name=0x7f07007d;
@@ -988,6 +989,7 @@ containing a value of this type.
         public static final int fbInfo=0x7f050048;
         public static final int hello_world=0x7f050038;
         public static final int search_hint=0x7f050039;
+        public static final int shareMarketingText=0x7f05004d;
         public static final int themeButton=0x7f050045;
         public static final int themeButtonInfo=0x7f050046;
         public static final int title_activity_contact_detail=0x7f05003b;

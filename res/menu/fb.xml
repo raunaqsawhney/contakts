@@ -6,5 +6,11 @@
         android:showAsAction="always"
         android:title="Logout"
         android:icon="@drawable/ic_action_logout"/>
+    
+    <item 
+        android:id="@+id/fb_publish"
+        android:showAsAction="always"
+        android:title="Share"
+        android:icon="@drawable/ic_menu_share"/>
 
 </menu>

@@ -74,7 +74,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -157,7 +157,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 15)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
 
 	    @SuppressWarnings("deprecation")
 		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");

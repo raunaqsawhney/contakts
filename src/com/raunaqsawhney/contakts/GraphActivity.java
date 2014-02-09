@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -25,8 +24,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.echo.holographlibrary.PieGraph;
@@ -95,7 +92,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -168,6 +165,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	private void createData() {
 				
 		Integer count = 0;
+	    GraphAdapter adapter = new GraphAdapter(GraphActivity.this, freqContactList);
 		
 		String [] colorArray;
 		colorArray = new String[10];
@@ -194,52 +192,55 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.PHOTO_URI,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
-
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 15)";
-
-	    @SuppressWarnings("deprecation")
-		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
-	    
-	    while (cursor.moveToNext() && count != 9) {
-	    	
-	    	FreqContact curFreqContact = new FreqContact();
-	    	
-	        curFreqContact.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-	        curFreqContact.setTimesContacted(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
-	        curFreqContact.setURL(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
-	        curFreqContact.setCount(count);
-		    contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-	        	        	       				        
-			slice = new PieSlice();
-			slice.setColor(Color.parseColor(colorArray[count]));
-			slice.setTitle(curFreqContact.getName());
-			slice.setValue(Float.parseFloat(curFreqContact.getTimesContacted()));
-			pie.addSlice(slice); 
-			
-			freqContactList.add(curFreqContact);
-			
-			count++;
-	    }    
 	    
 
-	    GraphAdapter adapter = new GraphAdapter(GraphActivity.this, freqContactList);
-	    
-	    ListView freqGraphList = (ListView) findViewById(R.id.freq_graph_list);
-	    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
+
+	    try {
+	    	@SuppressWarnings("deprecation")
+			Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
+		    
+		    while (cursor.moveToNext() && count != 9) {
+		    	
+		    	FreqContact curFreqContact = new FreqContact();
+		    	
+		        curFreqContact.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+		        curFreqContact.setTimesContacted(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
+		        curFreqContact.setURL(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+		        curFreqContact.setCount(count);
+		        curFreqContact.setID(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
+		        	        	       				        
+				slice = new PieSlice();
+				slice.setColor(Color.parseColor(colorArray[count]));
+				slice.setTitle(curFreqContact.getName());
+				slice.setValue(Float.parseFloat(curFreqContact.getTimesContacted()));
+				pie.addSlice(slice); 
 				
-				// Explicit Intent Example
-                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-                intent.putExtra("contact_id", Long.valueOf(contact_id));
-                startActivity(intent);
-		        
-            }
-        });
-        
-	    freqGraphList.setAdapter(adapter);
+				freqContactList.add(curFreqContact);
+				
+				count++;
+		    }    
+		  
+		    
+		    ListView freqGraphList = (ListView) findViewById(R.id.freq_graph_list);
+		    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
+	            @Override
+	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	            	FreqContact selectedFreqContact = new FreqContact();
+					
+	            	selectedFreqContact = (FreqContact) parent.getItemAtPosition(position);
+	                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+	                intent.putExtra("contact_id", selectedFreqContact.getID());
+
+	                startActivity(intent);
+	            }
+	        });
+	        
+		    freqGraphList.setAdapter(adapter);
+	    } catch (Exception e) {
+	    
+	    }
+	    
 	}
 
 	@Override
