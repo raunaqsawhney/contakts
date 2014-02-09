@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -172,6 +173,8 @@ public class InfoActivity extends Activity implements OnItemClickListener {
     		    	startActivity(feedBackIntent);
 	        		break;
 	        	case 3:
+	        		final String appPackageName = getPackageName();
+	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
 	        		break;
 	        	case 4:
 	        		String url = "http://www.contaktsapp.com";
@@ -226,4 +229,16 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		   	InfoActivity.this.startActivity(iIntent);
 	   } 
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+	
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }

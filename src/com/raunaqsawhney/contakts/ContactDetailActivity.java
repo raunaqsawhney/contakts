@@ -55,6 +55,7 @@ import android.widget.Toast;
 
 
 import com.facebook.Session;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -1587,4 +1588,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	public void onClick(View v) {
 		
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+	
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }

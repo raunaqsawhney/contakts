@@ -414,6 +414,14 @@ containing a value of this type.
          */
         public static final int zOrderOnTop=0x7f01001e;
     }
+    public static final class bool {
+        /** Enable automatic activity tracking
+         */
+        public static final int ga_autoActivityTracking=0x7f0b0000;
+        /** Enable automatic exception tracking
+         */
+        public static final int ga_reportUncaughtExceptions=0x7f0b0001;
+    }
     public static final class color {
         public static final int apptheme_color=0x7f080020;
         public static final int babyPink=0x7f08001d;
@@ -847,21 +855,21 @@ containing a value of this type.
         public static final int slidingmenumain=0x7f030028;
     }
     public static final class menu {
-        public static final int contact_detail=0x7f0b0000;
-        public static final int fb=0x7f0b0001;
-        public static final int frequent=0x7f0b0002;
-        public static final int friend_detail=0x7f0b0003;
-        public static final int graph=0x7f0b0004;
-        public static final int info=0x7f0b0005;
-        public static final int login=0x7f0b0006;
-        public static final int main=0x7f0b0007;
-        public static final int options_menu=0x7f0b0008;
-        public static final int welcome=0x7f0b0009;
+        public static final int contact_detail=0x7f0c0000;
+        public static final int fb=0x7f0c0001;
+        public static final int frequent=0x7f0c0002;
+        public static final int friend_detail=0x7f0c0003;
+        public static final int graph=0x7f0c0004;
+        public static final int info=0x7f0c0005;
+        public static final int login=0x7f0c0006;
+        public static final int main=0x7f0c0007;
+        public static final int options_menu=0x7f0c0008;
+        public static final int welcome=0x7f0c0009;
     }
     public static final class string {
-        public static final int action_settings=0x7f050037;
-        public static final int admob_id=0x7f050049;
-        public static final int app_id=0x7f05003c;
+        public static final int action_settings=0x7f050038;
+        public static final int admob_id=0x7f05004a;
+        public static final int app_id=0x7f05003d;
         public static final int app_name=0x7f050000;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
@@ -886,7 +894,7 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f050015;
-        public static final int color_dialog_title=0x7f050042;
+        public static final int color_dialog_title=0x7f050043;
         public static final int color_picker_default_title=0x7f050036;
         public static final int color_swatch_description=0x7f050034;
         public static final int color_swatch_description_selected=0x7f050035;
@@ -986,25 +994,28 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f050014;
-        public static final int fbInfo=0x7f050048;
-        public static final int hello_world=0x7f050038;
-        public static final int search_hint=0x7f050039;
-        public static final int shareMarketingText=0x7f05004d;
-        public static final int themeButton=0x7f050045;
-        public static final int themeButtonInfo=0x7f050046;
-        public static final int title_activity_contact_detail=0x7f05003b;
-        public static final int title_activity_fb=0x7f05003d;
-        public static final int title_activity_frequent=0x7f05004a;
-        public static final int title_activity_friend_detail=0x7f050040;
-        public static final int title_activity_graph=0x7f05004b;
-        public static final int title_activity_info=0x7f05004c;
-        public static final int title_activity_li=0x7f050043;
-        public static final int title_activity_linked_in=0x7f05003e;
-        public static final int title_activity_log=0x7f05003f;
-        public static final int title_activity_login=0x7f050041;
-        public static final int title_activity_main=0x7f05003a;
-        public static final int title_activity_welcome=0x7f050044;
-        public static final int welcomeInfo=0x7f050047;
+        public static final int fbInfo=0x7f050049;
+        /** Replace placeholder ID with your tracking ID
+         */
+        public static final int ga_trackingId=0x7f050037;
+        public static final int hello_world=0x7f050039;
+        public static final int search_hint=0x7f05003a;
+        public static final int shareMarketingText=0x7f05004e;
+        public static final int themeButton=0x7f050046;
+        public static final int themeButtonInfo=0x7f050047;
+        public static final int title_activity_contact_detail=0x7f05003c;
+        public static final int title_activity_fb=0x7f05003e;
+        public static final int title_activity_frequent=0x7f05004b;
+        public static final int title_activity_friend_detail=0x7f050041;
+        public static final int title_activity_graph=0x7f05004c;
+        public static final int title_activity_info=0x7f05004d;
+        public static final int title_activity_li=0x7f050044;
+        public static final int title_activity_linked_in=0x7f05003f;
+        public static final int title_activity_log=0x7f050040;
+        public static final int title_activity_login=0x7f050042;
+        public static final int title_activity_main=0x7f05003b;
+        public static final int title_activity_welcome=0x7f050045;
+        public static final int welcomeInfo=0x7f050048;
     }
     public static final class style {
         /** 

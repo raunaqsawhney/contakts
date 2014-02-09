@@ -36,6 +36,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.facebook.Session;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -317,4 +318,16 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		   	GoogleActivity.this.startActivity(iIntent);
 	   } 
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+	
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }

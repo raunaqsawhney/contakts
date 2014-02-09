@@ -6,10 +6,12 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +36,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.facebook.Session;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -46,6 +49,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	
 	private SlidingMenu menu;
 	private ListView navListView;
+	private boolean firstRunDoneFreq;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +67,25 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+		
         theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);		
+        fontTitle = prefs.getString("fontTitle", null);	
+        
+        firstRunDoneFreq = prefs.getBoolean("firstRunDoneFreq", false);
+        if (!firstRunDoneFreq) {
+        	edit.putBoolean("firstRunDoneFreq", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle("Frequent Contacts")
+		    .setMessage("Here you can see all the contacts that are most frequently contacted. You can also visualize data using graphs, by tapping on the graph icon at the top.")
+		    		.setNeutralButton("Okay", null)
+		    .show();
+        }
 	}
 
 	private void setupActionBar() {
@@ -261,4 +280,16 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+	
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }

@@ -12,9 +12,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -36,6 +38,7 @@ import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.FacebookDialog;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -67,6 +70,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	String current_home_city;
 	String current_home_state;
 	String current_home_country;
+	private boolean firstRunDoneFB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +90,25 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
 		
         theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);		
+        
+        firstRunDoneFB = prefs.getBoolean("firstRunDoneFB", false);
+        if (!firstRunDoneFB) {
+        	edit.putBoolean("firstRunDoneFB", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle("Facebook")
+		    .setMessage("This is your first time accessing Facebook. Please go to Settings and login.")
+		    		.setNeutralButton("Okay", null)
+		    .show();
+        }
        
 	}
 
@@ -310,7 +328,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	            
 	        case R.id.fb_publish:
 	        	FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-	            .setLink("https://www.contaktsapp.com")
+	            .setLink("https://play.google.com/store/apps/details?id=com.raunaqsawhney.contakts")
 	            .build();
 			    uiHelper.trackPendingDialogCall(shareDialog.present());
 			    return true;
@@ -381,4 +399,16 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	    super.onDestroy();
 	    uiHelper.onDestroy();
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+	
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }

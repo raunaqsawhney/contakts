@@ -37,9 +37,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.facebook.Session;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.google.android.gms.ads.*;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
@@ -334,4 +334,16 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+	
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }
