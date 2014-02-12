@@ -81,8 +81,8 @@ public class GraphActivity extends Activity implements OnItemClickListener {
         	
         	new AlertDialog.Builder(this)
 		    .setTitle("Contact Graphs")
-		    .setMessage("Here you can visually see who you contact the most via phone," +
-		    		" messaging and email, combined to give a raw score listed next to each contact")
+		    .setMessage("Here you can visually the top 10 people you contact most often via phone," +
+		    		" messaging, and email, combined to give a raw score listed next to each contact.")
 		    		.setNeutralButton("Okay", null)
 		    .show();
         }
@@ -195,7 +195,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
 
 	    try {
 	    	@SuppressWarnings("deprecation")

@@ -176,7 +176,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
 
 	    @SuppressWarnings("deprecation")
 		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");

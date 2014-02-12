@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import android.annotation.SuppressLint;
@@ -33,10 +34,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -52,7 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.support.v8.renderscript.*;
 
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -440,8 +437,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	    while (cursor.moveToNext()) {
 	        starred = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.STARRED));
-
-	        System.out.println("isStarredStatus:" + starred);
 	    }
 	    
 	    if (starred == 1)
@@ -593,7 +588,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		break;
                 }
             } catch (NumberFormatException e) {
-            	imType = "Custom";
+            	imType = "Other";
             }
             
             contact.addIM(im  + ":" + imType); 
@@ -614,12 +609,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        final TextView imTextView = new TextView(this);
 	        final TextView imTypeTextView = new TextView(this);
 	        final LinearLayout imContentLayout = new LinearLayout(this);
-	                    
-	        StringTokenizer tokens = new StringTokenizer(contact.getIMByIndex(i), ":");            
-	        
-	        currentIM = tokens.nextToken();;
-	        currentType = tokens.nextToken();
-	           
+	            
+	        try {
+		        StringTokenizer tokens = new StringTokenizer(contact.getIMByIndex(i), ":");            
+		        
+		        currentIM = tokens.nextToken();
+		        currentType = tokens.nextToken();
+	        } catch (NoSuchElementException e) {
+	        	e.printStackTrace();
+	        }
+
 	        imTypeTextView.setText(currentType);
 	        imTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        imTypeTextView.setTextSize(14);
@@ -723,7 +722,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             			break;
                 }
             } catch (NumberFormatException e) {
-            	relationshipType = "Custom";
+            	relationshipType = "Other";
             }
             
             contact.setRelationship(relationship);
@@ -829,12 +828,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        final TextView dateTextView = new TextView(this);
 	        final TextView dateTypeTextView = new TextView(this);
 	        final LinearLayout dateContentLayout = new LinearLayout(this);
-	                    
-	        StringTokenizer tokens = new StringTokenizer(contact.getDatesByIndex(i), ":");            
-	        
-	        currentDate = tokens.nextToken();;
-	        currentType = tokens.nextToken();
-	           
+	         
+	        try {
+		        StringTokenizer tokens = new StringTokenizer(contact.getDatesByIndex(i), ":");            
+		        
+		        currentDate = tokens.nextToken();
+		        currentType = tokens.nextToken();
+	        } catch (NoSuchElementException e) {
+	        	e.printStackTrace();
+	        }
+
 	        dateTypeTextView.setText(currentType);
 	        dateTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        dateTypeTextView.setTextSize(14);
@@ -893,7 +896,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             if (note != null || !note.isEmpty())
             {
-                System.out.println("NOTE - NOT NULL");
             	noteLayout.setVisibility(View.VISIBLE);
             }
         }
@@ -1013,12 +1015,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             final TextView websiteTextView = new TextView(this);
             final TextView websiteTypeTextView = new TextView(this);
             final LinearLayout websiteContentLayout = new LinearLayout(this);
-                        
-            StringTokenizer tokens = new StringTokenizer(contact.getWebsiteByIndex(i), "$");            
-            
-            currentWebsite = tokens.nextToken();;
-            currentType = tokens.nextToken();
-               
+                      
+            try {
+            	 StringTokenizer tokens = new StringTokenizer(contact.getWebsiteByIndex(i), "$");            
+                 
+                 currentWebsite = tokens.nextToken();
+                 currentType = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+           
             websiteTypeTextView.setText(currentType);
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             websiteTypeTextView.setTextSize(14);
@@ -1128,10 +1134,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     				ex.printStackTrace();
     			}
             	
-                if(addresses.size() > 0) {
-                    latitude= addresses.get(0).getLatitude();
-                    longitude= addresses.get(0).getLongitude();
-                }
+            	try {
+	                if(addresses.size() > 0) {
+	                    latitude = addresses.get(0).getLatitude();
+	                    longitude = addresses.get(0).getLongitude();
+	                }
+            	} catch (NullPointerException e) {
+            		e.printStackTrace();
+            	}
                 
                 final LatLng latlng = new LatLng(latitude , longitude);
                 @SuppressWarnings("unused")
@@ -1159,12 +1169,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             final TextView addressTextView = new TextView(this);
             final TextView addressTypeTextView = new TextView(this);
             final LinearLayout addressContentLayout = new LinearLayout(this);
-                        
-            StringTokenizer tokens = new StringTokenizer(contact.getAddressByIndex(i), ":");            
-            
-            currentAddress = tokens.nextToken();
-            currentType = tokens.nextToken();
-               
+                     
+            try {
+                StringTokenizer tokens = new StringTokenizer(contact.getAddressByIndex(i), ":");            
+                
+                currentAddress = tokens.nextToken();
+                currentType = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+
             addressTypeTextView.setText(currentType);
             addressTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             addressTypeTextView.setTextSize(14);
@@ -1264,7 +1278,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             			break;
                 }
             } catch (NumberFormatException e) {
-            	emailType = "Custom";
+            	emailType = "Other";
             }
             
             contact.addEmailID(email + ":" + emailType);
@@ -1285,12 +1299,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             final TextView emailTextView = new TextView(this);
             final TextView emailTypeTextView = new TextView(this);
             final LinearLayout emailContentLayout = new LinearLayout(this);
-                        
-            StringTokenizer tokens = new StringTokenizer(contact.getEmaiIDByIndex(i), ":");            
-            
-            currentEmail = tokens.nextToken();;
-            currentType = tokens.nextToken();
-               
+                  
+            try {
+                StringTokenizer tokens = new StringTokenizer(contact.getEmaiIDByIndex(i), ":");            
+                
+                currentEmail = tokens.nextToken();
+                currentType = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+
             emailTypeTextView.setText(currentType);
             emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             emailTypeTextView.setTextSize(14);
@@ -1475,13 +1493,17 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             final TextView phoneNumberTextView = new TextView(this);
             final TextView phoneTypeTextView = new TextView(this);
             final LinearLayout phoneContentLayout = new LinearLayout(this);
-                        
-            StringTokenizer tokens = new StringTokenizer(contact.getPhoneByIndex(i), ":");
-            unformattedNumber = tokens.nextToken();
             
-            currentPhone = PhoneNumberUtils.formatNumber(unformattedNumber);
-            currentType = tokens.nextToken();
-               
+            try {
+                StringTokenizer tokens = new StringTokenizer(contact.getPhoneByIndex(i), ":");
+                unformattedNumber = tokens.nextToken();
+                
+                currentPhone = PhoneNumberUtils.formatNumber(unformattedNumber);
+                currentType = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+
             phoneTypeTextView.setText(currentType);
             phoneTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             phoneTypeTextView.setTextSize(14);
