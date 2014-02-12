@@ -116,7 +116,6 @@ public class WelcomeActivity extends Activity {
         }
         
         TextView ownerTV = (TextView) findViewById(R.id.c_welcome_text);
-        ownerTV.setTextAlignment(4);
         
         if (ownerName == null)
             ownerTV.setText("Hello!");

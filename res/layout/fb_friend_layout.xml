@@ -28,6 +28,22 @@
         android:layout_alignWithParentIfMissing="true"
         android:fontFamily="sans-serif-condensed" />
     
-
+	<TextView
+        android:id="@+id/friend_isappuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/friend_photo"
+        android:layout_below="@+id/friend_name"
+        android:paddingTop="35dip"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true" 
+        android:textColor="#8E8E93"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dip" 
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:fontFamily="sans-serif-condensed" />
+    
  
 </RelativeLayout>

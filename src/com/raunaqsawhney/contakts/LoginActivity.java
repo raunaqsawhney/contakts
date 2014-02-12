@@ -246,8 +246,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				edit.apply(); 
 								
 			   	Intent goBackToMain = new Intent(LoginActivity.this, MainActivity.class);
-				LoginActivity.this.startActivity(goBackToMain);			
-				}
+			   	goBackToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				LoginActivity.this.startActivity(goBackToMain);		
+			}
 		});
 		
 		colorPicker.setOnClickListener(new View.OnClickListener() {

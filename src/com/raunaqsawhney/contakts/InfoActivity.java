@@ -148,7 +148,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	        R.layout.info_item_layout, R.id.info_item, list);
 	    
 	    View header = getLayoutInflater().inflate(R.layout.info_header, null);
-	    listview.addHeaderView(header);
+	    listview.addHeaderView(header, null, false);
 	    listview.setAdapter(adapter);
 	   
 	    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

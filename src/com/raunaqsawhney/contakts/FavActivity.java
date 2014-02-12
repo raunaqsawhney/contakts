@@ -241,6 +241,8 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		                    getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
 		                    
 		                    Intent intent = new Intent(getApplicationContext(), FavActivity.class);
+		                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 		                    startActivity(intent);
 		        	}
 		        });

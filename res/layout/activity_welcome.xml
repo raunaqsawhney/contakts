@@ -34,6 +34,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-thin"
         android:text="welcome"
+        android:gravity="fill_horizontal"
+        android:layout_gravity="left"
         android:layout_below="@id/c_welcome_text"
         android:textSize="18sp"
         android:layout_marginTop="30dip"

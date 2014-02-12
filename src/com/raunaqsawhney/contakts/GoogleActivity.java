@@ -199,9 +199,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
-        contactList.setAdapter(mAdapter);
         View header = getLayoutInflater().inflate(R.layout.google_header, null);
-        contactList.addHeaderView(header);	
+	    contactList.addHeaderView(header, null, false);
+        contactList.setAdapter(mAdapter);
+	    
 	}
 
 	@Override

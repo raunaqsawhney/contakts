@@ -220,7 +220,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
         });
         
         View header = getLayoutInflater().inflate(R.layout.freq_header, null);
-        freqList.addHeaderView(header);
+        freqList.addHeaderView(header, null, false);
         freqList.setAdapter(adapter);
 	}
 	

@@ -22,6 +22,7 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
     private static class ViewHolder {
         TextView name;
         ImageView photo;
+        TextView isAppUser;
     }
 
 	private ImageLoader imageLoader;
@@ -37,14 +38,11 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
             .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
             .build();
 	        
-	        
 	        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
 	        .discCacheExtraOptions(100, 100, CompressFormat.PNG, 100, null)
             .build();
 	        imageLoader.init(config);
-	       
 	    }
-
 
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -60,13 +58,21 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
           convertView = inflater.inflate(R.layout.fb_friend_layout, null);
           viewHolder.name = (TextView) convertView.findViewById(R.id.friend_name);
           viewHolder.photo = (ImageView) convertView.findViewById(R.id.friend_photo);
-          //viewHolder.presence = (TextView) convertView.findViewById(R.id.friend_presence);
+          viewHolder.isAppUser = (TextView) convertView.findViewById(R.id.friend_isappuser);
+          
           convertView.setTag(viewHolder);
+          
        } else {
            viewHolder = (ViewHolder) convertView.getTag();
        }
        // Populate the data into the template view using the data object
        viewHolder.name.setText(friend.getName());
+       
+       if (friend.getIsAppUser()) {
+           viewHolder.isAppUser.setText("on Contakts");
+       } else {
+           viewHolder.isAppUser.setText("");
+       }
        
        imageLoader.displayImage(friend.getURL(), viewHolder.photo, options);
        

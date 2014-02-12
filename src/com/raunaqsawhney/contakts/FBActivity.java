@@ -61,6 +61,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	String uid;
 	String name;
 	String urlImg;
+	Boolean isAppUser;
 	String coverUrl;
     String username;
 	String birthday;
@@ -190,7 +191,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	}
 
 	private void startfb() {
-		String fqlQuery = "select uid, name, pic_big from user where uid in (select uid2 from friend where uid1 = me()) order by name";
+		String fqlQuery = "select uid, name, pic_big, is_app_user from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
 		
@@ -236,10 +237,12 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 					            uid     = json_obj.getString("uid");
 					            name   	= json_obj.getString("name");
 					            urlImg 	= json_obj.getString("pic_big");
+					            isAppUser = json_obj.getBoolean("is_app_user");
 					            
 					            friend.setID(uid);
 					            friend.setName(name);
 					            friend.setURL(urlImg);
+					            friend.setIsAppUser(isAppUser);
 					            							            
 					            friendList.add(friend);			            
 					        }
@@ -249,7 +252,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 					    	ListView  fbListView = (ListView) findViewById(R.id.fbList);
 
 				    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
-				            fbListView.addHeaderView(header);
+				            fbListView.addHeaderView(header, null, false);
 				            
 				            fbListView.setOnItemClickListener(new OnItemClickListener() {
 				                @Override

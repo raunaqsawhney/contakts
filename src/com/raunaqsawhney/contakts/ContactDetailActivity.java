@@ -555,41 +555,45 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             String imTypeRaw = imCur.getString(imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.PROTOCOL));
             
-            switch(Integer.parseInt(imTypeRaw))
-            {
-            	case -1:
-            		imType = "Custom";
-            		break;
-            	case 0:
-            		imType = "AIM";
-            		break;
-            	case 1:
-            		imType = "MSN";
-            		break;
-            	case 2:
-            		imType = "Yahoo";
-            		break;
-            	case 3:
-            		imType = "Skype";
-            		break;
-            	case 4:
-            		imType = "QQ";
-            		break;
-            	case 5:
-            		imType = "Google Talk";
-            		break;
-            	case 6:
-            		imType = "ICQ";
-            		break;
-            	case 7:
-            		imType = "Jabber";
-            		break;
-            	case 8:
-            		imType = "Net Meeting";
-            		break;
-            	default:
-            		imType = "Custom";
-            		break;
+            try {
+            	switch(Integer.parseInt(imTypeRaw))
+                {
+                	case -1:
+                		imType = "Custom";
+                		break;
+                	case 0:
+                		imType = "AIM";
+                		break;
+                	case 1:
+                		imType = "MSN";
+                		break;
+                	case 2:
+                		imType = "Yahoo";
+                		break;
+                	case 3:
+                		imType = "Skype";
+                		break;
+                	case 4:
+                		imType = "QQ";
+                		break;
+                	case 5:
+                		imType = "Google Talk";
+                		break;
+                	case 6:
+                		imType = "ICQ";
+                		break;
+                	case 7:
+                		imType = "Jabber";
+                		break;
+                	case 8:
+                		imType = "Net Meeting";
+                		break;
+                	default:
+                		imType = "Custom";
+                		break;
+                }
+            } catch (NumberFormatException e) {
+            	imType = "Custom";
             }
             
             contact.addIM(im  + ":" + imType); 
@@ -668,54 +672,58 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             relationship = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.NAME));
             
             String relationshipTypeRaw = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.TYPE));
-                        
-            switch(Integer.parseInt(relationshipTypeRaw))
-            {
-            	case 1:
-            		relationshipType = "Assistant";
-            		break;
-            	case 2:
-            		relationshipType = "Brother";
-            		break;
-            	case 3:
-            		relationshipType = "Child";
-            		break;
-            	case 4:
-            		relationshipType = "Domestic Partner";
-            		break;
-            	case 5:
-            		relationshipType = "Father";
-            		break;
-            	case 6:
-            		relationshipType = "Friend";
-            		break;
-            	case 7:
-            		relationshipType = "Manager";
-            		break;
-            	case 8:
-            		relationshipType = "Mother";
-            		break;
-            	case 9:
-            		relationshipType = "Parent";
-            		break;
-            	case 10:
-            		relationshipType = "Partner";
-            		break;
-            	case 11:
-            		relationshipType = "Referred by";
-            		break;
-            	case 12:
-            		relationshipType = "Relative";
-            		break;
-            	case 13:
-            		relationshipType = "Sister";
-            		break;
-            	case 14:
-            		relationshipType = "Spouse";
-            		break;
-        		default:
-        			relationshipType = "Custom";
-        			break;
+            
+            try {
+            	switch(Integer.parseInt(relationshipTypeRaw))
+                {
+                	case 1:
+                		relationshipType = "Assistant";
+                		break;
+                	case 2:
+                		relationshipType = "Brother";
+                		break;
+                	case 3:
+                		relationshipType = "Child";
+                		break;
+                	case 4:
+                		relationshipType = "Domestic Partner";
+                		break;
+                	case 5:
+                		relationshipType = "Father";
+                		break;
+                	case 6:
+                		relationshipType = "Friend";
+                		break;
+                	case 7:
+                		relationshipType = "Manager";
+                		break;
+                	case 8:
+                		relationshipType = "Mother";
+                		break;
+                	case 9:
+                		relationshipType = "Parent";
+                		break;
+                	case 10:
+                		relationshipType = "Partner";
+                		break;
+                	case 11:
+                		relationshipType = "Referred by";
+                		break;
+                	case 12:
+                		relationshipType = "Relative";
+                		break;
+                	case 13:
+                		relationshipType = "Sister";
+                		break;
+                	case 14:
+                		relationshipType = "Spouse";
+                		break;
+            		default:
+            			relationshipType = "Custom";
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	relationshipType = "Custom";
             }
             
             contact.setRelationship(relationship);
@@ -783,20 +791,24 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             date = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
             
             String dateTypeRaw = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE));
-            		
-            switch(Integer.parseInt(dateTypeRaw))
-            {
-            	case 1:
-            		dateType = "Anniversary";
-            		break;
-            	case 2:
-            		dateType = "Other";
-            		break;
-            	case 3:
-            		dateType = "Birthday";
-            		break;
-        		default:
-        			break;
+            
+            try {
+            	switch(Integer.parseInt(dateTypeRaw))
+                {
+                	case 1:
+                		dateType = "Anniversary";
+                		break;
+                	case 2:
+                		dateType = "Other";
+                		break;
+                	case 3:
+                		dateType = "Birthday";
+                		break;
+            		default:
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	dateType = "Other";
             }
             
             contact.addDates(date + ":" + dateType);
@@ -806,7 +818,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             {
             	dateLayout.setVisibility(View.VISIBLE);
             }
-            
         }
         
 		final int N = count; 
@@ -880,7 +891,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
             contact.setNotes(note);
             
-            
             if (note != null || !note.isEmpty())
             {
                 System.out.println("NOTE - NOT NULL");
@@ -927,7 +937,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         });
 	}
 
-
 	@SuppressWarnings("deprecation")
 	private void getWebsiteInfo(String contact_id) {
 		
@@ -954,32 +963,36 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             String websiteTypeRaw = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.TYPE));
 
-            switch(Integer.parseInt(websiteTypeRaw))
-            {
-            	case 1:
-            		websiteType = "Homepage";
-            		break;
-            	case 2:
-            		websiteType = "Blog";
-            		break;
-            	case 3:
-            		websiteType = "Profile";
-            		break;
-            	case 4:
-            		websiteType = "Home";
-            		break;
-            	case 5:
-            		websiteType = "Work";
-            		break;
-            	case 7:
-            		websiteType = "FTP";
-            		break;
-            	case 8:
-            		websiteType = "Other";
-            		break;
-        		default:
-        			websiteType = "Other";
-        			break;
+            try {
+            	switch(Integer.parseInt(websiteTypeRaw))
+                {
+                	case 1:
+                		websiteType = "Homepage";
+                		break;
+                	case 2:
+                		websiteType = "Blog";
+                		break;
+                	case 3:
+                		websiteType = "Profile";
+                		break;
+                	case 4:
+                		websiteType = "Home";
+                		break;
+                	case 5:
+                		websiteType = "Work";
+                		break;
+                	case 7:
+                		websiteType = "FTP";
+                		break;
+                	case 8:
+                		websiteType = "Other";
+                		break;
+            		default:
+            			websiteType = "Other";
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	websiteType = "Other";
             }
             
             contact.addWebsites(website + "$" + websiteType);  
@@ -1084,19 +1097,23 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             String addressTypeRaw = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
             
-            switch(Integer.parseInt(addressTypeRaw))
-            {
-            	case 1:
-            		addressType = "Home";
-            		break;
-            	case 2:
-            		addressType = "Work";
-            		break;
-            	case 3:
-            		addressType = "Other";
-            		break;
-        		default:
-        			break;
+            try {
+            	switch(Integer.parseInt(addressTypeRaw))
+                {
+                	case 1:
+                		addressType = "Home";
+                		break;
+                	case 2:
+                		addressType = "Work";
+                		break;
+                	case 3:
+                		addressType = "Other";
+                		break;
+            		default:
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	addressType = "Other";
             }
             
             contact.addAddresses(address + ":" + addressType);  
@@ -1107,7 +1124,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     				addresses = geocoder.getFromLocationName(address, 1);
     			} catch (IOException e) {
     				e.printStackTrace();
+    			} catch (IllegalArgumentException ex) {
+    				ex.printStackTrace();
     			}
+            	
                 if(addresses.size() > 0) {
                     latitude= addresses.get(0).getLatitude();
                     longitude= addresses.get(0).getLongitude();
@@ -1224,24 +1244,29 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             String emailTypeRaw = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
             
-            switch(Integer.parseInt(emailTypeRaw))
-            {
-            	case 1:
-            		emailType = "Home";
-            		break;
-            	case 2:
-            		emailType = "Work";
-            		break;
-            	case 3:
-            		emailType = "Other";
-            		break;
-            	case 4:
-            		emailType = "Mobile";
-            		break;
-        		default:
-        			emailType = "Custom";
-        			break;
+            try {
+            	switch(Integer.parseInt(emailTypeRaw))
+                {
+                	case 1:
+                		emailType = "Home";
+                		break;
+                	case 2:
+                		emailType = "Work";
+                		break;
+                	case 3:
+                		emailType = "Other";
+                		break;
+                	case 4:
+                		emailType = "Mobile";
+                		break;
+            		default:
+            			emailType = "Custom";
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	emailType = "Custom";
             }
+            
             contact.addEmailID(email + ":" + emailType);
             count++;
             
@@ -1363,68 +1388,72 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             
             String phoneTypeRaw = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             
-            switch(Integer.parseInt(phoneTypeRaw))
-            {
-	        	case 1:
-	        		phoneType = "Home";
-	        		break;
-	        	case 2:
-	        		phoneType = "Mobile";
-	        		break;
-	        	case 3:
-	        		phoneType = "Work";
-	        		break;
-	        	case 4:
-	        		phoneType = "Fax (Work)";
-	        		break;
-	        	case 5:
-	        		phoneType = "Fax (Home)";
-	        		break;
-	        	case 6:
-	        		phoneType = "Pager";
-	        		break;
-	        	case 7:
-	        		phoneType = "Other";
-	        		break;
-	        	case 8:
-	        		phoneType = "Callback";
-	        		break;
-	        	case 9:
-	        		phoneType = "Car";
-	        		break;
-	        	case 10:
-	        		phoneType = "Company (Main)";
-	        		break;
-	        	case 11:
-	        		phoneType = "ISDN";
-	        		break;
-	        	case 12:
-	        		phoneType = "Main";
-	        		break;
-	        	case 13:
-	        		phoneType = "Other (Fax)";
-	        		break;
-	        	case 14:
-	        		phoneType = "Radio";
-	        		break;
-	        	case 15:
-	        		phoneType = "Telex";
-	        		break;
-	        	case 16:
-	        		phoneType = "TTY - TDD";
-	        		break;
-	        	case 17:
-	        		phoneType = "Work (Mobile)";
-	        		break;
-	        	case 18:
-	        		phoneType = "Work (Pager)";
-	        		break;
-	        	case 19:
-	        		phoneType = "Assisstant";
-	        		break;
-	        	case 20:
-	        		phoneType = "MMS";
-	        		break;
+            try {
+            	switch(Integer.parseInt(phoneTypeRaw))
+                {
+    	        	case 1:
+    	        		phoneType = "Home";
+    	        		break;
+    	        	case 2:
+    	        		phoneType = "Mobile";
+    	        		break;
+    	        	case 3:
+    	        		phoneType = "Work";
+    	        		break;
+    	        	case 4:
+    	        		phoneType = "Fax (Work)";
+    	        		break;
+    	        	case 5:
+    	        		phoneType = "Fax (Home)";
+    	        		break;
+    	        	case 6:
+    	        		phoneType = "Pager";
+    	        		break;
+    	        	case 7:
+    	        		phoneType = "Other";
+    	        		break;
+    	        	case 8:
+    	        		phoneType = "Callback";
+    	        		break;
+    	        	case 9:
+    	        		phoneType = "Car";
+    	        		break;
+    	        	case 10:
+    	        		phoneType = "Company (Main)";
+    	        		break;
+    	        	case 11:
+    	        		phoneType = "ISDN";
+    	        		break;
+    	        	case 12:
+    	        		phoneType = "Main";
+    	        		break;
+    	        	case 13:
+    	        		phoneType = "Other (Fax)";
+    	        		break;
+    	        	case 14:
+    	        		phoneType = "Radio";
+    	        		break;
+    	        	case 15:
+    	        		phoneType = "Telex";
+    	        		break;
+    	        	case 16:
+    	        		phoneType = "TTY - TDD";
+    	        		break;
+    	        	case 17:
+    	        		phoneType = "Work (Mobile)";
+    	        		break;
+    	        	case 18:
+    	        		phoneType = "Work (Pager)";
+    	        		break;
+    	        	case 19:
+    	        		phoneType = "Assisstant";
+    	        		break;
+    	        	case 20:
+    	        		phoneType = "MMS";
+    	        		break;
+                }
+            } catch (NumberFormatException e) {
+            	phoneType = "Other";
             }
             
             contact.addPhoneNumer(number + ":" + phoneType);
@@ -1497,7 +1526,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -1533,9 +1561,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-
 	}
-	
 	
 	@SuppressLint("NewApi")
 	Bitmap BlurImage (Bitmap input)
