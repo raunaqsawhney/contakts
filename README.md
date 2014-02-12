@@ -1,4 +1,4 @@
-Contakts_v0.1
+Contakts
 =============
 
 A beautiful contacts manager for Android
