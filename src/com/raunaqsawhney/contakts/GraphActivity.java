@@ -81,7 +81,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
         	
         	new AlertDialog.Builder(this)
 		    .setTitle("Contact Graphs")
-		    .setMessage("Here you can visually the top 10 people you contact most often via phone," +
+		    .setMessage("Here you can visually see the top 10 people you connect with most, via phone," +
 		    		" messaging, and email, combined to give a raw score listed next to each contact.")
 		    		.setNeutralButton("Okay", null)
 		    .show();

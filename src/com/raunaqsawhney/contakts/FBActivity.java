@@ -106,7 +106,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
         	
         	new AlertDialog.Builder(this)
 		    .setTitle("Facebook")
-		    .setMessage("This is your first time accessing Facebook. Please go to Settings and login.")
+		    .setMessage("If this is your first time accessing Facebook on Contakts, please go to Settings and login first.")
 		    		.setNeutralButton("Okay", null)
 		    .show();
         }

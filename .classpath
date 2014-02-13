@@ -9,6 +9,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/FacebookSDK"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/google-play-services_lib"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/library"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/rsawhney/Desktop/adt-bundle-windows-x86-20131030/sdk/build-tools/android-4.4/renderscript/lib/renderscript-v8.jar"/>
+	<classpathentry kind="lib" path="/Applications/android_dev/sdk/build-tools/android-4.4/renderscript/lib/renderscript-v8.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
