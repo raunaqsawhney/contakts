@@ -27,8 +27,8 @@ public final class R {
 		public static final int color_picker_swatch = 0x7f03000a;
 	}
 	public static final class string {
-		public static final int color_picker_default_title = 0x7f060036;
-		public static final int color_swatch_description = 0x7f060034;
-		public static final int color_swatch_description_selected = 0x7f060035;
+		public static final int color_picker_default_title = 0x7f070036;
+		public static final int color_swatch_description = 0x7f070034;
+		public static final int color_swatch_description_selected = 0x7f070035;
 	}
 }

@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -137,8 +138,17 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	
 	private void showInfo() {
 		
+		String versionName = null;
+		try {
+			versionName = "Current Version: " + getApplicationContext().getPackageManager()
+				    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			versionName = "Current Version: Not Available";
+			e.printStackTrace();
+		}
+		
 		ListView listview = (ListView) findViewById(R.id.infoList);
-	    String[] values = new String[] { "Share with your friends", "Send Feedback", "Rate on Google Play", "Website", "Terms of Service" };
+	    String[] values = new String[] { "Share with your friends", "Send Feedback", "Rate on Google Play", "Website", "Terms of Service", versionName };
 
 	    ArrayList<String> list = new ArrayList<String>();
 	    for (int i = 0; i < values.length; ++i) {
