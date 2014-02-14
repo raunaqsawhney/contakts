@@ -136,6 +136,7 @@
             </LinearLayout>
             
             
+            
             <LinearLayout
                 android:id="@+id/c_detail_email_layout"
                 android:layout_width="fill_parent"

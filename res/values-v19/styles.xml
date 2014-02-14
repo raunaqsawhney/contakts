@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- Generated with http://android-holo-colors.com -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    
-    
-<style name="AppTheme" parent="@style/_AppTheme"/>
-<style name="_AppTheme" parent="android:Theme.Holo.Light">
-		<item name="android:windowTranslucentStatus">true</item>
-		<item name="android:windowTranslucentNavigation">true</item>
-  	</style>
-  	
+<resources>
+<style name="Theme.TransparencyDemo" parent="@android:style/Theme.Holo.Light">
+<item name="android:windowTranslucentStatus">true</item>
+<item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
+</style>
 </resources>
-
-  

@@ -114,10 +114,13 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
-	        tintManager.setNavigationBarTintEnabled(true);
+	        
+	        SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
+	        getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, -150, 0,0);
+	        config.getPixelInsetBottom();
+	        
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
-	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }	
 	}
 
@@ -170,19 +173,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
-        
-        contactList = (ListView)findViewById(R.id.list);
-        contactList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-                intent.putExtra("contact_id", contact_id);
-                startActivity(intent);
-            }
-        });
+		navListView.setClipToPadding(false);
 	}
 
 	private void initializeLoader() {
@@ -208,6 +199,20 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
+	    
+	    contactList = (ListView)findViewById(R.id.list);
+	    contactList.setClipToPadding(false);
+        contactList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", contact_id);
+                startActivity(intent);
+            }
+        });
 	    
 	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header, null, false);

@@ -421,6 +421,7 @@ containing a value of this type.
         /** Enable automatic exception tracking
          */
         public static final int ga_reportUncaughtExceptions=0x7f0b0001;
+        public static final int transparent_nav=0x7f0b0002;
     }
     public static final class color {
         public static final int apptheme_color=0x7f060020;
@@ -582,7 +583,7 @@ containing a value of this type.
         public static final int com_facebook_list_section_header_background=0x7f020056;
         public static final int com_facebook_loginbutton_silver=0x7f020057;
         public static final int com_facebook_logo=0x7f020058;
-        public static final int com_facebook_picker_default_separator_color=0x7f0200af;
+        public static final int com_facebook_picker_default_separator_color=0x7f0200b1;
         public static final int com_facebook_picker_item_background=0x7f020059;
         public static final int com_facebook_picker_list_focused=0x7f02005a;
         public static final int com_facebook_picker_list_longpressed=0x7f02005b;
@@ -638,40 +639,42 @@ containing a value of this type.
         public static final int ic_action_logout=0x7f02008d;
         public static final int ic_action_phone=0x7f02008e;
         public static final int ic_action_text=0x7f02008f;
-        public static final int ic_calendar=0x7f020090;
-        public static final int ic_colorpicker_swatch_selected=0x7f020091;
-        public static final int ic_contact_picture=0x7f020092;
-        public static final int ic_drawer=0x7f020093;
-        public static final int ic_launcher=0x7f020094;
-        public static final int ic_menu_call=0x7f020095;
-        public static final int ic_menu_graph=0x7f020096;
-        public static final int ic_menu_search=0x7f020097;
-        public static final int ic_menu_search_holo_dark=0x7f020098;
-        public static final int ic_menu_share=0x7f020099;
-        public static final int ic_nav_about=0x7f02009a;
-        public static final int ic_nav_fb=0x7f02009b;
-        public static final int ic_nav_google=0x7f02009c;
-        public static final int ic_nav_phone=0x7f02009d;
-        public static final int ic_nav_popular=0x7f02009e;
-        public static final int ic_nav_settings=0x7f02009f;
-        public static final int ic_nav_star=0x7f0200a0;
-        public static final int ic_nav_twitter=0x7f0200a1;
-        public static final int ic_plusone_medium_off_client=0x7f0200a2;
-        public static final int ic_plusone_small_off_client=0x7f0200a3;
-        public static final int ic_plusone_standard_off_client=0x7f0200a4;
-        public static final int ic_plusone_tall_off_client=0x7f0200a5;
-        public static final int ic_sad=0x7f0200a6;
-        public static final int ic_star=0x7f0200a7;
-        public static final int ic_star_gold=0x7f0200a8;
-        public static final int line=0x7f0200a9;
-        public static final int popup_black=0x7f0200aa;
-        public static final int searchviewredversion=0x7f0200ab;
-        public static final int shadow=0x7f0200ac;
-        public static final int star=0x7f0200ad;
-        public static final int underline=0x7f0200ae;
+        public static final int ic_action_whatsapp=0x7f020090;
+        public static final int ic_calendar=0x7f020091;
+        public static final int ic_colorpicker_swatch_selected=0x7f020092;
+        public static final int ic_contact_picture=0x7f020093;
+        public static final int ic_drawer=0x7f020094;
+        public static final int ic_launcher=0x7f020095;
+        public static final int ic_menu_call=0x7f020096;
+        public static final int ic_menu_graph=0x7f020097;
+        public static final int ic_menu_search=0x7f020098;
+        public static final int ic_menu_search_holo_dark=0x7f020099;
+        public static final int ic_menu_share=0x7f02009a;
+        public static final int ic_menu_whatsapp=0x7f02009b;
+        public static final int ic_nav_about=0x7f02009c;
+        public static final int ic_nav_fb=0x7f02009d;
+        public static final int ic_nav_google=0x7f02009e;
+        public static final int ic_nav_phone=0x7f02009f;
+        public static final int ic_nav_popular=0x7f0200a0;
+        public static final int ic_nav_settings=0x7f0200a1;
+        public static final int ic_nav_star=0x7f0200a2;
+        public static final int ic_nav_twitter=0x7f0200a3;
+        public static final int ic_plusone_medium_off_client=0x7f0200a4;
+        public static final int ic_plusone_small_off_client=0x7f0200a5;
+        public static final int ic_plusone_standard_off_client=0x7f0200a6;
+        public static final int ic_plusone_tall_off_client=0x7f0200a7;
+        public static final int ic_sad=0x7f0200a8;
+        public static final int ic_star=0x7f0200a9;
+        public static final int ic_star_gold=0x7f0200aa;
+        public static final int line=0x7f0200ab;
+        public static final int popup_black=0x7f0200ac;
+        public static final int searchviewredversion=0x7f0200ad;
+        public static final int shadow=0x7f0200ae;
+        public static final int star=0x7f0200af;
+        public static final int underline=0x7f0200b0;
     }
     public static final class id {
-        public static final int action_settings=0x7f050085;
+        public static final int action_settings=0x7f050086;
         public static final int authButton=0x7f05004f;
         public static final int c_detail_address_header=0x7f050021;
         public static final int c_detail_address_layout=0x7f050020;
@@ -761,8 +764,8 @@ containing a value of this type.
         public static final int fav_photo=0x7f050070;
         public static final int fbInfo=0x7f05004e;
         public static final int fbList=0x7f05002d;
-        public static final int fb_logout=0x7f050083;
-        public static final int fb_publish=0x7f050082;
+        public static final int fb_logout=0x7f050084;
+        public static final int fb_publish=0x7f050083;
         public static final int frame_layout=0x7f050022;
         public static final int freqList=0x7f05002e;
         public static final int freq_count=0x7f050078;
@@ -785,12 +788,13 @@ containing a value of this type.
         public static final int linearLayout1=0x7f05004d;
         public static final int list=0x7f050050;
         public static final int margin=0x7f050002;
-        public static final int menu_add=0x7f050088;
-        public static final int menu_dial=0x7f050087;
-        public static final int menu_edit=0x7f050080;
-        public static final int menu_graph=0x7f050084;
-        public static final int menu_search=0x7f050086;
-        public static final int menu_share=0x7f050081;
+        public static final int menu_add=0x7f050089;
+        public static final int menu_dial=0x7f050088;
+        public static final int menu_edit=0x7f050081;
+        public static final int menu_graph=0x7f050085;
+        public static final int menu_search=0x7f050087;
+        public static final int menu_share=0x7f050082;
+        public static final int menu_whatsapp=0x7f050080;
         public static final int nav_menu=0x7f05007c;
         public static final int nav_name=0x7f05007e;
         public static final int nav_photo=0x7f05007d;
@@ -1040,12 +1044,6 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
 
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
-
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
@@ -1066,7 +1064,8 @@ containing a value of this type.
         public static final int ButtonAppTheme=0x7f090006;
         public static final int ImageButtonAppTheme=0x7f090007;
         public static final int SpinnerAppTheme=0x7f090008;
-        public static final int _AppTheme=0x7f090004;
+        public static final int Theme_TransparencyDemo=0x7f090004;
+        public static final int _AppTheme=0x7f090009;
         public static final int com_facebook_loginview_default_style=0x7f090002;
         public static final int com_facebook_loginview_silver_style=0x7f090003;
     }

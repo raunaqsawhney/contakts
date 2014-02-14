@@ -83,10 +83,13 @@ public class WelcomeActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 	        tintManager.setStatusBarTintEnabled(true);
-	        tintManager.setNavigationBarTintEnabled(true);
+	        
+	        SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
+	        getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, -150, 0,0);
+	        config.getPixelInsetBottom();
+	        
 	        int actionBarColor = Color.parseColor("#34AADC");
 	        tintManager.setStatusBarTintColor(actionBarColor);
-	        tintManager.setNavigationBarTintColor(Color.parseColor("#000000"));
         }		
 	}
 
