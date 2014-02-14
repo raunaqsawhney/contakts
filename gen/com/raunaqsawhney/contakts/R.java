@@ -790,10 +790,10 @@ containing a value of this type.
         public static final int margin=0x7f050002;
         public static final int menu_add=0x7f050089;
         public static final int menu_dial=0x7f050088;
-        public static final int menu_edit=0x7f050081;
+        public static final int menu_edit=0x7f050082;
         public static final int menu_graph=0x7f050085;
         public static final int menu_search=0x7f050087;
-        public static final int menu_share=0x7f050082;
+        public static final int menu_share=0x7f050081;
         public static final int menu_whatsapp=0x7f050080;
         public static final int nav_menu=0x7f05007c;
         public static final int nav_name=0x7f05007e;

@@ -107,7 +107,8 @@
             android:id="@+id/c_detail_content_main"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="40dip">
 	        	    
             <LinearLayout
                 android:id="@+id/c_detail_phone_layout"

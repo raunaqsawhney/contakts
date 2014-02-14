@@ -12,6 +12,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -238,7 +239,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);	
-		navListView.setClipToPadding(false);
 
 	}
 	
@@ -1624,7 +1624,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
 						mIntent.setPackage("com.whatsapp");
 						mIntent.putExtra("chat",true);
-						startActivity(mIntent);
+						try {
+							startActivity(mIntent);
+						} catch (ActivityNotFoundException e) {
+							Toast.makeText(getApplicationContext(), "WhatsApp is not installed.", Toast.LENGTH_LONG).show();
+						}
 				        dialog.dismiss();
 				    }
 				});	

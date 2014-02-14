@@ -1,20 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-		<item
+	<item
             android:id="@+id/menu_whatsapp"
             android:showAsAction="ifRoom"
             android:title="WhatsApp"
             android:icon="@drawable/ic_menu_whatsapp"/>
 	
-	<item
-            android:id="@+id/menu_edit"
-            android:showAsAction="ifRoom"
-            android:title="Edit"
-            android:icon="@drawable/ic_action_edit"/>
+	
 	<item
            android:id="@+id/menu_share"
-           android:showAsAction="ifRoom"
-           android:title="Share"
+           android:title="Edit"
            android:icon="@drawable/ic_menu_share"/>
+	
+	<item
+            android:id="@+id/menu_edit"
+            android:title="Share"
+            android:icon="@drawable/ic_action_edit"/>
 
 </menu>

@@ -29,11 +29,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.facebook.Session;
@@ -173,23 +173,38 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
-		navListView.setClipToPadding(false);
 	}
 
 	private void initializeLoader() {
-		
-		// Fetch name and contact photo URI
+		// Set up the ListView for contacts to be displayed
+        contactList = (ListView)findViewById(R.id.list);
+        contactList.setOnItemClickListener(new OnItemClickListener() {
+            @SuppressWarnings("deprecation")
+			@Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				startManagingCursor(cursor);
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
+				
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", contact_id);
+                startActivity(intent);
+            }
+        });
+	        
+        // Fetch Display Name and Contact Photo URI
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
         		ContactsContract.Data.PHOTO_URI
         };
         
+        // Put above content into XML layouts
         int[] to = new int[] {
         		R.id.c_name,
         		R.id.c_photo
         };
-        
-        // Initialize the listview adapter
+	        
+        // Set the adapter to display the list
         mAdapter = new SimpleCursorAdapter(this,
                 R.layout.lv_layout, 
                 null,
@@ -197,30 +212,20 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 to, 
                 0);
         
+        // Initialize the loader for background activity
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
-	    contactList = (ListView)findViewById(R.id.list);
-	    contactList.setClipToPadding(false);
-        contactList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-                intent.putExtra("contact_id", contact_id);
-                startActivity(intent);
-            }
-        });
-	    
-	    View header = getLayoutInflater().inflate(R.layout.phone_header, null);
+        View header = getLayoutInflater().inflate(R.layout.google_header, null);
 	    contactList.addHeaderView(header, null, false);
-	    contactList.setAdapter(mAdapter);	
+        contactList.setAdapter(mAdapter);
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		
+		CursorLoader cursorLoader = null;
+		
 		Uri baseUri;
         if (mFilter != null) {
             baseUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI,
@@ -239,25 +244,20 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         	ContactsContract.Contacts.PHOTO_URI
         };
         
-        CursorLoader cursorLoader = new CursorLoader(
+        cursorLoader = new CursorLoader(
         		MainActivity.this, 
         		baseUri,
                 projection, 
                 query, 
                 null,
                 Contacts.DISPLAY_NAME + " ASC");
-        
+		
         return cursorLoader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		mAdapter.swapCursor(arg1);
-		if (ContactsContract.Contacts.PHOTO_URI == null)
-		{
-			ImageView c_photo = (ImageView) findViewById(R.id.c_photo);
-			c_photo.setImageResource(R.drawable.ic_contact_picture);
-		}
 	}
 
 	@Override
