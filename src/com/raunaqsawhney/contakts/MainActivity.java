@@ -216,7 +216,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
-        View header = getLayoutInflater().inflate(R.layout.google_header, null);
+        View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header, null, false);
         contactList.setAdapter(mAdapter);
 	}
