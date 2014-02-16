@@ -117,6 +117,31 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		
 		setupGlobalPrefs();
 		setupActionBar();
+		
+		
+		TextView username = (TextView) findViewById(R.id.f_detail_username_header);
+		username.setTextColor(Color.parseColor(theme));
+		
+		TextView birthday = (TextView) findViewById(R.id.f_detail_birthday_header);
+		birthday.setTextColor(Color.parseColor(theme));
+		
+		TextView curLoc = (TextView) findViewById(R.id.f_detail_currentloc_header);
+		curLoc.setTextColor(Color.parseColor(theme));
+		
+		TextView hometown = (TextView) findViewById(R.id.f_detail_hometown_header);
+		hometown.setTextColor(Color.parseColor(theme));
+		
+		TextView work = (TextView) findViewById(R.id.f_detail_work_header);
+		work.setTextColor(Color.parseColor(theme));
+		
+		TextView education = (TextView) findViewById(R.id.f_detail_education_header);
+		education.setTextColor(Color.parseColor(theme));
+		
+		
+		
+		
+		
+		
 		setupSlidingMenu();
 		setupImageLoader();
 		fetchFriendInfo();

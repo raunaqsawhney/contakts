@@ -543,6 +543,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@SuppressWarnings("deprecation")
 	private void getIMInfo(String contact_id) {
 		
+		TextView imHeader = (TextView) findViewById(R.id.c_detail_im_header);
+		imHeader.setTextColor(Color.parseColor(theme));
+		
 		int count = 0;
 		
         lblIMInfo = (TextView) findViewById(R.id.c_detail_im_header);
@@ -670,6 +673,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@SuppressWarnings("deprecation")
 	private void getRelationshipInfo(String contact_id) {
 		
+		TextView relationshipHeader = (TextView) findViewById(R.id.c_detail_relationship_header);
+		relationshipHeader.setTextColor(Color.parseColor(theme));
+		
         lblRelationship = (TextView) findViewById(R.id.c_detail_relationship_header);
         lblRelationship.setTypeface(Typeface.createFromAsset(getAssets(), font));
         
@@ -786,6 +792,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@SuppressWarnings("deprecation")
 	private void getDatesInfo(String contact_id) {
 		
+		TextView dateHeader = (TextView) findViewById(R.id.c_detail_date_header);
+		dateHeader.setTextColor(Color.parseColor(theme));
+		
 		int count = 0;
 		
         lblDate = (TextView) findViewById(R.id.c_detail_date_header);
@@ -890,6 +899,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@SuppressWarnings("deprecation")
 	private void getNotesInfo(String contact_id) {
 
+		TextView noteHeader = (TextView) findViewById(R.id.c_detail_note_header);
+		noteHeader.setTextColor(Color.parseColor(theme));
+		
         lblNote = (TextView) findViewById(R.id.c_detail_note_header);
         lblNote.setTypeface(Typeface.createFromAsset(getAssets(), font));
         		
@@ -958,6 +970,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	@SuppressWarnings("deprecation")
 	private void getWebsiteInfo(String contact_id) {
+		
+		TextView websiteHeader = (TextView) findViewById(R.id.c_detail_website_header);
+		websiteHeader.setTextColor(Color.parseColor(theme));
 		
         int count = 0;
 		
@@ -1089,6 +1104,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	@SuppressWarnings("deprecation")
 	private void getAddressInfo(String contact_id) {
+		
+		TextView addressHeader = (TextView) findViewById(R.id.c_detail_address_header);
+		addressHeader.setTextColor(Color.parseColor(theme));
 		
 		Geocoder geocoder = new Geocoder(getApplicationContext());  
 		List<Address> addresses = null;
@@ -1251,6 +1269,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@SuppressWarnings("deprecation")
 	private void getEmailInfo(String contact_id) {
 		
+		TextView emailHeader = (TextView) findViewById(R.id.c_detail_email_header);
+		emailHeader.setTextColor(Color.parseColor(theme));
+		
 		int count = 0;
 		
         lblEmail = (TextView) findViewById(R.id.c_detail_email_header);
@@ -1401,6 +1422,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	@SuppressWarnings("deprecation")
 	private void getPhoneInfo(String contact_id) {
+		
+		TextView phoneHeader = (TextView) findViewById(R.id.c_detail_phone_header);
+		phoneHeader.setTextColor(Color.parseColor(theme));
 		
 		int count = 0;
 		

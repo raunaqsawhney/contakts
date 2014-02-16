@@ -32,6 +32,6 @@
     <string name="title_activity_graph">GraphActivity</string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="shareMarketingText"></string>
+    <string name="title_activity_dialer">DialerActivity</string>
 
-    
 </resources>

@@ -205,6 +205,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		
 		Button colorPicker = new Button(this);
 		colorPicker = (Button) findViewById(R.id.colorPicker);
+		colorPicker.setBackgroundColor(Color.parseColor(theme));
 		
     	final ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
 		colorPickerDialog.initialize(R.string.color_dialog_title, new int[] { 

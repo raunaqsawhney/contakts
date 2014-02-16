@@ -26,7 +26,8 @@
         android:paddingRight="5dip"
         android:paddingTop="10dip"
         android:scrollingCache="true"
-        android:soundEffectsEnabled="true">
+        android:soundEffectsEnabled="true"
+        android:paddingBottom="40dip">
 
     </ListView>
 	

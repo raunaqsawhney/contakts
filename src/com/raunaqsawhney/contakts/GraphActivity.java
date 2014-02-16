@@ -198,7 +198,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 5)";
 
 	    try {
 	    	@SuppressWarnings("deprecation")
