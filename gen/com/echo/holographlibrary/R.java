@@ -12,10 +12,10 @@ public final class R {
 		public static final int popup_black = 0x7f0200ac;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f080033;
+		public static final int app_name = 0x7f07001a;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f090002;
-		public static final int AppTheme = 0x7f090003;
+		public static final int AppBaseTheme = 0x7f090000;
+		public static final int AppTheme = 0x7f090001;
 	}
 }

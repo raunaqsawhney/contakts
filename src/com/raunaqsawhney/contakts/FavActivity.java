@@ -187,8 +187,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 
 	    String selection = ContactsContract.Contacts.STARRED + "='1'";
 
-	    @SuppressWarnings("deprecation")
-		Cursor cursor = managedQuery(queryUri, projection, selection,null,null);
+	    Cursor cursor = getContentResolver().query(queryUri, projection, selection,null,null);
 
 	    long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
 	    

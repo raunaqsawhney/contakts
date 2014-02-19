@@ -181,8 +181,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 
 	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
 
-	    @SuppressWarnings("deprecation")
-		Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
+		Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
 
 	    long id = cursor.getColumnIndex(ContactsContract.Contacts._ID);
 	    

@@ -438,7 +438,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.STARRED};
 
-	    final Cursor cursor = managedQuery(
+	    final Cursor cursor = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            projection,
 	            ContactsContract.Contacts._ID + "=?",
@@ -481,8 +481,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
 		
-		@SuppressWarnings("deprecation")
-		Cursor cursor = managedQuery(
+		Cursor cursor = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            proj,
 	            ContactsContract.Contacts._ID + "=?",
@@ -525,19 +524,23 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),
                 ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)));
         
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        
-        if (inputStream != null) {
-        	
-        	if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1){
-        		headerBG.setImageBitmap(BlurImage(BitmapFactory.decodeStream(inputStream)));
-        	} else{
-        		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 12));
-        	}        	
-        } else {
-        	// TODO: Change default image to something nicer
-        	headerBG.setImageBitmap(BlurImage((BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg))));
-        }        
+        try {
+        	if (inputStream != null) {
+            	
+            	if (android.os.Build.VERSION.SDK_INT >= 17){
+            		// Renderscript support
+            		headerBG.setImageBitmap(BlurImage(BitmapFactory.decodeStream(inputStream)));
+            	} else{
+            		// No Renderscript support
+            		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 12));
+            	}        	
+            } else {
+            	// TODO: Change default image to something nicer
+            	headerBG.setImageBitmap(BlurImage((BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg))));
+            }
+        } catch (OutOfMemoryError e) {
+        	e.printStackTrace();
+        }       
 	}
 
 	@SuppressWarnings("deprecation")
@@ -1665,19 +1668,25 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	@SuppressLint("NewApi")
 	Bitmap BlurImage (Bitmap input)
 	{
-		RenderScript rsScript = RenderScript.create(getApplicationContext());
-		Allocation alloc = Allocation.createFromBitmap(rsScript, input);
+		Bitmap result = null;
+		try {
+			RenderScript rsScript = RenderScript.create(getApplicationContext());
+			Allocation alloc = Allocation.createFromBitmap(rsScript, input);
 
-		ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rsScript, Element.U8_4(rsScript));
-		blur.setRadius (12);
-		blur.setInput (alloc);
+			ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rsScript, Element.U8_4(rsScript));
+			blur.setRadius (12);
+			blur.setInput (alloc);
 
-		Bitmap result = Bitmap.createBitmap(input.getWidth(), input.getHeight(), input.getConfig ());
-		Allocation outAlloc = Allocation.createFromBitmap (rsScript, result);
-		blur.forEach (outAlloc);
-		outAlloc.copyTo (result);
+			result = Bitmap.createBitmap(input.getWidth(), input.getHeight(), input.getConfig ());
+			Allocation outAlloc = Allocation.createFromBitmap (rsScript, result);
+			blur.forEach (outAlloc);
+			outAlloc.copyTo (result);
 
-		rsScript.destroy ();
+			rsScript.destroy ();
+			
+		} catch (OutOfMemoryError e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 	

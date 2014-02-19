@@ -201,8 +201,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 5)";
 
 	    try {
-	    	@SuppressWarnings("deprecation")
-			Cursor cursor = managedQuery(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
+			Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
 		    
 		    while (cursor.moveToNext() && count != 9) {
 		    	
