@@ -45,6 +45,8 @@ import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.model.GraphObject;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -145,7 +147,19 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		setupSlidingMenu();
 		setupImageLoader();
 		fetchFriendInfo();
+		enableAds();
        
+	}
+	
+	private void enableAds() {
+    	AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest request = new AdRequest.Builder()
+	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+	    .addKeyword("games")
+	    .addKeyword("apps")
+	    .addKeyword("social")
+	    .build();
+	    adView.loadAd(request);			
 	}
 	
 	private void setupGlobalPrefs() {

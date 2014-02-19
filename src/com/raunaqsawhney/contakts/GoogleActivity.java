@@ -68,9 +68,21 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setupActionBar();
         setupSlidingMenu();
         initializeLoader();
+        enableAds();
         
 		Session.openActiveSessionFromCache(getBaseContext());
 
+	}
+
+	private void enableAds() {
+    	AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest request = new AdRequest.Builder()
+	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+	    .addKeyword("games")
+	    .addKeyword("apps")
+	    .addKeyword("social")
+	    .build();
+	    adView.loadAd(request);	
 	}
 
 	private void setupGlobalPrefs() {

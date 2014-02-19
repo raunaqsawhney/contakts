@@ -35,6 +35,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.TransparencyDemo" >
+        
+       
         <activity
             android:name="com.raunaqsawhney.contakts.MainActivity"
             android:label="@string/app_name"
@@ -140,6 +142,10 @@
             android:label="@string/title_activity_dialer"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity android:name="com.google.android.gms.ads.AdActivity"      
+			android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        
     </application>
 
 </manifest>

@@ -58,6 +58,8 @@ import android.widget.Toast;
 
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -134,10 +136,22 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         setupQuickLinks();
         
         getContactInfo(contact_id);
+        enableAds();
         
         Session.openActiveSessionFromCache(getBaseContext());
 
     }
+
+	private void enableAds() {
+    	AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest request = new AdRequest.Builder()
+	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+	    .addKeyword("games")
+	    .addKeyword("apps")
+	    .addKeyword("social")
+	    .build();
+	    adView.loadAd(request);			
+	}
 
 	private void setupGlobalPrefs() {
 		

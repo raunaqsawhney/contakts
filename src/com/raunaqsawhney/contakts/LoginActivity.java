@@ -31,6 +31,8 @@ import com.facebook.widget.LoginButton.OnErrorListener;
 import com.fourmob.colorpicker.ColorPickerDialog;
 import com.fourmob.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -77,11 +79,23 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		setupSlidingMenu();
 		setupColorPref();
 		setupFBLogin();
+		enableAds();
 		
         
         //TODO: In- App Purchasing
         //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
  	}
+	
+	private void enableAds() {
+    	AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest request = new AdRequest.Builder()
+	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+	    .addKeyword("games")
+	    .addKeyword("apps")
+	    .addKeyword("social")
+	    .build();
+	    adView.loadAd(request);			
+	}
 
 	private void setupFBLogin() {
 		
