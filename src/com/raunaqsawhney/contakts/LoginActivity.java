@@ -1,5 +1,7 @@
 package com.raunaqsawhney.contakts;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +10,10 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +21,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,6 +79,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		
 		Session.openActiveSessionFromCache(getBaseContext());
 		Session.openActiveSession(this, false, null);
 		
@@ -82,6 +91,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		enableAds();
 		
         
+		
+		
         //TODO: In- App Purchasing
         //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
  	}

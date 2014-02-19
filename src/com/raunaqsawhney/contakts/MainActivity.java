@@ -1,5 +1,7 @@
 package com.raunaqsawhney.contakts;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,10 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -23,6 +29,8 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,6 +79,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         setupSlidingMenu();
         initializeLoader();
         enableAds();
+       
         
         // Enable open Facebook Session
 		Session.openActiveSessionFromCache(getBaseContext());

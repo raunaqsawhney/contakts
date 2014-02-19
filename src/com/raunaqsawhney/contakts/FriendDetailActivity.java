@@ -13,9 +13,11 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -24,6 +26,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -140,17 +143,12 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		education.setTextColor(Color.parseColor(theme));
 		
 		
-		
-		
-		
-		
 		setupSlidingMenu();
 		setupImageLoader();
 		fetchFriendInfo();
 		enableAds();
-       
 	}
-	
+
 	private void enableAds() {
     	AdView adView = (AdView)this.findViewById(R.id.adView);
 	    AdRequest request = new AdRequest.Builder()
