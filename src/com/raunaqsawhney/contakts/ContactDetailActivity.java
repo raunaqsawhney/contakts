@@ -257,7 +257,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	}
 	
 	private void setupQuickLinks() {
-		
 		// Check for Favourites
         Boolean isStarred = checkStarredStatus(contact_id);
         if (isStarred == true)

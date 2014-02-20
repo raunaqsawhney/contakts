@@ -81,6 +81,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	private String current_home_country;
 	private String coverUrl;
 	private Boolean isAppUser;
+	
+	private String contact_friend_id;
 
 	private ImageLoader imageLoader;
 	DisplayImageOptions options;
@@ -88,12 +90,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
 	ArrayList<String> educationHistory = new ArrayList<String>();
 	ArrayList<String> workHistory = new ArrayList<String>();
-
-	String friendName;
-	String friendPhotoUri;
-	String friendIsAppUser;
-	String friendCoverPhotoUri;
-	String friendUserName;
 	
 	TextView friend_name_tv; 
 	TextView friend_username_tv;
@@ -153,23 +149,53 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	
 	private void connectFB() {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
-        String[] projection = new String[] { ContactsContract.Contacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME, };
-        String selection = ContactsContract.Contacts.DISPLAY_NAME + " like '"
+        
+        String[] projection = new String[] { ContactsContract.CommonDataKinds.Identity._ID};
+        
+        String selection = ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME + " like '"
                 + name + "%'";
+        
         String[] selectionArgs = null;
-        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
-            + " COLLATE LOCALIZED ASC";
+        
+        String sortOrder = null;
+        
         Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs,
             sortOrder);
         
-    	System.out.println("BEFORE _ NAME: " + name);
 
         while (c.moveToNext()){
-        	System.out.println("AFTER _ NAME: " + name);
-        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.PhoneLookup.NUMBER)));
+        	contact_friend_id = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
         }
+        showContactFriendInfo();
     }
+	
+
+	private void showContactFriendInfo() {
+		
+		Uri uri = ContactsContract.Data.CONTENT_URI;
+        
+        String[] projection = new String[] { ContactsContract.CommonDataKinds.Identity._ID,
+        		ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME,
+        		ContactsContract.CommonDataKinds.Phone.NUMBER,
+        		ContactsContract.CommonDataKinds.Email.ADDRESS};
+        
+        String selection = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        
+        String[] selectionArgs = new String[] {contact_friend_id};
+        
+        String sortOrder = null;
+        
+        Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs,
+            sortOrder);
+        
+
+        while (c.moveToNext()){
+        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID)));
+        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME)));
+        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)));
+        }		
+	}
 
 	private void enableAds() {
     	AdView adView = (AdView)this.findViewById(R.id.adView);
