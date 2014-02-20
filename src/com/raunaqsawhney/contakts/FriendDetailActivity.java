@@ -147,7 +147,29 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		setupImageLoader();
 		fetchFriendInfo();
 		enableAds();
+		
+		
 	}
+	
+	private void connectFB() {
+        Uri uri = ContactsContract.Contacts.CONTENT_URI;
+        String[] projection = new String[] { ContactsContract.Contacts._ID,
+            ContactsContract.Contacts.DISPLAY_NAME, };
+        String selection = ContactsContract.Contacts.DISPLAY_NAME + " like '"
+                + name + "%'";
+        String[] selectionArgs = null;
+        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+            + " COLLATE LOCALIZED ASC";
+        Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs,
+            sortOrder);
+        
+    	System.out.println("BEFORE _ NAME: " + name);
+
+        while (c.moveToNext()){
+        	System.out.println("AFTER _ NAME: " + name);
+        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.PhoneLookup.NUMBER)));
+        }
+    }
 
 	private void enableAds() {
     	AdView adView = (AdView)this.findViewById(R.id.adView);
@@ -569,6 +591,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    	        	startActivity(openUrlIntent);
 					    	        }
 					    	    });
+					    	    connectFB();
 					        }
 					    }
 						

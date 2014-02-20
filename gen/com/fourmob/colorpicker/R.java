@@ -18,17 +18,17 @@ public final class R {
 		public static final int ic_colorpicker_swatch_selected = 0x7f020092;
 	}
 	public static final class id {
-		public static final int color_picker = 0x7f06000c;
-		public static final int color_picker_checkmark = 0x7f06000e;
-		public static final int color_picker_swatch = 0x7f06000d;
+		public static final int color_picker = 0x7f05000c;
+		public static final int color_picker_checkmark = 0x7f05000e;
+		public static final int color_picker_swatch = 0x7f05000d;
 	}
 	public static final class layout {
 		public static final int color_picker_dialog = 0x7f03000a;
 		public static final int color_picker_swatch = 0x7f03000b;
 	}
 	public static final class string {
-		public static final int color_picker_default_title = 0x7f070036;
-		public static final int color_swatch_description = 0x7f070034;
-		public static final int color_swatch_description_selected = 0x7f070035;
+		public static final int color_picker_default_title = 0x7f060036;
+		public static final int color_swatch_description = 0x7f060034;
+		public static final int color_swatch_description_selected = 0x7f060035;
 	}
 }
