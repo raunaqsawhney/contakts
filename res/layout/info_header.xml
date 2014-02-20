@@ -25,6 +25,6 @@
         android:layout_marginLeft="10dip"
         android:paddingTop="20dip"
         android:paddingBottom="20dip"
-        android:text="About"/>
+        android:text="@string/sMAbout"/>
   
 </LinearLayout>

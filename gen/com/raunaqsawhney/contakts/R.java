@@ -674,7 +674,7 @@ containing a value of this type.
         public static final int underline=0x7f0200b0;
     }
     public static final class id {
-        public static final int action_settings=0x7f05009a;
+        public static final int action_settings=0x7f05009b;
         public static final int adView=0x7f05000f;
         public static final int authButton=0x7f050066;
         public static final int c_detail_address_header=0x7f050022;
@@ -704,8 +704,8 @@ containing a value of this type.
         public static final int c_detail_relationship_layout=0x7f050025;
         public static final int c_detail_website_header=0x7f050020;
         public static final int c_detail_website_layout=0x7f05001f;
-        public static final int c_name=0x7f050092;
-        public static final int c_photo=0x7f050091;
+        public static final int c_name=0x7f050093;
+        public static final int c_photo=0x7f050092;
         public static final int c_welcome_button=0x7f05006b;
         public static final int c_welcome_info=0x7f05006a;
         public static final int c_welcome_photo=0x7f050068;
@@ -768,18 +768,19 @@ containing a value of this type.
         public static final int favGrid=0x7f050086;
         public static final int fav_name=0x7f050088;
         public static final int fav_photo=0x7f050087;
+        public static final int fbHeader=0x7f05008c;
         public static final int fbInfo=0x7f050065;
         public static final int fbList=0x7f050043;
-        public static final int fb_logout=0x7f05009c;
-        public static final int fb_publish=0x7f05009b;
+        public static final int fb_logout=0x7f05009d;
+        public static final int fb_publish=0x7f05009c;
         public static final int five=0x7f050038;
         public static final int four=0x7f050037;
         public static final int frame_layout=0x7f050023;
         public static final int freqList=0x7f050044;
-        public static final int freq_count=0x7f05008f;
+        public static final int freq_count=0x7f050090;
         public static final int freq_graph_list=0x7f050060;
-        public static final int freq_name=0x7f05008e;
-        public static final int freq_photo=0x7f05008d;
+        public static final int freq_name=0x7f05008f;
+        public static final int freq_photo=0x7f05008e;
         public static final int friend_isappuser=0x7f05008b;
         public static final int friend_name=0x7f05008a;
         public static final int friend_photo=0x7f050089;
@@ -791,29 +792,29 @@ containing a value of this type.
         public static final int header_photo=0x7f050084;
         public static final int hybrid=0x7f050009;
         public static final int infoList=0x7f050061;
-        public static final int info_item=0x7f050090;
+        public static final int info_item=0x7f050091;
         public static final int large=0x7f05000b;
         public static final int left=0x7f050000;
         public static final int linearLayout1=0x7f050064;
         public static final int list=0x7f050067;
         public static final int margin=0x7f050002;
-        public static final int menu_add=0x7f0500a0;
-        public static final int menu_dial=0x7f05009f;
-        public static final int menu_edit=0x7f050099;
-        public static final int menu_graph=0x7f05009d;
-        public static final int menu_search=0x7f05009e;
-        public static final int menu_share=0x7f050098;
-        public static final int menu_whatsapp=0x7f050097;
-        public static final int nav_menu=0x7f050093;
-        public static final int nav_name=0x7f050095;
-        public static final int nav_photo=0x7f050094;
+        public static final int menu_add=0x7f0500a1;
+        public static final int menu_dial=0x7f0500a0;
+        public static final int menu_edit=0x7f05009a;
+        public static final int menu_graph=0x7f05009e;
+        public static final int menu_search=0x7f05009f;
+        public static final int menu_share=0x7f050099;
+        public static final int menu_whatsapp=0x7f050098;
+        public static final int nav_menu=0x7f050094;
+        public static final int nav_name=0x7f050096;
+        public static final int nav_photo=0x7f050095;
         public static final int nine=0x7f05003d;
         public static final int none=0x7f050005;
         public static final int normal=0x7f050006;
         public static final int number=0x7f050030;
         public static final int numberFieldLayout=0x7f05002f;
         public static final int one=0x7f050033;
-        public static final int phoneHeader=0x7f05008c;
+        public static final int phoneHeader=0x7f05008d;
         public static final int picker_subtitle=0x7f05007d;
         public static final int progressBar1=0x7f05006c;
         public static final int progress_text=0x7f05006d;
@@ -826,7 +827,7 @@ containing a value of this type.
         public static final int selected_view=0x7f050004;
         public static final int seven=0x7f05003b;
         public static final int six=0x7f050039;
-        public static final int slidingmenumain=0x7f050096;
+        public static final int slidingmenumain=0x7f050097;
         public static final int small=0x7f05000a;
         public static final int star=0x7f05003f;
         public static final int terrain=0x7f050008;
@@ -898,9 +899,12 @@ containing a value of this type.
     }
     public static final class string {
         public static final int action_settings=0x7f060038;
+        public static final int addressHeader=0x7f06007e;
         public static final int admob_id=0x7f06004a;
+        public static final int anniversary=0x7f060072;
         public static final int app_id=0x7f06003d;
         public static final int app_name=0x7f060000;
+        public static final int assistant=0x7f060064;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
          */
@@ -924,6 +928,12 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f060015;
+        public static final int birthday=0x7f060073;
+        public static final int brother=0x7f060065;
+        public static final int callDialogText=0x7f06005e;
+        public static final int cdDialogHeader=0x7f06005c;
+        public static final int cdWelcomeDialog=0x7f06005d;
+        public static final int child=0x7f060066;
         public static final int color_dialog_title=0x7f060043;
         public static final int color_picker_default_title=0x7f060036;
         public static final int color_swatch_description=0x7f060034;
@@ -1024,17 +1034,97 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f060014;
+        public static final int confirmRemFav=0x7f060085;
+        public static final int curLoc=0x7f060094;
+        /**  END OF GRAPH ACTIVITY 
+         */
+        public static final int currentVersion=0x7f060098;
+        public static final int currentVersionNA=0x7f060099;
+        public static final int custom=0x7f060050;
+        public static final int domPartner=0x7f060067;
+        public static final int edit=0x7f0600a3;
+        public static final int education=0x7f060093;
+        public static final int emailDialogText=0x7f060060;
+        public static final int emailHeader=0x7f060080;
+        public static final int error=0x7f060054;
+        public static final int eventsHeader=0x7f06007c;
+        public static final int father=0x7f060068;
+        /**  END OF CONTACT DETAIL ACTIVITY 
+         */
+        public static final int favDialogHeader=0x7f060082;
+        public static final int favDialogText=0x7f060083;
+        /**  END OF FAV ACTIVITY 
+         */
+        public static final int fbDialogText=0x7f060086;
+        public static final int fbFriendHeader=0x7f060089;
         public static final int fbInfo=0x7f060049;
+        /**  END OF FB ACTIVITY 
+         */
+        public static final int freqDialogHeader=0x7f06008a;
+        public static final int freqDialogText=0x7f06008b;
+        public static final int friend=0x7f060069;
+        /**  END OF FREQ ACTIVITY 
+         */
+        public static final int friendDialogHeader=0x7f06008d;
+        public static final int friendDialogText=0x7f06008e;
         /** Replace placeholder ID with your tracking ID
          */
         public static final int ga_trackingId=0x7f060037;
+        /**  END OF INFO ACTIVITY 
+         */
+        public static final int getStarted=0x7f0600a0;
+        public static final int googleMapWarning=0x7f060077;
+        /**  END OF FRIEND DETAIL ACTIVITY 
+         */
+        public static final int graphDialogHeader=0x7f060096;
+        public static final int graphDialogText=0x7f060097;
+        public static final int happyBday=0x7f060090;
         public static final int hello_world=0x7f060039;
+        public static final int home=0x7f060074;
+        public static final int hometown=0x7f060095;
+        public static final int imHeader=0x7f06007b;
+        public static final int loggedOutofFB=0x7f060088;
+        public static final int manager=0x7f06006a;
+        public static final int messageDialogText=0x7f06005f;
+        public static final int mobile=0x7f060076;
+        public static final int mostContactedHeader=0x7f06008c;
+        public static final int mother=0x7f06006b;
+        public static final int noEmailDialogText=0x7f060062;
+        public static final int noPhoneDialogText=0x7f060061;
+        public static final int noWhatsAppDialogText=0x7f060063;
+        public static final int notLoggedInFB=0x7f060087;
+        public static final int notesHeader=0x7f06007a;
+        public static final int okay=0x7f06004f;
+        public static final int other=0x7f060051;
+        public static final int parent=0x7f06006c;
+        public static final int partner=0x7f06006d;
+        public static final int phoneHeader=0x7f060081;
+        public static final int rateOnPlay=0x7f06009c;
+        public static final int refBy=0x7f06006e;
+        public static final int relationshipHeader=0x7f06007d;
+        public static final int relative=0x7f06006f;
+        public static final int remFav=0x7f060084;
+        public static final int sMAbout=0x7f06005b;
+        public static final int sMFacebook=0x7f060059;
+        public static final int sMGoogleContacts=0x7f060058;
+        public static final int sMMostContacted=0x7f060056;
+        public static final int sMPhoneContacts=0x7f060057;
+        public static final int sMSettings=0x7f06005a;
+        public static final int sMfavourites=0x7f060055;
         public static final int search_hint=0x7f06003a;
-        public static final int shareMarketingText=0x7f06004e;
+        public static final int sendFeedback=0x7f06009b;
+        public static final int settingThings=0x7f0600a1;
+        public static final int settings=0x7f060053;
+        public static final int share=0x7f0600a2;
+        public static final int shareMarketingText=0x7f06009f;
+        public static final int shareWith=0x7f060078;
+        public static final int shareWithFriends=0x7f06009a;
+        public static final int sister=0x7f060070;
+        public static final int spouse=0x7f060071;
         public static final int themeButton=0x7f060046;
         public static final int themeButtonInfo=0x7f060047;
         public static final int title_activity_contact_detail=0x7f06003c;
-        public static final int title_activity_dialer=0x7f06004f;
+        public static final int title_activity_dialer=0x7f06004e;
         public static final int title_activity_fb=0x7f06003e;
         public static final int title_activity_frequent=0x7f06004b;
         public static final int title_activity_friend_detail=0x7f060041;
@@ -1046,7 +1136,16 @@ containing a value of this type.
         public static final int title_activity_login=0x7f060042;
         public static final int title_activity_main=0x7f06003b;
         public static final int title_activity_welcome=0x7f060045;
+        public static final int tos=0x7f06009e;
+        public static final int username=0x7f060092;
+        public static final int usesContakts=0x7f060091;
+        public static final int website=0x7f06009d;
+        public static final int websiteHeader=0x7f06007f;
         public static final int welcomeInfo=0x7f060048;
+        public static final int whatsAppNotFound=0x7f060079;
+        public static final int wish=0x7f06008f;
+        public static final int work=0x7f060075;
+        public static final int yes=0x7f060052;
     }
     public static final class style {
         /** 

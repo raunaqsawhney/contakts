@@ -5,7 +5,7 @@
    android:layout_width="match_parent"
    android:layout_height="match_parent"
    android:orientation="horizontal" 
-   android:id="@+id/phoneHeader">
+   android:id="@+id/fbHeader">
    
     <ImageView 
         android:id="@+id/header_photo"
@@ -26,6 +26,6 @@
         android:layout_marginLeft="10dip"
         android:paddingTop="20dip"
         android:paddingBottom="20dip"
-        android:text="Facebook Friends"/>
+        android:text="@string/fbFriendHeader"/>
   
 </LinearLayout>

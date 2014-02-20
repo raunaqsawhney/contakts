@@ -120,8 +120,8 @@ public class FBActivity extends Activity implements OnItemClickListener  {
         	
         	new AlertDialog.Builder(this)
 		    .setTitle("Facebook")
-		    .setMessage("If this is your first time accessing Facebook on Contakts, please go to Settings and login first.")
-		    		.setNeutralButton("Okay", null)
+		    .setMessage(getString(R.string.fbDialogText))
+		    		.setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
        
@@ -174,13 +174,13 @@ public class FBActivity extends Activity implements OnItemClickListener  {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+        final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -211,17 +211,14 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		String fqlQuery = "select uid, name, pic_big, is_app_user from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
-		
-		System.out.println("startfb started, done fqlquery building");
-		
+				
 		Session session = Session.getActiveSession();
-		System.out.println("got active session");
 
 		if (session == null) {
 			new AlertDialog.Builder(this)
-		    .setTitle("Error")
-		    .setMessage("You have not logged into a Facebook account.")
-		    .setNeutralButton("Settings", new DialogInterface.OnClickListener() {
+		    .setTitle(getString(R.string.error))
+		    .setMessage(getString(R.string.notLoggedInFB))
+		    .setNeutralButton(getString(R.string.settings), new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) { 
 		        	Intent settingIntent = new Intent(FBActivity.this, LoginActivity.class);
 		        	FBActivity.this.startActivity(settingIntent);
@@ -376,7 +373,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	    }
 	    
 	    Toast.makeText(getApplicationContext(), 
-	               "Logged out of Facebook.", Toast.LENGTH_LONG).show();
+	               getString(R.string.loggedOutofFB), Toast.LENGTH_LONG).show();
 	}
 	
 	@Override

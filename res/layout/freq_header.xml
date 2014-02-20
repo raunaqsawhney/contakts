@@ -26,6 +26,6 @@
         android:layout_marginLeft="10dip"
         android:paddingTop="20dip"
         android:paddingBottom="20dip"
-        android:text="Most Contacted"/>
+        android:text="@string/mostContactedHeader"/>
   
 </LinearLayout>

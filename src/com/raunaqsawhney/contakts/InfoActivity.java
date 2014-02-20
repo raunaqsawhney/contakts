@@ -47,22 +47,9 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
-        enableAds();
         showInfo();
         
 	}
-	
-	private void enableAds() {
-    	AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);			
-	}
-
 
 
 	private void setupGlobalPrefs() {
@@ -120,13 +107,13 @@ public class InfoActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -157,15 +144,15 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		
 		String versionName = null;
 		try {
-			versionName = "Current Version: " + getApplicationContext().getPackageManager()
+			versionName = getString(R.string.currentVersion)+ " "+ getApplicationContext().getPackageManager()
 				    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
 		} catch (NameNotFoundException e) {
-			versionName = "Current Version: Not Available";
+			versionName = getString(R.string.currentVersionNA);
 			e.printStackTrace();
 		}
 		
 		ListView listview = (ListView) findViewById(R.id.infoList);
-	    String[] values = new String[] { "Share with your friends", "Send Feedback", "Rate on Google Play", "Website", "Terms of Service", versionName };
+	    String[] values = new String[] { getString(R.string.shareWithFriends), getString(R.string.sendFeedback), getString(R.string.rateOnPlay), getString(R.string.website), getString(R.string.tos), versionName };
 
 	    ArrayList<String> list = new ArrayList<String>();
 	    for (int i = 0; i < values.length; ++i) {
@@ -188,8 +175,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	        	case 1:
 	        		Intent shareWithFriendsIntent = new Intent();
 	        		shareWithFriendsIntent.setAction(Intent.ACTION_SEND);
-	        		shareWithFriendsIntent.putExtra(Intent.EXTRA_TEXT, "Connect with everyone, easily. Contakts is a beautiful" +
-	        				" new way to get in touch with people that matter to you most. Get it today: www.contaktsapp.com"); 
+	        		shareWithFriendsIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareMarketingText)); 
 	        		shareWithFriendsIntent.setType("text/plain");
 	        		startActivity(shareWithFriendsIntent);
 	        		break;

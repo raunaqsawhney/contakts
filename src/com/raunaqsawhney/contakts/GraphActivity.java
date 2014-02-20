@@ -94,10 +94,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
-		    .setTitle("Contact Graphs")
-		    .setMessage("Here you can visually see the top 10 people you connect with most, via phone," +
-		    		" messaging, and email, combined to give a raw score listed next to each contact.")
-		    		.setNeutralButton("Okay", null)
+		    .setTitle(getString(R.string.graphDialogHeader))
+		    .setMessage(getString(R.string.graphDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
 	}
@@ -147,13 +146,13 @@ public class GraphActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,

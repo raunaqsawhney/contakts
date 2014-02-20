@@ -152,13 +152,13 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,

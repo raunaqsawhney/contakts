@@ -35,7 +35,7 @@
         android:layout_marginLeft="10dip"
         android:paddingTop="20dip"
         android:paddingBottom="10dip"
-        android:text="Favourites"/>
+        android:text="@string/favDialogHeader"/>
   
 	</LinearLayout>
     

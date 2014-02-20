@@ -170,9 +170,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
-		    .setTitle("Contact Details")
-		    .setMessage("Here you can see all data associated with a contact. Simply tap on any item and learn more about it.")
-		    		.setNeutralButton("Okay", null)
+		    .setTitle(getString(R.string.cdDialogHeader))
+		    .setMessage(getString(R.string.cdWelcomeDialog))
+		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
 	}
@@ -222,13 +222,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -261,11 +261,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         Boolean isStarred = checkStarredStatus(contact_id);
         if (isStarred == true)
         {
-        	System.out.println("TRUE");
             ImageView star_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_star);
             star_quicklink.setImageResource(R.drawable.ic_star_gold);
         } else if (isStarred == false){
-        	System.out.println("FALSE");
             ImageView star_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_star);
             star_quicklink.setImageResource(R.drawable.ic_star);
         }
@@ -318,11 +316,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
         		
         		builder.setView(lvDialog);
-        		builder.setTitle("Call");
+        		builder.setTitle(getString(R.string.callDialogText));
         		final Dialog dialog = builder.create();
 
         		if (allContacts.isEmpty()) {
-        			Toast.makeText(getApplicationContext(), contact.getName() + " does not has any phone numbers.", Toast.LENGTH_LONG).show();
+        			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
         		} else  {
         			dialog.show();
         		}
@@ -369,11 +367,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
         		
         		builder.setView(lvDialog);
-        		builder.setTitle("Message");
+        		builder.setTitle(getString(R.string.messageDialogText));
         		final Dialog dialog = builder.create();
 
         		if (allContacts.isEmpty()) {
-        			Toast.makeText(getApplicationContext(), contact.getName() + " does not has any phone numbers.", Toast.LENGTH_LONG).show();
+        			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
         		} else  {
         			dialog.show();
         		}
@@ -417,11 +415,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
         		
         		builder.setView(lvDialog);
-        		builder.setTitle("Email");
+        		builder.setTitle(getString((R.string.emailDialogText)));
         		final Dialog dialog = builder.create();
 
         		if (allContacts.isEmpty()) {
-        			Toast.makeText(getApplicationContext(), contact.getName() + " does not has any email addresses.", Toast.LENGTH_LONG).show();
+        			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
         		} else  {
         			dialog.show();
         		}
@@ -590,7 +588,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(imTypeRaw))
                 {
                 	case -1:
-                		imType = "Custom";
+                		imType = getString(R.string.custom);
                 		break;
                 	case 0:
                 		imType = "AIM";
@@ -620,11 +618,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		imType = "Net Meeting";
                 		break;
                 	default:
-                		imType = "Custom";
+                		imType = getString(R.string.other);
                 		break;
                 }
             } catch (NumberFormatException e) {
-            	imType = "Other";
+            	imType = getString(R.string.other);
             }
             
             contact.addIM(im  + ":" + imType); 
@@ -715,53 +713,53 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(relationshipTypeRaw))
                 {
                 	case 1:
-                		relationshipType = "Assistant";
+                		relationshipType = getString(R.string.assistant);
                 		break;
                 	case 2:
-                		relationshipType = "Brother";
+                		relationshipType = getString(R.string.brother);
                 		break;
                 	case 3:
-                		relationshipType = "Child";
+                		relationshipType = getString(R.string.child);
                 		break;
                 	case 4:
-                		relationshipType = "Domestic Partner";
+                		relationshipType = getString(R.string.domPartner);
                 		break;
                 	case 5:
-                		relationshipType = "Father";
+                		relationshipType = getString(R.string.father);
                 		break;
                 	case 6:
-                		relationshipType = "Friend";
+                		relationshipType = getString(R.string.friend);
                 		break;
                 	case 7:
-                		relationshipType = "Manager";
+                		relationshipType = getString(R.string.manager);
                 		break;
                 	case 8:
-                		relationshipType = "Mother";
+                		relationshipType = getString(R.string.mother);
                 		break;
                 	case 9:
-                		relationshipType = "Parent";
+                		relationshipType = getString(R.string.parent);
                 		break;
                 	case 10:
-                		relationshipType = "Partner";
+                		relationshipType = getString(R.string.partner);
                 		break;
                 	case 11:
-                		relationshipType = "Referred by";
+                		relationshipType = getString(R.string.refBy);
                 		break;
                 	case 12:
-                		relationshipType = "Relative";
+                		relationshipType = getString(R.string.relative);
                 		break;
                 	case 13:
-                		relationshipType = "Sister";
+                		relationshipType = getString(R.string.sister);
                 		break;
                 	case 14:
-                		relationshipType = "Spouse";
+                		relationshipType = getString(R.string.spouse);
                 		break;
             		default:
-            			relationshipType = "Custom";
+            			relationshipType = getString(R.string.custom);
             			break;
                 }
             } catch (NumberFormatException e) {
-            	relationshipType = "Other";
+            	relationshipType = getString(R.string.other);
             }
             
             contact.setRelationship(relationship);
@@ -837,19 +835,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(dateTypeRaw))
                 {
                 	case 1:
-                		dateType = "Anniversary";
+                		dateType = getString(R.string.anniversary);
                 		break;
                 	case 2:
-                		dateType = "Other";
+                		dateType = getString(R.string.other);
                 		break;
                 	case 3:
-                		dateType = "Birthday";
+                		dateType = getString(R.string.birthday);
                 		break;
             		default:
             			break;
                 }
             } catch (NumberFormatException e) {
-            	dateType = "Other";
+            	dateType = getString(R.string.other);
             }
             
             contact.addDates(date + ":" + dateType);
@@ -1035,14 +1033,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		websiteType = "FTP";
                 		break;
                 	case 8:
-                		websiteType = "Other";
+                		websiteType = getString(R.string.other);
                 		break;
             		default:
-            			websiteType = "Other";
+            			websiteType = getString(R.string.other);
             			break;
                 }
             } catch (NumberFormatException e) {
-            	websiteType = "Other";
+            	websiteType = getString(R.string.other);
             }
             
             contact.addWebsites(website + "$" + websiteType);  
@@ -1158,19 +1156,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(addressTypeRaw))
                 {
                 	case 1:
-                		addressType = "Home";
+                		addressType = getString(R.string.home);
                 		break;
                 	case 2:
-                		addressType = "Work";
+                		addressType = getString(R.string.work);
                 		break;
                 	case 3:
-                		addressType = "Other";
+                		addressType = getString(R.string.other);
                 		break;
             		default:
             			break;
                 }
             } catch (NumberFormatException e) {
-            	addressType = "Other";
+            	addressType = getString(R.string.other);
             }
             
             contact.addAddresses(address + ":" + addressType);  
@@ -1202,7 +1200,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
             } else {
             	Toast.makeText(getApplicationContext(), 
-                        "Google Map not visible. You are not connected to the Internet. ", Toast.LENGTH_LONG).show();            }
+                        getString(R.string.googleMapWarning), Toast.LENGTH_LONG).show();            }
 
             count++;
             if (address != null)
@@ -1316,23 +1314,23 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(emailTypeRaw))
                 {
                 	case 1:
-                		emailType = "Home";
+                		emailType = getString(R.string.home);
                 		break;
                 	case 2:
-                		emailType = "Work";
+                		emailType = getString(R.string.work);
                 		break;
                 	case 3:
-                		emailType = "Other";
+                		emailType = getString(R.string.other);
                 		break;
                 	case 4:
-                		emailType = "Mobile";
+                		emailType = getString(R.string.mobile);
                 		break;
             		default:
-            			emailType = "Custom";
+            			emailType = getString(R.string.custom);
             			break;
                 }
             } catch (NumberFormatException e) {
-            	emailType = "Other";
+            	emailType = getString(R.string.other);
             }
             
             contact.addEmailID(email + ":" + emailType);
@@ -1467,13 +1465,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(phoneTypeRaw))
                 {
     	        	case 1:
-    	        		phoneType = "Home";
+    	        		phoneType = getString(R.string.home);
     	        		break;
     	        	case 2:
-    	        		phoneType = "Mobile";
+    	        		phoneType = getString(R.string.mobile);
     	        		break;
     	        	case 3:
-    	        		phoneType = "Work";
+    	        		phoneType = getString(R.string.work);
     	        		break;
     	        	case 4:
     	        		phoneType = "Fax (Work)";
@@ -1485,7 +1483,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     	        		phoneType = "Pager";
     	        		break;
     	        	case 7:
-    	        		phoneType = "Other";
+    	        		phoneType = getString(R.string.other);
     	        		break;
     	        	case 8:
     	        		phoneType = "Callback";
@@ -1503,7 +1501,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     	        		phoneType = "Main";
     	        		break;
     	        	case 13:
-    	        		phoneType = "Other (Fax)";
+    	        		phoneType = getString(R.string.other);
     	        		break;
     	        	case 14:
     	        		phoneType = "Radio";
@@ -1528,7 +1526,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     	        		break;
                 }
             } catch (NumberFormatException e) {
-            	phoneType = "Other";
+            	phoneType = getString(R.string.other);
             }
             
             contact.addPhoneNumer(number + ":" + phoneType);
@@ -1635,7 +1633,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	share_intent.setType("text/x-vcard");
 	        	share_intent.putExtra(Intent.EXTRA_STREAM, (filePath));
 	        	
-	        	startActivity(Intent.createChooser(share_intent, "Share with"));
+	        	startActivity(Intent.createChooser(share_intent, getString(R.string.shareWith)));
 	        	return true;
 	        	
 	        case R.id.menu_whatsapp:
@@ -1651,7 +1649,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				final Dialog dialog = builder.create();
 
 				if (globalPhoneNumberListOfContact.isEmpty()) {
-					Toast.makeText(getApplicationContext(), contact.getName() + " does not has any phone numbers linked with WhatsApp.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noWhatsAppDialogText), Toast.LENGTH_LONG).show();
 				} else  {
 					dialog.show();
 				}
@@ -1667,7 +1665,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 						try {
 							startActivity(mIntent);
 						} catch (ActivityNotFoundException e) {
-							Toast.makeText(getApplicationContext(), "WhatsApp is not installed.", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
 						}
 				        dialog.dismiss();
 				    }

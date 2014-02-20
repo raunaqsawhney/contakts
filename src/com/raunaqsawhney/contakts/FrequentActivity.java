@@ -95,9 +95,9 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
-		    .setTitle("Frequent Contacts")
-		    .setMessage("Here you can see all the contacts that are most frequently contacted. You can also visualize data using graphs, by tapping on the graph icon at the top.")
-		    		.setNeutralButton("Okay", null)
+		    .setTitle(getString(R.string.freqDialogHeader))
+		    .setMessage(getString(R.string.freqDialogText))
+		    		.setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
 	}
@@ -147,13 +147,13 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,

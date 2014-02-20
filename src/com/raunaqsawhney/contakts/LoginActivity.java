@@ -88,7 +88,6 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		setupSlidingMenu();
 		setupColorPref();
 		setupFBLogin();
-		enableAds();
 		
         
 		
@@ -97,16 +96,6 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
  	}
 	
-	private void enableAds() {
-    	AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);			
-	}
 
 	private void setupFBLogin() {
 		
@@ -190,13 +179,13 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,

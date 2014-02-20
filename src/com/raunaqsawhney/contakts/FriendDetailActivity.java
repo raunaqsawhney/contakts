@@ -225,9 +225,9 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
-		    .setTitle("Friend Details")
-		    .setMessage("Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.")
-		    		.setNeutralButton("Okay", null)
+		    .setTitle(getString(R.string.friendDialogHeader))
+		    .setMessage(getString(R.string.friendDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }	
 	}
@@ -278,13 +278,13 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+		final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -390,7 +390,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 						            		birthdayIconLayout.setVisibility(View.VISIBLE);
 						            		
 						            		TextView birthdayText = (TextView) findViewById(R.id.f_detail_header_birthday_text);
-						            		birthdayText.setText("Wish " + first_name + " a Happy Birthday!");
+						            		birthdayText.setText(getString(R.string.wish) + " " + first_name + " " + getString(R.string.happyBday));
 						            		
 						            		birthdayText.setOnClickListener(new OnClickListener() {
 								    	        @Override
@@ -518,7 +518,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    		friend_is_app_user = (TextView) findViewById(R.id.f_detail_header_isappuser);
 					    		
 					    		if (isAppUser)
-						    		friend_is_app_user.setText("on Contakts");
+						    		friend_is_app_user.setText(getString(R.string.usesContakts));
 					    		else 
 						    		friend_is_app_user.setText("");
 					    		

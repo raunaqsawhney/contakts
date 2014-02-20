@@ -43,7 +43,6 @@
 		            android:id="@+id/c_detail_header_name"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="contact_name"
 		            android:layout_marginLeft="12dip"
 		            android:layout_marginTop="30dp"
 		            android:textAlignment="textStart"
@@ -127,7 +126,7 @@
 		            android:id="@+id/c_detail_phone_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Phone"
+		            android:text="@string/phoneHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
@@ -153,7 +152,7 @@
 		            android:id="@+id/c_detail_email_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Email"
+		            android:text="@string/emailHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip"/>
@@ -179,7 +178,7 @@
 		            android:id="@+id/c_detail_website_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Website"
+		            android:text="@string/websiteHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
@@ -205,7 +204,7 @@
 		            android:id="@+id/c_detail_address_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Address"
+		            android:text="@string/addressHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
@@ -245,7 +244,7 @@
 		            android:id="@+id/c_detail_relationship_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Relationship"
+		            android:text="@string/relationshipHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="18sp"
 		            android:layout_marginLeft="20dip" />
@@ -272,7 +271,7 @@
 		            android:id="@+id/c_detail_im_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="IM"
+		            android:text="@string/imHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
@@ -298,7 +297,7 @@
 		            android:id="@+id/c_detail_date_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Events"
+		            android:text="@string/eventsHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
@@ -325,7 +324,7 @@
 		            android:id="@+id/c_detail_note_header"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Notes"
+		            android:text="@string/notesHeader"
 		            android:textColor="#34AADC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />

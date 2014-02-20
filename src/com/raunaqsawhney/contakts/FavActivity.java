@@ -99,9 +99,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
-		    .setTitle("Favourites")
-		    .setMessage("Here you can see a grid of all your starred contacts. To remove a favourite, simply tap and hold on a contact.")
-		    		.setNeutralButton("Okay", null)
+		    .setTitle(getString(R.string.favDialogHeader))
+		    .setMessage(getString(R.string.favDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
 	}
@@ -151,13 +151,13 @@ public class FavActivity extends Activity implements OnItemClickListener{
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+        final String[] nav = { getString(R.string.sMfavourites),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -238,13 +238,13 @@ public class FavActivity extends Activity implements OnItemClickListener{
                        FavActivity.this).create();
 				
 				// Setting Dialog Title
-		        alertDialog.setTitle("Remove Favourite");
+		        alertDialog.setTitle(getString(R.string.remFav));
 		        
 		        // Setting Dialog Message
-		        alertDialog.setMessage("Are you sure you want to remove this contact from your favourites?");
+		        alertDialog.setMessage(getString(R.string.confirmRemFav));
 		        
 		        // Setting OK Button
-		        alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
+		        alertDialog.setButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 		                public void onClick(DialogInterface dialog, int which) {
 		                	
 		                	Cursor cursor = (Cursor)parent.getItemAtPosition(position);
