@@ -69,7 +69,7 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> {
        viewHolder.name.setText(friend.getName());
        
        if (friend.getIsAppUser()) {
-           viewHolder.isAppUser.setText("on Contakts");
+           viewHolder.isAppUser.setText(R.string.usesContakts);
        } else {
            viewHolder.isAppUser.setText("");
        }
