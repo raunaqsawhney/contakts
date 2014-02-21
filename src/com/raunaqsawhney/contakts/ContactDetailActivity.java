@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -67,6 +68,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
@@ -136,21 +141,27 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         setupQuickLinks();
         
         getContactInfo(contact_id);
-        enableAds();
+        //enableAds();
         
         Session.openActiveSessionFromCache(getBaseContext());
 
     }
 
 	private void enableAds() {
-    	AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);			
+		
+		Boolean isNetworkAvailable = checkOnlineStatus();
+
+		if (isNetworkAvailable) {
+			AdView adView = (AdView)this.findViewById(R.id.adView);
+			adView.setVisibility(View.VISIBLE);
+		    AdRequest request = new AdRequest.Builder()
+		    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+		    .addKeyword("games")
+		    .addKeyword("apps")
+		    .addKeyword("social")
+		    .build();
+		    adView.loadAd(request);
+		}
 	}
 
 	private void setupGlobalPrefs() {
@@ -538,22 +549,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         try {
         	if (inputStream != null) {
             	
-            	if (android.os.Build.VERSION.SDK_INT >= 17){
-            		// Renderscript support
-            		headerBG.setImageBitmap(BlurImage(BitmapFactory.decodeStream(inputStream)));
-            	} else{
-            		// No Renderscript support
-            		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 12));
-            	}        	
+        		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 12));
+	
             } else {
-            	// TODO: Change default image to something nicer
-            	headerBG.setImageBitmap(BlurImage((BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg))));
+        		headerBG.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg));
             }
         } catch (OutOfMemoryError e) {
         	e.printStackTrace();
         }       
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	private void getIMInfo(String contact_id) {
 		

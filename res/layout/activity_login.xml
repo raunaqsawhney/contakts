@@ -30,6 +30,13 @@
         android:text="@string/themeButton"
         android:textColor="@android:color/white" />
     
+    <Button
+        android:id="@+id/buyApp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="buyApp"
+        android:text="BUY"/>
+    
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="match_parent" >

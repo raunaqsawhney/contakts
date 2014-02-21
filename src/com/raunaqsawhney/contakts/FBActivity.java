@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,8 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -403,6 +406,16 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	protected void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    uiHelper.onSaveInstanceState(outState);
+	}
+	
+	private Boolean checkOnlineStatus() {
+		ConnectivityManager CManager =
+		        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo NInfo = CManager.getActiveNetworkInfo();
+		    if (NInfo != null && NInfo.isConnectedOrConnecting()) {
+		        return true;
+		    }
+		    return false;
 	}
 
 	@Override

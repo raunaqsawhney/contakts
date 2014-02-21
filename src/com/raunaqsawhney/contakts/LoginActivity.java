@@ -1,7 +1,5 @@
 package com.raunaqsawhney.contakts;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,10 +8,6 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -21,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -39,9 +32,11 @@ import com.facebook.widget.LoginButton.OnErrorListener;
 import com.fourmob.colorpicker.ColorPickerDialog;
 import com.fourmob.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
+import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
+import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
+import com.raunaqsawhney.contakts.inappbilling.util.Purchase;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class LoginActivity extends FragmentActivity implements OnItemClickListener {
@@ -57,6 +52,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	
 	SharedPreferences preferences;
 	Editor edit;
+	
+	IabHelper mHelper;
+	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
+
 	
 	/*
 	IInAppBillingService mService;
@@ -79,6 +78,22 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
+        
+    	mHelper = new IabHelper(this, base64EncodedPublicKey);
+    
+    	mHelper.startSetup(new 
+		IabHelper.OnIabSetupFinishedListener() {
+    	   	  public void onIabSetupFinished(IabResult result) 
+    	   	  {
+    	        if (!result.isSuccess()) {
+    	           Log.d("IAB", "In-app Billing setup failed: " + result);
+    	      } else {             
+    	      	    Log.d("IAB", "In-app Billing is set up OK");
+    	      }
+    	   }
+    	});
+		
 		
 		Session.openActiveSessionFromCache(getBaseContext());
 		Session.openActiveSession(this, false, null);
@@ -95,6 +110,26 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         //TODO: In- App Purchasing
         //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
  	}
+	
+	public void buyApp(View view) {
+	     mHelper.launchPurchaseFlow(this, ITEM_SKU, 10001,   
+			   mPurchaseFinishedListener, "");
+	}
+	
+	IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+		public void onIabPurchaseFinished(IabResult result, Purchase purchase) 
+		{
+		   if (result.isFailure()) {
+		      // Handle error
+		      return;
+		   }      
+		   else if (purchase.getSku().equals(ITEM_SKU)) {
+			 Button buyAppBtn = (Button) findViewById(R.id.buyApp);
+		   	 System.out.println("APP UNLOCKED!");
+		     buyAppBtn.setEnabled(false);
+		   }    
+		}
+	};
 	
 
 	private void setupFBLogin() {
@@ -286,8 +321,13 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	
 	@Override
 	 public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	     super.onActivityResult(requestCode, resultCode, data);
+         super.onActivityResult(requestCode, resultCode, data);
 	     Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	     
+	        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {     
+	        	super.onActivityResult(requestCode, resultCode, data);
+	        }
+		    
 	 }
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -318,15 +358,14 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	   } 
 	}
 	
-	/*
+	
 	@Override
 	public void onDestroy() {
 	    super.onDestroy();
-	    if (mService != null) {
-	        unbindService(mServiceConn);
-	    }   
+		if (mHelper != null) mHelper.dispose();
+		mHelper = null;  
 	}
-	*/
+	
 	
 	@Override
 	  public void onStart() {

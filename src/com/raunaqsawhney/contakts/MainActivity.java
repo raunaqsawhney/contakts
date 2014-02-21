@@ -9,6 +9,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -21,6 +22,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,18 +89,22 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
  
    }
      
-    private void enableAds() {
-    	
-    	AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);	
-	    
-    }
+	private void enableAds() {
+		
+		Boolean isNetworkAvailable = checkOnlineStatus();
+
+		if (isNetworkAvailable) {
+			AdView adView = (AdView)this.findViewById(R.id.adView);
+			adView.setVisibility(View.VISIBLE);
+		    AdRequest request = new AdRequest.Builder()
+		    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+		    .addKeyword("games")
+		    .addKeyword("apps")
+		    .addKeyword("social")
+		    .build();
+		    adView.loadAd(request);
+		}
+	}
 
 	private void setupGlobalPrefs() {
     	
@@ -348,6 +355,16 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private Boolean checkOnlineStatus() {
+		ConnectivityManager CManager =
+		        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo NInfo = CManager.getActiveNetworkInfo();
+		    if (NInfo != null && NInfo.isConnectedOrConnecting()) {
+		        return true;
+		    }
+		    return false;
 	}
 	
 	@Override

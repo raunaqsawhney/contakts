@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,14 +75,20 @@ public class FavActivity extends Activity implements OnItemClickListener{
    }
    
 	private void enableAds() {
-    	AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);			
+		
+		Boolean isNetworkAvailable = checkOnlineStatus();
+
+		if (isNetworkAvailable) {
+			AdView adView = (AdView)this.findViewById(R.id.adView);
+			adView.setVisibility(View.VISIBLE);
+		    AdRequest request = new AdRequest.Builder()
+		    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
+		    .addKeyword("games")
+		    .addKeyword("apps")
+		    .addKeyword("social")
+		    .build();
+		    adView.loadAd(request);
+		}
 	}
 
 	private void setupGlobalPrefs() {
@@ -322,6 +331,16 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		   	Intent iIntent = new Intent(FavActivity.this, InfoActivity.class);
 		   	FavActivity.this.startActivity(iIntent);
 	   } 
+	}
+	
+	private Boolean checkOnlineStatus() {
+		ConnectivityManager CManager =
+		        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo NInfo = CManager.getActiveNetworkInfo();
+		    if (NInfo != null && NInfo.isConnectedOrConnecting()) {
+		        return true;
+		    }
+		    return false;
 	}
 	
 	@Override

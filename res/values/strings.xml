@@ -53,7 +53,7 @@
 	<string name="emailDialogText">Email</string>
 	<string name="noPhoneDialogText">does not have any phone numbers.</string>
 	<string name="noEmailDialogText">does not has any email addresses.</string>
-	<string name="noWhatsAppDialogText"></string>
+	<string name="noWhatsAppDialogText">does not have any phone number associated with WhatsApp.</string>
 	
 	<string name="assistant">Assistant</string>
 	<string name="brother">Brother</string>

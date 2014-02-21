@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Contakts</string>
+    <string name="action_settings">Configurações</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_hint">procurar contato</string>
+    <string name="title_activity_main">Contakts</string>
+    <string name="title_activity_contact_detail">ContactDetailActivity</string>
+    <string name="app_id">464083147027207</string>
+    <string name="title_activity_fb">FBActivity</string>
+    <string name="title_activity_linked_in">LinkedInActivity</string>
+    <string name="title_activity_log">LogActivity</string>
+    <string name="title_activity_friend_detail">FriendDetailActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="color_dialog_title">Escolha um colo</string>
+    <string name="title_activity_li">LIActivity</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="themeButton">Tema</string>
+    <string name="themeButtonInfo">Alterar o modo como o aplicativo procura selecionando uma cor de sua preferência!</string>
+    <string name="welcomeInfo">Contakts é uma nova maneira bonita de se conectar com todos que importa para você.\n\nBasta deslizar para a direita em qualquer lugar na tela para deslizar para fora do menu de navegação e começar a se conectar com todos!</string>
+    <string name="fbInfo">Após o login, você será solicitado a aceitar as permissões, o que nos permite apresentar-lhe todas as informações que você precisa para manter contato com seus amigos.\n\nNenhuma informação pessoal é coletada ou armazenada por Contakts.</string>
+    <string name="admob_id">a152f39c37b61f7</string>
+    <string name="title_activity_frequent">FrequentActivity</string>
+    <string name="title_activity_graph">GraphActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_dialer">DialerActivity</string>
+    
+    <string name="okay">Okay</string>
+    <string name="custom">Personalizado</string>
+    <string name="other">Outro</string>
+    <string name="yes">Sim</string>
+    <string name="settings">Configurações</string>
+    <string name="error">Erro</string>
+    
+    <string name="sMfavourites">Favoritos</string>
+    <string name="sMMostContacted">Contactado frequentes</string>
+    <string name="sMPhoneContacts">Contatos do Telefone</string>
+    <string name="sMGoogleContacts">Contatos do Google</string>
+    <string name="sMFacebook">Facebook</string>
+    <string name="sMSettings">Configurações</string>
+    <string name="sMAbout">Informações</string>
+    
+    <string name="cdDialogHeader">Detalhes de Contato</string>
+    <string name="cdWelcomeDialog">Aqui você pode ver todos os dados associados a um contato. Basta tocar em qualquer item e aprender mais sobre ele.</string>
+	<string name="callDialogText">Telefonar</string>
+	<string name="messageDialogText">Mensagem</string>
+	<string name="emailDialogText">Email</string>
+	<string name="noPhoneDialogText">não tem qualquer número de telefone</string>
+	<string name="noEmailDialogText">não tem nenhum e-mail</string>
+	<string name="noWhatsAppDialogText">não ter qualquer número ligado com WhatsApp</string>
+	
+	<string name="assistant">Assistente</string>
+	<string name="brother">Irmão</string>
+	<string name="child">Criança</string>
+	<string name="domPartner">Parceiro Interno</string>
+	<string name="father">Pai</string>
+	<string name="friend">Amigo</string>
+	<string name="manager">Gerente</string>
+	<string name="mother">Mãe</string>
+	<string name="parent">Parente</string>
+	<string name="partner">Companheiro</string>
+	<string name="refBy">Referido por</string>
+	<string name="relative">Relativo</string>
+	<string name="sister">Irmã</string>
+	<string name="spouse">Cônjuge</string>
+	
+	<string name="anniversary">Aniversário</string>
+	<string name="birthday">Aniversário</string>
+	
+	<string name="home">Casa</string>
+	<string name="work">Trabalho</string>
+	<string name="mobile">Celular</string>
+	
+	<string name="assistant">Assistente</string>
+	<string name="googleMapWarning">Google Map não é visível. Você não está conectado à Internet.</string>
+	
+	<string name="shareWith">Compartilhe com</string>
+	<string name="whatsAppNotFound">WhatsApp não está instalado</string>
+	
+	<string name="notesHeader">Notas</string>
+	<string name="imHeader">IM</string>
+	<string name="eventsHeader">Eventos</string>
+	<string name="relationshipHeader">Relacionamento</string>
+	<string name="addressHeader">Endereço</string>
+	<string name="websiteHeader">Site</string>
+	<string name="emailHeader">Email</string>
+	<string name="phoneHeader">Telefone</string>
+	
+	<!-- END OF CONTACT DETAIL ACTIVITY -->
+	
+	<string name="favDialogHeader">Favoritos</string>
+	<string name="favDialogText">Aqui você pode ver uma grade de todos os seus contatos favoritos. Para remover um contato, basta tocar e segurar um contato.</string>
+	<string name="remFav">Remover favorito</string>
+	<string name="confirmRemFav">Você tem certeza que deseja remover este contato dos seus favoritos?</string>
+	
+	<!-- END OF FAV ACTIVITY -->
+	
+	<string name="fbDialogText">Se esta é sua primeira vez acessando Facebook em Contakts, por favor, vá para Configurações e autentique-se primeiro.</string>
+	<string name="notLoggedInFB">Não logado em uma conta no Facebook.</string>
+	<string name="loggedOutofFB">Desconectado do facebook</string>
+	
+	<string name="fbFriendHeader">Amigos do Facebook</string>
+	<!-- END OF FB ACTIVITY -->
+	
+	<string name="freqDialogHeader">Contatos Freqüentes</string>
+	<string name="freqDialogText">Aqui você pode ver todos os contatos que são mais frequentemente contatados. Você também pode visualizar os dados usando gráficos, tocando no ícone gráfico no topo.</string>
+	<string name="mostContactedHeader">Contactado Frequentes</string>
+	
+	<!-- END OF FREQ ACTIVITY -->
+	
+	<string name="friendDialogHeader">Detalhes Amigo</string>
+	<string name="friendDialogText">Aqui você pode ver todos os dados associados com um amigo no Facebook. Basta tocar em qualquer item e aprender mais sobre ele.</string>
+	<string name="wish">Desejo</string>
+	<string name="happyBday">um feliz aniversário!</string>
+	<string name="usesContakts">usa Contakts</string>
+	
+	<string name="username">Nome de Usuário</string>
+	<string name="birthday">Aniversário</string>
+	<string name="education">Educação</string>
+	<string name="work">Trabalho</string>
+	<string name="curLoc">Localização Atual</string>
+	<string name="hometown">Cidade Natal</string>
+	
+	<!-- END OF FRIEND DETAIL ACTIVITY -->
+	
+	<string name="graphDialogHeader">Gráficos de Contato</string>
+	<string name="graphDialogText">Aqui você pode ver visualmente as 10 pessoas que você se conectar com a maioria, através de telefone, mensagens, e-mail, combinados para dar uma pontuação bruta listado ao lado de cada contato.</string>
+	
+	<!-- END OF GRAPH ACTIVITY -->
+	
+	<string name="currentVersion">Versão Atual: </string>
+	<string name="currentVersionNA">Versão Atual: Não Disponível</string>
+	
+	<string name="shareWithFriends">Compartilhar com seus amigos</string>
+	<string name="sendFeedback">Enviar comentários</string>
+	<string name="rateOnPlay">Revisão no Google Play</string>
+	<string name="website">Site</string>
+	<string name="tos">Termos de serviço</string>
+	
+    <string name="shareMarketingText">Conecte-se com todos, facilmente.\nContakts é uma nova bela maneira de entrar em contato com as pessoas que lhe importam mais.\nComece hoje: www.contaktsapp.com</string>
+	
+    <!-- END OF INFO ACTIVITY -->
+	
+	<string name="getStarted">Começar</string>
+	<string name="settingThings">arrumar as coisas...</string>
+	
+	<string name="share">Ação</string>
+	<string name="edit">Modificar</string>
+</resources>
