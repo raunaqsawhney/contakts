@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,6 +116,14 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	
 	Session.OpenRequest openRequest = null;
 	private boolean firstRunDoneFreDet;
+	
+    String contactNumber = null;
+    String contactEmail = null;
+    String contactWebsite = null;
+	private TextView lblWebsite;
+	
+	fbFriend contactFriend = new fbFriend();
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +162,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	}
 	
 	private void connectFB() {
+		
+		
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         
         String[] projection = new String[] { ContactsContract.CommonDataKinds.Identity._ID};
@@ -175,29 +188,168 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 
 	private void showContactFriendInfo() {
 		
-		Uri uri = ContactsContract.Data.CONTENT_URI;
+        // Using the contact ID now we will get contact phone number
+        Cursor cursorPhone = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ ContactsContract.CommonDataKinds.Phone.NUMBER },
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                new String[]{contact_friend_id},
+                null);
+        startManagingCursor(cursorPhone);
+ 
+        while (cursorPhone.moveToNext()) {
+            contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            
+            if (!contactNumber.isEmpty())
+            	System.out.println("Contact Phone Number: " + contactNumber);	
+            else 
+            	System.out.println("NO NUMBER FOUND");
+        }
+         
         
-        String[] projection = new String[] { ContactsContract.CommonDataKinds.Identity._ID,
-        		ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME,
-        		ContactsContract.CommonDataKinds.Phone.NUMBER,
-        		ContactsContract.CommonDataKinds.Email.ADDRESS};
+        Cursor cursorEmail = getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                new String[]{ ContactsContract.CommonDataKinds.Email.ADDRESS },
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                new String[]{contact_friend_id},
+                null);
+        startManagingCursor(cursorEmail);
+ 
+        while (cursorEmail.moveToNext()) {
+            contactEmail = cursorEmail.getString(cursorEmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+            
+            if (!contactEmail.isEmpty())
+            	System.out.println("Contact Email: " + contactEmail);	
+            else 
+            	System.out.println("NO EMAIL FOUND");
+        }
         
-        String selection = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-        
-        String[] selectionArgs = new String[] {contact_friend_id};
-        
-        String sortOrder = null;
-        
-        Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs,
-            sortOrder);
-        
+        /////////
+        TextView websiteHeader = (TextView) findViewById(R.id.f_detail_website_header);
+		websiteHeader.setTextColor(Color.parseColor(theme));
+		
+        int count = 0;
+		String websiteType = null;
 
-        while (c.moveToNext()){
-        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID)));
-        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME)));
-        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-        	System.out.println(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)));
-        }		
+        lblWebsite = (TextView) findViewById(R.id.f_detail_website_header);
+        lblWebsite.setTypeface(Typeface.createFromAsset(getAssets(), font));
+        
+        LinearLayout websiteLayout = (LinearLayout) findViewById(R.id.f_detail_website_layout);
+        
+        String websiteWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        String[] websiteWhereParams = new String[]{contact_friend_id,
+                ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE};
+        
+		Cursor webCur = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                null, websiteWhere, websiteWhereParams, null);
+        startManagingCursor(webCur);
+
+        while (webCur.moveToNext()) {
+            contactWebsite = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
+            
+            String websiteTypeRaw = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.TYPE));
+
+            try {
+            	switch(Integer.parseInt(websiteTypeRaw))
+                {
+                	case 1:
+                		websiteType = "Homepage";
+                		break;
+                	case 2:
+                		websiteType = "Blog";
+                		break;
+                	case 3:
+                		websiteType = "Profile";
+                		break;
+                	case 4:
+                		websiteType = "Home";
+                		break;
+                	case 5:
+                		websiteType = "Work";
+                		break;
+                	case 7:
+                		websiteType = "FTP";
+                		break;
+                	case 8:
+                		websiteType = getString(R.string.other);
+                		break;
+            		default:
+            			websiteType = getString(R.string.other);
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	websiteType = getString(R.string.other);
+            }
+            
+            contactFriend.addWebsites(contactWebsite + "$" + websiteType);  
+            count++;
+                        
+            if (contactWebsite != null)
+            {
+            	websiteLayout.setVisibility(View.VISIBLE);
+            }
+        }
+        
+		final int N = count; 
+        final TextView[] websiteTextViews = new TextView[N]; 
+        String currentWebsite = null;
+        String currentType = null;
+        
+        for (int i = 0; i < N; i++){
+            final TextView websiteTextView = new TextView(this);
+            final TextView websiteTypeTextView = new TextView(this);
+            final LinearLayout websiteContentLayout = new LinearLayout(this);
+                      
+            try {
+            	 StringTokenizer tokens = new StringTokenizer(contactFriend.getWebsiteByIndex(i), "$");            
+                 
+                 currentWebsite = tokens.nextToken();
+                 currentType = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+           
+            websiteTypeTextView.setText(currentType);
+            websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
+            websiteTypeTextView.setTextSize(14);
+            websiteTypeTextView.setWidth(200);
+            websiteTypeTextView.setPadding(0, 10, 0, 10);
+            websiteTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
+
+            websiteContentLayout.addView(websiteTypeTextView);
+
+            websiteTextView.setText(currentWebsite);
+            websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+            websiteTextView.setTextSize(18);
+            websiteTextView.setPadding(30, 10, 0, 10);
+            websiteTextView.setSingleLine();
+            websiteTextView.setEllipsize(TextUtils.TruncateAt.END);
+            
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            	     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            
+            final int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+
+            layoutParams.setMargins(margin, 0, margin, 0);
+            
+            websiteContentLayout.setLayoutParams(layoutParams);
+            websiteContentLayout.addView(websiteTextView);
+                        
+            websiteLayout.addView(websiteContentLayout);
+            
+            websiteTextViews[i] = websiteTextView;
+            
+            websiteTextView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                	String url = websiteTextView.getText().toString();
+                	if (!url.startsWith("https://") && !url.startsWith("http://")){
+                	    url = "http://" + url;
+                	}
+                	Intent openUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                	startActivity(openUrlIntent);
+                }
+            });
+        }
 	}
 
 	private void enableAds() {

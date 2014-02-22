@@ -71,7 +71,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setupActionBar();
         setupSlidingMenu();
         initializeLoader();
-        enableAds();
+        //enableAds();
         
 		Session.openActiveSessionFromCache(getBaseContext());
 

@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         setupActionBar();
         setupSlidingMenu();
         initializeLoader();
-        enableAds();
+        //enableAds();
        
         
         // Enable open Facebook Session

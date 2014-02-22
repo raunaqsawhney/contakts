@@ -90,7 +90,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 		setupActionBar();
 		setupSlidingMenu();
 		startfb();
-		enableAds();
+		//enableAds();
 		
 	}
 	

@@ -66,7 +66,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		setupSlidingMenu();
 		
 		createData();
-		enableAds();
+		//enableAds();
 	}
 	
 	private void enableAds() {

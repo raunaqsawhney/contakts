@@ -1,5 +1,7 @@
 package com.raunaqsawhney.contakts;
 
+import java.util.ArrayList;
+
 public class fbFriend {
 	
 	private String id; 
@@ -16,6 +18,18 @@ public class fbFriend {
 	private String username;
 	private String coverUrl;
 	
+	private ArrayList<String> phoneNumbers; 
+    private ArrayList<String> emailIDs; 
+    private ArrayList<String> ims;  
+    private ArrayList<String> websites;
+	
+    public fbFriend() {
+        phoneNumbers = new ArrayList<String>();
+        emailIDs = new ArrayList<String>();
+        websites = new ArrayList<String>();
+                
+    }
+    
 	//Setters
 	public void setName(String name) {
 	    this.name = name;
@@ -73,6 +87,18 @@ public class fbFriend {
 		this.current_home_country = current_home_country;
 		
 	}
+	
+	public void addPhoneNumer(String number) {
+        this.phoneNumbers.add(number);
+	}
+
+   public void addEmailID(String emailID) {
+        this.emailIDs.add(emailID);
+   	}
+   
+   public void addWebsites(String website) {
+       this.websites.add(website);
+   	}
 	
 	
     // Getters
@@ -132,6 +158,18 @@ public class fbFriend {
 		return current_home_country;
 		
 	}
+	
+	public String getPhoneByIndex(int index) {
+        return phoneNumbers.get(index);
+    }
+    
+    public String getEmaiIDByIndex(int index) {
+        return emailIDs.get(index);
+    }
+    
+    public String getWebsiteByIndex(int index) {
+        return websites.get(index);
+    }
 }
 
 

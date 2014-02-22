@@ -68,7 +68,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
         setupActionBar();
         setupSlidingMenu();
         setupFavList();
-        enableAds();
+        //enableAds();
         
 		Session.openActiveSessionFromCache(getBaseContext());
 		

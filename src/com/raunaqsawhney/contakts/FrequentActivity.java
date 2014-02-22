@@ -65,7 +65,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 		setupActionBar();
 		setupSlidingMenu();
 		fetchFrequents();
-		enableAds();
+		//enableAds();
 		
 		Session.openActiveSessionFromCache(getBaseContext());
 	}
