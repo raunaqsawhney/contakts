@@ -20,7 +20,6 @@ public class fbFriend {
 	
 	private ArrayList<String> phoneNumbers; 
     private ArrayList<String> emailIDs; 
-    private ArrayList<String> ims;  
     private ArrayList<String> websites;
 	
     public fbFriend() {

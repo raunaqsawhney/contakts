@@ -37,6 +37,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.ads.*;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -46,13 +47,16 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.FacebookDialog;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
+import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
+import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FBActivity extends Activity implements OnItemClickListener, OnQueryTextListener  {
 	
+	static final String TAG = "com.raunaqsawhney.contakts";
+
 	FriendAdapter adapter;
 	private UiLifecycleHelper uiHelper;
 	
@@ -60,7 +64,6 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 	String fontContent;
 	String fontTitle;
 	String theme;
-		
 	
     ArrayList<fbFriend> friendList = new ArrayList<fbFriend>();
 
@@ -83,6 +86,10 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 	private boolean firstRunDoneFB;
 	
 	ListView  fbListView;
+	
+	IabHelper mHelper;
+	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
+	boolean mIsPremium = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,23 +99,75 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 		uiHelper = new UiLifecycleHelper(this, null);
 	    uiHelper.onCreate(savedInstanceState);
 		
+	    initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
 		startfb();
-		//enableAds();
 		
 	}
 	
+private void initializePayments() {
+		
+	String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
+       
+   	mHelper = new IabHelper(this, base64EncodedPublicKey);
+   
+   	mHelper.startSetup(new 
+		IabHelper.OnIabSetupFinishedListener() {
+   	   	  public void onIabSetupFinished(IabResult result) 
+   	   	  {
+   	        if (!result.isSuccess()) {
+   	           Log.e("IAB", "In-app Billing setup failed: " + result);
+   	      } else {             
+   	      	    Log.e("IAB", "In-app Billing is set up OK");
+   	      	    mHelper.queryInventoryAsync(mGotInventoryListener); 
+   	      }
+   	   }
+   	});		
+	}
+
+	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+		public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+			Log.e(TAG, "Query inventory finished.");
+			if (result.isFailure()) {
+				Log.e(TAG, "Failed to query inventory: " + result);
+				return;
+			} else {
+				Log.e(TAG, "Query inventory was successful.");
+				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+				
+				if (!mIsPremium)
+					enableAds();
+				else 
+					disableAds();
+			    
+				Log.e(TAG, "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+			}
+		Log.e(TAG, "Initial inventory query finished; enabling main UI.");
+		}
+	};
+	
+	private void disableAds() {
+		AdView adView = (AdView) findViewById(R.id.adView);
+		adView.setEnabled(false);
+		adView.setVisibility(View.GONE);
+	}
+
 	private void enableAds() {
-    	AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest request = new AdRequest.Builder()
-	    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-	    .addKeyword("games")
-	    .addKeyword("apps")
-	    .addKeyword("social")
-	    .build();
-	    adView.loadAd(request);			
+		
+		Boolean isNetworkAvailable = checkOnlineStatus();
+
+		if (isNetworkAvailable) {
+			AdView adView = (AdView)this.findViewById(R.id.adView);
+			adView.setVisibility(View.VISIBLE);
+		    AdRequest request = new AdRequest.Builder()
+		    .addKeyword("games")
+		    .addKeyword("apps")
+		    .addKeyword("social")
+		    .build();
+		    adView.loadAd(request);
+		}
 	}
 	
 	private void setupGlobalPrefs() {
@@ -130,10 +189,9 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
         	new AlertDialog.Builder(this)
 		    .setTitle("Facebook")
 		    .setMessage(getString(R.string.fbDialogText))
-		    		.setNeutralButton(getString(R.string.okay), null)
+		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
-       
 	}
 
 	private void setupActionBar() {

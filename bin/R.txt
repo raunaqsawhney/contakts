@@ -424,10 +424,10 @@ int id list 0x7f06006f
 int id margin 0x7f060007
 int id menu_add 0x7f0600a5
 int id menu_dial 0x7f0600a4
-int id menu_edit 0x7f0600a2
+int id menu_edit 0x7f0600a1
 int id menu_graph 0x7f0600a9
 int id menu_search 0x7f0600aa
-int id menu_share 0x7f0600a1
+int id menu_share 0x7f0600a2
 int id menu_whatsapp 0x7f0600a0
 int id nav_menu 0x7f06009c
 int id nav_name 0x7f06009e

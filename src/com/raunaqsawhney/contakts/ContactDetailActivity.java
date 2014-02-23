@@ -1688,7 +1688,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		Bitmap result = null;
 		try {
 			RenderScript rsScript = RenderScript.create(getApplicationContext());
-			Allocation alloc = Allocation.createFromBitmap(rsScript, input);
+			Allocation alloc = Allocation.crea	teFromBitmap(rsScript, input);
 
 			ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rsScript, Element.U8_4(rsScript));
 			blur.setRadius (12);

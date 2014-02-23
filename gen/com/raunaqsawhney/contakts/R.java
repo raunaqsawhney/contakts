@@ -816,10 +816,10 @@ containing a value of this type.
         public static final int margin=0x7f060007;
         public static final int menu_add=0x7f0600a5;
         public static final int menu_dial=0x7f0600a4;
-        public static final int menu_edit=0x7f0600a2;
+        public static final int menu_edit=0x7f0600a1;
         public static final int menu_graph=0x7f0600a9;
         public static final int menu_search=0x7f0600aa;
-        public static final int menu_share=0x7f0600a1;
+        public static final int menu_share=0x7f0600a2;
         public static final int menu_whatsapp=0x7f0600a0;
         public static final int nav_menu=0x7f06009c;
         public static final int nav_name=0x7f06009e;

@@ -65,6 +65,20 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		Session.openActiveSessionFromCache(getBaseContext());
+		Session.openActiveSession(this, false, null);
+		
+		initializePayments();
+		setupGlobalPrefs();
+		setupActionBar();
+		setupSlidingMenu();
+		setupColorPref();
+		setupFBLogin();
+		
+ 	}
+	
+	private void initializePayments() {
 		
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
         
@@ -75,49 +89,33 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
     	   	  public void onIabSetupFinished(IabResult result) 
     	   	  {
     	        if (!result.isSuccess()) {
-    	           Log.d("IAB", "In-app Billing setup failed: " + result);
+    	           Log.e("IAB", "In-app Billing setup failed: " + result);
     	      } else {             
-    	      	    Log.d("IAB", "In-app Billing is set up OK");
+    	      	    Log.e("IAB", "In-app Billing is set up OK");
     	      	    mHelper.queryInventoryAsync(mGotInventoryListener); 
     	      }
     	   }
-    	});
-		
-		
-		Session.openActiveSessionFromCache(getBaseContext());
-		Session.openActiveSession(this, false, null);
-		
-		setupGlobalPrefs();
-		setupActionBar();
-		setupSlidingMenu();
-		setupColorPref();
-		setupFBLogin();
-		
-        
-		
-		
-        //TODO: In- App Purchasing
-        //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
- 	}
-	
+    	});		
+	}
+
 	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
 		public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-			Log.d(TAG, "Query inventory finished.");
-				if (result.isFailure()) {
-				Log.d(TAG, "Failed to query inventory: " + result);
-				Toast toast = Toast.makeText(getApplicationContext(), "APP NOT PURCHASED", Toast.LENGTH_LONG);
-				toast.show();
-
+			Log.e(TAG, "Query inventory finished.");
+			if (result.isFailure()) {
+				Log.e(TAG, "Failed to query inventory: " + result);
 				return;
 			} else {
-				Log.d(TAG, "Query inventory was successful.");
-				// does the user have the premium upgrade?
-				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+				Log.e(TAG, "Query inventory was successful.");
 				Button buyAppBtn = (Button) findViewById(R.id.buyApp);
-			    //buyAppBtn.setVisibility(View.GONE);
-				Toast toast = Toast.makeText(getApplicationContext(), "APP PURCHASED", Toast.LENGTH_LONG);
-				toast.show();
-				Log.d(TAG, "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+
+				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+				
+				if (!mIsPremium)
+				    buyAppBtn.setVisibility(View.VISIBLE);
+				else 
+				    buyAppBtn.setVisibility(View.GONE);
+			    
+				Log.e(TAG, "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 			}
 
 		Log.d(TAG, "Initial inventory query finished; enabling main UI.");
@@ -137,16 +135,19 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 			edit = preferences.edit();
 			
 		   if (result.isFailure()) {
-			  System.out.println("ERROR: APP NOT PURCHASED");
-		      return;
-		   }      
-		   else if (purchase.getSku().equals(ITEM_SKU)) {
-			 Button buyAppBtn = (Button) findViewById(R.id.buyApp);
-		   	 System.out.println("APP UNLOCKED!");
-		   	 mIsPremium = true;
-		   	 edit.putBoolean("appPurchased", mIsPremium);
-		   	 edit.apply();
-		     buyAppBtn.setVisibility(View.GONE);
+				Log.e(TAG, "Purchase failure");
+				return;
+		   } else if (purchase.getSku().equals(ITEM_SKU)) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Thanks for purchasing the Contakts!", Toast.LENGTH_LONG);
+				toast.show();
+				
+				Button buyAppBtn = (Button) findViewById(R.id.buyApp);
+				buyAppBtn.setVisibility(View.GONE);
+
+				mIsPremium = true;
+				
+				edit.putBoolean("appPurchased", mIsPremium);
+				edit.apply();
 		   }    
 		}
 	};
@@ -352,9 +353,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	@Override
 	 public void onActivityResult(int requestCode, int resultCode, Intent data) {
          super.onActivityResult(requestCode, resultCode, data);
-	     Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	     
-	        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {     
+	        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {  
+	   	     Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+
 	        	super.onActivityResult(requestCode, resultCode, data);
 	        }
 		    

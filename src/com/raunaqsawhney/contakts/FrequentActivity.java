@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,15 +38,20 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import com.google.android.gms.ads.*;
+
 
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
+import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
+import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FrequentActivity extends Activity implements OnItemClickListener {
+	
+	static final String TAG = "com.raunaqsawhney.contakts";
 	
 	String font;
 	String fontContent;
@@ -55,21 +61,73 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	private SlidingMenu menu;
 	private ListView navListView;
 	private boolean firstRunDoneFreq;
+	
+	IabHelper mHelper;
+	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
+	boolean mIsPremium = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_frequent);
 		
+		initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
 		fetchFrequents();
-		//enableAds();
 		
 		Session.openActiveSessionFromCache(getBaseContext());
 	}
 	
+   private void initializePayments() {
+		
+		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
+       
+   	mHelper = new IabHelper(this, base64EncodedPublicKey);
+   
+   	mHelper.startSetup(new 
+		IabHelper.OnIabSetupFinishedListener() {
+   	   	  public void onIabSetupFinished(IabResult result) 
+   	   	  {
+   	        if (!result.isSuccess()) {
+   	           Log.e("IAB", "In-app Billing setup failed: " + result);
+   	      } else {             
+   	      	    Log.e("IAB", "In-app Billing is set up OK");
+   	      	    mHelper.queryInventoryAsync(mGotInventoryListener); 
+   	      }
+   	   }
+   	});		
+	}
+
+	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+		public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+			Log.e(TAG, "Query inventory finished.");
+			if (result.isFailure()) {
+				Log.e(TAG, "Failed to query inventory: " + result);
+				return;
+			} else {
+				Log.e(TAG, "Query inventory was successful.");
+				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+				
+				if (!mIsPremium)
+					enableAds();
+				else 
+					disableAds();
+			    
+				Log.e(TAG, "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+			}
+
+		Log.e(TAG, "Initial inventory query finished; enabling main UI.");
+		}
+	};
+	
+	private void disableAds() {
+		AdView adView = (AdView) findViewById(R.id.adView);
+		adView.setEnabled(false);
+		adView.setVisibility(View.GONE);
+	}
+
 	private void enableAds() {
 		
 		Boolean isNetworkAvailable = checkOnlineStatus();
@@ -78,7 +136,6 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 			AdView adView = (AdView)this.findViewById(R.id.adView);
 			adView.setVisibility(View.VISIBLE);
 		    AdRequest request = new AdRequest.Builder()
-		    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
 		    .addKeyword("games")
 		    .addKeyword("apps")
 		    .addKeyword("social")
