@@ -122,6 +122,24 @@
 	<string name="curLoc">Localização Atual</string>
 	<string name="hometown">Cidade Natal</string>
 	
+	<string name="homepage">Pessoal</string>
+	<string name="blog">Blog</string>
+	<string name="profile">Perfil</string>
+	
+	<string name="fax_home">Fax (casa)</string>
+	<string name="fax_work">Fax (trabalho)</string>
+	<string name="pager">Pager</string>
+	
+	<string name="callback">Callback</string>
+	<string name="car">Carro</string>
+	<string name="company_main">Companhia (principal)</string>
+	<string name="main">Principal</string>
+	<string name="radio">Rádio</string>
+	<string name="telex">Telex</string>
+	<string name="work_mobile">Trabalho (móvel)</string>
+	<string name="work_pager">Trabalho (pager)</string>
+	<string name="mms">MMS</string>
+	
 	<!-- END OF FRIEND DETAIL ACTIVITY -->
 	
 	<string name="graphDialogHeader">Gráficos de Contato</string>
@@ -147,4 +165,8 @@
 	
 	<string name="share">Ação</string>
 	<string name="edit">Modificar</string>
+	
+	<string name="removeAds">Remover as Propagandas</string>
+	<string name="generalHeader">Geral</string>
+	<string name="facebookHeader">Facebook</string>
 </resources>

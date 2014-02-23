@@ -23,8 +23,8 @@ public final class R {
 		public static final int color_picker_swatch = 0x7f06000d;
 	}
 	public static final class layout {
-		public static final int color_picker_dialog = 0x7f03000a;
-		public static final int color_picker_swatch = 0x7f03000b;
+		public static final int color_picker_dialog = 0x7f03000c;
+		public static final int color_picker_swatch = 0x7f03000d;
 	}
 	public static final class string {
 		public static final int color_picker_default_title = 0x7f070036;

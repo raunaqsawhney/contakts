@@ -28,6 +28,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -303,6 +305,29 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	        return null;
 	    }
 	    return BitmapFactory.decodeStream(input);		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.fav, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_dial:
+	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+	    		startActivity(dialIntent);
+	            return true;    
+	        case R.id.menu_add:
+	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+	    		startActivity(addIntent);
+	    		return true; 
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

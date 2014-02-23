@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookException;
 import com.facebook.Session;
@@ -41,6 +42,8 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class LoginActivity extends FragmentActivity implements OnItemClickListener {
 
+	static final String TAG = "com.raunaqsawhney.contakts";
+	
 	// Declare Globals
 	String font;
 	String fontContent;
@@ -55,23 +58,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	
 	IabHelper mHelper;
 	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
+	boolean mIsPremium = false;
 
-	
-	/*
-	IInAppBillingService mService;
-
-	ServiceConnection mServiceConn = new ServiceConnection() {
-	   @Override
-	   public void onServiceDisconnected(ComponentName name) {
-	       mService = null;
-	   }
-
-	   @Override
-	   public void onServiceConnected(ComponentName name, 
-	      IBinder service) {
-	       mService = IInAppBillingService.Stub.asInterface(service);
-	   }
-	};*/
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +78,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
     	           Log.d("IAB", "In-app Billing setup failed: " + result);
     	      } else {             
     	      	    Log.d("IAB", "In-app Billing is set up OK");
+    	      	    mHelper.queryInventoryAsync(mGotInventoryListener); 
     	      }
     	   }
     	});
@@ -111,6 +100,31 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         //bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
  	}
 	
+	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+		public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+			Log.d(TAG, "Query inventory finished.");
+				if (result.isFailure()) {
+				Log.d(TAG, "Failed to query inventory: " + result);
+				Toast toast = Toast.makeText(getApplicationContext(), "APP NOT PURCHASED", Toast.LENGTH_LONG);
+				toast.show();
+
+				return;
+			} else {
+				Log.d(TAG, "Query inventory was successful.");
+				// does the user have the premium upgrade?
+				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+				Button buyAppBtn = (Button) findViewById(R.id.buyApp);
+			    //buyAppBtn.setVisibility(View.GONE);
+				Toast toast = Toast.makeText(getApplicationContext(), "APP PURCHASED", Toast.LENGTH_LONG);
+				toast.show();
+				Log.d(TAG, "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+			}
+
+		Log.d(TAG, "Initial inventory query finished; enabling main UI.");
+		}
+	};
+	
+	
 	public void buyApp(View view) {
 	     mHelper.launchPurchaseFlow(this, ITEM_SKU, 10001,   
 			   mPurchaseFinishedListener, "");
@@ -119,14 +133,20 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
 		public void onIabPurchaseFinished(IabResult result, Purchase purchase) 
 		{
+			preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			edit = preferences.edit();
+			
 		   if (result.isFailure()) {
-		      // Handle error
+			  System.out.println("ERROR: APP NOT PURCHASED");
 		      return;
 		   }      
 		   else if (purchase.getSku().equals(ITEM_SKU)) {
 			 Button buyAppBtn = (Button) findViewById(R.id.buyApp);
 		   	 System.out.println("APP UNLOCKED!");
-		     buyAppBtn.setEnabled(false);
+		   	 mIsPremium = true;
+		   	 edit.putBoolean("appPurchased", mIsPremium);
+		   	 edit.apply();
+		     buyAppBtn.setVisibility(View.GONE);
 		   }    
 		}
 	};
@@ -255,6 +275,16 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		Button colorPicker = new Button(this);
 		colorPicker = (Button) findViewById(R.id.colorPicker);
 		colorPicker.setBackgroundColor(Color.parseColor(theme));
+		
+		Button removeAdsBtn = new Button(this);
+		removeAdsBtn = (Button) findViewById(R.id.buyApp);
+		removeAdsBtn.setBackgroundColor(Color.parseColor(theme));
+		
+		TextView generalHeader = (TextView) findViewById(R.id.general);
+		generalHeader.setTextColor(Color.parseColor(theme));
+		
+		TextView facebookHeader = (TextView) findViewById(R.id.facebook);
+		facebookHeader.setTextColor(Color.parseColor(theme));
 		
     	final ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
 		colorPickerDialog.initialize(R.string.color_dialog_title, new int[] { 

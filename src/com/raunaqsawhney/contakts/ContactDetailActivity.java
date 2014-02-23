@@ -1,5 +1,6 @@
 package com.raunaqsawhney.contakts;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -7,12 +8,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -25,7 +26,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -36,10 +36,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
+import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -61,6 +58,7 @@ import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.internal.bm;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -68,13 +66,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
+    
 	
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -519,7 +514,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	private void getPhoto(String contact_id) {
 		
         contactPhoto = (ImageView) findViewById(R.id.c_detail_header_photo);
-		
+        
 		ContentResolver cr = getContentResolver();
 		
 		Cursor photoCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
@@ -939,9 +934,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         startManagingCursor(noteCur);
 
         while (noteCur.moveToNext()) {
-            note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
+        	try {
+                note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
+        	} catch (NullPointerException e) {
+        		note.isEmpty();
+        	}
+
             contact.setNotes(note);
-            
+
             if (note != null || !note.isEmpty())
             {
             	noteLayout.setVisibility(View.VISIBLE);
@@ -1681,6 +1681,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	    }
 	}
 	
+	/*
 	@SuppressLint("NewApi")
 	Bitmap BlurImage (Bitmap input)
 	{
@@ -1704,7 +1705,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 			e.printStackTrace();
 		}
 		return result;
-	}
+	}*/
 	
 	public Bitmap BlurImageLegacy(Bitmap input, int radius) {
 
@@ -1965,11 +1966,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		   	ContactDetailActivity.this.startActivity(iIntent);
 	   } 
 	}
-
-	@Override
-	public void onClick(View v) {
-		
-	}
 	
 	@Override
 	  public void onStart() {
@@ -1982,4 +1978,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
 }

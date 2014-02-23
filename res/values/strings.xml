@@ -22,7 +22,7 @@
     <string name="welcomeInfo">Contakts is a beautiful new way to connect with
          everyone that matters to you.\n\nSimply swipe right anywhere on the screen
           to slide out the navigation menu and start connecting with everyone!</string>
-    <string name="fbInfo">Upon Login, you will be asked to accept permissions, allowing us to present you with all
+    <string name="fbInfo">Upon login, you will be asked to accept permissions, allowing us to present you with all
         the information you need to keep in touch with your friends.\n\nNo personal information
         is collected or stored by Contakts.</string>
     <string name="admob_id">a152f39c37b61f7</string>
@@ -30,14 +30,12 @@
     <string name="title_activity_graph">GraphActivity</string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_dialer">DialerActivity</string>
-    
     <string name="okay">Okay</string>
     <string name="custom">Custom</string>
     <string name="other">Other</string>
     <string name="yes">Yes</string>
     <string name="settings">Settings</string>
     <string name="error">Error</string>
-    
     <string name="sMfavourites">Favourites</string>
     <string name="sMMostContacted">Most Contacted</string>
     <string name="sMPhoneContacts">Phone Contacts</string>
@@ -45,111 +43,124 @@
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Settings</string>
     <string name="sMAbout">About</string>
-    
     <string name="cdDialogHeader">Contact Details</string>
     <string name="cdWelcomeDialog">Here you can see all data associated with a contact. Simply tap on any item and learn more about it.</string>
-	<string name="callDialogText">Call</string>
-	<string name="messageDialogText">Message</string>
-	<string name="emailDialogText">Email</string>
-	<string name="noPhoneDialogText">does not have any phone numbers.</string>
-	<string name="noEmailDialogText">does not has any email addresses.</string>
-	<string name="noWhatsAppDialogText">does not have any phone number associated with WhatsApp.</string>
-	
-	<string name="assistant">Assistant</string>
-	<string name="brother">Brother</string>
-	<string name="child">Child</string>
-	<string name="domPartner">Domestic Partner</string>
-	<string name="father">Father</string>
-	<string name="friend">Friend</string>
-	<string name="manager">Manager</string>
-	<string name="mother">Mother</string>
-	<string name="parent">Parent</string>
-	<string name="partner">Partner</string>
-	<string name="refBy">Referred By</string>
-	<string name="relative">Relative</string>
-	<string name="sister">Sister</string>
-	<string name="spouse">Spouse</string>
-	
-	<string name="anniversary">Anniversary</string>
-	<string name="birthday">Birthday</string>
-	
-	<string name="home">Home</string>
-	<string name="work">Work</string>
-	<string name="mobile">Mobile</string>
-	
-	<string name="assistant">Assistant</string>
-	<string name="googleMapWarning">Google Map not visible. You are not connected to the Internet.</string>
-	
-	<string name="shareWith">Share with</string>
-	<string name="whatsAppNotFound">WhatsApp is not installed</string>
-	
-	<string name="notesHeader">Notes</string>
-	<string name="imHeader">IM</string>
-	<string name="eventsHeader">Events</string>
-	<string name="relationshipHeader">Relationship</string>
-	<string name="addressHeader">Address</string>
-	<string name="websiteHeader">Website</string>
-	<string name="emailHeader">Email</string>
-	<string name="phoneHeader">Phone</string>
-	
-	<!-- END OF CONTACT DETAIL ACTIVITY -->
-	
-	<string name="favDialogHeader">Favourites</string>
-	<string name="favDialogText">Here you can see a grid of all your starred contacts. To remove a favourite, simply tap and hold on a contact.</string>
-	<string name="remFav">Remove Favourite</string>
-	<string name="confirmRemFav">Are you sure you want to remove this contact from your favourites?</string>
-	
-	<!-- END OF FAV ACTIVITY -->
-	
-	<string name="fbDialogText">If this is your first time accessing Facebook on Contakts, please go to Settings and login first.</string>
-	<string name="notLoggedInFB">You have not logged into a Facebook account.</string>
-	<string name="loggedOutofFB">Logged out of Facebook.</string>
-	
-	<string name="fbFriendHeader">Facebook Friends</string>
-	<!-- END OF FB ACTIVITY -->
-	
-	<string name="freqDialogHeader">Frequent Contacts</string>
-	<string name="freqDialogText">Here you can see all the contacts that are most frequently contacted. You can also visualize data using graphs, by tapping on the graph icon at the top.</string>
-	<string name="mostContactedHeader">Most Contacted</string>
-	
-	<!-- END OF FREQ ACTIVITY -->
-	
-	<string name="friendDialogHeader">Friend Details</string>
-	<string name="friendDialogText">Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.</string>
-	<string name="wish">Wish</string>
-	<string name="happyBday">a Happy Birthday!</string>
-	<string name="usesContakts">uses Contakts</string>
-	
-	<string name="username">Username</string>
-	<string name="birthday">Birthday</string>
-	<string name="education">Education</string>
-	<string name="work">Work</string>
-	<string name="curLoc">Current Location</string>
-	<string name="hometown">Hometown</string>
-	
-	<!-- END OF FRIEND DETAIL ACTIVITY -->
-	
-	<string name="graphDialogHeader">Contact Graphs</string>
-	<string name="graphDialogText">Here you can visually see the top 10 people you connect with most, via phone, messaging, and email, combined to give a raw score listed next to each contact.</string>
-	
-	<!-- END OF GRAPH ACTIVITY -->
-	
-	<string name="currentVersion">Current Version: </string>
-	<string name="currentVersionNA">Current Version: Not Available</string>
-	
-	<string name="shareWithFriends">Share with your friends</string>
-	<string name="sendFeedback">Send Feedback</string>
-	<string name="rateOnPlay">Rate on Google Play</string>
-	<string name="website">Website</string>
-	<string name="tos">Terms of Service</string>
-	
+    <string name="callDialogText">Call</string>
+    <string name="messageDialogText">Message</string>
+    <string name="emailDialogText">Email</string>
+    <string name="noPhoneDialogText">does not have any phone numbers.</string>
+    <string name="noEmailDialogText">does not has any email addresses.</string>
+    <string name="noWhatsAppDialogText">does not have any phone number associated with WhatsApp.</string>
+    <string name="assistant">Assistant</string>
+    <string name="brother">Brother</string>
+    <string name="child">Child</string>
+    <string name="domPartner">Domestic Partner</string>
+    <string name="father">Father</string>
+    <string name="friend">Friend</string>
+    <string name="manager">Manager</string>
+    <string name="mother">Mother</string>
+    <string name="parent">Parent</string>
+    <string name="partner">Partner</string>
+    <string name="refBy">Referred By</string>
+    <string name="relative">Relative</string>
+    <string name="sister">Sister</string>
+    <string name="spouse">Spouse</string>
+    <string name="anniversary">Anniversary</string>
+    <string name="birthday">Birthday</string>
+    <string name="home">Home</string>
+    <string name="work">Work</string>
+    <string name="mobile">Mobile</string>
+    <string name="assistant">Assistant</string>
+    <string name="googleMapWarning">Google Map not visible. You are not connected to the Internet.</string>
+    <string name="shareWith">Share with</string>
+    <string name="whatsAppNotFound">WhatsApp is not installed</string>
+    <string name="notesHeader">Notes</string>
+    <string name="imHeader">IM</string>
+    <string name="eventsHeader">Events</string>
+    <string name="relationshipHeader">Relationship</string>
+    <string name="addressHeader">Address</string>
+    <string name="websiteHeader">Website</string>
+    <string name="emailHeader">Email</string>
+    <string name="phoneHeader">Phone</string>
+
+    <!-- END OF CONTACT DETAIL ACTIVITY -->
+
+    <string name="favDialogHeader">Favourites</string>
+    <string name="favDialogText">Here you can see a grid of all your starred contacts. To remove a favourite, simply tap and hold on a contact.</string>
+    <string name="remFav">Remove Favourite</string>
+    <string name="confirmRemFav">Are you sure you want to remove this contact from your favourites?</string>
+
+    <!-- END OF FAV ACTIVITY -->
+
+    <string name="fbDialogText">If this is your first time accessing Facebook on Contakts, please go to Settings and login first.</string>
+    <string name="notLoggedInFB">You have not logged into a Facebook account.</string>
+    <string name="loggedOutofFB">Logged out of Facebook.</string>
+    <string name="fbFriendHeader">Facebook Friends</string>
+    <!-- END OF FB ACTIVITY -->
+
+    <string name="freqDialogHeader">Frequent Contacts</string>
+    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted. You can also visualize data using graphs, by tapping on the graph icon at the top.</string>
+    <string name="mostContactedHeader">Most Contacted</string>
+
+    <!-- END OF FREQ ACTIVITY -->
+
+    <string name="friendDialogHeader">Friend Details</string>
+    <string name="friendDialogText">Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.</string>
+    <string name="wish">Wish</string>
+    <string name="happyBday">a Happy Birthday!</string>
+    <string name="usesContakts">uses Contakts</string>
+    <string name="username">Username</string>
+    <string name="birthday">Birthday</string>
+    <string name="education">Education</string>
+    <string name="work">Work</string>
+    <string name="curLoc">Current Location</string>
+    <string name="hometown">Hometown</string>
+    <string name="homepage">Homepage</string>
+    <string name="blog">Blog</string>
+    <string name="profile">Profile</string>
+    <string name="fax_home">Fax (home)</string>
+    <string name="fax_work">Fax (work)</string>
+    <string name="pager">Pager</string>
+    <string name="callback">Callback</string>
+    <string name="car">Car</string>
+    <string name="company_main">Company (main)</string>
+    <string name="main">Main</string>
+    <string name="radio">Radio</string>
+    <string name="telex">Telex</string>
+    <string name="work_mobile">Work (mobile)</string>
+    <string name="work_pager">Work (pager)</string>
+    <string name="mms">MMS</string>
+
+    <!-- END OF FRIEND DETAIL ACTIVITY -->
+
+    <string name="graphDialogHeader">Contact Graphs</string>
+    <string name="graphDialogText">Here you can visually see the top 10 people you connect with most, via phone, messaging, and email, combined to give a raw score listed next to each contact.</string>
+
+    <!-- END OF GRAPH ACTIVITY -->
+
+    <string name="currentVersion">Current Version: </string>
+    <string name="currentVersionNA">Current Version: Not Available</string>
+    <string name="shareWithFriends">Share with your friends</string>
+    <string name="sendFeedback">Send Feedback</string>
+    <string name="rateOnPlay">Rate on Google Play</string>
+    <string name="website">Website</string>
+    <string name="tos">Terms of Service</string>
     <string name="shareMarketingText">Connect with everyone, easily.\nContakts is a beautiful new way to get in touch with people that matter to you most.\nGet it today: www.contaktsapp.com</string>
-	
+
     <!-- END OF INFO ACTIVITY -->
-	
-	<string name="getStarted">Get Started</string>
-	<string name="settingThings">setting things up...</string>
-	
-	<string name="share">Share</string>
-	<string name="edit">Edit</string>
+
+    <string name="getStarted">Get Started</string>
+    <string name="settingThings">setting things up...</string>
+    <string name="share">Share</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_fbsearch">FBSearchActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+	<string name="removeAds">Remove Ads</string>
+	<string name="generalHeader">General</string>
+	<string name="facebookHeader">Facebook</string>
+    
+    <!-- END OF STUFF -->
+    
+    
 </resources>

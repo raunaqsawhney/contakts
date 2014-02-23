@@ -15,7 +15,9 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +35,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -41,10 +44,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -123,6 +128,11 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	private TextView lblWebsite;
 	
 	fbFriend contactFriend = new fbFriend();
+	private TextView lblEmail;
+	private TextView lblPhone;
+	
+	ArrayList<String> globalPhoneNumberListOfContact = new ArrayList<String>();
+
 
 
 	@Override
@@ -157,8 +167,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		setupImageLoader();
 		fetchFriendInfo();
 		//enableAds();
-		
-		
+
 	}
 	
 	private void connectFB() {
@@ -188,45 +197,19 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 
 	private void showContactFriendInfo() {
 		
-        // Using the contact ID now we will get contact phone number
-        Cursor cursorPhone = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                new String[]{ ContactsContract.CommonDataKinds.Phone.NUMBER },
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                new String[]{contact_friend_id},
-                null);
-        startManagingCursor(cursorPhone);
- 
-        while (cursorPhone.moveToNext()) {
-            contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            
-            if (!contactNumber.isEmpty())
-            	System.out.println("Contact Phone Number: " + contactNumber);	
-            else 
-            	System.out.println("NO NUMBER FOUND");
-        }
-         
-        
-        Cursor cursorEmail = getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                new String[]{ ContactsContract.CommonDataKinds.Email.ADDRESS },
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                new String[]{contact_friend_id},
-                null);
-        startManagingCursor(cursorEmail);
- 
-        while (cursorEmail.moveToNext()) {
-            contactEmail = cursorEmail.getString(cursorEmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
-            
-            if (!contactEmail.isEmpty())
-            	System.out.println("Contact Email: " + contactEmail);	
-            else 
-            	System.out.println("NO EMAIL FOUND");
-        }
-        
-        /////////
-        TextView websiteHeader = (TextView) findViewById(R.id.f_detail_website_header);
+		getPhoneInfo();
+		getEmailInfo();
+		getWebsiteInfo();
+		
+	}
+
+	@SuppressWarnings("deprecation")
+	private void getWebsiteInfo() {
+		
+		TextView websiteHeader = (TextView) findViewById(R.id.f_detail_website_header);
 		websiteHeader.setTextColor(Color.parseColor(theme));
 		
-        int count = 0;
+        int count_web = 0;
 		String websiteType = null;
 
         lblWebsite = (TextView) findViewById(R.id.f_detail_website_header);
@@ -251,19 +234,19 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             	switch(Integer.parseInt(websiteTypeRaw))
                 {
                 	case 1:
-                		websiteType = "Homepage";
+                		websiteType = getString(R.string.homepage);
                 		break;
                 	case 2:
-                		websiteType = "Blog";
+                		websiteType = getString(R.string.blog);
                 		break;
                 	case 3:
-                		websiteType = "Profile";
+                		websiteType = getString(R.string.profile);
                 		break;
                 	case 4:
-                		websiteType = "Home";
+                		websiteType = getString(R.string.home);
                 		break;
                 	case 5:
-                		websiteType = "Work";
+                		websiteType = getString(R.string.work);
                 		break;
                 	case 7:
                 		websiteType = "FTP";
@@ -280,7 +263,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             }
             
             contactFriend.addWebsites(contactWebsite + "$" + websiteType);  
-            count++;
+            count_web++;
                         
             if (contactWebsite != null)
             {
@@ -288,12 +271,12 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             }
         }
         
-		final int N = count; 
-        final TextView[] websiteTextViews = new TextView[N]; 
+		final int N_web = count_web; 
+        final TextView[] websiteTextViews = new TextView[N_web]; 
         String currentWebsite = null;
-        String currentType = null;
+        String currentTypeWeb = null;
         
-        for (int i = 0; i < N; i++){
+        for (int i = 0; i < N_web; i++){
             final TextView websiteTextView = new TextView(this);
             final TextView websiteTypeTextView = new TextView(this);
             final LinearLayout websiteContentLayout = new LinearLayout(this);
@@ -302,12 +285,12 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             	 StringTokenizer tokens = new StringTokenizer(contactFriend.getWebsiteByIndex(i), "$");            
                  
                  currentWebsite = tokens.nextToken();
-                 currentType = tokens.nextToken();
+                 currentTypeWeb = tokens.nextToken();
             } catch (NoSuchElementException e) {
             	e.printStackTrace();
             }
            
-            websiteTypeTextView.setText(currentType);
+            websiteTypeTextView.setText(currentTypeWeb);
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             websiteTypeTextView.setTextSize(14);
             websiteTypeTextView.setWidth(200);
@@ -349,7 +332,300 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
                 	startActivity(openUrlIntent);
                 }
             });
+        }		
+	}
+
+	@SuppressWarnings("deprecation")
+	private void getEmailInfo() {
+		
+		TextView emailHeader = (TextView) findViewById(R.id.f_detail_email_header);
+		emailHeader.setTextColor(Color.parseColor(theme));
+		
+        int count_email = 0;
+		String emailType = null;
+
+        lblEmail = (TextView) findViewById(R.id.f_detail_email_header);
+        lblEmail.setTypeface(Typeface.createFromAsset(getAssets(), font));
+        
+        LinearLayout emailLayout = (LinearLayout) findViewById(R.id.f_detail_email_layout);
+        
+        String emailWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        String[] emailWhereParams = new String[] {contact_friend_id,
+        		ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE};
+        
+        Cursor cursorEmail = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                null, emailWhere, emailWhereParams, null);
+        startManagingCursor(cursorEmail);
+        
+        while (cursorEmail.moveToNext()) {
+            contactEmail = cursorEmail.getString(cursorEmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+            
+            String emailTypeRaw = cursorEmail.getString(cursorEmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+            
+            try {
+            	switch(Integer.parseInt(emailTypeRaw))
+                {
+                	case 1:
+                		emailType = getString(R.string.home);
+                		break;
+                	case 2:
+                		emailType = getString(R.string.work);
+                		break;
+                	case 3:
+                		emailType = getString(R.string.other);
+                		break;
+                	case 4:
+                		emailType = getString(R.string.mobile);
+                		break;
+            		default:
+            			emailType = getString(R.string.custom);
+            			break;
+                }
+            } catch (NumberFormatException e) {
+            	emailType = getString(R.string.other);
+            }
+            
+            contactFriend.addEmailID(contactEmail + ":" + emailType);
+            count_email++;
+            
+            if (contactEmail != null)
+            {
+            	emailLayout.setVisibility(View.VISIBLE);
+            }
         }
+      
+        final int N_email = count_email; 
+        final TextView[] emailTextViews = new TextView[N_email]; 
+        String currentEmail = null;
+        String currentTypeEmail = null;
+        
+        for (int i = 0; i < N_email; i++){
+            final TextView emailTextView = new TextView(this);
+            final TextView emailTypeTextView = new TextView(this);
+            final LinearLayout emailContentLayout = new LinearLayout(this);
+                  
+            try {
+                StringTokenizer tokens = new StringTokenizer(contactFriend.getEmaiIDByIndex(i), ":");            
+                
+                currentEmail = tokens.nextToken();
+                currentTypeEmail = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+
+            emailTypeTextView.setText(currentTypeEmail);
+            emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
+            emailTypeTextView.setTextSize(14);
+            emailTypeTextView.setWidth(200);
+            emailTypeTextView.setPadding(0, 10, 0, 10);
+            emailTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
+
+            emailContentLayout.addView(emailTypeTextView);
+
+            emailTextView.setText(currentEmail);
+            emailTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+            emailTextView.setTextSize(18);
+            emailTextView.setPadding(30, 10, 0, 10);
+            emailTextView.setSingleLine();
+            emailTextView.setEllipsize(TextUtils.TruncateAt.END);
+
+
+            
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            	     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            
+            final int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+
+            layoutParams.setMargins(margin, 0, margin, 0);
+            
+            emailContentLayout.setLayoutParams(layoutParams);
+            emailContentLayout.addView(emailTextView);
+                        
+            emailLayout.addView(emailContentLayout);
+            
+            emailTextViews[i] = emailTextView;
+            
+            emailTextView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+    		                "mailto",emailTextView.getText().toString(), null));
+                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+    		    	startActivity(emailIntent);
+                }
+            });
+        }		
+	}
+
+	@SuppressWarnings("deprecation")
+	private void getPhoneInfo() {
+		
+		TextView phoneHeader = (TextView) findViewById(R.id.f_detail_phone_header);
+		phoneHeader.setTextColor(Color.parseColor(theme));
+		
+        int count_phone = 0;
+		String phoneType = null;
+
+        lblPhone = (TextView) findViewById(R.id.f_detail_phone_header);
+        lblPhone.setTypeface(Typeface.createFromAsset(getAssets(), font));
+        
+        LinearLayout phoneLayout = (LinearLayout) findViewById(R.id.f_detail_phone_layout);
+		
+        String phoneWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        String[] phoneWhereParams = new String[]{contact_friend_id,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
+        
+		Cursor cursorPhone = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                null, phoneWhere, phoneWhereParams, null);
+        startManagingCursor(cursorPhone);
+ 
+        while (cursorPhone.moveToNext()) {
+            contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            
+            String phoneTypeRaw = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            
+            try {
+            	switch(Integer.parseInt(phoneTypeRaw))
+                {
+    	        	case 1:
+    	        		phoneType = getString(R.string.home);
+    	        		break;
+    	        	case 2:
+    	        		phoneType = getString(R.string.mobile);
+    	        		break;
+    	        	case 3:
+    	        		phoneType = getString(R.string.work);
+    	        		break;
+    	        	case 4:
+    	        		phoneType = getString(R.string.fax_work);
+    	        		break;
+    	        	case 5:
+    	        		phoneType = getString(R.string.fax_home);
+    	        		break;
+    	        	case 6:
+    	        		phoneType = getString(R.string.pager);
+    	        		break;
+    	        	case 7:
+    	        		phoneType = getString(R.string.other);
+    	        		break;
+    	        	case 8:
+    	        		phoneType = getString(R.string.callback);
+    	        		break;
+    	        	case 9:
+    	        		phoneType = getString(R.string.car);
+    	        		break;
+    	        	case 10:
+    	        		phoneType = getString(R.string.company_main);
+    	        		break;
+    	        	case 11:
+    	        		phoneType = "ISDN";
+    	        		break;
+    	        	case 12:
+    	        		phoneType = getString(R.string.main);
+    	        		break;
+    	        	case 13:
+    	        		phoneType = getString(R.string.other);
+    	        		break;
+    	        	case 14:
+    	        		phoneType = getString(R.string.radio);
+    	        		break;
+    	        	case 15:
+    	        		phoneType = getString(R.string.telex);
+    	        		break;
+    	        	case 16:
+    	        		phoneType = "TTY - TDD";
+    	        		break;
+    	        	case 17:
+    	        		phoneType = getString(R.string.work_mobile);
+    	        		break;
+    	        	case 18:
+    	        		phoneType = getString(R.string.work_pager);
+    	        		break;
+    	        	case 19:
+    	        		phoneType = getString(R.string.assistant);
+    	        		break;
+    	        	case 20:
+    	        		phoneType = getString(R.string.mms);
+    	        		break;
+                }
+            } catch (NumberFormatException e) {
+            	phoneType = getString(R.string.other);
+            }
+            
+            contactFriend.addPhoneNumer(contactNumber + ":" + phoneType);
+            count_phone++;
+
+            if (contactNumber != null)
+            {
+            	phoneLayout.setVisibility(View.VISIBLE);
+            }
+        }
+   
+        final int N_phone = count_phone; 
+        final TextView[] phoneTextViews = new TextView[N_phone]; 
+        String currentPhone = null;
+        String currentType = null;
+        String unformattedNumber = null;
+        
+        for (int i = 0; i < N_phone; i++){
+            final TextView phoneNumberTextView = new TextView(this);
+            final TextView phoneTypeTextView = new TextView(this);
+            final LinearLayout phoneContentLayout = new LinearLayout(this);
+            
+            try {
+                StringTokenizer tokens = new StringTokenizer(contactFriend.getPhoneByIndex(i), ":");
+                unformattedNumber = tokens.nextToken();
+                
+                currentPhone = PhoneNumberUtils.formatNumber(unformattedNumber);
+                globalPhoneNumberListOfContact.add(currentPhone);
+                
+                currentType = tokens.nextToken();
+            } catch (NoSuchElementException e) {
+            	e.printStackTrace();
+            }
+
+            phoneTypeTextView.setText(currentType);
+            phoneTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
+            phoneTypeTextView.setTextSize(14);
+            phoneTypeTextView.setWidth(200);
+            phoneTypeTextView.setPadding(0, 10, 0, 10);
+            phoneTypeTextView.setEllipsize(TextUtils.TruncateAt.END);
+
+            phoneContentLayout.addView(phoneTypeTextView);
+
+            phoneNumberTextView.setText(currentPhone);
+            phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+            phoneNumberTextView.setTextSize(18);
+            phoneNumberTextView.setPadding(30, 10, 0, 10);
+            phoneNumberTextView.setSingleLine();
+            phoneNumberTextView.setEllipsize(TextUtils.TruncateAt.END);
+                       
+            phoneContentLayout.addView(phoneNumberTextView);
+            
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            	     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            
+            final int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+
+            
+            layoutParams.setMargins(margin, 0, margin, 0);
+            phoneContentLayout.setLayoutParams(layoutParams);
+                        
+            phoneLayout.addView(phoneContentLayout);
+            
+            phoneTextViews[i] = phoneNumberTextView;	
+            
+            phoneNumberTextView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+    	            callIntent.setData(Uri.parse("tel:"+phoneNumberTextView.getText().toString()));          
+    	            startActivity(callIntent);  
+                }
+            });
+        }		
 	}
 
 	private void enableAds() {
@@ -798,17 +1074,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		return true;
 	}
 	
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
-	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		long selected = (navListView.getItemIdAtPosition(position));
@@ -838,9 +1103,51 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	}
 
 	@Override
-	public void call(Session session, SessionState state, Exception exception) {
-		// TODO Auto-generated method stub
-		
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+	        	
+	        case R.id.menu_whatsapp:
+				ListView whatsAppDialog = new ListView(FriendDetailActivity.this);
+				
+				ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(FriendDetailActivity.this,android.R.layout.simple_list_item_1, globalPhoneNumberListOfContact);
+				whatsAppDialog.setAdapter(arrayAdapter); 
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(FriendDetailActivity.this);
+				
+				builder.setView(whatsAppDialog);
+				builder.setTitle("WhatsApp");
+				final Dialog dialog = builder.create();
+
+				if (globalPhoneNumberListOfContact.isEmpty()) {
+					Toast.makeText(getApplicationContext(), getString(R.string.friend) + " " + getString(R.string.noWhatsAppDialogText), Toast.LENGTH_LONG).show();
+				} else  {
+					dialog.show();
+				}
+				
+				whatsAppDialog.setOnItemClickListener(new OnItemClickListener() {
+				    @Override
+				    public void onItemClick(AdapterView<?> parent, View view,
+				    int position, long id) {
+				    	Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(position));
+				    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
+						mIntent.setPackage("com.whatsapp");
+						mIntent.putExtra("chat",true);
+						try {
+							startActivity(mIntent);
+						} catch (ActivityNotFoundException e) {
+							Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
+						}
+				        dialog.dismiss();
+				    }
+				});	
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	private Boolean checkOnlineStatus() {
@@ -864,4 +1171,10 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
+
+	@Override
+	public void call(Session session, SessionState state, Exception exception) {
+		// TODO Auto-generated method stub
+		
+	}
 }

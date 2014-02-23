@@ -1,5 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item android:id="@+id/fb_search"
+          android:title="@string/search_hint"
+		  android:icon="@drawable/ic_menu_search"
+          android:showAsAction="collapseActionView|ifRoom"
+          android:actionViewClass="android.widget.SearchView" />
+    
 	<item 
         android:id="@+id/fb_publish"
         android:showAsAction="always"

@@ -301,10 +301,19 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	        	Intent graphIntent = new Intent(FrequentActivity.this, GraphActivity.class);
 	    	   	FrequentActivity.this.startActivity(graphIntent);
 	    	   	return true;    
+	        case R.id.menu_dial:
+	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+	    		startActivity(dialIntent);
+	            return true;    
+	        case R.id.menu_add:
+	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+	    		startActivity(addIntent);
+	    		return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
 	
 	private Boolean checkOnlineStatus() {
 		ConnectivityManager CManager =

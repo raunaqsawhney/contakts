@@ -40,6 +40,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -51,10 +52,15 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
+import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
+import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
 	
+	static final String TAG = "com.raunaqsawhney.contakts";
+
 	// Declare Globals
 	String theme;
 	String fontContent;
@@ -69,7 +75,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	private SlidingMenu menu;
 	private ListView navListView;
 
-
+	IabHelper mHelper;
+	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
+	boolean mIsPremium = false;
+	
    @Override
    public void onCreate(Bundle savedInstanceState) {
        
@@ -77,17 +86,61 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
         
+        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
+        
+    	mHelper = new IabHelper(this, base64EncodedPublicKey);
+    
+    	mHelper.startSetup(new 
+		IabHelper.OnIabSetupFinishedListener() {
+    	   	  public void onIabSetupFinished(IabResult result) 
+    	   	  {
+    	        if (!result.isSuccess()) {
+    	           Log.d("IAB", "In-app Billing setup failed: " + result);
+    	      } else {             
+    	      	    Log.d("IAB", "In-app Billing is set up OK");
+    	      	    mHelper.queryInventoryAsync(mGotInventoryListener); 
+    	      }
+    	   }
+    	});
+        
+        
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
         initializeLoader();
-        //enableAds();
+        enableAds();
        
         
         // Enable open Facebook Session
 		Session.openActiveSessionFromCache(getBaseContext());
  
    }
+   
+   IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+		public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+			Log.d(TAG, "Query inventory finished.");
+				if (result.isFailure()) {
+				Log.d(TAG, "Failed to query inventory: " + result);
+				return;
+			} else {
+				Log.d(TAG, "Query inventory was successful.");
+				// does the user have the premium upgrade?
+				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+				Log.d(TAG, "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+				disableAds();
+			}
+
+		Log.d(TAG, "Initial inventory query finished; enabling main UI.");
+		}
+
+
+	};
+	
+	private void disableAds() {
+		AdView adView = (AdView) findViewById(R.id.adView);
+		adView.setEnabled(false);
+		adView.setVisibility(View.GONE);
+	}
      
 	private void enableAds() {
 		

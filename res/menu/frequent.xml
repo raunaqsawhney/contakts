@@ -1,9 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    
 	<item 
         android:id="@+id/menu_graph"
         android:showAsAction="always"
         android:title="Graph"
         android:icon="@drawable/ic_menu_graph"/>
+	
+	<item 
+	    android:id="@+id/menu_dial"
+	    android:title="Dial"
+	    android:icon="@drawable/ic_menu_call"
+	    android:showAsAction="always" />
+	
+	<item 
+	    android:id="@+id/menu_add"
+	    android:title="Add Contact"
+	    android:icon="@drawable/ic_action_add_person"
+	    android:showAsAction="always" />
 
 </menu>

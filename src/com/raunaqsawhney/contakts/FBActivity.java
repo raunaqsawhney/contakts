@@ -19,10 +19,11 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +51,7 @@ import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class FBActivity extends Activity implements OnItemClickListener  {
+public class FBActivity extends Activity implements OnItemClickListener, OnQueryTextListener  {
 	
 	FriendAdapter adapter;
 	private UiLifecycleHelper uiHelper;
@@ -77,6 +81,8 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	String current_home_state;
 	String current_home_country;
 	private boolean firstRunDoneFB;
+	
+	ListView  fbListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +217,10 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	}
 
 	private void startfb() {
+		
+		fbListView = (ListView) findViewById(R.id.fbList);
+		fbListView.setTextFilterEnabled(true);
+		
 		String fqlQuery = "select uid, name, pic_big, is_app_user from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
@@ -266,8 +276,6 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 					        
 					    	adapter = new FriendAdapter(FBActivity.this, friendList);
 
-					    	ListView  fbListView = (ListView) findViewById(R.id.fbList);
-
 				    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
 				            fbListView.addHeaderView(header, null, false);
 				            
@@ -302,9 +310,18 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.fb, menu);
 	    
+	 // Set up Action Bar       
+        SearchView searchView = (SearchView) menu.findItem(R.id.fb_search).getActionView();
+        searchView.setQueryHint("Find friend");
+        searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
         
+        searchView.setOnQueryTextListener(this);        
         
-        return super.onCreateOptionsMenu(menu);
+        AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
+        search_text.setTextColor(Color.WHITE);
+        search_text.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+	   
+        return true;
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -352,7 +369,7 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	            .build();
 			    uiHelper.trackPendingDialogCall(shareDialog.present());
 			    return true;
-	        	
+			    
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -441,4 +458,23 @@ public class FBActivity extends Activity implements OnItemClickListener  {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		if (TextUtils.isEmpty(newText)) {
+	        adapter.getFilter().filter("");
+	        Log.i("Friend", "onQueryTextChange Empty String");
+	        fbListView.clearTextFilter();
+	    } else {
+	        Log.i("friend", "onQueryTextChange " + newText.toString());
+	        adapter.getFilter().filter(newText.toString());
+	    }
+	    return true;
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

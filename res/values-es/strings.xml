@@ -122,10 +122,29 @@
 	<string name="curLoc">Ubicación Actual</string>
 	<string name="hometown">Ciudad Natal</string>
 	
+	<string name="homepage">Personal</string>
+	<string name="blog">Blog</string>
+	<string name="profile">Perfil</string>
+	
+	<string name="fax_home">Fax (casa)</string>
+	<string name="fax_work">Fax (trabajo)</string>
+	<string name="pager">Mensáfono</string>
+	
+	<string name="callback">Callback</string>
+	<string name="car">Coche</string>
+	<string name="company_main">Empresa (principal)</string>
+	<string name="main">Principal</string>
+	<string name="radio">Radio</string>
+	<string name="telex">Télex</string>
+	<string name="work_mobile">Trabajo (móvil)</string>
+	<string name="work_pager">Trabajo (pager)</string>
+	<string name="mms">MMS</string>
+	
 	<!-- END OF FRIEND DETAIL ACTIVITY -->
 	
 	<string name="graphDialogHeader">Contactar Gráficos</string>
 	<string name="graphDialogText">Aquí usted puede ver visualmente los 10 la gente se conecta con la mayoría, a través del teléfono, la mensajería y el correo electrónico, se combinaron para dar un puntaje bruto que aparece junto a cada contacto.</string>
+
 	
 	<!-- END OF GRAPH ACTIVITY -->
 	
@@ -144,7 +163,10 @@
 	
 	<string name="getStarted">Empezar</string>
 	<string name="settingThings">establecimiento de las cosas...</string>
-	
 	<string name="share">Cuota</string>
 	<string name="edit">Modificar</string>
+	
+	<string name="removeAds">Quitar la Publicidad</string>
+	<string name="generalHeader">General</string>
+	<string name="facebookHeader">Facebook</string>
 </resources>
