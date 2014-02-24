@@ -64,7 +64,7 @@
 		            android:layout_height="wrap_content"
 		            android:textColor="#F7F7F7"
 		            android:layout_marginLeft="12dip"
-		            android:textSize="16sp"/>
+		            android:textSize="14sp"/>
 		        
 		        <LinearLayout 
 		            android:id="@+id/f_detail_header_birthday_layout"

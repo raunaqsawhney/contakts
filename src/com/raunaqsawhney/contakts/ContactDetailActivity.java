@@ -1,6 +1,5 @@
 package com.raunaqsawhney.contakts;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -36,7 +34,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,14 +53,10 @@ import android.widget.Toast;
 
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.internal.bm;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -136,28 +129,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         setupQuickLinks();
         
         getContactInfo(contact_id);
-        //enableAds();
         
         Session.openActiveSessionFromCache(getBaseContext());
 
     }
-
-	private void enableAds() {
-		
-		Boolean isNetworkAvailable = checkOnlineStatus();
-
-		if (isNetworkAvailable) {
-			AdView adView = (AdView)this.findViewById(R.id.adView);
-			adView.setVisibility(View.VISIBLE);
-		    AdRequest request = new AdRequest.Builder()
-		    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-		    .addKeyword("games")
-		    .addKeyword("apps")
-		    .addKeyword("social")
-		    .build();
-		    adView.loadAd(request);
-		}
-	}
 
 	private void setupGlobalPrefs() {
 		
@@ -1020,19 +995,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(websiteTypeRaw))
                 {
                 	case 1:
-                		websiteType = "Homepage";
+                		websiteType = getString(R.string.homepage);
                 		break;
                 	case 2:
-                		websiteType = "Blog";
+                		websiteType = getString(R.string.blog);
                 		break;
                 	case 3:
-                		websiteType = "Profile";
+                		websiteType = getString(R.string.profile);
                 		break;
                 	case 4:
-                		websiteType = "Home";
+                		websiteType = getString(R.string.home);
                 		break;
                 	case 5:
-                		websiteType = "Work";
+                		websiteType = getString(R.string.work);
                 		break;
                 	case 7:
                 		websiteType = "FTP";
@@ -1198,14 +1173,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	}
                 
                 final LatLng latlng = new LatLng(latitude , longitude);
-                @SuppressWarnings("unused")
-				Marker oneMarker = googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
+				googleMap.addMarker(new MarkerOptions().position(latlng).title(addressType)); 
                 
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
                 googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
             } else {
             	Toast.makeText(getApplicationContext(), 
-                        getString(R.string.googleMapWarning), Toast.LENGTH_LONG).show();            }
+                        getString(R.string.googleMapWarning), Toast.LENGTH_LONG).show();
+            	}
 
             count++;
             if (address != null)
@@ -1479,55 +1454,55 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     	        		phoneType = getString(R.string.work);
     	        		break;
     	        	case 4:
-    	        		phoneType = "Fax (Work)";
+    	        		phoneType = getString(R.string.fax_work);
     	        		break;
     	        	case 5:
-    	        		phoneType = "Fax (Home)";
+    	        		phoneType = getString(R.string.fax_home);
     	        		break;
     	        	case 6:
-    	        		phoneType = "Pager";
+    	        		phoneType = getString(R.string.pager);
     	        		break;
     	        	case 7:
     	        		phoneType = getString(R.string.other);
     	        		break;
     	        	case 8:
-    	        		phoneType = "Callback";
+    	        		phoneType = getString(R.string.callback);
     	        		break;
     	        	case 9:
-    	        		phoneType = "Car";
+    	        		phoneType = getString(R.string.car);
     	        		break;
     	        	case 10:
-    	        		phoneType = "Company (Main)";
+    	        		phoneType = getString(R.string.company_main);
     	        		break;
     	        	case 11:
     	        		phoneType = "ISDN";
     	        		break;
     	        	case 12:
-    	        		phoneType = "Main";
+    	        		phoneType = getString(R.string.main);
     	        		break;
     	        	case 13:
     	        		phoneType = getString(R.string.other);
     	        		break;
     	        	case 14:
-    	        		phoneType = "Radio";
+    	        		phoneType = getString(R.string.radio);
     	        		break;
     	        	case 15:
-    	        		phoneType = "Telex";
+    	        		phoneType = getString(R.string.telex);
     	        		break;
     	        	case 16:
     	        		phoneType = "TTY - TDD";
     	        		break;
     	        	case 17:
-    	        		phoneType = "Work (Mobile)";
+    	        		phoneType = getString(R.string.work_mobile);
     	        		break;
     	        	case 18:
-    	        		phoneType = "Work (Pager)";
+    	        		phoneType = getString(R.string.work_pager);
     	        		break;
     	        	case 19:
-    	        		phoneType = "Assisstant";
+    	        		phoneType = getString(R.string.assistant);
     	        		break;
     	        	case 20:
-    	        		phoneType = "MMS";
+    	        		phoneType = getString(R.string.mms);
     	        		break;
                 }
             } catch (NumberFormatException e) {

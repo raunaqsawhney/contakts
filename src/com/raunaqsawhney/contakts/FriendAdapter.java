@@ -37,33 +37,31 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> implements Filterable{
 	private ImageLoader imageLoader;
 	DisplayImageOptions options;
 
-	private Context mContext;
 	
 	public FriendAdapter(Context context, ArrayList<fbFriend> friendList) {
 	       super(context, R.layout.fb_friend_layout, friendList);
 	       this.items = friendList;
            cloneItems(friendList);
            
-	        mContext = context;
-
-	        filter = new MyFilter();
+	       filter = new MyFilter();
 	       
-	        this.imageLoader = ImageLoader.getInstance();
+	       this.imageLoader = ImageLoader.getInstance();
 	        
-	         options = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.ic_contact_picture)
-            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
-            .build();
+	       options = new DisplayImageOptions.Builder()
+           .showImageOnLoading(R.drawable.ic_contact_picture)
+           .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
+           .build();
 	        
-	        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-	        .discCacheExtraOptions(100, 100, CompressFormat.PNG, 100, null)
-            .build();
-	        imageLoader.init(config);
+	       ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+	       .discCacheExtraOptions(100, 100, CompressFormat.PNG, 100, null)
+           .build();
+	       imageLoader.init(config);
 	}
 	
 	protected void cloneItems(ArrayList<fbFriend> items) {
-        for (Iterator iterator = items.iterator(); iterator
-        .hasNext();) {
+        for (@SuppressWarnings("rawtypes")
+		Iterator iterator = items.iterator();
+        iterator.hasNext();) {
             fbFriend friend = (fbFriend) iterator.next();
             originalItems.add(friend);
         }
@@ -184,7 +182,8 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> implements Filterable{
                 notifyDataSetChanged();
                 clear();
                 //Add the items back in
-                for (Iterator iterator = localItems.iterator(); iterator
+                for (@SuppressWarnings("rawtypes")
+				Iterator iterator = localItems.iterator(); iterator
                         .hasNext();) {
                     fbFriend friend = (fbFriend) iterator.next();
                     add(friend);

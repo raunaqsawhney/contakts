@@ -14,10 +14,8 @@ import android.widget.TextView;
 public class CustomCursorAdapter extends ResourceCursorAdapter {
 	
 	private LayoutInflater mLayoutInflater;
-    private Context mContext;
     public CustomCursorAdapter(Context context, Cursor c) {
         super(context, R.layout.lv_layout, null, false);    // cursor=null, autoRequery=false
-        mContext = context;
     }
     
 	@Override

@@ -49,6 +49,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	String fontContent;
 	String fontTitle;
 	String theme;
+
 		
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -68,9 +69,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 
 		Session.openActiveSessionFromCache(getBaseContext());
 		Session.openActiveSession(this, false, null);
-		
-		initializePayments();
+
 		setupGlobalPrefs();
+		initializePayments();
 		setupActionBar();
 		setupSlidingMenu();
 		setupColorPref();
@@ -103,12 +104,14 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 			Log.e(TAG, "Query inventory finished.");
 			if (result.isFailure()) {
 				Log.e(TAG, "Failed to query inventory: " + result);
+				
 				return;
 			} else {
 				Log.e(TAG, "Query inventory was successful.");
 				Button buyAppBtn = (Button) findViewById(R.id.buyApp);
 
 				mIsPremium = inventory.hasPurchase(ITEM_SKU);
+
 				
 				if (!mIsPremium)
 				    buyAppBtn.setVisibility(View.VISIBLE);
@@ -151,7 +154,6 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		   }    
 		}
 	};
-	
 
 	private void setupFBLogin() {
 		

@@ -110,7 +110,7 @@
 	<!-- END OF FREQ ACTIVITY -->
 	
 	<string name="friendDialogHeader">Detalhes Amigo</string>
-	<string name="friendDialogText">Aqui você pode ver todos os dados associados com um amigo no Facebook. Basta tocar em qualquer item e aprender mais sobre ele.</string>
+	<string name="friendDialogText">Aqui você pode ver todos os dados associados com um amigo no Facebook. Basta tocar em qualquer item e aprender mais sobre ele. Se houver informações de contato (telefones e e-mail) associado com um amigo, ele vai aparecer aqui.</string>
 	<string name="wish">Desejo</string>
 	<string name="happyBday">um feliz aniversário!</string>
 	<string name="usesContakts">usa Contakts</string>

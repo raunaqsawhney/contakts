@@ -24,17 +24,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class InfoActivity extends Activity implements OnItemClickListener {
 
 	private String theme;
-	private String font;
-	private String fontContent;
-	private String fontTitle;
 	
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -57,9 +52,6 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		theme = prefs.getString("theme", "#34AADC");
-        font = prefs.getString("font", null);
-        fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);	
        	
 	}
 

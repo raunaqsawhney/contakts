@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -15,8 +14,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,8 +29,6 @@ import android.widget.TextView;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -66,24 +61,6 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		setupSlidingMenu();
 		
 		createData();
-		//enableAds();
-	}
-	
-	private void enableAds() {
-		
-		Boolean isNetworkAvailable = checkOnlineStatus();
-
-		if (isNetworkAvailable) {
-			AdView adView = (AdView)this.findViewById(R.id.adView);
-			adView.setVisibility(View.VISIBLE);
-		    AdRequest request = new AdRequest.Builder()
-		    .addTestDevice("0354E8ED4FC960988640B5FD3E894FAF")
-		    .addKeyword("games")
-		    .addKeyword("apps")
-		    .addKeyword("social")
-		    .build();
-		    adView.loadAd(request);
-		}
 	}
 
 	private void setupGlobalPrefs() {
@@ -301,16 +278,6 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		   	Intent iIntent = new Intent(GraphActivity.this, InfoActivity.class);
 		   	GraphActivity.this.startActivity(iIntent);
 	   } 
-	}
-	
-	private Boolean checkOnlineStatus() {
-		ConnectivityManager CManager =
-		        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		    NetworkInfo NInfo = CManager.getActiveNetworkInfo();
-		    if (NInfo != null && NInfo.isConnectedOrConnecting()) {
-		        return true;
-		    }
-		    return false;
 	}
 	
 	@Override
