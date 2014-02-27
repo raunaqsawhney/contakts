@@ -7,9 +7,9 @@
           android:actionViewClass="android.widget.SearchView" />
     
 	<item 
-        android:id="@+id/fb_publish"
+        android:id="@+id/fb_map"
         android:showAsAction="always"
-        android:title="Share"
+        android:title="Map"
         android:icon="@drawable/ic_menu_share"/>
     
     <item 

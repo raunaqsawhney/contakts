@@ -421,11 +421,9 @@ private void initializePayments() {
 	        	FBActivity.this.startActivity(fbLogoutIntent);
 	            return true; 
 	            
-	        case R.id.fb_publish:
-	        	FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-	            .setLink("https://play.google.com/store/apps/details?id=com.raunaqsawhney.contakts")
-	            .build();
-			    uiHelper.trackPendingDialogCall(shareDialog.present());
+	        case R.id.fb_map:
+	        	Intent fbMapIntent = new Intent(FBActivity.this, FBMapActivity.class);
+	        	FBActivity.this.startActivity(fbMapIntent);
 			    return true;
 			    
 	        default:

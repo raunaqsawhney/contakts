@@ -17,6 +17,9 @@ public class fbFriend {
 	private String current_home_country;
 	private String username;
 	private String coverUrl;
+	private String curLoc;
+	private String lat;
+	private String lon;
 	
 	private ArrayList<String> phoneNumbers; 
     private ArrayList<String> emailIDs; 
@@ -25,8 +28,7 @@ public class fbFriend {
     public fbFriend() {
         phoneNumbers = new ArrayList<String>();
         emailIDs = new ArrayList<String>();
-        websites = new ArrayList<String>();
-                
+        websites = new ArrayList<String>();  
     }
     
 	//Setters
@@ -98,8 +100,19 @@ public class fbFriend {
    public void addWebsites(String website) {
        this.websites.add(website);
    	}
+   
+   public void setCurLoc(String curLoc) {
+	   this.curLoc = curLoc;
+   }
+   
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
 	
-	
+	public void setLon(String lon) {
+		this.lon = lon;
+	}
+   
     // Getters
     public String getName() {
         return name;
@@ -169,6 +182,18 @@ public class fbFriend {
     public String getWebsiteByIndex(int index) {
         return websites.get(index);
     }
+    
+    public String getCurLoc() {
+    	return curLoc;
+    }
+    
+    public String getLat() {
+    	return lat;
+    }
+    
+    public String getLon() {
+    	return lon;
+    }    
 }
 
 

@@ -819,7 +819,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 						            		
 						            }
 					            } catch (JSONException e) {
-					            	// Handled by not showing the view
+					            	e.printStackTrace();
 					            }
 					            
 					            try {

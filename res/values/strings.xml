@@ -155,12 +155,12 @@
     <string name="edit">Edit</string>
     <string name="title_activity_fbsearch">FBSearchActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="removeAds">Remove Ads</string>
+    <string name="generalHeader">General</string>
+    <string name="facebookHeader">Facebook</string>
 
-	<string name="removeAds">Remove Ads</string>
-	<string name="generalHeader">General</string>
-	<string name="facebookHeader">Facebook</string>
-    
     <!-- END OF STUFF -->
-    
-    
+
+    <string name="title_activity_fbmap">FBMapActivity</string>
+
 </resources>
