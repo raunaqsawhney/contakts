@@ -162,5 +162,6 @@
     <!-- END OF STUFF -->
 
     <string name="title_activity_fbmap">FBMapActivity</string>
+    <string name="delete">Delete</string>
 
 </resources>

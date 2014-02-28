@@ -169,4 +169,7 @@
 	<string name="removeAds">Quitar la Publicidad</string>
 	<string name="generalHeader">General</string>
 	<string name="facebookHeader">Facebook</string>
+	
+	<string name="delete">Borrar</string>
+	
 </resources>

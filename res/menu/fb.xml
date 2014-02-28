@@ -10,7 +10,7 @@
         android:id="@+id/fb_map"
         android:showAsAction="always"
         android:title="Map"
-        android:icon="@drawable/ic_menu_share"/>
+        android:icon="@drawable/ic_action_map"/>
     
     <item 
         android:id="@+id/fb_logout"

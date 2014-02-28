@@ -74,7 +74,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fav_activity);
         
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -176,7 +176,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         

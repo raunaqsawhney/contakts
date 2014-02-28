@@ -20,6 +20,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
@@ -1046,6 +1047,12 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.friend_detail, menu);
+		
+		if(!isAppInstalled("com.whatsapp")) {
+			MenuItem item = menu.findItem(R.id.menu_whatsapp);
+        	item.setVisible(false);
+        	this.invalidateOptionsMenu();
+        }
 		return true;
 	}
 	
@@ -1141,5 +1148,17 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	public void call(Session session, SessionState state, Exception exception) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private boolean isAppInstalled(String packageName) {
+	    PackageManager pm = getPackageManager();
+	    boolean installed = false;
+	    try {
+	       pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+	       installed = true;
+	    } catch (PackageManager.NameNotFoundException e) {
+	       installed = false;
+	    }
+	    return installed;
 	}
 }

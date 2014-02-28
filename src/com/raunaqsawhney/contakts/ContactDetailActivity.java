@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -63,6 +64,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class ContactDetailActivity extends Activity implements OnClickListener, OnItemClickListener {
     
+	String prevActivity;
 	
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -122,6 +124,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         setContentView(R.layout.activity_contact_detail);
         
         contact_id = getIntent().getStringExtra("contact_id");
+        prevActivity = getIntent().getStringExtra("activity");
+        
+        
         
         setupGlobalPrefs();
         setupActionBar();
@@ -1590,15 +1595,50 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getMenuInflater().inflate(R.menu.contact_detail, menu);
 		
 	
+		if(!isAppInstalled("com.whatsapp")) {
+			MenuItem item = menu.findItem(R.id.menu_whatsapp);
+        	item.setVisible(false);
+        	this.invalidateOptionsMenu();
+        }
+		
 	    // Return true to display menu
 	    return true;
+	}
+	
+	public void deleteContact(String lookup_key) {
+		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+		        null, null, null, null);
+		if (cur.moveToFirst()) {
+		    try{
+		        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookup_key);
+		        System.out.println("The uri is " + uri.toString());
+		        getContentResolver().delete(uri, null, null);
+		        Toast.makeText(getApplicationContext(), "Contact deleted.",
+		        		   Toast.LENGTH_SHORT).show();
+		    }
+		    catch(Exception e)
+		    {
+		        System.out.println(e.getStackTrace());
+		    }
+		}
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+		
+			case R.id.menu_delete:
+				deleteContact(lookupKey);
+				
+				Intent i = getIntent();
+				finish();
+				startActivity(i);
+				
+        	return true;
+        	
 	        case R.id.menu_edit:
+
 	    		Intent edit_intent = new Intent(Intent.ACTION_EDIT);
 	    		Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)); 
 	    		edit_intent.setData(contactUri);
@@ -1606,6 +1646,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	    		startActivity(edit_intent);
 	        	return true;
+	        	
 	        case R.id.menu_share:
 	        	Uri filePath = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
 	        	Intent share_intent = new Intent();
@@ -1958,5 +1999,18 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+
+	private boolean isAppInstalled(String packageName) {
+	    PackageManager pm = getPackageManager();
+	    boolean installed = false;
+	    try {
+	       pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+	       installed = true;
+	    } catch (PackageManager.NameNotFoundException e) {
+	       installed = false;
+	    }
+	    return installed;
 	}
 }

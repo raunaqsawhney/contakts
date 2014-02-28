@@ -76,7 +76,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -164,7 +164,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -251,6 +251,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
+                intent.putExtra("activity","google");
                 startActivity(intent);
             }
         });

@@ -99,7 +99,7 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 		uiHelper = new UiLifecycleHelper(this, null);
 	    uiHelper.onCreate(savedInstanceState);
 		
-	    initializePayments();
+	   // initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -200,7 +200,7 @@ private void initializePayments() {
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -370,14 +370,13 @@ private void initializePayments() {
 	    
 	 // Set up Action Bar       
         SearchView searchView = (SearchView) menu.findItem(R.id.fb_search).getActionView();
-        searchView.setQueryHint("Find friend");
         searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
         
         searchView.setOnQueryTextListener(this);        
         
         AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
         search_text.setTextColor(Color.WHITE);
-        search_text.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+        search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	   
         return true;
 	}

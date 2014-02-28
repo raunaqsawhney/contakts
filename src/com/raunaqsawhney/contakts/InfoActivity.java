@@ -34,6 +34,8 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	private SlidingMenu menu;
 	private ListView navListView;
 
+	private String fontTitle;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +54,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		theme = prefs.getString("theme", "#34AADC");
+		fontTitle = prefs.getString("fontTitle", null);
        	
 	}
 
@@ -60,7 +63,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         

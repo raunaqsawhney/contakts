@@ -169,4 +169,6 @@
 	<string name="removeAds">Remover as Propagandas</string>
 	<string name="generalHeader">Geral</string>
 	<string name="facebookHeader">Facebook</string>
+	
+	<string name="delete">Excluir</string>
 </resources>

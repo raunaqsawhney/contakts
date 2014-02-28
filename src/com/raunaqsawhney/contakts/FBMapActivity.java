@@ -1,5 +1,6 @@
 package com.raunaqsawhney.contakts;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +14,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.HttpMethod;
@@ -32,10 +36,12 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphObject;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -46,6 +52,7 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 	String fontContent;
 	String fontTitle;
 	String theme;
+	
 	
 	private String uid;
 	private String name;
@@ -62,7 +69,7 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 	private SlidingMenu menu;
 	
     GoogleMap googleMap;
-	
+    	
     ArrayList<fbFriend> mapFriendList = new ArrayList<fbFriend>();
 	
 	@Override
@@ -70,9 +77,13 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fbmap);
 		
+		
 		setupGlobalPrefs();
-		setupActionBar();
-		setupSlidingMenu();
+		//setupActionBar();
+		
+		getActionBar().hide();
+
+		//setupSlidingMenu();
 		startfb();
 	}
 	
@@ -169,8 +180,9 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 	private void startfb() {
 		
 		googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.fb_map)).getMap();
+        
 		
-		String fqlQuery = "select uid, name, pic_small, current_location from user where uid in (select uid2 from friend where uid1 = me()) order by name";
+		String fqlQuery = "select uid, name, pic, current_location from user where uid in (select uid2 from friend where uid1 = me()) order by name";
 		final Bundle params = new Bundle();
 		params.putString("q", fqlQuery);
 				
@@ -212,7 +224,7 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 
 					            uid     = json_obj.getString("uid");
 					            name   	= json_obj.getString("name");
-					            urlImg 	= json_obj.getString("pic_small");
+					            urlImg 	= json_obj.getString("pic");
 						            
 					            try {
 						            lat = json_obj.getJSONObject("current_location").getString("latitude") ; 
@@ -232,22 +244,15 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 					            mapFriend.setLat(lat);
 					            mapFriend.setLon(lon);
 					            
-					            LatLng latlng = null;
+					            mapFriendList.add(mapFriend);
 					            
-					            try {
-
-					            	latlng = new LatLng(Double.parseDouble(mapFriend.getLat()), Double.parseDouble(mapFriend.getLon()));
-					            	googleMap.addMarker(new MarkerOptions().position(latlng).title(mapFriend.getName())); 
-					                
-					                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-					                
-					            } catch (NullPointerException e) {
-					            	latlng = null;
-					            }
+				            	
+					            
+					            String[] myTaskParams = { name, lat, lon, urlImg, uid };
+				            	new MapTask().execute(myTaskParams);
 													            
-					            mapFriendList.add(mapFriend);			            
 					        }
-			                googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
+			                //googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
 					    }
 						
 					    catch ( Throwable t )
@@ -257,6 +262,74 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 					}
     		});
     		Request.executeBatchAsync(request);
+	}
+	
+	class MapTask extends AsyncTask <String,Void,Void> {
+		
+		Bitmap bmp;
+		String nameOfContact;
+		String latitude;
+		String longitude;
+		String urlOfImage;
+		String friend_id;
+		
+		@Override
+		protected void onPreExecute() {
+		    // TODO Auto-generated method stub
+		    super.onPreExecute();
+
+		}
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			nameOfContact = params[0];
+			latitude = params[1];
+			longitude = params[2];
+			urlOfImage = params[3];
+			friend_id = params[4];
+			
+			URL url;
+			
+			try {
+				url = new URL(urlOfImage);
+				bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+	        }
+	    return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+
+            LatLng latlng = null;
+            try {
+            	System.out.println(nameOfContact + " = " + latitude + " = " + longitude);
+            	latlng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+            	googleMap.addMarker(new MarkerOptions()
+    			.position(latlng)
+    			.title(nameOfContact)
+    			.snippet(friend_id)
+    			.icon(BitmapDescriptorFactory.fromBitmap(bmp)));   
+            	
+            	googleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+
+        			@Override
+        			public void onInfoWindowClick(Marker marker) {
+        				Intent intent = new Intent(FBMapActivity.this, FriendDetailActivity.class);
+        				intent.putExtra("friend_id", marker.getSnippet());
+        	            startActivity(intent);				
+        			}      
+                	
+                });
+            	
+            } catch (NullPointerException e) {
+            	latlng = null;
+            }                                 
+	    }
 	}
 
 	@Override

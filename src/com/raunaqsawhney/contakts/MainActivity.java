@@ -54,6 +54,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
 	// Declare Globals
 	String theme;
+	String font;
 	String fontContent;
 	String fontTitle;
 
@@ -79,7 +80,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
 
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -160,6 +161,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         theme = prefs.getString("theme", "#34AADC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
+        font = prefs.getString("font", null);
 	}
 
 	private void setupActionBar() {
@@ -167,7 +169,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -253,6 +255,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
+                intent.putExtra("activity","main");
                 startActivity(intent);
             }
         });
@@ -384,7 +387,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
         search_text.setTextColor(Color.WHITE);
-        search_text.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+        search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
         
         return true;
     }
