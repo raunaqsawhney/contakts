@@ -76,6 +76,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+
         //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
@@ -239,8 +240,11 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 
 	private void initializeLoader() {
 		
-		// Set up the ListView for contacts to be displayed
         contactList = (ListView)findViewById(R.id.list);
+        View header = getLayoutInflater().inflate(R.layout.google_header, null);
+	    contactList.addHeaderView(header, null, false);
+		
+		// Set up the ListView for contacts to be displayed
         contactList.setOnItemClickListener(new OnItemClickListener() {
             @SuppressWarnings("deprecation")
 			@Override
@@ -280,8 +284,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	    LoaderManager loaderManager = getLoaderManager();
 	    loaderManager.initLoader(0, null, this);	
 	    
-        View header = getLayoutInflater().inflate(R.layout.google_header, null);
-	    contactList.addHeaderView(header, null, false);
         contactList.setAdapter(mAdapter);
 	    
 	}
@@ -421,5 +423,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	  public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first	      
 	  }
 }

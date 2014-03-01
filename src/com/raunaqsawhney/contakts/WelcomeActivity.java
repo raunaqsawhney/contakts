@@ -52,7 +52,7 @@ public class WelcomeActivity extends Activity {
         firstRunDone = prefs.getBoolean("firstRunDone", false);
         
         if (firstRunDone) {
-        	Intent firstRunDoneIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+        	Intent firstRunDoneIntent = new Intent(WelcomeActivity.this, FavActivity.class);
   		   	WelcomeActivity.this.startActivity(firstRunDoneIntent);
   		   	finish();
         } else {
@@ -151,7 +151,7 @@ public class WelcomeActivity extends Activity {
             	mProgressBar.setIndeterminate(true);
             	
             	mProgressBar.setProgress(i);
-            	mCountDownTimer = new CountDownTimer(4000, 1000) {
+            	mCountDownTimer = new CountDownTimer(3000, 1000) {
 
             	        @Override
             	        public void onTick(long millisUntilFinished) {
@@ -163,7 +163,7 @@ public class WelcomeActivity extends Activity {
             	        public void onFinish() {
             	            i++;
             	            mProgressBar.setProgress(i);
-            	            Intent welcomeIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+            	            Intent welcomeIntent = new Intent(WelcomeActivity.this, FavActivity.class);
                   		   	WelcomeActivity.this.startActivity(welcomeIntent);
                   		   	finish();
             	        }

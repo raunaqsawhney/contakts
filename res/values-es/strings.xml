@@ -171,5 +171,11 @@
 	<string name="facebookHeader">Facebook</string>
 	
 	<string name="delete">Borrar</string>
+	<string name="dialerNotFound">Una aplicación Dialer no encontrado.</string>
+	
+	<string name="emptyFavs">Usted no tiene contactos favoritos. ¿Por qué no añadir un poco?</string>
+	<string name="emptyFavsInfo">Deslice hacia la derecha en la pantalla para abrir el menú</string>
+	
+	
 	
 </resources>

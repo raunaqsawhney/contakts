@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -38,10 +39,12 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.google.android.gms.ads.*;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
 import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
@@ -396,9 +399,17 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.menu_dial:
-	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-	    		startActivity(dialIntent);
-	            return true;    
+	        	try {
+	        		Intent iIntent = new Intent(MainActivity.this, DialerActivity.class);
+	    		   	MainActivity.this.startActivity(iIntent);
+	    		   	
+	        		//Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+		    		//startActivity(dialIntent);
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(getApplicationContext(), getString(R.string.dialerNotFound), Toast.LENGTH_LONG).show();
+	        	}
+	            return true;  
+	            
 	        case R.id.menu_add:
 	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
 	    		startActivity(addIntent);
@@ -428,6 +439,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	  public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
 	  }
 	  
 	  

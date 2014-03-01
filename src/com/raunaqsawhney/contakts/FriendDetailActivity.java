@@ -177,8 +177,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         String sortOrder = null;
         
-        Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs,
-            sortOrder);
+        Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
+        startManagingCursor(c);
         
 
         while (c.moveToNext()){
@@ -1161,4 +1161,10 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	    }
 	    return installed;
 	}
+	
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
+	  }
 }

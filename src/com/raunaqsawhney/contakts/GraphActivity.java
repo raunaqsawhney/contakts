@@ -197,11 +197,12 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 5)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
 
 	    try {
 			Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
-		    
+		    startManagingCursor(cursor);
+			
 		    while (cursor.moveToNext() && count != 9) {
 		    	
 		    	FreqContact curFreqContact = new FreqContact();
@@ -290,6 +291,12 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	  public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
 	  }
 
 }

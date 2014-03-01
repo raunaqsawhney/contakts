@@ -163,5 +163,9 @@
 
     <string name="title_activity_fbmap">FBMapActivity</string>
     <string name="delete">Delete</string>
-
+    <string name="dialerNotFound">A Dialer application not found.</string>
+    
+    <string name="emptyFavs">You do not have any favourite contacts. Why not add some?</string>
+    <string name="emptyFavsInfo">Swipe right on the screen to open menu</string>
+    
 </resources>

@@ -259,10 +259,11 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
 
 		Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
-
+		startManagingCursor(cursor);
+		
 	    long id = cursor.getColumnIndex(ContactsContract.Contacts._ID);
 	    
 	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
@@ -291,11 +292,14 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				startManagingCursor(cursor);
+				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
 				// Explicit Intent Example
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
+                intent.putExtra("activity","most");
                 startActivity(intent);
 		        
             }
@@ -392,5 +396,11 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	  public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
 	  }
 }

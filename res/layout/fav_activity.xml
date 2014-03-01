@@ -40,6 +40,35 @@
   
 	</LinearLayout>
     
+    <TextView 
+        android:id="@+id/emptyFavs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="50dip"
+        android:textSize="22sp"
+        android:textColor="#8E8E93"
+        android:text="@string/emptyFavs"
+        android:visibility="gone"/>
+    
+	<TextView 
+        android:id="@+id/emptyFavsInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="20dip"
+        android:textSize="14sp"
+        android:textColor="#8E8E93"
+        android:text="@string/emptyFavsInfo"
+        android:visibility="gone"/>
     
     <GridView 
 	    android:id="@+id/favGrid"

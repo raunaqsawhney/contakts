@@ -69,6 +69,8 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
 	boolean mIsPremium = false;
 	
+	GridView favGrid;
+	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +81,26 @@ public class FavActivity extends Activity implements OnItemClickListener{
         setupActionBar();
         setupSlidingMenu();
         setupFavList();
-        
+
 		Session.openActiveSessionFromCache(getBaseContext());
 		
    }
    
-   private void initializePayments() {
+   private void checkIfGridEmpty() {
+       favGrid = (GridView) findViewById(R.id.favGrid);
+	   TextView emptyFavs = (TextView) findViewById(R.id.emptyFavs);
+	   TextView emptyFavsInfo = (TextView) findViewById(R.id.emptyFavsInfo);
+
+	   if (favGrid.getAdapter().isEmpty()) {
+		   emptyFavs.setVisibility(View.VISIBLE); 
+		   emptyFavsInfo.setVisibility(View.VISIBLE); 
+	   } else {
+		   emptyFavs.setVisibility(View.GONE);
+		   emptyFavsInfo.setVisibility(View.GONE); 
+	   }
+   }
+
+private void initializePayments() {
 		
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
 	       
@@ -246,6 +262,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
+		
+		
+		
 		navListView.setOnItemClickListener(this);	
 		
 	}
@@ -253,6 +272,8 @@ public class FavActivity extends Activity implements OnItemClickListener{
 
 	private void setupFavList() {
 		
+        favGrid = (GridView) findViewById(R.id.favGrid);
+
 		ImageView favIcon = (ImageView) findViewById(R.id.fav_photo);
 		
 		Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
@@ -267,7 +288,9 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	    String selection = ContactsContract.Contacts.STARRED + "='1'";
 
 	    Cursor cursor = getContentResolver().query(queryUri, projection, selection,null,null);
-
+	    startManagingCursor(cursor);
+	    
+	    
 	    long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
 	    
 	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
@@ -291,7 +314,6 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	            to,
 	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		
-        GridView favGrid = (GridView) findViewById(R.id.favGrid);
         
         favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 
@@ -313,6 +335,8 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		                public void onClick(DialogInterface dialog, int which) {
 		                	
 		                	Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+		                	startManagingCursor(cursor);
+		                	
 		    				String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 		                	
 		                    String[] fv = new String[] { displayName };
@@ -338,17 +362,21 @@ public class FavActivity extends Activity implements OnItemClickListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				startManagingCursor(cursor);
+				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
 				// Explicit Intent Example
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
+                intent.putExtra("activity","fav");
                 startActivity(intent);
 		        
             }
         });
         
         favGrid.setAdapter(adapter);
+        checkIfGridEmpty();
    }
 
 	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
@@ -432,5 +460,11 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	  public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
 	  }
 }

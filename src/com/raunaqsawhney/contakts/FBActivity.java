@@ -516,14 +516,18 @@ private void initializePayments() {
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
-		if (TextUtils.isEmpty(newText)) {
-	        adapter.getFilter().filter("");
-	        Log.i("Friend", "onQueryTextChange Empty String");
-	        fbListView.clearTextFilter();
-	    } else {
-	        Log.i("friend", "onQueryTextChange " + newText.toString());
-	        adapter.getFilter().filter(newText.toString());
-	    }
+		try {
+			if (TextUtils.isEmpty(newText)) {
+		        adapter.getFilter().filter("");
+		        Log.i("Friend", "onQueryTextChange Empty String");
+		        fbListView.clearTextFilter();
+		    } else {
+		        Log.i("friend", "onQueryTextChange " + newText.toString());
+		        adapter.getFilter().filter(newText.toString());
+		    }
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 	    return true;
 	}
 

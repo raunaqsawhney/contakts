@@ -249,4 +249,10 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
+	  }
 }

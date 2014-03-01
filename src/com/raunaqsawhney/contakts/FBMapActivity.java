@@ -344,5 +344,11 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+  @Override
+  public void onResume() {
+      super.onResume();  // Always call the superclass method first
 
+  }
+  
 }

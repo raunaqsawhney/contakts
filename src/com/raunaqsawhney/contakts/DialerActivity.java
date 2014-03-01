@@ -50,9 +50,9 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	String fontContent;
 	String fontTitle;
 	
-    static final Pattern CODE_PATTERN = Pattern.compile("([0-9]{0,4})|([0-9]{4}-)+|([0-9]{4}-[0-9]{0,4})+");
-
+	Vibrator vibe;
 	
+
 	private SlidingMenu menu;
 	private ListView navListView;
 
@@ -60,9 +60,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dialer);
-		
-	    getActionBar().hide();
-
 		
 		setupGlobalPrefs();
         setupActionBar();
@@ -72,53 +69,54 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	}
 	
 	private void initalizeDialer() {
-		Button oneBtn = (Button) findViewById(R.id.one);
+		final Button oneBtn = (Button) findViewById(R.id.one);
 		oneBtn.setTextColor(Color.parseColor(theme));
 		
-		Button twoBtn = (Button) findViewById(R.id.two);
+		final Button twoBtn = (Button) findViewById(R.id.two);
 		twoBtn.setTextColor(Color.parseColor(theme));
 
-		Button threeBtn = (Button) findViewById(R.id.three);
+		final Button threeBtn = (Button) findViewById(R.id.three);
 		threeBtn.setTextColor(Color.parseColor(theme));
 
-		Button fourBtn = (Button) findViewById(R.id.four);
+		final Button fourBtn = (Button) findViewById(R.id.four);
 		fourBtn.setTextColor(Color.parseColor(theme));
 
-		Button fiveBtn = (Button) findViewById(R.id.five);
+		final Button fiveBtn = (Button) findViewById(R.id.five);
 		fiveBtn.setTextColor(Color.parseColor(theme));
 
-		Button sixBtn = (Button) findViewById(R.id.six);
+		final Button sixBtn = (Button) findViewById(R.id.six);
 		sixBtn.setTextColor(Color.parseColor(theme));
 
-		Button sevenBtn = (Button) findViewById(R.id.seven);
+		final Button sevenBtn = (Button) findViewById(R.id.seven);
 		sevenBtn.setTextColor(Color.parseColor(theme));
 
-		Button eightBtn = (Button) findViewById(R.id.eight);
+		final Button eightBtn = (Button) findViewById(R.id.eight);
 		eightBtn.setTextColor(Color.parseColor(theme));
 
-		Button nineBtn = (Button) findViewById(R.id.nine);
+		final Button nineBtn = (Button) findViewById(R.id.nine);
 		nineBtn.setTextColor(Color.parseColor(theme));
 
-		Button starBtn = (Button) findViewById(R.id.star);
+		final Button starBtn = (Button) findViewById(R.id.star);
 		starBtn.setTextColor(Color.parseColor(theme));
 
-		Button zeroBtn = (Button) findViewById(R.id.zero);
+		final Button zeroBtn = (Button) findViewById(R.id.zero);
 		zeroBtn.setTextColor(Color.parseColor(theme));
 
-		Button hashBtn = (Button) findViewById(R.id.hash);
+		final Button hashBtn = (Button) findViewById(R.id.hash);
 		hashBtn.setTextColor(Color.parseColor(theme));
 
 		Button callBtn = (Button) findViewById(R.id.call);
 		
 		Button clearBtn = (Button) findViewById(R.id.clear);
-		clearBtn.setTextColor(Color.parseColor(theme));
+
+		vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
 
 		
-	    final EditText numberEditText = (EditText) findViewById(R.id.number);
-	    numberEditText.setTextColor(Color.parseColor(theme));
-	    numberEditText.setBackgroundColor(0);
-	    numberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-	    numberEditText.addTextChangedListener(new TextWatcher() {
+	    final TextView number = (TextView) findViewById(R.id.number);
+	    number.setTextColor(Color.parseColor(theme));
+	    number.setBackgroundColor(0);
+	    number.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+	    number.addTextChangedListener(new TextWatcher() {
 
 	        @Override
 	        public void afterTextChanged(Editable s) {
@@ -135,9 +133,9 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        @Override
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-	        	PhoneNumberUtils.formatNumber(numberEditText.getText().toString());
+	        	PhoneNumberUtils.formatNumber(number.getText().toString());
 	        	
-	        	Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(numberEditText.getText().toString()));
+	        	Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number.getText().toString()));
 	        	String[] projection = new String[]{ ContactsContract.PhoneLookup.DISPLAY_NAME,
 	        			ContactsContract.PhoneLookup._ID,
 	        			ContactsContract.PhoneLookup.NUMBER,
@@ -145,6 +143,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        	
 	        	String selection = ContactsContract.PhoneLookup.DISPLAY_NAME;
 	        	Cursor cursor = getApplicationContext().getContentResolver().query(uri, projection, selection, null, null);
+	        	startManagingCursor(cursor);
 	        	
 	        	while(cursor.moveToNext()) {
 	        		
@@ -161,259 +160,152 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"1");
+				oneBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"1");
+				vibe.vibrate(50);
 			}		
 	    });
-	    
-	    oneBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				
-				return false;
-			}
-			
-			
-		});
 	    
 	    twoBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"2");				
+				twoBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"2");	
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    twoBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				
-				return false;
-			}
-		});
 	    
 	    threeBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"3");
+				threeBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"3");
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    threeBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    fourBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"4");				
+				fourBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"4");
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    fourBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    fiveBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"5");				
+				fiveBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"5");	
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    fiveBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    sixBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"6");				
+				sixBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"6");		
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    sixBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    sevenBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"7");
-				
-			}		
-	    	
-	    });
-	    
-	    sevenBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
+				sevenBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"7");
 				vibe.vibrate(50);
-				return false;
-			}
-		});
-	    
+			}		
+	    });
+
 	    eightBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"8");				
+				eightBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"8");	
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    eightBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    nineBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"9");				
+				nineBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"9");
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    nineBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    starBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"*");				
+				starBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"*");				
 			}		
 	    	
 	    });
-	    
-	    starBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    zeroBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"0");				
+				zeroBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"0");
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    zeroBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
-	    
+
 	    hashBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText(numberEditText.getText().toString()+"#");				
+				hashBtn.setBackgroundColor(Color.LTGRAY);
+				number.setText(number.getText().toString()+"#");	
+				vibe.vibrate(50);
 			}		
 	    	
 	    });
-	    
-	    hashBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
 	    
 	    callBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				vibe.vibrate(50);
 				// TODO Auto-generated method stub
 				
 			}		
 	    });
 	    
-	    callBtn.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-			    Vibrator vibe = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE) ;
-				vibe.vibrate(50);
-				return false;
-			}
-		});
-	    
-	    
 	    clearBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				numberEditText.setText((Spanned)numberEditText.getText().delete(numberEditText.length() - 1, numberEditText.length()));
+				try {
+					String contents = number.getText().toString();
+					number.setText(contents.substring(0, contents.length()-1));
+					vibe.vibrate(50);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				}
 			}		
 	    });
 	}
@@ -558,5 +450,11 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		   	DialerActivity.this.startActivity(iIntent);
 	   } 
 	}
+	
+  @Override
+  public void onResume() {
+      super.onResume();  // Always call the superclass method first
+
+  }
 
 }

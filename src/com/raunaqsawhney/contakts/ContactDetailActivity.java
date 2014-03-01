@@ -126,7 +126,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         contact_id = getIntent().getStringExtra("contact_id");
         prevActivity = getIntent().getStringExtra("activity");
         
-        
+        System.out.println("PREVIOUS ACTIVITY: " + prevActivity);
         
         setupGlobalPrefs();
         setupActionBar();
@@ -435,7 +435,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.STARRED};
 
-	    final Cursor cursor = getContentResolver().query(
+	    Cursor cursor = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            projection,
 	            ContactsContract.Contacts._ID + "=?",
@@ -484,6 +484,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID + "=?",
 	            new String[]{contact_id},
 	            null);
+		startManagingCursor(cursor);
  
 		while (cursor.moveToNext()) {
 	        lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
@@ -1611,8 +1612,26 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		if (cur.moveToFirst()) {
 		    try{
 		        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookup_key);
-		        System.out.println("The uri is " + uri.toString());
 		        getContentResolver().delete(uri, null, null);
+		        System.out.println("^^^^PREVIOUS ACTIVITY: " + prevActivity);
+
+		        if (prevActivity.equals("google")) {
+					Intent myIntent_g = new Intent(getApplicationContext(), GoogleActivity.class);
+					finish();
+					startActivity(myIntent_g);
+				} else if(prevActivity.equals("main")) {
+					Intent myIntent_m = new Intent(getApplicationContext(), MainActivity.class);
+					finish();
+					startActivity(myIntent_m);
+				} else if(prevActivity.equals("most")) {
+					Intent myIntent_mo = new Intent(getApplicationContext(), FrequentActivity.class);
+					finish();
+					startActivity(myIntent_mo);
+				} else if(prevActivity.equals("fav")) {
+					Intent myIntent_f = new Intent(getApplicationContext(), FavActivity.class);
+					finish();
+					startActivity(myIntent_f);
+				}
 		        Toast.makeText(getApplicationContext(), "Contact deleted.",
 		        		   Toast.LENGTH_SHORT).show();
 		    }
@@ -1630,11 +1649,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
 			case R.id.menu_delete:
 				deleteContact(lookupKey);
-				
-				Intent i = getIntent();
-				finish();
-				startActivity(i);
-				
+						
         	return true;
         	
 	        case R.id.menu_edit:
@@ -2013,4 +2028,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	    }
 	    return installed;
 	}
+	
+  @Override
+  public void onResume() {
+      super.onResume();  // Always call the superclass method first
+
+  }
 }

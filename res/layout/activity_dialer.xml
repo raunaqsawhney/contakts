@@ -15,28 +15,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         
-        <EditText
+        <TextView
 	        android:id="@+id/number"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:cursorVisible="false"
 	        android:fontFamily="sans-serif-light"
 	        android:inputType="phone"
 	        android:paddingTop="30dip"
 	        android:textColor="#FFF"
-	        android:layout_weight="0.9"
 	        android:textSize="36sp" />
-        
-        <Button
-            android:id="@+id/clear"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1" 
-            android:fontFamily="sans-serif-condensed"
-            android:background="@android:color/transparent"
-            android:textSize="24sp"
-            android:textColor="#FFF"
-            android:text="x"/>
 
     </LinearLayout>
     
@@ -269,23 +256,30 @@
 	        android:id="@+id/call"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:paddingBottom="10dip"
 	        android:paddingLeft="20dip"
-	        android:paddingRight="20dip"
-	        android:paddingTop="10dip"
+	        android:paddingRight="10dip"
 	        android:layout_marginTop="30dip"
 	        android:layout_weight="0.9"
 	        android:background="#DD4CD964"
 	        android:fontFamily="sans-serif-condensed"
             android:textSize="24sp"
             android:textColor="#FFF"
-	        
 	        android:text="Call" />
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dip"
+            android:layout_weight="0.1"
+            android:background="#DDFF5E3A"
+            android:fontFamily="sans-serif-condensed"
+            android:paddingLeft="10dip"
+            android:paddingRight="20dip"
+            android:text="Clear"
+            android:textColor="#FFF"
+            android:textSize="24sp" />
         
     </LinearLayout>
         
-    
-
-
-
 </RelativeLayout>

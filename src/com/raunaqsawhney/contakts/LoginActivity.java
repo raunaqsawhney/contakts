@@ -292,20 +292,27 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
     	final ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
 		colorPickerDialog.initialize(R.string.color_dialog_title, new int[] { 
 				Color.parseColor("#34AADC"),
+				Color.parseColor("#18A7B5"),
 				Color.parseColor("#8E8E93"),
 				Color.parseColor("#FF2D55"),
+				Color.parseColor("#FF4981"),
 				Color.parseColor("#FF3B30"),
 				Color.parseColor("#FF9500"),
 				Color.parseColor("#FFCC00"),
+				Color.parseColor("#0BD318"),
 				Color.parseColor("#4CD964"),
 				Color.parseColor("#007AFF"),
-				Color.parseColor("#5856D6")}, Color.parseColor(theme), 3, 2);
+				Color.parseColor("#5856D6"),
+				Color.parseColor("#C86EDF"),
+				Color.parseColor("#C644FC"),
+				Color.parseColor("#1F1F21")}, Color.parseColor(theme), 3, 2);
 		
 		colorPickerDialog.setOnColorSelectedListener(new OnColorSelectedListener() {
 
 			@Override
 			public void onColorSelected(int color) {
-				
+						
+				System.out.println(color);
 				String themeColor = null;
 				
 				if (color == -13325604) {
@@ -326,6 +333,18 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 					themeColor = "#007AFF";
 				} else if (color == -10987818) {
 					themeColor = "#5856D6";
+				} else if (color == -15161419) {
+					themeColor = "#18A7B5";
+				} else if (color == -16002280) {
+					themeColor = "#0BD318";
+				} else if (color == -3641633) {
+					themeColor = "#C86EDF";
+				} else if (color == -46719) {
+					themeColor = "#FF4981";
+				} else if (color == -14737631) {
+					themeColor = "#1F1F21";
+				} else if (color == -3783428) {
+					themeColor = "#C644FC";
 				}
 				
 				edit.putString("theme", themeColor);
@@ -411,5 +430,11 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	  public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+
 	  }
 }
