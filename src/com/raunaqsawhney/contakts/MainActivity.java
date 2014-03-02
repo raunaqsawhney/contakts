@@ -83,7 +83,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
 
-        //initializePayments();
+        initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();

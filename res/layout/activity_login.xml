@@ -45,6 +45,14 @@
         android:text="@string/removeAds"
         android:textColor="@android:color/white"
         android:layout_marginTop="20dip" />
+
+    <CheckBox
+        android:id="@+id/enableWhatsApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/enableWhatsApp"
+        android:layout_marginTop="10dip"  />
     
     <TextView 
         android:id="@+id/facebook"

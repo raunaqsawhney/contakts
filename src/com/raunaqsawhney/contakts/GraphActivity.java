@@ -55,7 +55,8 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_graph);
-		
+        getActionBar().setHomeButtonEnabled(true);
+
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -112,7 +113,8 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	        
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
-        }			
+        }	
+        
 	}
 
 	private void setupSlidingMenu() {

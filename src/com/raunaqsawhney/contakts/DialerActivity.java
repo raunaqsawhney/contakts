@@ -93,49 +93,49 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		final Button twoBtn = (Button) findViewById(R.id.two);
 		twoBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString twoText = new SpannableString("2  ABC"); 
-	    twoText.setSpan(new RelativeSizeSpan(0.5f), 3, 6, 0);  
+	    twoText.setSpan(new RelativeSizeSpan(0.4f), 3, 6, 0);  
 	    twoBtn.setText(twoText);
 
 		final Button threeBtn = (Button) findViewById(R.id.three);
 		threeBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString threeText = new SpannableString("3  DEF"); 
-	    threeText.setSpan(new RelativeSizeSpan(0.5f), 3, 6, 0);  
+	    threeText.setSpan(new RelativeSizeSpan(0.4f), 3, 6, 0);  
 	    threeBtn.setText(threeText);
 
 		final Button fourBtn = (Button) findViewById(R.id.four);
 		fourBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString fourText = new SpannableString("4  GHI"); 
-	    fourText.setSpan(new RelativeSizeSpan(0.5f), 3, 6, 0);  
+	    fourText.setSpan(new RelativeSizeSpan(0.4f), 3, 6, 0);  
 	    fourBtn.setText(fourText);
 
 		final Button fiveBtn = (Button) findViewById(R.id.five);
 		fiveBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString fiveText = new SpannableString("5  JKL"); 
-	    fiveText.setSpan(new RelativeSizeSpan(0.5f), 3, 6, 0);  
+	    fiveText.setSpan(new RelativeSizeSpan(0.4f), 3, 6, 0);  
 	    fiveBtn.setText(fiveText);
 
 		final Button sixBtn = (Button) findViewById(R.id.six);
 		sixBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString sixText = new SpannableString("6  MNO"); 
-	    sixText.setSpan(new RelativeSizeSpan(0.5f), 3, 6, 0);  
+	    sixText.setSpan(new RelativeSizeSpan(0.4f), 3, 6, 0);  
 	    sixBtn.setText(sixText);
 
 		final Button sevenBtn = (Button) findViewById(R.id.seven);
 		sevenBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString sevenText = new SpannableString("7  PQRS"); 
-	    sevenText.setSpan(new RelativeSizeSpan(0.5f), 3, 7, 0);  
+	    sevenText.setSpan(new RelativeSizeSpan(0.4f), 3, 7, 0);  
 	    sevenBtn.setText(sevenText);
 
 		final Button eightBtn = (Button) findViewById(R.id.eight);
 		eightBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString eightText = new SpannableString("8  TUV"); 
-	    eightText.setSpan(new RelativeSizeSpan(0.5f), 3, 6, 0);  
+	    eightText.setSpan(new RelativeSizeSpan(0.4f), 3, 6, 0);  
 	    eightBtn.setText(eightText);
 
 		final Button nineBtn = (Button) findViewById(R.id.nine);
 		nineBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString nineText = new SpannableString("9  WXYZ"); 
-	    nineText.setSpan(new RelativeSizeSpan(0.5f), 3, 7, 0);  
+	    nineText.setSpan(new RelativeSizeSpan(0.4f), 3, 7, 0);  
 	    nineBtn.setText(nineText);
 
 		final Button starBtn = (Button) findViewById(R.id.star);
@@ -144,7 +144,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		final Button zeroBtn = (Button) findViewById(R.id.zero);
 		zeroBtn.setTextColor(Color.parseColor(theme));
 	    SpannableString zeroText = new SpannableString("0  +"); 
-	    zeroText.setSpan(new RelativeSizeSpan(0.5f), 3, 4, 0);  
+	    zeroText.setSpan(new RelativeSizeSpan(0.4f), 3, 4, 0);  
 	    zeroBtn.setText(zeroText);
 
 		final Button hashBtn = (Button) findViewById(R.id.hash);
@@ -178,130 +178,137 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 //	        	PhoneNumberUtils.formatNumber(number.getText().toString());
-	        	number.setInputType(InputType.TYPE_CLASS_PHONE);
 	        	
-	        	Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number.getText().toString()));
-	        	String[] projection = new String[]{ ContactsContract.PhoneLookup.DISPLAY_NAME,
-	        			ContactsContract.PhoneLookup._ID,
-	        			ContactsContract.PhoneLookup.NUMBER,
-	        			ContactsContract.PhoneLookup.TYPE,
-	        			ContactsContract.PhoneLookup.PHOTO_URI};
-	        	
-	        	String selection = ContactsContract.PhoneLookup.DISPLAY_NAME;
-	        	cursor = getApplicationContext().getContentResolver().query(uri, projection, selection, null, null);
-	        	startManagingCursor(cursor);
-	        	
-	        	if(cursor.moveToFirst()) {
-	        		
-	        		contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup._ID));
-	        		name = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
-	        		String phoneTypeRaw = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.TYPE));
-	        		
-	        		try {
-	                	switch(Integer.parseInt(phoneTypeRaw))
-	                    {
-	        	        	case 1:
-	        	        		type = getString(R.string.home);
-	        	        		break;
-	        	        	case 2:
-	        	        		type = getString(R.string.mobile);
-	        	        		break;
-	        	        	case 3:
-	        	        		type = getString(R.string.work);
-	        	        		break;
-	        	        	case 4:
-	        	        		type = getString(R.string.fax_work);
-	        	        		break;
-	        	        	case 5:
-	        	        		type = getString(R.string.fax_home);
-	        	        		break;
-	        	        	case 6:
-	        	        		type = getString(R.string.pager);
-	        	        		break;
-	        	        	case 7:
-	        	        		type = getString(R.string.other);
-	        	        		break;
-	        	        	case 8:
-	        	        		type = getString(R.string.callback);
-	        	        		break;
-	        	        	case 9:
-	        	        		type = getString(R.string.car);
-	        	        		break;
-	        	        	case 10:
-	        	        		type = getString(R.string.company_main);
-	        	        		break;
-	        	        	case 11:
-	        	        		type = "ISDN";
-	        	        		break;
-	        	        	case 12:
-	        	        		type = getString(R.string.main);
-	        	        		break;
-	        	        	case 13:
-	        	        		type = getString(R.string.other);
-	        	        		break;
-	        	        	case 14:
-	        	        		type = getString(R.string.radio);
-	        	        		break;
-	        	        	case 15:
-	        	        		type = getString(R.string.telex);
-	        	        		break;
-	        	        	case 16:
-	        	        		type = "TTY - TDD";
-	        	        		break;
-	        	        	case 17:
-	        	        		type = getString(R.string.work_mobile);
-	        	        		break;
-	        	        	case 18:
-	        	        		type = getString(R.string.work_pager);
-	        	        		break;
-	        	        	case 19:
-	        	        		type = getString(R.string.assistant);
-	        	        		break;
-	        	        	case 20:
-	        	        		type = getString(R.string.mms);
-	        	        		break;
-	                    }
-	                } catch (NumberFormatException e) {
-	                	type = getString(R.string.other);
-	                }
-	        		
-	        		dialerLayout = (LinearLayout) findViewById(R.id.dialerLayout);
-	        		
-	        		InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),
-	                        ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)));
-	                
-	                try {
-	                	if (inputStream != null) {
-	                    	
-	                		Bitmap bitmap = BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 20);
-	                		BitmapDrawable background = new BitmapDrawable(bitmap);
-	                		dialerLayout.setBackground(background);
-	                		
-	                		oneBtn.setTextColor(Color.WHITE);
-	                		twoBtn.setTextColor(Color.WHITE);
-	                		threeBtn.setTextColor(Color.WHITE);
-	                		fourBtn.setTextColor(Color.WHITE);
-	                		fiveBtn.setTextColor(Color.WHITE);
-	                		sixBtn.setTextColor(Color.WHITE);
-	                		sevenBtn.setTextColor(Color.WHITE);
-	                		eightBtn.setTextColor(Color.WHITE);
-	                		nineBtn.setTextColor(Color.WHITE);
-	                		starBtn.setTextColor(Color.WHITE);
-	                		zeroBtn.setTextColor(Color.WHITE);
-	                		hashBtn.setTextColor(Color.WHITE);
-	                		number.setTextColor(Color.WHITE);
-	                		contactInfo.setTextColor(Color.WHITE);
-	                		
-	                		Animation mAnim = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-			        		dialerLayout.startAnimation(mAnim);	
-	        	
-	                    }
-	                } catch (OutOfMemoryError e) {
-	                	e.printStackTrace();
-	                }     
-	                
-	        		contactInfo.setText(Html.fromHtml(name + " " + "<b>" + type + "</b>"));
+	        	try {
+		        	number.setInputType(InputType.TYPE_CLASS_PHONE);
+		        	
+		        	Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number.getText().toString()));
+		        	String[] projection = new String[]{ ContactsContract.PhoneLookup.DISPLAY_NAME,
+		        			ContactsContract.PhoneLookup._ID,
+		        			ContactsContract.PhoneLookup.NUMBER,
+		        			ContactsContract.PhoneLookup.TYPE,
+		        			ContactsContract.PhoneLookup.PHOTO_URI};
+		        	
+		        	String selection = ContactsContract.PhoneLookup.DISPLAY_NAME;
+		        	cursor = getApplicationContext().getContentResolver().query(uri, projection, selection, null, null);
+		        	startManagingCursor(cursor); 
+		        	
+		        	if(cursor.moveToFirst()) {
+		        		
+		        		contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup._ID));
+		        		name = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+		        		String phoneTypeRaw = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.TYPE));
+		        		
+		        		try {
+		                	switch(Integer.parseInt(phoneTypeRaw))
+		                    {
+		        	        	case 1:
+		        	        		type = getString(R.string.home);
+		        	        		break;
+		        	        	case 2:
+		        	        		type = getString(R.string.mobile);
+		        	        		break;
+		        	        	case 3:
+		        	        		type = getString(R.string.work);
+		        	        		break;
+		        	        	case 4:
+		        	        		type = getString(R.string.fax_work);
+		        	        		break;
+		        	        	case 5:
+		        	        		type = getString(R.string.fax_home);
+		        	        		break;
+		        	        	case 6:
+		        	        		type = getString(R.string.pager);
+		        	        		break;
+		        	        	case 7:
+		        	        		type = getString(R.string.other);
+		        	        		break;
+		        	        	case 8:
+		        	        		type = getString(R.string.callback);
+		        	        		break;
+		        	        	case 9:
+		        	        		type = getString(R.string.car);
+		        	        		break;
+		        	        	case 10:
+		        	        		type = getString(R.string.company_main);
+		        	        		break;
+		        	        	case 11:
+		        	        		type = "ISDN";
+		        	        		break;
+		        	        	case 12:
+		        	        		type = getString(R.string.main);
+		        	        		break;
+		        	        	case 13:
+		        	        		type = getString(R.string.other);
+		        	        		break;
+		        	        	case 14:
+		        	        		type = getString(R.string.radio);
+		        	        		break;
+		        	        	case 15:
+		        	        		type = getString(R.string.telex);
+		        	        		break;
+		        	        	case 16:
+		        	        		type = "TTY - TDD";
+		        	        		break;
+		        	        	case 17:
+		        	        		type = getString(R.string.work_mobile);
+		        	        		break;
+		        	        	case 18:
+		        	        		type = getString(R.string.work_pager);
+		        	        		break;
+		        	        	case 19:
+		        	        		type = getString(R.string.assistant);
+		        	        		break;
+		        	        	case 20:
+		        	        		type = getString(R.string.mms);
+		        	        		break;
+		                    }
+		                } catch (NumberFormatException e) {
+		                	type = getString(R.string.other);
+		                }
+		        		
+		        		dialerLayout = (LinearLayout) findViewById(R.id.dialerLayout);
+		        		
+		        		InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),
+		                        ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)));
+		                
+		                try {
+		                	if (inputStream != null) {
+		                    	
+		                		Bitmap bitmap = BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 30);
+		                		BitmapDrawable background = new BitmapDrawable(bitmap);
+		                		dialerLayout.setBackground(background);
+		                		
+		                		oneBtn.setTextColor(Color.WHITE);
+		                		twoBtn.setTextColor(Color.WHITE);
+		                		threeBtn.setTextColor(Color.WHITE);
+		                		fourBtn.setTextColor(Color.WHITE);
+		                		fiveBtn.setTextColor(Color.WHITE);
+		                		sixBtn.setTextColor(Color.WHITE);
+		                		sevenBtn.setTextColor(Color.WHITE);
+		                		eightBtn.setTextColor(Color.WHITE);
+		                		nineBtn.setTextColor(Color.WHITE);
+		                		starBtn.setTextColor(Color.WHITE);
+		                		zeroBtn.setTextColor(Color.WHITE);
+		                		hashBtn.setTextColor(Color.WHITE);
+		                		number.setTextColor(Color.WHITE);
+		                		contactInfo.setTextColor(Color.WHITE);
+		                			                		
+		                		Animation mAnim = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+				        		dialerLayout.startAnimation(mAnim);	
+		        	
+		                    }
+		                } catch (OutOfMemoryError e) {
+		                	e.printStackTrace();
+		                }     
+		                
+		        		contactInfo.setText(Html.fromHtml(name + " " + "<b>" + type + "</b>"));
 
+		        	}
+	        	} catch (IllegalArgumentException e) {
+	        		e.printStackTrace();
+	        	} catch (NullPointerException f) {
+	        		f.printStackTrace();
 	        	}
 	        } 
 	    });
@@ -458,8 +465,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				
-	        	number.setInputType(InputType.TYPE_CLASS_PHONE);
-				
         		oneBtn.setTextColor(Color.parseColor(theme));
         		twoBtn.setTextColor(Color.parseColor(theme));
         		threeBtn.setTextColor(Color.parseColor(theme));
@@ -473,6 +478,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         		zeroBtn.setTextColor(Color.parseColor(theme));
         		hashBtn.setTextColor(Color.parseColor(theme));
         		number.setTextColor(Color.parseColor(theme));
+        		contactInfo.setTextColor(Color.BLACK);
         		
 	            clearBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
@@ -511,13 +517,14 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         		zeroBtn.setTextColor(Color.parseColor(theme));
         		hashBtn.setTextColor(Color.parseColor(theme));
         		number.setTextColor(Color.parseColor(theme));
-        		
+        		contactInfo.setTextColor(Color.BLACK);
+
 	            clearBtn.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-				dialerLayout.setBackgroundColor(Color.WHITE);
 
 				try {
 					number.setText("");
-
+					dialerLayout.setBackgroundColor(Color.WHITE);
+					
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (StringIndexOutOfBoundsException d) {
@@ -530,7 +537,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	    });
 	}
 	
-
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

@@ -176,9 +176,13 @@
 	<string name="emptyFavs">Usted no tiene contactos favoritos. ¿Por qué no añadir un poco?</string>
 	<string name="emptyFavsInfo">Deslice hacia la derecha en la pantalla para abrir el menú</string>
 	
+	<string name="hello">¡Hola</string>
+	<string name="enableWhatsApp">Habilitar la integración WhatsApp</string>
+	
 	<!-- DIALER -->
 	<string name="call">Teléfono</string>
     <string name="clear">Borrar</string>
+    <string name="cancel">Cancelar</string>
 	
 	
 </resources>

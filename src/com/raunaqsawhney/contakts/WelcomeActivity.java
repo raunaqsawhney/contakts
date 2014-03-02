@@ -69,7 +69,7 @@ public class WelcomeActivity extends Activity {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), "Harabara.ttf"));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -119,9 +119,9 @@ public class WelcomeActivity extends Activity {
         TextView ownerTV = (TextView) findViewById(R.id.c_welcome_text);
         
         if (ownerName == null)
-            ownerTV.setText("Hello!");
+            ownerTV.setText(getString(R.string.hello) + "!");
         else 
-            ownerTV.setText("Hello, " + ownerName +"!");
+            ownerTV.setText(getString(R.string.hello) + ", " + ownerName +"!");
 
         ImageView ownerIV = (ImageView) findViewById(R.id.c_welcome_photo);
         try {

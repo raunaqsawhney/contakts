@@ -18,9 +18,11 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +51,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	String fontContent;
 	String fontTitle;
 	String theme;
-
+	Boolean isWhatsAppEnabled = false;
 		
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -60,7 +62,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	IabHelper mHelper;
 	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
 	boolean mIsPremium = false;
-
+	
+	CheckBox whatsApp;
+	
+	SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +75,28 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		Session.openActiveSessionFromCache(getBaseContext());
 		Session.openActiveSession(this, false, null);
 
+		whatsApp = (CheckBox) findViewById(R.id.enableWhatsApp);
+
 		setupGlobalPrefs();
 		initializePayments();
 		setupActionBar();
 		setupSlidingMenu();
 		setupColorPref();
 		setupFBLogin();
+		
+		whatsApp.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (whatsApp.isChecked()) {
+					edit.putBoolean("whatsAppEnabled", true);
+					edit.apply();
+				} else {
+					edit.putBoolean("whatsAppEnabled", false);
+					edit.apply();
+				}
+			}
+		});
 		
  	}
 	
@@ -183,12 +204,17 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 
 	private void setupGlobalPrefs() {
 		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
         theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
+        isWhatsAppEnabled = prefs.getBoolean("whatsAppEnabled", false);
         
+        if (isWhatsAppEnabled) 
+        	whatsApp.setChecked(true);
+        else 
+        	whatsApp.setChecked(false);
 	}
 	
 	private void setupActionBar() {

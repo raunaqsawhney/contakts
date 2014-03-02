@@ -6,11 +6,14 @@
           android:showAsAction="collapseActionView|ifRoom"
           android:actionViewClass="android.widget.SearchView" />
     
-	<item 
+    <!-- 
+    	<item 
         android:id="@+id/fb_map"
         android:showAsAction="always"
         android:title="Map"
         android:icon="@drawable/ic_action_map"/>
+     -->
+
     
     <item 
         android:id="@+id/fb_logout"

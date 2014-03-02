@@ -77,7 +77,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setContentView(R.layout.activity_main);
         
 
-        //initializePayments();
+        initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -362,8 +362,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
         	case R.id.menu_dial:
-        		Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-        		startActivity(dialIntent);
+        		Intent dialIntent = new Intent(GoogleActivity.this, DialerActivity.class);
+    		   	GoogleActivity.this.startActivity(dialIntent);
             return true;
 	        case R.id.menu_add:
 	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, 

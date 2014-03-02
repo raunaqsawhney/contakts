@@ -116,6 +116,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     
     GoogleMap googleMap;
 	boolean firstRunDoneConDet;
+	
+	Boolean isWhatsAppEnabled = false;
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,7 +128,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         contact_id = getIntent().getStringExtra("contact_id");
         prevActivity = getIntent().getStringExtra("activity");
         
-        System.out.println("PREVIOUS ACTIVITY: " + prevActivity);
         
         setupGlobalPrefs();
         setupActionBar();
@@ -148,7 +149,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		theme = prefs.getString("theme", "#34AADC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
-        fontTitle = prefs.getString("fontTitle", null);	
+        fontTitle = prefs.getString("fontTitle", null);
+        isWhatsAppEnabled = prefs.getBoolean("whatsAppEnabled", false);
+
         
         firstRunDoneConDet = prefs.getBoolean("firstRunDoneConDet", false);
         if (!firstRunDoneConDet) {
@@ -1596,7 +1599,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getMenuInflater().inflate(R.menu.contact_detail, menu);
 		
 	
-		if(!isAppInstalled("com.whatsapp")) {
+		if(!isAppInstalled("com.whatsapp") || !isWhatsAppEnabled) {
 			MenuItem item = menu.findItem(R.id.menu_whatsapp);
         	item.setVisible(false);
         	this.invalidateOptionsMenu();

@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -37,7 +38,6 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.ads.*;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -47,6 +47,8 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.FacebookDialog;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
 import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
@@ -99,7 +101,7 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 		uiHelper = new UiLifecycleHelper(this, null);
 	    uiHelper.onCreate(savedInstanceState);
 		
-	   // initializePayments();
+	    initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -189,7 +191,15 @@ private void initializePayments() {
         	new AlertDialog.Builder(this)
 		    .setTitle("Facebook")
 		    .setMessage(getString(R.string.fbDialogText))
-		    .setNeutralButton(getString(R.string.okay), null)
+		    .setPositiveButton(getString(R.string.settings), new OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Intent fbLoginIntent = new Intent(FBActivity.this, LoginActivity.class);
+		        	FBActivity.this.startActivity(fbLoginIntent);
+				}
+		    })
+		    .setNegativeButton(getString(R.string.cancel), null)
 		    .show();
         }
 	}
@@ -419,12 +429,12 @@ private void initializePayments() {
 	        	Intent fbLogoutIntent = new Intent(FBActivity.this, MainActivity.class);
 	        	FBActivity.this.startActivity(fbLogoutIntent);
 	            return true; 
-	            
+	        /*    
 	        case R.id.fb_map:
 	        	Intent fbMapIntent = new Intent(FBActivity.this, FBMapActivity.class);
 	        	FBActivity.this.startActivity(fbMapIntent);
 			    return true;
-			    
+			  */  
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

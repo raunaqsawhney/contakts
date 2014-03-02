@@ -127,8 +127,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	private TextView lblPhone;
 	
 	ArrayList<String> globalPhoneNumberListOfContact = new ArrayList<String>();
-
-
+	
+	Boolean isWhatsAppEnabled = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -631,6 +631,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
+        isWhatsAppEnabled = prefs.getBoolean("whatsAppEnabled", false);
         
         firstRunDoneFreDet = prefs.getBoolean("firstRunFreDet", false);
         if (!firstRunDoneFreDet) {
@@ -1048,7 +1049,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.friend_detail, menu);
 		
-		if(!isAppInstalled("com.whatsapp")) {
+		if(!isAppInstalled("com.whatsapp") || !isWhatsAppEnabled) {
 			MenuItem item = menu.findItem(R.id.menu_whatsapp);
         	item.setVisible(false);
         	this.invalidateOptionsMenu();

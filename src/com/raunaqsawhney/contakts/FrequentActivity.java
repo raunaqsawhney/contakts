@@ -71,7 +71,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_frequent);
 		
-		//initializePayments();
+		initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();

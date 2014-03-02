@@ -66,7 +66,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:layout_gravity="left"
             android:textColor="#FFF"
             android:text="1    " />
@@ -82,7 +82,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="2" />
@@ -98,7 +98,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="3" />
@@ -123,7 +123,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="4" />
@@ -139,7 +139,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="5" />
@@ -155,7 +155,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left" 
             android:text="6" />
@@ -180,7 +180,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="7" />
@@ -196,7 +196,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="8" />
@@ -212,7 +212,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left" 
             android:text="9" />
@@ -237,7 +237,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="*" />
@@ -253,7 +253,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="0" />
@@ -269,7 +269,7 @@
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="#" />
