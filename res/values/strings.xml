@@ -168,4 +168,9 @@
     <string name="emptyFavs">You do not have any favourite contacts. Why not add some?</string>
     <string name="emptyFavsInfo">Swipe right on the screen to open menu</string>
     
+    <!-- DIALER -->
+    
+    <string name="call">Call</string>
+    <string name="clear">Clear</string>
+    
 </resources>

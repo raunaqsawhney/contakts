@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -321,6 +322,9 @@ private void initializePayments() {
 			@Override
 			public boolean onItemLongClick(final AdapterView<?> parent, View view,
 					final int position, long id) {
+				
+	            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+
 				AlertDialog alertDialog = new AlertDialog.Builder(
                        FavActivity.this).create();
 				
@@ -400,8 +404,8 @@ private void initializePayments() {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.menu_dial:
-	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-	    		startActivity(dialIntent);
+        		Intent dialIntent = new Intent(FavActivity.this, DialerActivity.class);
+    		   	FavActivity.this.startActivity(dialIntent);
 	            return true;    
 	        case R.id.menu_add:
 	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);

@@ -400,8 +400,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    switch (item.getItemId()) {
 	        case R.id.menu_dial:
 	        	try {
-	        		Intent iIntent = new Intent(MainActivity.this, DialerActivity.class);
-	    		   	MainActivity.this.startActivity(iIntent);
+	        		Intent dialIntent = new Intent(MainActivity.this, DialerActivity.class);
+	    		   	MainActivity.this.startActivity(dialIntent);
 	    		   	
 	        		//Intent dialIntent = new Intent(Intent.ACTION_DIAL);
 		    		//startActivity(dialIntent);

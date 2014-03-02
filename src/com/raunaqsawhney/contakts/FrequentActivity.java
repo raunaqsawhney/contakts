@@ -363,8 +363,8 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	    	   	FrequentActivity.this.startActivity(graphIntent);
 	    	   	return true;    
 	        case R.id.menu_dial:
-	        	Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-	    		startActivity(dialIntent);
+        		Intent dialIntent = new Intent(FrequentActivity.this, DialerActivity.class);
+    		   	FrequentActivity.this.startActivity(dialIntent);
 	            return true;    
 	        case R.id.menu_add:
 	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);

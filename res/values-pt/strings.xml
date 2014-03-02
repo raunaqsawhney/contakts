@@ -176,5 +176,9 @@
 	<string name="emptyFavs">Você não possui contatos favoritos. Por que não adicionar um pouco?</string>
 	<string name="emptyInfo">Deslize para a direita na tela para abrir o menu</string>
 	
+	<!-- DIALER -->
+	
+	<string name="call">Telefone</string>
+    <string name="clear">Excluir</string>
 	
 </resources>

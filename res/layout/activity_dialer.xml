@@ -1,29 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".DialerActivity" 
-    android:id="@+id/dialerContent">
+    android:orientation="vertical"
+    android:id="@+id/dialerLayout">
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:paddingBottom="@dimen/activity_vertical_margin"
+	    android:paddingLeft="@dimen/activity_horizontal_margin"
+	    android:paddingRight="@dimen/activity_horizontal_margin"
+	    android:paddingTop="@dimen/activity_vertical_margin"
+	    tools:context=".DialerActivity" 
+	    android:id="@+id/dialerContent">
     
     <LinearLayout
         android:id="@+id/numberFieldLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         
         <TextView
 	        android:id="@+id/number"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:fontFamily="sans-serif-light"
-	        android:inputType="phone"
-	        android:paddingTop="30dip"
 	        android:textColor="#FFF"
-	        android:textSize="36sp" />
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:textSize="40sp" />
+        
+		<TextView
+	        android:id="@+id/contactInfo"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:fontFamily="sans-serif-light"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:textSize="16sp" />
 
     </LinearLayout>
     
@@ -31,7 +51,7 @@
         android:id="@+id/row1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="10dip"
         android:orientation="horizontal"
         android:layout_below="@id/numberFieldLayout">
         
@@ -45,10 +65,11 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
+            android:layout_gravity="left"
             android:textColor="#FFF"
-            android:text="1" />
+            android:text="1    " />
 	
 		<Button
             android:id="@+id/two"
@@ -60,9 +81,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="2" />
 		
 		<Button
@@ -75,9 +97,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="3" />
         
     </LinearLayout>
@@ -99,9 +122,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="4" />
 	
 		<Button
@@ -114,9 +138,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="5" />
 		
 		<Button
@@ -129,9 +154,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left" 
             android:text="6" />
         
     </LinearLayout>
@@ -153,9 +179,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="7" />
 	
 		<Button
@@ -168,9 +195,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="8" />
 		
 		<Button
@@ -183,9 +211,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left" 
             android:text="9" />
         
     </LinearLayout>
@@ -207,9 +236,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="*" />
 	
 		<Button
@@ -222,9 +252,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="0" />
 		
 		<Button
@@ -237,9 +268,10 @@
             android:paddingTop="20dip"
             android:paddingBottom="20dip"
             android:background="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="26sp"
             android:textColor="#FFF"
+            android:layout_gravity="left"
             android:text="#" />
         
     </LinearLayout>
@@ -256,30 +288,36 @@
 	        android:id="@+id/call"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:paddingLeft="20dip"
+	        android:paddingLeft="10dip"
 	        android:paddingRight="10dip"
-	        android:layout_marginTop="30dip"
+	        android:layout_marginTop="20dip"
+	        android:layout_marginRight="2.5dip"
 	        android:layout_weight="0.9"
 	        android:background="#DD4CD964"
-	        android:fontFamily="sans-serif-condensed"
-            android:textSize="24sp"
+	        android:fontFamily="sans-serif-light"
+            android:textSize="22sp"
             android:textColor="#FFF"
-	        android:text="Call" />
+	        android:text="@string/call" />
 
         <Button
             android:id="@+id/clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
+            android:layout_marginTop="20dip"
             android:layout_weight="0.1"
             android:background="#DDFF5E3A"
-            android:fontFamily="sans-serif-condensed"
-            android:paddingLeft="10dip"
-            android:paddingRight="20dip"
-            android:text="Clear"
+	        android:fontFamily="sans-serif-light"
+            android:layout_marginLeft="2.5dip"
+            android:paddingRight="10dip"
+           	android:paddingLeft="10dip"
+            android:text="@string/clear"
             android:textColor="#FFF"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
         
     </LinearLayout>
         
 </RelativeLayout>
+        
+</ScrollView>
+</LinearLayout>
+
