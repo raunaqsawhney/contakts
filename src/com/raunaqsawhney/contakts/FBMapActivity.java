@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.HttpMethod;
@@ -57,11 +56,6 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
 	private String uid;
 	private String name;
 	private String urlImg;
-	private String curLocCity;
-	private String curLocState;
-	private String curLocCountry;
-	
-	private String curLoc;
 	private String lat;
 	private String lon;
 	
@@ -97,6 +91,7 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
         fontTitle = prefs.getString("fontTitle", null);		
 	}
 
+	@SuppressWarnings("unused")
 	private void setupActionBar() {
 		
 		// Set up the Action Bar
@@ -126,6 +121,7 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
         }		
 	}
 
+	@SuppressWarnings("unused")
 	private void setupSlidingMenu() {
 		
         // Set up Sliding Menu

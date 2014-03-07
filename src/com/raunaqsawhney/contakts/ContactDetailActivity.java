@@ -43,6 +43,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -282,6 +284,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         ImageView call_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_phone);
         call_quicklink.setOnClickListener(new View.OnClickListener() {
         	
+        	int count = 0;
         	@SuppressWarnings("deprecation")
 			@Override
             public void onClick(View v) {
@@ -295,42 +298,54 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 while (phoneCur.moveToNext()) {
                     allContacts.add(phoneCur.getString(
                     		phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))); 
+                    		count++;
                 }
         		
-        		ListView lvDialog = new ListView(ContactDetailActivity.this);
-        		
-        		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
-        		lvDialog.setAdapter(arrayAdapter); 
-        		
-        		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
-        		
-        		builder.setView(lvDialog);
-        		builder.setTitle(getString(R.string.callDialogText));
-        		final Dialog dialog = builder.create();
+                if (count > 1) {
+            		ListView lvDialog = new ListView(ContactDetailActivity.this);
+            		
+            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
+            		lvDialog.setAdapter(arrayAdapter); 
+            		
+            		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
+            		
+            		builder.setView(lvDialog);
+            		builder.setTitle(getString(R.string.callDialogText));
+            		final Dialog dialog = builder.create();
 
-        		if (allContacts.isEmpty()) {
-        			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
-        		} else  {
-        			dialog.show();
-        		}
-        		
-        		lvDialog.setOnItemClickListener(new OnItemClickListener() {
-        		    @Override
-        		    public void onItemClick(AdapterView<?> parent, View view,
-        		    int position, long id) {
-        		    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
-        	            callIntent.setData(Uri.parse("tel:"+allContacts.get(position)));          
+            		if (allContacts.isEmpty()) {
+            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+            		} else  {
+            			dialog.show();
+            		}
+            		
+            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+            		    @Override
+            		    public void onItemClick(AdapterView<?> parent, View view,
+            		    int position, long id) {
+            		    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+            	            callIntent.setData(Uri.parse("tel:"+allContacts.get(position)));          
+            	            startActivity(callIntent);  
+            		        dialog.dismiss();
+
+            		    }
+            		});
+                } else {
+                	if (!allContacts.isEmpty()) {
+                    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + allContacts.get(0)));          
         	            startActivity(callIntent);  
-        		        dialog.dismiss();
-
-        		    }
-        		});
+                	} else {
+            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                	}
+                }
         	}
         });
        
         ImageView text_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_text);
         text_quicklink.setOnClickListener(new View.OnClickListener() {
         	
+        	int count = 0;
         	@SuppressWarnings("deprecation")
 			@Override
             public void onClick(View v) {
@@ -345,38 +360,48 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 while (phoneCur.moveToNext()) {
                     allContacts.add(phoneCur.getString(
                     		phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))); 
+                    		count++;
                 }
         		
-        		ListView lvDialog = new ListView(ContactDetailActivity.this);
-        		
-        		
-        		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
-        		lvDialog.setAdapter(arrayAdapter); 
-        		
-        		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
-        		
-        		builder.setView(lvDialog);
-        		builder.setTitle(getString(R.string.messageDialogText));
-        		final Dialog dialog = builder.create();
+                if (count > 1) {
+                	ListView lvDialog = new ListView(ContactDetailActivity.this);
+            		
+            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
+            		lvDialog.setAdapter(arrayAdapter); 
+            		
+            		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
+            		
+            		builder.setView(lvDialog);
+            		builder.setTitle(getString(R.string.messageDialogText));
+            		final Dialog dialog = builder.create();
 
-        		if (allContacts.isEmpty()) {
-        			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
-        		} else  {
-        			dialog.show();
-        		}
-        		
-        		lvDialog.setOnItemClickListener(new OnItemClickListener() {
-        		    @Override
-        		    public void onItemClick(AdapterView<?> parent, View view,
-        		    int position, long id) {
-        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(position), null)));
-        		    }
-        		});
+            		if (allContacts.isEmpty()) {
+            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+            		} else  {
+            			dialog.show();
+            		}
+            		
+            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+            		    @Override
+            		    public void onItemClick(AdapterView<?> parent, View view,
+            		    int position, long id) {
+            		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(position), null)));
+            		    }
+            		});
+                } else {
+                	if (!allContacts.isEmpty()) {
+        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
+                	} else {
+            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                	}
+                }
         	}
         });
         
         ImageView email_quicklink = (ImageView) findViewById(R.id.c_detail_header_quickLinks_email);
         email_quicklink.setOnClickListener(new View.OnClickListener() {
+        	
+        	int count = 0;
         	
         	@SuppressWarnings("deprecation")
 			@Override
@@ -394,36 +419,49 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 while (emailCur.moveToNext()) {
                     allContacts.add(emailCur.getString(
                     		emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS))); 
+                    		count++;
                 }
         		
-        		ListView lvDialog = new ListView(ContactDetailActivity.this);
-        		
-        		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
-        		lvDialog.setAdapter(arrayAdapter); 
-        		
-        		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
-        		
-        		builder.setView(lvDialog);
-        		builder.setTitle(getString((R.string.emailDialogText)));
-        		final Dialog dialog = builder.create();
+                if (count > 1) {
+                	ListView lvDialog = new ListView(ContactDetailActivity.this);
+            		
+            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, allContacts);
+            		lvDialog.setAdapter(arrayAdapter); 
+            		
+            		AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
+            		
+            		builder.setView(lvDialog);
+            		builder.setTitle(getString((R.string.emailDialogText)));
+            		final Dialog dialog = builder.create();
 
-        		if (allContacts.isEmpty()) {
-        			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
-        		} else  {
-        			dialog.show();
-        		}
-        		
-        		lvDialog.setOnItemClickListener(new OnItemClickListener() {
-        		    @Override
-        		    public void onItemClick(AdapterView<?> parent, View view,
-        		    int position, long id) {
-        		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-        		                "mailto",allContacts.get(position), null));
+            		if (allContacts.isEmpty()) {
+            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+            		} else  {
+            			dialog.show();
+            		}
+            		
+            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+            		    @Override
+            		    public void onItemClick(AdapterView<?> parent, View view,
+            		    int position, long id) {
+            		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+            		                "mailto",allContacts.get(position), null));
+            		    	//TODO: Change domain name signature
+                        	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+            		    	startActivity(emailIntent);
+            		    }
+            		});
+                } else {
+                	if (!allContacts.isEmpty()) {
+                    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+        		                "mailto",allContacts.get(0), null));
         		    	//TODO: Change domain name signature
                     	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
         		    	startActivity(emailIntent);
-        		    }
-        		});
+                	} else {
+            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+                	}
+                }
         	}
         });		
 	}
@@ -469,7 +507,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getAddressInfo(contact_id);
 		getWebsiteInfo(contact_id);
 		getOrganizationInfo(contact_id);
-		getNotesInfo(contact_id);
+		//getNotesInfo(contact_id);
 		getDatesInfo(contact_id);
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
@@ -477,6 +515,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getLookupKey(contact_id);		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void getLookupKey(String contact_id) {
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
@@ -529,9 +568,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         	if (inputStream != null) {
             	
         		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 12));
+
 	
             } else {
         		headerBG.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg));
+
             }
         } catch (OutOfMemoryError e) {
         	e.printStackTrace();
@@ -926,7 +967,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
             contact.setNotes(note);
 
-            if (note != null || !note.isEmpty())
+            if (note != null || !note.isEmpty() || note != "")
             {
             	noteLayout.setVisibility(View.VISIBLE);
             }
@@ -1599,10 +1640,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getMenuInflater().inflate(R.menu.contact_detail, menu);
 		
 	
-		if(!isAppInstalled("com.whatsapp") || !isWhatsAppEnabled) {
+		if(!isWhatsAppEnabled) {
 			MenuItem item = menu.findItem(R.id.menu_whatsapp);
         	item.setVisible(false);
-        	this.invalidateOptionsMenu();
+        	item.setEnabled(false);
+        	//this.invalidateOptionsMenu();
         }
 		
 	    // Return true to display menu
@@ -1676,28 +1718,44 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	return true;
 	        	
 	        case R.id.menu_whatsapp:
-				ListView whatsAppDialog = new ListView(ContactDetailActivity.this);
-				
-				ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, globalPhoneNumberListOfContact);
-				whatsAppDialog.setAdapter(arrayAdapter); 
-				
-				AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
-				
-				builder.setView(whatsAppDialog);
-				builder.setTitle("WhatsApp");
-				final Dialog dialog = builder.create();
+	        	
+	        	if (globalPhoneNumberListOfContact.size() > 1) {
+	        		ListView whatsAppDialog = new ListView(ContactDetailActivity.this);
+					
+					ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(ContactDetailActivity.this,android.R.layout.simple_list_item_1, globalPhoneNumberListOfContact);
+					whatsAppDialog.setAdapter(arrayAdapter); 
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(ContactDetailActivity.this);
+					
+					builder.setView(whatsAppDialog);
+					builder.setTitle("WhatsApp");
+					final Dialog dialog = builder.create();
 
-				if (globalPhoneNumberListOfContact.isEmpty()) {
-					Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noWhatsAppDialogText), Toast.LENGTH_LONG).show();
-				} else  {
-					dialog.show();
-				}
-				
-				whatsAppDialog.setOnItemClickListener(new OnItemClickListener() {
-				    @Override
-				    public void onItemClick(AdapterView<?> parent, View view,
-				    int position, long id) {
-				    	Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(position));
+					if (globalPhoneNumberListOfContact.isEmpty()) {
+						Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noWhatsAppDialogText), Toast.LENGTH_LONG).show();
+					} else  {
+						dialog.show();
+					}
+					
+					whatsAppDialog.setOnItemClickListener(new OnItemClickListener() {
+					    @Override
+					    public void onItemClick(AdapterView<?> parent, View view,
+					    int position, long id) {
+					    	Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(position));
+					    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
+							mIntent.setPackage("com.whatsapp");
+							mIntent.putExtra("chat",true);
+							try {
+								startActivity(mIntent);
+							} catch (ActivityNotFoundException e) {
+								Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
+							}
+					        dialog.dismiss();
+					    }
+					});
+	        	} else { 
+	        		if (!globalPhoneNumberListOfContact.isEmpty()) {
+		        		Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(0));
 				    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
 						mIntent.setPackage("com.whatsapp");
 						mIntent.putExtra("chat",true);
@@ -1706,9 +1764,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 						} catch (ActivityNotFoundException e) {
 							Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
 						}
-				        dialog.dismiss();
-				    }
-				});	
+	        		} else {
+						Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
+	        		}
+	        	}
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -2019,7 +2078,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
 	}
 	
-
+	// Causing tons of crashes, remove it
+	@SuppressWarnings("unused")
 	private boolean isAppInstalled(String packageName) {
 	    PackageManager pm = getPackageManager();
 	    boolean installed = false;

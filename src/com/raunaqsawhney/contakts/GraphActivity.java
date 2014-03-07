@@ -19,7 +19,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,7 +57,8 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_graph);
-        getActionBar().setHomeButtonEnabled(true);
+		
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		setupGlobalPrefs();
 		setupActionBar();
@@ -167,6 +170,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		navListView.setOnItemClickListener(this);			
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createData() {
 				
 		Integer count = 0;
@@ -254,6 +258,17 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		getMenuInflater().inflate(R.menu.graph, menu);
 		return true;
 	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

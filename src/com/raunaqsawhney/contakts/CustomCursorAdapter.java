@@ -35,6 +35,7 @@ public class CustomCursorAdapter extends ResourceCursorAdapter {
 	}
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		@SuppressWarnings("unused")
 		View v = mLayoutInflater.inflate(R.layout.lv_layout, parent, false);
 		return null;
 	}

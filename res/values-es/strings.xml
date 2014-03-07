@@ -178,6 +178,8 @@
 	
 	<string name="hello">¡Hola</string>
 	<string name="enableWhatsApp">Habilitar la integración WhatsApp</string>
+	<string name="addNotFound">No se puede agregar el contacto. Usa contactos de valores aplicación en su dispositivo.</string>
+
 	
 	<!-- DIALER -->
 	<string name="call">Teléfono</string>

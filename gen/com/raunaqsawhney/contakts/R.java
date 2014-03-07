@@ -933,6 +933,7 @@ containing a value of this type.
     }
     public static final class string {
         public static final int action_settings=0x7f070038;
+        public static final int addNotFound=0x7f0700bf;
         public static final int addressHeader=0x7f07007e;
         public static final int admob_id=0x7f07004a;
         public static final int anniversary=0x7f070072;
@@ -969,15 +970,15 @@ containing a value of this type.
  DIALER 
  DIALER 
          */
-        public static final int call=0x7f0700bf;
+        public static final int call=0x7f0700c0;
         public static final int callDialogText=0x7f07005e;
         public static final int callback=0x7f07009c;
-        public static final int cancel=0x7f0700c1;
+        public static final int cancel=0x7f0700c2;
         public static final int car=0x7f07009d;
         public static final int cdDialogHeader=0x7f07005c;
         public static final int cdWelcomeDialog=0x7f07005d;
         public static final int child=0x7f070066;
-        public static final int clear=0x7f0700c0;
+        public static final int clear=0x7f0700c1;
         public static final int color_dialog_title=0x7f070043;
         public static final int color_picker_default_title=0x7f070036;
         public static final int color_swatch_description=0x7f070034;
@@ -1097,7 +1098,7 @@ containing a value of this type.
         public static final int emailHeader=0x7f070080;
         public static final int emptyFavs=0x7f0700bb;
         public static final int emptyFavsInfo=0x7f0700bc;
-        public static final int emptyInfo=0x7f0700c2;
+        public static final int emptyInfo=0x7f0700c3;
         public static final int enableWhatsApp=0x7f0700be;
         public static final int error=0x7f070054;
         public static final int eventsHeader=0x7f07007c;
@@ -1173,27 +1174,27 @@ containing a value of this type.
         public static final int parent=0x7f07006c;
         public static final int partner=0x7f07006d;
         public static final int phoneHeader=0x7f070081;
-        public static final int pref_default_display_name=0x7f0700c7;
-        public static final int pref_description_social_recommendations=0x7f0700c5;
+        public static final int pref_default_display_name=0x7f0700c8;
+        public static final int pref_description_social_recommendations=0x7f0700c6;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f0700c9;
+        public static final int pref_header_data_sync=0x7f0700ca;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f0700c3;
+        public static final int pref_header_general=0x7f0700c4;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f0700cc;
-        public static final int pref_ringtone_silent=0x7f0700cf;
-        public static final int pref_title_add_friends_to_messages=0x7f0700c8;
-        public static final int pref_title_display_name=0x7f0700c6;
-        public static final int pref_title_new_message_notifications=0x7f0700cd;
-        public static final int pref_title_ringtone=0x7f0700ce;
-        public static final int pref_title_social_recommendations=0x7f0700c4;
-        public static final int pref_title_sync_frequency=0x7f0700ca;
-        public static final int pref_title_system_sync_settings=0x7f0700cb;
-        public static final int pref_title_vibrate=0x7f0700d0;
+        public static final int pref_header_notifications=0x7f0700cd;
+        public static final int pref_ringtone_silent=0x7f0700d0;
+        public static final int pref_title_add_friends_to_messages=0x7f0700c9;
+        public static final int pref_title_display_name=0x7f0700c7;
+        public static final int pref_title_new_message_notifications=0x7f0700ce;
+        public static final int pref_title_ringtone=0x7f0700cf;
+        public static final int pref_title_social_recommendations=0x7f0700c5;
+        public static final int pref_title_sync_frequency=0x7f0700cb;
+        public static final int pref_title_system_sync_settings=0x7f0700cc;
+        public static final int pref_title_vibrate=0x7f0700d1;
         public static final int profile=0x7f070098;
         public static final int radio=0x7f0700a0;
         public static final int rateOnPlay=0x7f0700ab;

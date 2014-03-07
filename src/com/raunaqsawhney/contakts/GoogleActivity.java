@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -366,10 +368,13 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
     		   	GoogleActivity.this.startActivity(dialIntent);
             return true;
 	        case R.id.menu_add:
-	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, 
-	            ContactsContract.Contacts.CONTENT_URI);
-	    		startActivity(addIntent);	
-	    		return true;
+	        	try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

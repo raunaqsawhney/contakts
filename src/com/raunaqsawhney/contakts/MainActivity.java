@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -31,6 +30,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
@@ -51,7 +52,7 @@ import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
 import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class MainActivity extends Activity implements OnQueryTextListener, LoaderCallbacks<Cursor>, OnItemClickListener {
+public class MainActivity extends Activity implements OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	static final String TAG = "com.raunaqsawhney.contakts";
 
@@ -82,7 +83,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
-
+        
+        // Initialize the loader for background activity
+	    getLoaderManager().initLoader(0, null, this);
+	    
         initializePayments();
         setupGlobalPrefs();
         setupActionBar();
@@ -276,16 +280,14 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         };
 	        
         // Set the adapter to display the list
-        mAdapter = new SimpleCursorAdapter(this,
+        mAdapter = new SimpleCursorAdapter(
+        		this,
                 R.layout.lv_layout, 
                 null,
                 from,
                 to, 
                 0);
-        
-        // Initialize the loader for background activity
-	    LoaderManager loaderManager = getLoaderManager();
-	    loaderManager.initLoader(0, null, this);	
+        	
 	    
         View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header, null, false);
@@ -293,7 +295,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	}
 
 	@Override
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+	public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
 		
 		CursorLoader cursorLoader = null;
 		
@@ -321,19 +323,19 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 projection, 
                 query, 
                 null,
-                Contacts.DISPLAY_NAME + " ASC");
-		
+                Contacts.DISPLAY_NAME + " ASC");	
+        
         return cursorLoader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		mAdapter.swapCursor(arg1);
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		mAdapter.swapCursor(cursor);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
-		mAdapter.swapCursor(null);		
+	public void onLoaderReset(Loader<Cursor> loader) {
+		mAdapter.changeCursor(null);		
 	}
 
 	@Override
@@ -411,9 +413,13 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	            return true;  
 	            
 	        case R.id.menu_add:
-	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-	    		startActivity(addIntent);
-	    		return true; 
+	        	try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -429,7 +435,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		    return false;
 	}
 	
-	@Override
+	  @Override
 	  public void onStart() {
 	    super.onStart();
 	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.

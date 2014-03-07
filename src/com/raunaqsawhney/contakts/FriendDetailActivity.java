@@ -163,6 +163,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		fetchFriendInfo();
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void connectFB() {
 		
 		
@@ -1049,10 +1050,11 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.friend_detail, menu);
 		
-		if(!isAppInstalled("com.whatsapp") || !isWhatsAppEnabled) {
+		if(!isWhatsAppEnabled) {
 			MenuItem item = menu.findItem(R.id.menu_whatsapp);
         	item.setVisible(false);
-        	this.invalidateOptionsMenu();
+        	item.setEnabled(false);
+        	//this.invalidateOptionsMenu();
         }
 		return true;
 	}
@@ -1094,39 +1096,52 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				return true;
 	        	
 	        case R.id.menu_whatsapp:
-				ListView whatsAppDialog = new ListView(FriendDetailActivity.this);
-				
-				ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(FriendDetailActivity.this,android.R.layout.simple_list_item_1, globalPhoneNumberListOfContact);
-				whatsAppDialog.setAdapter(arrayAdapter); 
-				
-				AlertDialog.Builder builder = new AlertDialog.Builder(FriendDetailActivity.this);
-				
-				builder.setView(whatsAppDialog);
-				builder.setTitle("WhatsApp");
-				final Dialog dialog = builder.create();
+	        	
+	        	if (globalPhoneNumberListOfContact.size() > 1 ) {
+	        		ListView whatsAppDialog = new ListView(FriendDetailActivity.this);
+					
+					ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(FriendDetailActivity.this,android.R.layout.simple_list_item_1, globalPhoneNumberListOfContact);
+					whatsAppDialog.setAdapter(arrayAdapter); 
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(FriendDetailActivity.this);
+					
+					builder.setView(whatsAppDialog);
+					builder.setTitle("WhatsApp");
+					final Dialog dialog = builder.create();
 
-				if (globalPhoneNumberListOfContact.isEmpty()) {
-					Toast.makeText(getApplicationContext(), getString(R.string.friend) + " " + getString(R.string.noWhatsAppDialogText), Toast.LENGTH_LONG).show();
-				} else  {
-					dialog.show();
-				}
-				
-				whatsAppDialog.setOnItemClickListener(new OnItemClickListener() {
-				    @Override
-				    public void onItemClick(AdapterView<?> parent, View view,
-				    int position, long id) {
-				    	Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(position));
-				    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
-						mIntent.setPackage("com.whatsapp");
-						mIntent.putExtra("chat",true);
-						try {
-							startActivity(mIntent);
-						} catch (ActivityNotFoundException e) {
-							Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
-						}
-				        dialog.dismiss();
-				    }
-				});	
+					if (globalPhoneNumberListOfContact.isEmpty()) {
+						Toast.makeText(getApplicationContext(), getString(R.string.friend) + " " + getString(R.string.noWhatsAppDialogText), Toast.LENGTH_LONG).show();
+					} else  {
+						dialog.show();
+					}
+					
+					whatsAppDialog.setOnItemClickListener(new OnItemClickListener() {
+					    @Override
+					    public void onItemClick(AdapterView<?> parent, View view,
+					    int position, long id) {
+					    	Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(position));
+					    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
+							mIntent.setPackage("com.whatsapp");
+							mIntent.putExtra("chat",true);
+							try {
+								startActivity(mIntent);
+							} catch (ActivityNotFoundException e) {
+								Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
+							}
+					        dialog.dismiss();
+					    }
+					});	
+	        	} else {
+	        		Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(0));
+			    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
+					mIntent.setPackage("com.whatsapp");
+					mIntent.putExtra("chat",true);
+					try {
+						startActivity(mIntent);
+					} catch (ActivityNotFoundException e) {
+						Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
+					}
+	        	}
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -1151,6 +1166,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		
 	}
 	
+	// Causing tons of crashes, remove it
+	@SuppressWarnings("unused")
 	private boolean isAppInstalled(String packageName) {
 	    PackageManager pm = getPackageManager();
 	    boolean installed = false;

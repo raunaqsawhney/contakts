@@ -376,9 +376,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				edit.putString("theme", themeColor);
 				edit.apply(); 
 								
-			   	Intent goBackToMain = new Intent(LoginActivity.this, MainActivity.class);
-			   	goBackToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				LoginActivity.this.startActivity(goBackToMain);		
+			   	Intent goBackToFav = new Intent(LoginActivity.this, FavActivity.class);
+			   	goBackToFav.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				LoginActivity.this.startActivity(goBackToFav);		
 			}
 		});
 		

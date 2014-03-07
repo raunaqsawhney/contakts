@@ -178,6 +178,7 @@
 	
 	<string name="hello">Olá</string>
 	<string name="enableWhatsApp">Permitir a integração WhatsApp</string>
+	<string name="addNotFound">Não é possível adicionar contatos. Use contatos Stock aplicativo em seu dispositivo.</string>
 	
 	<!-- DIALER -->
 	

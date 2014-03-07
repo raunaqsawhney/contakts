@@ -47,6 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -174,7 +175,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 
 	        }
 
-	        @Override
+	        @SuppressWarnings("deprecation")
+			@Override
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 //	        	PhoneNumberUtils.formatNumber(number.getText().toString());
@@ -913,6 +915,18 @@ public class DialerActivity extends Activity implements OnItemClickListener {
   public void onResume() {
       super.onResume();  // Always call the superclass method first
 
+  }
+  
+  @Override
+  public void onStart() {
+    super.onStart();
+    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
   }
 
 }

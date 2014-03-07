@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -38,6 +39,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.ads.*;
 
 
@@ -246,6 +249,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 		navListView.setOnItemClickListener(this);		
 	}
 
+	@SuppressWarnings("deprecation")
 	private void fetchFrequents() {
 		
 		ImageView favIcon = (ImageView) findViewById(R.id.fav_photo);
@@ -367,9 +371,13 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
     		   	FrequentActivity.this.startActivity(dialIntent);
 	            return true;    
 	        case R.id.menu_add:
-	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-	    		startActivity(addIntent);
-	    		return true; 
+	        	try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	} 
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

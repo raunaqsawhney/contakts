@@ -33,11 +33,12 @@ public class MLRoundedImageView extends ImageView {
  
 		Drawable drawable = getDrawable();
 		
+		
 		if (drawable == null)
 		{
 			drawable = getResources().getDrawable(R.drawable.ic_contact_picture);
 		}
- 
+		
 		if (getWidth() == 0 || getHeight() == 0) {
 			return;
 		}

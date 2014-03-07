@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -33,6 +34,8 @@ import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -43,10 +46,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.google.android.gms.ads.*;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.raunaqsawhney.contakts.inappbilling.util.IabHelper;
 import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
@@ -101,7 +106,8 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	   }
    }
 
-private void initializePayments() {
+   @SuppressWarnings("unused")
+   private void initializePayments() {
 		
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnFvDAXf6H/D0bXbloyf6LgwaFpqafFlABIds+hvN+LGO+uw+tB+1z+EsY5mGwU/Py22yAqKM2w8rUj6QZZJ7xcf0Jy33z3BBLsqAg8wyNv8yZ7Cq2pSYku7EzjaOHpgD43meJp5ByYlyKlL40GijlzPOIAlkUjh6oM2iQRQwrFazZcduIixecPMTk9exDqbgBgfUjxPB4nlVKd2jVCgDTasRMFv9No1q9ntffNd1zgZ/YM3GvzDn3dQwJ+f1LJuHWurrkiz2QZS8mmye52NspyFv+f/DO0PLCm+3a4wh3t3KLFftNYM5nT+j7FFiJvRU2J6M2lsQubWaUmbkVRHxRwIDAQAB";
 	       
@@ -263,14 +269,12 @@ private void initializePayments() {
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		
-		
-		
 		navListView.setOnItemClickListener(this);	
 		
 	}
 
 
+	@SuppressWarnings("deprecation")
 	private void setupFavList() {
 		
         favGrid = (GridView) findViewById(R.id.favGrid);
@@ -318,7 +322,6 @@ private void initializePayments() {
         
         favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public boolean onItemLongClick(final AdapterView<?> parent, View view,
 					final int position, long id) {
@@ -408,9 +411,13 @@ private void initializePayments() {
     		   	FavActivity.this.startActivity(dialIntent);
 	            return true;    
 	        case R.id.menu_add:
-	    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-	    		startActivity(addIntent);
-	    		return true; 
+	        	try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
