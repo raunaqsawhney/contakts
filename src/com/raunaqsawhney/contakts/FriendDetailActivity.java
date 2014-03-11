@@ -1132,15 +1132,17 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    }
 					});	
 	        	} else {
-	        		Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(0));
-			    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
-					mIntent.setPackage("com.whatsapp");
-					mIntent.putExtra("chat",true);
-					try {
+	        		try {
+	        			Uri mUri = Uri.parse("smsto:+"+globalPhoneNumberListOfContact.get(0));
+				    	Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
+						mIntent.setPackage("com.whatsapp");
+						mIntent.putExtra("chat",true);
 						startActivity(mIntent);
-					} catch (ActivityNotFoundException e) {
+	        		} catch (IndexOutOfBoundsException f) {
 						Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
-					}
+	        		} catch (ActivityNotFoundException e) {
+						Toast.makeText(getApplicationContext(), getString(R.string.whatsAppNotFound), Toast.LENGTH_LONG).show();
+	        		}
 	        	}
 	        	return true;
 	        default:

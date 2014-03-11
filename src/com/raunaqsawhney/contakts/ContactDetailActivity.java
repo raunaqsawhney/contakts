@@ -43,8 +43,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -444,11 +442,15 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             		    @Override
             		    public void onItemClick(AdapterView<?> parent, View view,
             		    int position, long id) {
-            		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-            		                "mailto",allContacts.get(position), null));
-            		    	//TODO: Change domain name signature
-                        	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
-            		    	startActivity(emailIntent);
+            		    	try {
+                		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                		                "mailto",allContacts.get(position), null));
+                		    	//TODO: Change domain name signature
+                            	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+                		    	startActivity(emailIntent);
+            		    	} catch (IndexOutOfBoundsException e) {
+            		    		e.printStackTrace();
+            		    	}
             		    }
             		});
                 } else {
@@ -869,6 +871,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		dateType = getString(R.string.birthday);
                 		break;
             		default:
+            			dateType = getString(R.string.other);
             			break;
                 }
             } catch (NumberFormatException e) {
@@ -1181,7 +1184,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             address = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
             
             String addressTypeRaw = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
-            
+            System.out.println("ADD TYPE: " + addressTypeRaw);
             try {
             	switch(Integer.parseInt(addressTypeRaw))
                 {
@@ -1195,12 +1198,15 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		addressType = getString(R.string.other);
                 		break;
             		default:
+                		addressType = getString(R.string.other);
             			break;
                 }
             } catch (NumberFormatException e) {
             	addressType = getString(R.string.other);
             }
             
+            System.out.println("ADD TYPE NOT RAW: " + addressType);
+
             contact.addAddresses(address + ":" + addressType);  
             Boolean isNetworkAvailable = checkOnlineStatus();
 
@@ -1356,7 +1362,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		emailType = getString(R.string.mobile);
                 		break;
             		default:
-            			emailType = getString(R.string.custom);
+            			emailType = getString(R.string.other);
             			break;
                 }
             } catch (NumberFormatException e) {
@@ -1553,6 +1559,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     	        		break;
     	        	case 20:
     	        		phoneType = getString(R.string.mms);
+    	        		break;
+    	        	default:
+    	        		phoneType = getString(R.string.other);
     	        		break;
                 }
             } catch (NumberFormatException e) {
