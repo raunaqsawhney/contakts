@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <com.raunaqsawhney.contakts.MLRoundedImageView 
+        android:id="@+id/r_photo"
+        android:layout_width="65dip"
+        android:layout_height="65dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="5dip"
+        android:layout_centerVertical="true" />
+    
+ 
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/r_details"
+        android:layout_toRightOf="@+id/r_photo">
+        
+	<TextView
+        android:id="@+id/r_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/r_photo"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true" 
+        android:textColor="#4A4A4A"
+        android:textSize="18sp"
+        android:layout_marginLeft="10dip" 
+        android:text="NAME"
+        android:fontFamily="sans-serif-condensed" />
+    
+	<TextView
+        android:id="@+id/r_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/r_photo"
+        android:layout_below="@+id/r_name"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true" 
+        android:textColor="#4A4A4A"
+        android:textSize="14sp"
+        android:text="NUMBER"
+        android:layout_marginLeft="10dip" 
+        android:fontFamily="sans-serif-light" />
+
+	<TextView
+        android:id="@+id/r_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/r_photo"
+        android:layout_below="@+id/r_number"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true" 
+        android:textColor="#4A4A4A"
+        android:textSize="14sp"
+        android:text="DATE"
+        android:layout_marginLeft="10dip" 
+        android:fontFamily="sans-serif-light" />
+        
+    </LinearLayout>
+    
+	<TextView
+        android:id="@+id/r_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/r_details"
+		android:layout_alignParentRight="true"
+		android:layout_centerInParent="true"
+        android:gravity="right"
+        android:layout_centerVertical="true" 
+        android:textColor="#4A4A4A"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dip" 
+        android:fontFamily="sans-serif-light" />
+    
+</RelativeLayout>

@@ -402,9 +402,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        	try {
 	        		Intent dialIntent = new Intent(MainActivity.this, DialerActivity.class);
 	    		   	MainActivity.this.startActivity(dialIntent);
-	    		   	
-	        		//Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-		    		//startActivity(dialIntent);
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(getApplicationContext(), getString(R.string.dialerNotFound), Toast.LENGTH_LONG).show();
 	        	}
@@ -449,7 +446,5 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
 
-	  }
-	  
-	  
+	  } 
 }

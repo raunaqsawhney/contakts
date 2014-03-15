@@ -164,18 +164,17 @@
     <string name="title_activity_fbmap">FBMapActivity</string>
     <string name="delete">Delete</string>
     <string name="dialerNotFound">A Dialer application not found.</string>
-    
     <string name="emptyFavs">You do not have any favourite contacts. Why not add some?</string>
     <string name="emptyFavsInfo">Swipe right on the screen to open menu</string>
-    
     <string name="hello">Hello</string>
     <string name="enableWhatsApp">Enable WhatsApp integration</string>
     <string name="addNotFound">Unable to add contact. Use stock contacts app on your device to add contact.</string>
-    
+
     <!-- DIALER -->
-    
+
     <string name="call">Call</string>
     <string name="clear">Clear</string>
     <string name="cancel">Cancel</string>
-    
+    <string name="title_activity_recent">RecentActivity</string>
+
 </resources>

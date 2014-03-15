@@ -1,24 +1,22 @@
 package com.raunaqsawhney.contakts;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -29,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
@@ -39,8 +38,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -56,7 +53,7 @@ import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
 import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class FavActivity extends Activity implements OnItemClickListener{
+public class FavActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener{
 
 	static final String TAG = "com.raunaqsawhney.contakts";
 
@@ -74,12 +71,14 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	boolean mIsPremium = false;
 	
 	GridView favGrid;
+	private SimpleCursorAdapter mAdapter;
+
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fav_activity);
-        
+
         //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
@@ -145,6 +144,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 			Log.e(TAG, "Initial inventory query finished; enabling main UI.");
 			}
 		};
+
 		
 	private void disableAds() {
 		AdView adView = (AdView) findViewById(R.id.adView);
@@ -270,17 +270,68 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		navListView.setOnItemClickListener(this);	
 		
 	}
+	
+	@Override
+	public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+
+		CursorLoader cursorLoader = null;
+		
+		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
+        
+	    String query = ContactsContract.Contacts.STARRED + "='1'";
+        
+	    String[] projection = new String[] {
+	            ContactsContract.Contacts._ID,
+	            ContactsContract.Contacts.LOOKUP_KEY,
+	            ContactsContract.Contacts.PHOTO_URI,
+	            ContactsContract.Contacts.DISPLAY_NAME,
+	            ContactsContract.Contacts.STARRED};
+        
+        cursorLoader = new CursorLoader(
+        		FavActivity.this, 
+        		baseUri,
+                projection, 
+                query, 
+                null,
+                Contacts.DISPLAY_NAME + " ASC");	
+
+        return cursorLoader;
+	}
+	
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		mAdapter.swapCursor(cursor);
+        checkIfGridEmpty();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+
+		mAdapter.changeCursor(null);		
+	}
 
 
 	@SuppressWarnings("deprecation")
 	private void setupFavList() {
 		
         favGrid = (GridView) findViewById(R.id.favGrid);
-
-		ImageView favIcon = (ImageView) findViewById(R.id.fav_photo);
+                
+	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
+	    int to[] = new int[]{
+	    		R.id.fav_photo,
+	    		R.id.fav_name
+	    };
+	    
+	    mAdapter = new SimpleCursorAdapter(
+	            this,
+	            R.layout.fav_layout,
+	            null,
+	            from,
+	            to,
+	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		
+        /*
 		Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
-
 	    String[] projection = new String[] {
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.LOOKUP_KEY,
@@ -289,26 +340,28 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	            ContactsContract.Contacts.STARRED};
 
 	    String selection = ContactsContract.Contacts.STARRED + "='1'";
-
+         
 	    Cursor cursor = getContentResolver().query(queryUri, projection, selection,null,null);
 	    startManagingCursor(cursor);
+	    */
 	    
-	    
-	    long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
-	    
+	    //long id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
+	    /*
 	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
 	    if(bitmap!=null) {
 	    	favIcon.setImageBitmap(bitmap);
 	    } else {
 	    	// NOTHING
-	    }
+	    }*/
 	    
+	    /*
 	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
 	    int to[] = new int[]{
 	    		R.id.fav_photo,
 	    		R.id.fav_name
 	    };
 
+	    
 	    ListAdapter adapter = new SimpleCursorAdapter(
 	            this,
 	            R.layout.fav_layout,
@@ -316,7 +369,13 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	            from,
 	            to,
 	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		
+		*/
+	    
+	    if (favGrid.getChildCount() <= 0) {
+	    	System.out.println("EMPTY");
+	    } else {
+	    	System.out.println("NOT EMPTY");
+	    }
         
         favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 
@@ -379,11 +438,12 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		        
             }
         });
-        
-        favGrid.setAdapter(adapter);
-        checkIfGridEmpty();
+        favGrid.setAdapter(mAdapter);
+        getLoaderManager().initLoader(0, null, this);
+
    }
 
+	/*
 	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
 		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
 	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
@@ -393,6 +453,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 	    }
 	    return BitmapFactory.decodeStream(input);		
 	}
+	*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -444,7 +505,7 @@ public class FavActivity extends Activity implements OnItemClickListener{
 		   	Intent loIntent = new Intent(FavActivity.this, LoginActivity.class);
 		   	FavActivity.this.startActivity(loIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(FavActivity.this, InfoActivity.class);
+		   	Intent iIntent = new Intent(FavActivity.this, RecentActivity.class);
 		   	FavActivity.this.startActivity(iIntent);
 	   } 
 	}

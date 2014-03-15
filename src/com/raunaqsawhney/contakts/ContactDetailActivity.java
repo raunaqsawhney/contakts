@@ -569,9 +569,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         try {
         	if (inputStream != null) {
             	
-        		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 12));
+        		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 10));
 
-	
             } else {
         		headerBG.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg));
 

@@ -7,11 +7,14 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -27,6 +30,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +56,7 @@ import com.raunaqsawhney.contakts.inappbilling.util.IabResult;
 import com.raunaqsawhney.contakts.inappbilling.util.Inventory;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class FrequentActivity extends Activity implements OnItemClickListener {
+public class FrequentActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener {
 	
 	static final String TAG = "com.raunaqsawhney.contakts";
 	
@@ -68,6 +72,8 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	IabHelper mHelper;
 	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
 	boolean mIsPremium = false;
+	
+	SimpleCursorAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -246,16 +252,84 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
+	    getLoaderManager().initLoader(0, null, this);
 		navListView.setOnItemClickListener(this);		
+	}
+	
+	@Override
+	public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+		
+		CursorLoader cursorLoader = null;
+		
+		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
+        
+	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
+
+	    String[] projection = new String[] {
+	            ContactsContract.Contacts._ID,
+	            ContactsContract.Contacts.LOOKUP_KEY,
+	            ContactsContract.Contacts.PHOTO_URI,
+	            ContactsContract.Contacts.DISPLAY_NAME,
+	            ContactsContract.Contacts.TIMES_CONTACTED};
+        
+        cursorLoader = new CursorLoader(
+        		FrequentActivity.this, 
+        		baseUri,
+                projection, 
+                query, 
+                null,
+                ContactsContract.Contacts.TIMES_CONTACTED + " DESC");	
+        
+        return cursorLoader;
+	}
+	
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		mAdapter.swapCursor(cursor);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		mAdapter.changeCursor(null);		
 	}
 
 	@SuppressWarnings("deprecation")
 	private void fetchFrequents() {
-		
-		ImageView favIcon = (ImageView) findViewById(R.id.fav_photo);
-		
-		Uri queryUri = ContactsContract.Contacts.CONTENT_URI;
 
+		ListView freqList = (ListView) findViewById(R.id.freqList);
+		
+        freqList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+				startManagingCursor(cursor);
+				
+				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
+				
+				// Explicit Intent Example
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", contact_id);
+                intent.putExtra("activity","most");
+                startActivity(intent);
+		        
+            }
+        });
+        
+	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
+	    int to[] = new int[]{
+	    		R.id.freq_photo,
+	    		R.id.freq_name
+	    };
+	    
+	    mAdapter = new SimpleCursorAdapter(
+	            this,
+	            R.layout.freq_layout,
+	            null,
+	            from,
+	            to,
+	            0);
+		
+	    /*
 	    String[] projection = new String[] {
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.LOOKUP_KEY,
@@ -265,6 +339,7 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 
 	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
 
+	    
 		Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
 		startManagingCursor(cursor);
 		
@@ -283,37 +358,21 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	    		R.id.freq_name
 	    };
 
-	    ListAdapter adapter = new SimpleCursorAdapter(
+	    mAdapter = new SimpleCursorAdapter(
 	            this,
 	            R.layout.freq_layout,
 	            cursor,
 	            from,
 	            to,
 	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		
-        ListView freqList = (ListView) findViewById(R.id.freqList);
-        freqList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
-				
-				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
-				
-				// Explicit Intent Example
-                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-                intent.putExtra("contact_id", contact_id);
-                intent.putExtra("activity","most");
-                startActivity(intent);
-		        
-            }
-        });
-        
+		*/
+	   
         View header = getLayoutInflater().inflate(R.layout.freq_header, null);
         freqList.addHeaderView(header, null, false);
-        freqList.setAdapter(adapter);
+        freqList.setAdapter(mAdapter);
 	}
 	
+	/*
 	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
 		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
 	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
@@ -323,7 +382,8 @@ public class FrequentActivity extends Activity implements OnItemClickListener {
 	    }
 	    return BitmapFactory.decodeStream(input);		
 	}
-
+	*/
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
