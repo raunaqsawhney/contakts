@@ -592,16 +592,18 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -659,21 +661,24 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		   	Intent favIntent = new Intent(DialerActivity.this, FavActivity.class);
 		   	DialerActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(DialerActivity.this, FrequentActivity.class);
-		   DialerActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(DialerActivity.this, RecentActivity.class);
+		   DialerActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(DialerActivity.this, FrequentActivity.class);
+	   		DialerActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(DialerActivity.this, MainActivity.class);
 	   		DialerActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(DialerActivity.this, GoogleActivity.class);
 	   		DialerActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(DialerActivity.this, FBActivity.class);
-	   		DialerActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(DialerActivity.this, FBActivity.class);
+		   	DialerActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(DialerActivity.this, LoginActivity.class);
 		   	DialerActivity.this.startActivity(loIntent);
-	   } else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(DialerActivity.this, InfoActivity.class);
 		   	DialerActivity.this.startActivity(iIntent);
 	   } 
@@ -914,6 +919,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
   @Override
   public void onResume() {
       super.onResume();  // Always call the superclass method first
+      setupActionBar();
 
   }
   

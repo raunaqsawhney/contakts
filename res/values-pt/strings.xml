@@ -30,10 +30,12 @@
     <string name="custom">Personalizado</string>
     <string name="other">Outro</string>
     <string name="yes">Sim</string>
+    <string name="no">Não</string>
     <string name="settings">Configurações</string>
     <string name="error">Erro</string>
     
     <string name="sMfavourites">Favoritos</string>
+    <string name="sMRecent">recente</string>
     <string name="sMMostContacted">Contactado frequentes</string>
     <string name="sMPhoneContacts">Contatos do Telefone</string>
     <string name="sMGoogleContacts">Contatos do Google</string>
@@ -185,5 +187,22 @@
 	<string name="call">Telefone</string>
     <string name="clear">Excluir</string>
    	<string name="cancel">Cancelar</string>
+   	
+   	<string name="noPhoneNumber">Nenhum número de telefone encontrado.</string>
+    <string name="noPhoneContact">Número não associada a um contato telefônico.</string>
+    <string name="deleteMessage">Tem certeza de que deseja excluir este contato?</string>
+    <string name="deleteTitle">Excluir</string>
    
+    <string name="recDialogHeader">Recientemente Contactado</string>
+    <string name="recMsg1">As pessoas que você recentemente interagiram com são aqui apresentados.\n\n</string>
+   	<string name="recMsg5">Você também pode premir longamente num item e chamar diretamente.</string>
+    
+    <string name="emptyFreqs">Você não faz interações com pessoas suficientes para preencher a lista freqüentes.</string>
+    
+    <string name="clearRecents">Limpar Logs</string>
+    
+    <string name="clearLogs">Tem certeza de que deseja apagar o histórico de chamadas?</string>
+    
+    <string name="emptyRecs">Registro de chamadas está vazio.</string>
+    
 </resources>

@@ -252,6 +252,7 @@ private void initializePayments() {
         navListView = (ListView) findViewById(R.id.nav_menu);
         
         final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -261,6 +262,7 @@ private void initializePayments() {
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -399,21 +401,24 @@ private void initializePayments() {
 		   	Intent favIntent = new Intent(FBActivity.this, FavActivity.class);
 		   	FBActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(FBActivity.this, FrequentActivity.class);
-		   FBActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(FBActivity.this, RecentActivity.class);
+		   FBActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(FBActivity.this, FrequentActivity.class);
+	   		FBActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(FBActivity.this, MainActivity.class);
 	   		FBActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(FBActivity.this, GoogleActivity.class);
 	   		FBActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(FBActivity.this, FBActivity.class);
-	   		FBActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(FBActivity.this, FBActivity.class);
+		   	FBActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(FBActivity.this, LoginActivity.class);
 		   	FBActivity.this.startActivity(loIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(FBActivity.this, InfoActivity.class);
 		   	FBActivity.this.startActivity(iIntent);
 	   } 
@@ -426,7 +431,7 @@ private void initializePayments() {
 	        case R.id.fb_logout:
 	        	logoutFromFB();
 	        	
-	        	Intent fbLogoutIntent = new Intent(FBActivity.this, MainActivity.class);
+	        	Intent fbLogoutIntent = new Intent(FBActivity.this, FavActivity.class);
 	        	FBActivity.this.startActivity(fbLogoutIntent);
 	            return true; 
 	        /*    
@@ -482,6 +487,7 @@ private void initializePayments() {
 	protected void onResume() {
 	    super.onResume();
 	    uiHelper.onResume();
+	    setupActionBar();
 	}
 
 	@Override
@@ -546,4 +552,5 @@ private void initializePayments() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 }

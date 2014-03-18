@@ -16,6 +16,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -211,7 +212,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { getString(R.string.sMfavourites),
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -221,6 +223,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -547,7 +550,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 new String[]{contact_id}, null);
         startManagingCursor(photoCur);
 
-		
 		while (photoCur.moveToNext()) {
 	        photo = photoCur.getString(photoCur.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
             
@@ -614,7 +616,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	switch(Integer.parseInt(imTypeRaw))
                 {
                 	case -1:
-                		imType = getString(R.string.custom);
+                        imType = imCur.getString(imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA6));
                 		break;
                 	case 0:
                 		imType = "AIM";
@@ -738,6 +740,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             try {
             	switch(Integer.parseInt(relationshipTypeRaw))
                 {
+	            	case 0:
+	                	relationshipType = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.LABEL));
+	            		break;
                 	case 1:
                 		relationshipType = getString(R.string.assistant);
                 		break;
@@ -860,6 +865,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             try {
             	switch(Integer.parseInt(dateTypeRaw))
                 {
+                	case 0:
+	                    dateType = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.LABEL));
+	                    break;
                 	case 1:
                 		dateType = getString(R.string.anniversary);
                 		break;
@@ -1046,6 +1054,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             try {
             	switch(Integer.parseInt(websiteTypeRaw))
                 {
+            		case 0:
+            			websiteType = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.LABEL));
+            			break;
                 	case 1:
                 		websiteType = getString(R.string.homepage);
                 		break;
@@ -1183,10 +1194,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             address = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
             
             String addressTypeRaw = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
-            System.out.println("ADD TYPE: " + addressTypeRaw);
             try {
             	switch(Integer.parseInt(addressTypeRaw))
                 {
+            		case 0:
+            			addressType = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.LABEL));
+            		break;
                 	case 1:
                 		addressType = getString(R.string.home);
                 		break;
@@ -1348,6 +1361,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             try {
             	switch(Integer.parseInt(emailTypeRaw))
                 {
+                	case 0:
+                        emailType = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.LABEL));
+                		break;
                 	case 1:
                 		emailType = getString(R.string.home);
                 		break;
@@ -1365,6 +1381,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             			break;
                 }
             } catch (NumberFormatException e) {
+            	emailType = getString(R.string.other);
+            }
+            
+            if (emailType == null || emailType.isEmpty()) {
             	emailType = getString(R.string.other);
             }
             
@@ -1493,12 +1513,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
         while (phoneCur.moveToNext()) {
             number = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            
             String phoneTypeRaw = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             
             try {
             	switch(Integer.parseInt(phoneTypeRaw))
                 {
+            		case 0:
+                        phoneType = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+                        break;
     	        	case 1:
     	        		phoneType = getString(R.string.home);
     	        		break;
@@ -1666,7 +1688,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		    try{
 		        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookup_key);
 		        getContentResolver().delete(uri, null, null);
-		        System.out.println("^^^^PREVIOUS ACTIVITY: " + prevActivity);
 
 		        if (prevActivity.equals("google")) {
 					Intent myIntent_g = new Intent(getApplicationContext(), GoogleActivity.class);
@@ -1684,6 +1705,10 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 					Intent myIntent_f = new Intent(getApplicationContext(), FavActivity.class);
 					finish();
 					startActivity(myIntent_f);
+				} else if(prevActivity.equals("recent")) {
+					Intent myIntent_r = new Intent(getApplicationContext(), RecentActivity.class);
+					finish();
+					startActivity(myIntent_r);
 				}
 		        Toast.makeText(getApplicationContext(), "Contact deleted.",
 		        		   Toast.LENGTH_SHORT).show();
@@ -1701,8 +1726,25 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		switch (item.getItemId()) {
 		
 			case R.id.menu_delete:
-				deleteContact(lookupKey);
-						
+				AlertDialog.Builder deleteBuilder = new AlertDialog.Builder(this);
+				deleteBuilder.setMessage(getString(R.string.deleteMessage));
+				deleteBuilder.setCancelable(true);
+				deleteBuilder.setPositiveButton(getString(R.string.yes),
+	                    new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                	deleteContact(lookupKey);
+	                    dialog.cancel();
+	                }
+	            });
+				deleteBuilder.setNegativeButton(getString(R.string.no),
+	                    new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                    dialog.cancel();
+	                }
+	            });
+
+	            AlertDialog deleteAlert = deleteBuilder.create();
+	            deleteAlert.show();
         	return true;
         	
 	        case R.id.menu_edit:
@@ -2048,7 +2090,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		   	Intent favIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
 		   	ContactDetailActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(ContactDetailActivity.this, FrequentActivity.class);
+		   Intent freqIntent = new Intent(ContactDetailActivity.this, RecentActivity.class);
 		   ContactDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 2) {
 	   		Intent phoneIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
@@ -2103,6 +2145,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
   @Override
   public void onResume() {
       super.onResume();  // Always call the superclass method first
-
+      setupActionBar();
   }
 }

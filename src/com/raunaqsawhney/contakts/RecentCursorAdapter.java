@@ -1,9 +1,9 @@
 package com.raunaqsawhney.contakts;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.Random;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class RecentCursorAdapter extends SimpleCursorAdapter {
         TextView recentNumber = (TextView)view.findViewById(R.id.r_number);
         TextView recentDate = (TextView)view.findViewById(R.id.r_date);
         TextView recentTime = (TextView)view.findViewById(R.id.r_time);
+        ImageView typePhoto = (ImageView)view.findViewById(R.id.r_type_photo);
         
         String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
         String number = PhoneNumberUtils.formatNumber(cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER))).toString();
@@ -55,16 +57,45 @@ public class RecentCursorAdapter extends SimpleCursorAdapter {
     	Integer seconds = Integer.parseInt(duration) % 60;
     	recentTime.setText(String.format("%d:%02d", minutes, seconds));
         String type = cursor.getString(cursor.getColumnIndex(CallLog.Calls.TYPE));
-        if (Integer.parseInt(type) == 1) {
-        	recentTime.setTextColor(Color.parseColor("#CC0000"));
+        if (Integer.parseInt(type) == 3) {
+        	typePhoto.setImageResource(R.drawable.ic_missed);
         } else if (Integer.parseInt(type) == 2) {
-        	recentTime.setTextColor(Color.parseColor("#669900"));
-        } else if (Integer.parseInt(type) == 3) {
-        	recentTime.setTextColor(Color.parseColor("#0099CC"));
+        	typePhoto.setImageResource(R.drawable.ic_outgoing);
+        } else if (Integer.parseInt(type) == 1) {
+        	typePhoto.setImageResource(R.drawable.ic_incoming);
         }
-        
+
         recentName.setText(name);
         recentNumber.setText(number);
         recentDate.setText(callDayTime.toLocaleString());
     }
+    
+    /*
+    private String getPhoto(String contact_id, Context context) {
+    	String photo = null;
+    	Cursor photoCur = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,
+                ContactsContract.Contacts._ID +" = ?",
+                new String[]{contact_id}, null);
+		
+		while (photoCur.moveToNext()) {
+	        photo = photoCur.getString(photoCur.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
+        	
+		}
+		photoCur.close();
+		return photo;
+	}
+
+	public static String getContactIDFromNumber(String contactNumber,Context context)
+    {
+        contactNumber = Uri.encode(contactNumber);
+        int phoneContactID = new Random().nextInt();
+        Cursor contactLookupCursor = context.getContentResolver().query(Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI,Uri.encode(contactNumber)),new String[] {PhoneLookup.DISPLAY_NAME, PhoneLookup._ID}, null, null, null);
+            while(contactLookupCursor.moveToNext()){
+                phoneContactID = contactLookupCursor.getInt(contactLookupCursor.getColumnIndexOrThrow(PhoneLookup._ID));
+            }
+            contactLookupCursor.close();
+
+        return String.valueOf(phoneContactID).toString();
+    }
+    */
 }

@@ -207,16 +207,18 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { "Favourites",
-				"Most Contacted",
-				"Phone Contacts",
-				"Google Contacts",
-				"Facebook",
-				"Settings",
-				"About"
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
+				getString(R.string.sMMostContacted),
+				getString(R.string.sMPhoneContacts),
+				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMFacebook),
+				getString(R.string.sMSettings),
+				getString(R.string.sMAbout)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -265,7 +267,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         // Fetch Display Name and Contact Photo URI
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
-        		ContactsContract.Data.PHOTO_URI
+        		ContactsContract.Data.PHOTO_THUMBNAIL_URI
         };
         
         // Put above content into XML layouts
@@ -305,7 +307,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         String[] projection = new String[] {
         	ContactsContract.Contacts._ID,
         	ContactsContract.Contacts.DISPLAY_NAME,
-        	ContactsContract.Contacts.PHOTO_URI
+        	ContactsContract.Contacts.PHOTO_THUMBNAIL_URI
         };
         
         CursorLoader cursorLoader = new CursorLoader(
@@ -388,21 +390,24 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		   	Intent favIntent = new Intent(GoogleActivity.this, FavActivity.class);
 		   	GoogleActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(GoogleActivity.this, FrequentActivity.class);
-		   GoogleActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(GoogleActivity.this, RecentActivity.class);
+		   GoogleActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(GoogleActivity.this, FrequentActivity.class);
+	   		GoogleActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(GoogleActivity.this, MainActivity.class);
 	   		GoogleActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(GoogleActivity.this, GoogleActivity.class);
 	   		GoogleActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(GoogleActivity.this, FBActivity.class);
-	   		GoogleActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(GoogleActivity.this, FBActivity.class);
+		   	GoogleActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 		   	GoogleActivity.this.startActivity(loIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(GoogleActivity.this, InfoActivity.class);
 		   	GoogleActivity.this.startActivity(iIntent);
 	   } 
@@ -432,6 +437,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	  
 	  @Override
 	  public void onResume() {
-	      super.onResume();  // Always call the superclass method first	      
+	      super.onResume();  // Always call the superclass method first	   
+	      setupActionBar();
 	  }
 }

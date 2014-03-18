@@ -693,7 +693,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { getString(R.string.sMfavourites),
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -703,6 +704,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -1067,21 +1069,24 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		   	Intent favIntent = new Intent(FriendDetailActivity.this, FavActivity.class);
 		   	FriendDetailActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(FriendDetailActivity.this, FrequentActivity.class);
-		   FriendDetailActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(FriendDetailActivity.this, RecentActivity.class);
+		   FriendDetailActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(FriendDetailActivity.this, FrequentActivity.class);
+	   		FriendDetailActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(FriendDetailActivity.this, MainActivity.class);
 	   		FriendDetailActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(FriendDetailActivity.this, GoogleActivity.class);
 	   		FriendDetailActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
-	   		FriendDetailActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
+		   	FriendDetailActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
 		   	FriendDetailActivity.this.startActivity(loIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(FriendDetailActivity.this, InfoActivity.class);
 		   	FriendDetailActivity.this.startActivity(iIntent);
 	   } 
@@ -1185,6 +1190,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	  @Override
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
 
 	  }
 }

@@ -83,7 +83,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         setContentView(R.layout.activity_main);	
         
         // Initialize the loader for background activity
-	    getLoaderManager().initLoader(0, null, this);
 	    
         initializePayments();
         setupGlobalPrefs();
@@ -214,7 +213,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { getString(R.string.sMfavourites),
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -224,6 +224,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -268,7 +269,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         // Fetch Display Name and Contact Photo URI
         String[] from = new String[] {
         		ContactsContract.Data.DISPLAY_NAME,
-        		ContactsContract.Data.PHOTO_URI
+        		ContactsContract.Data.PHOTO_THUMBNAIL_URI
         };
         
         // Put above content into XML layouts
@@ -289,6 +290,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    
         View header = getLayoutInflater().inflate(R.layout.phone_header, null);
 	    contactList.addHeaderView(header, null, false);
+	    getLoaderManager().initLoader(0, null, this);
         contactList.setAdapter(mAdapter);
 	}
 
@@ -312,7 +314,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         String[] projection = new String[] {
         	ContactsContract.Contacts._ID,
         	ContactsContract.Contacts.DISPLAY_NAME,
-        	ContactsContract.Contacts.PHOTO_URI
+        	ContactsContract.Contacts.PHOTO_THUMBNAIL_URI
         };
         
         cursorLoader = new CursorLoader(
@@ -356,21 +358,24 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		   	Intent favIntent = new Intent(MainActivity.this, FavActivity.class);
 		   	MainActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(MainActivity.this, FrequentActivity.class);
-		   MainActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(MainActivity.this, RecentActivity.class);
+		   MainActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(MainActivity.this, FrequentActivity.class);
+	   		MainActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(MainActivity.this, MainActivity.class);
 	   		MainActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(MainActivity.this, GoogleActivity.class);
 	   		MainActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(MainActivity.this, FBActivity.class);
-	   		MainActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);
+		   	MainActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(MainActivity.this, LoginActivity.class);
 		   	MainActivity.this.startActivity(loIntent);
-	   } else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(MainActivity.this, InfoActivity.class);
 		   	MainActivity.this.startActivity(iIntent);
 	   } 
@@ -445,6 +450,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	  @Override
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
-
+	      setupActionBar();
 	  } 
 }

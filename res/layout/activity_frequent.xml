@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    
         <com.google.android.gms.ads.AdView android:id="@+id/adView"
         				 xmlns:ads="http://schemas.android.com/apk/res-auto"
                          android:layout_width="match_parent"
@@ -13,6 +12,8 @@
                          ads:adUnitId="@string/admob_id"
                          android:visibility="gone"
                          ads:adSize="SMART_BANNER"/> 
+                         
+
     
     <ListView
         android:id="@+id/freqList"
@@ -30,8 +31,21 @@
         android:scrollingCache="true"
         android:soundEffectsEnabled="true"
         android:paddingBottom="40dip">
-
     </ListView>
+    
+	<TextView 
+		android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="50dip"
+        android:textSize="22sp"
+        android:textColor="#8E8E93"
+        android:text="@string/emptyFreqs"/>
     
 
 </LinearLayout> 

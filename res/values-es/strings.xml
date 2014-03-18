@@ -30,10 +30,12 @@
     <string name="custom">Costumbre</string>
     <string name="other">Otro</string>
     <string name="yes">Sí</string>
+    <string name="no">No</string>
     <string name="settings">Configuración</string>
     <string name="error">Erro</string>
     
-<string name="sMfavourites">favoritos</string>
+<string name="sMfavourites">Favoritos</string>
+    <string name="sMRecent">Reciente</string>
     <string name="sMMostContacted">Contactado frecuentes</string>
     <string name="sMPhoneContacts">Contactos del Teléfono</string>
     <string name="sMGoogleContacts">Contactos del Google</string>
@@ -186,5 +188,22 @@
     <string name="clear">Borrar</string>
     <string name="cancel">Cancelar</string>
 	
+    
+    <string name="noPhoneNumber">No se encontró el número de teléfono</string>
+    <string name="noPhoneContact">El número no asociado a un contacto del teléfono.</string>
+    <string name="deleteMessage">¿Está seguro que desea eliminar este contacto?</string>
+    <string name="deleteTitle">Borrar</string>
+    
+    <string name="recDialogHeader">Recientemente Contactado</string>
+    <string name="recMsg1">Las personas que recientemente interactuado se presentan aquí.\n\n</string>
+   	<string name="recMsg5">También puede mantener presionada en un artículo y llamar directamente.</string>
 	
+    <string name="emptyFreqs">No lo haces suficientes interacciones con la gente para poblar la lista frecuente.</string>
+    
+    <string name="clearRecents">Borrar Registros</string>
+    
+    <string name="clearLogs">¿Está seguro que desea borrar el historial de llamada?</string>
+    
+    <string name="emptyRecs">Registro de llamadas está vacía.</string>
+    
 </resources>

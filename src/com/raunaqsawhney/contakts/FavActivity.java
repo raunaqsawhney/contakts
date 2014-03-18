@@ -238,6 +238,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         navListView = (ListView) findViewById(R.id.nav_menu);
       
         final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -247,6 +248,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -490,22 +492,25 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		   	Intent favIntent = new Intent(FavActivity.this, FavActivity.class);
 		   	FavActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(FavActivity.this, FrequentActivity.class);
-		   FavActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(FavActivity.this, RecentActivity.class);
+		   FavActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(FavActivity.this, FrequentActivity.class);
+	   		FavActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(FavActivity.this, MainActivity.class);
 	   		FavActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(FavActivity.this, GoogleActivity.class);
 	   		FavActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(FavActivity.this, FBActivity.class);
-	   		FavActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(FavActivity.this, FBActivity.class);
+		   	FavActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(FavActivity.this, LoginActivity.class);
 		   	FavActivity.this.startActivity(loIntent);
-	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(FavActivity.this, RecentActivity.class);
+	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(FavActivity.this, InfoActivity.class);
 		   	FavActivity.this.startActivity(iIntent);
 	   } 
 	}
@@ -535,6 +540,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	  @Override
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
 
 	  }
 }

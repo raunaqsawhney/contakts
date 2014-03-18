@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CursorAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -74,6 +75,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	boolean mIsPremium = false;
 	
 	SimpleCursorAdapter mAdapter;
+	
+	private ListView freqList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +225,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { getString(R.string.sMfavourites),
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -232,6 +236,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -268,7 +273,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	    String[] projection = new String[] {
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.LOOKUP_KEY,
-	            ContactsContract.Contacts.PHOTO_URI,
+	            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
         
@@ -315,7 +320,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
             }
         });
         
-	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
+	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_THUMBNAIL_URI , ContactsContract.Contacts.DISPLAY_NAME};
 	    int to[] = new int[]{
 	    		R.id.freq_photo,
 	    		R.id.freq_name
@@ -399,21 +404,24 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		   	Intent favIntent = new Intent(FrequentActivity.this, FavActivity.class);
 		   	FrequentActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(FrequentActivity.this, FrequentActivity.class);
-		   FrequentActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(FrequentActivity.this, RecentActivity.class);
+		   FrequentActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(FrequentActivity.this, FrequentActivity.class);
+	   		FrequentActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(FrequentActivity.this, MainActivity.class);
 	   		FrequentActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(FrequentActivity.this, GoogleActivity.class);
 	   		FrequentActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(FrequentActivity.this, FBActivity.class);
-	   		FrequentActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(FrequentActivity.this, FBActivity.class);
+		   	FrequentActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(FrequentActivity.this, LoginActivity.class);
 		   	FrequentActivity.this.startActivity(loIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(FrequentActivity.this, InfoActivity.class);
 		   	FrequentActivity.this.startActivity(iIntent);
 	   } 
@@ -455,6 +463,15 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	}
 	
 	@Override
+	public void onContentChanged() {
+	    super.onContentChanged();
+
+	    View empty = findViewById(R.id.empty);
+	    ListView list = (ListView) findViewById(R.id.freqList);
+	    list.setEmptyView(empty);
+	}
+	
+	@Override
 	  public void onStart() {
 	    super.onStart();
 	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
@@ -468,7 +485,9 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	  
 	  @Override
 	  public void onResume() {
+		  
 	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
 
 	  }
 }

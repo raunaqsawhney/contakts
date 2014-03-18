@@ -263,7 +263,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-		final String[] nav = { getString(R.string.sMfavourites),
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -273,6 +274,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -417,21 +419,24 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		   	Intent favIntent = new Intent(LoginActivity.this, FavActivity.class);
 		   	LoginActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(LoginActivity.this, FrequentActivity.class);
-		   LoginActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(LoginActivity.this, RecentActivity.class);
+		   LoginActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(LoginActivity.this, FrequentActivity.class);
+	   		LoginActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(LoginActivity.this, MainActivity.class);
 	   		LoginActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(LoginActivity.this, GoogleActivity.class);
 	   		LoginActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(LoginActivity.this, FBActivity.class);
-	   		LoginActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(LoginActivity.this, FBActivity.class);
+		   	LoginActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(LoginActivity.this, LoginActivity.class);
 		   	LoginActivity.this.startActivity(loIntent);
-	   } else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(LoginActivity.this, InfoActivity.class);
 		   	LoginActivity.this.startActivity(iIntent);
 	   } 
@@ -461,6 +466,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	  @Override
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
 
 	  }
 }

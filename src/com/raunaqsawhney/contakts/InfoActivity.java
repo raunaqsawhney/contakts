@@ -102,7 +102,8 @@ public class InfoActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-		final String[] nav = { getString(R.string.sMfavourites),
+        final String[] nav = { getString(R.string.sMfavourites),
+        		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
@@ -112,6 +113,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_nav_google,
@@ -211,28 +213,31 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
+
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
 		   	Intent favIntent = new Intent(InfoActivity.this, FavActivity.class);
 		   	InfoActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
-		   Intent freqIntent = new Intent(InfoActivity.this, FrequentActivity.class);
-		   InfoActivity.this.startActivity(freqIntent);
+		   Intent recIntent = new Intent(InfoActivity.this, RecentActivity.class);
+		   InfoActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
+	   		Intent freqIntent = new Intent(InfoActivity.this, FrequentActivity.class);
+	   		InfoActivity.this.startActivity(freqIntent);
+	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(InfoActivity.this, MainActivity.class);
 	   		InfoActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 3) {
+	   } else if (selected == 4) {
 	   		Intent googleIntent = new Intent(InfoActivity.this, GoogleActivity.class);
 	   		InfoActivity.this.startActivity(googleIntent);
-	   } else if (selected == 4) {
-	   		Intent FBIntent = new Intent(InfoActivity.this, FBActivity.class);
-	   		InfoActivity.this.startActivity(FBIntent);
 	   } else if (selected == 5) {
+		   	Intent fbIntent = new Intent(InfoActivity.this, FBActivity.class);
+		   	InfoActivity.this.startActivity(fbIntent);
+	   }  else if (selected == 6) {
 		   	Intent loIntent = new Intent(InfoActivity.this, LoginActivity.class);
 		   	InfoActivity.this.startActivity(loIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(InfoActivity.this, InfoActivity.class);
 		   	InfoActivity.this.startActivity(iIntent);
 	   } 
@@ -253,6 +258,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	  @Override
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
 
 	  }
 }
