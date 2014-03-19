@@ -273,7 +273,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	    String[] projection = new String[] {
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.LOOKUP_KEY,
-	            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+	            ContactsContract.Contacts.PHOTO_URI,
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
         
@@ -320,7 +320,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
             }
         });
         
-	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_THUMBNAIL_URI , ContactsContract.Contacts.DISPLAY_NAME};
+	    String[] from = {ContactsContract.Contacts.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
 	    int to[] = new int[]{
 	    		R.id.freq_photo,
 	    		R.id.freq_name
