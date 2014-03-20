@@ -268,7 +268,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		
 		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
         
-	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
+	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
 
 	    String[] projection = new String[] {
 	            ContactsContract.Contacts._ID,

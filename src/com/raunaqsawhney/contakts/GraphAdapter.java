@@ -52,7 +52,6 @@ public class GraphAdapter extends ArrayAdapter<FreqContact>{
     public View getView(int position, View convertView, ViewGroup parent) {
 		 
 		try {
-			System.out.println("in getView");
 	       // Get the data item for this position
 	       FreqContact freqContact = getItem(position);    
 	       

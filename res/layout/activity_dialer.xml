@@ -33,6 +33,7 @@
 	        android:fontFamily="sans-serif-light"
 	        android:textColor="#FFF"
 	        android:layout_gravity="center"
+	        android:singleLine="true"
 	        android:gravity="center"
 	        android:textSize="40sp" />
         

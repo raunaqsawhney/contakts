@@ -119,6 +119,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	boolean firstRunDoneConDet;
 	
 	Boolean isWhatsAppEnabled = false;
+	
+	Cursor c;
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,8 +130,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         contact_id = getIntent().getStringExtra("contact_id");
         prevActivity = getIntent().getStringExtra("activity");
-        
-        
+                
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -249,6 +250,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	}
 	
 	private void setupQuickLinks() {
+		c = null;
 		// Check for Favourites
         Boolean isStarred = checkStarredStatus(contact_id);
         if (isStarred == true)
@@ -291,14 +293,15 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             public void onClick(View v) {
                 final ArrayList<String> allContacts = new ArrayList<String>();
 
-                Cursor phoneCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+                c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
-                startManagingCursor(phoneCur);
-                
-                while (phoneCur.moveToNext()) {
-                    allContacts.add(phoneCur.getString(
-                    		phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))); 
+                //startManagingCursor(c);
+                number = PhoneNumberUtils.formatNumber(number);
+
+                while (c.moveToNext()) {
+                    allContacts.add(PhoneNumberUtils.formatNumber(c.getString(
+                    		c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))); 
                     		count++;
                 }
         		
@@ -352,15 +355,15 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
                 
-                Cursor phoneCur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+                c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
-                startManagingCursor(phoneCur);
+                //startManagingCursor(c);
 
                 
-                while (phoneCur.moveToNext()) {
-                    allContacts.add(phoneCur.getString(
-                    		phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))); 
+                while (c.moveToNext()) {
+                	allContacts.add(PhoneNumberUtils.formatNumber(c.getString(
+                    		c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))));
                     		count++;
                 }
         		
@@ -409,17 +412,17 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
                 
-        		Cursor emailCur = getContentResolver().query(
+        		c = getContentResolver().query(
                         ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                         null,
                         ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                         new String[]{contact_id},
                         null);
-                startManagingCursor(emailCur);
+                //startManagingCursor(c);
 
-                while (emailCur.moveToNext()) {
-                    allContacts.add(emailCur.getString(
-                    		emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS))); 
+                while (c.moveToNext()) {
+                    allContacts.add(c.getString(
+                    		c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS))); 
                     		count++;
                 }
         		
@@ -481,16 +484,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.STARRED};
 
-	    Cursor cursor = getContentResolver().query(
+	    c = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            projection,
 	            ContactsContract.Contacts._ID + "=?",
 	            new String[]{contact_id},
 	            null);
-	    startManagingCursor(cursor);
+	    //startManagingCursor(c);
 	
-	    while (cursor.moveToNext()) {
-	        starred = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.STARRED));
+	    while (c.moveToNext()) {
+	        starred = c.getInt(c.getColumnIndex(ContactsContract.Contacts.STARRED));
 	    }
 	    
 	    if (starred == 1)
@@ -506,13 +509,15 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	private void getContactInfo(String contact_id) {
 		
+		c = null;
+		
         getNameInfo(contact_id);
 		getPhoneInfo(contact_id);
 		getEmailInfo(contact_id);
 		getAddressInfo(contact_id);
 		getWebsiteInfo(contact_id);
 		getOrganizationInfo(contact_id);
-		//getNotesInfo(contact_id);
+		getNotesInfo(contact_id);
 		getDatesInfo(contact_id);
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
@@ -525,16 +530,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
 		
-		Cursor cursor = getContentResolver().query(
+		c = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            proj,
 	            ContactsContract.Contacts._ID + "=?",
 	            new String[]{contact_id},
 	            null);
-		startManagingCursor(cursor);
+		//startManagingCursor(c);
  
-		while (cursor.moveToNext()) {
-	        lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+		while (c.moveToNext()) {
+	        lookupKey = c.getString(c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 		}		
 	}
 
@@ -545,13 +550,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
 		ContentResolver cr = getContentResolver();
 		
-		Cursor photoCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
+		c = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
                 ContactsContract.Contacts._ID +" = ?",
                 new String[]{contact_id}, null);
-        startManagingCursor(photoCur);
+        //startManagingCursor(c);
 
-		while (photoCur.moveToNext()) {
-	        photo = photoCur.getString(photoCur.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
+		while (c.moveToNext()) {
+	        photo = c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
             
 	        if (photo == null)
 	        {
@@ -602,21 +607,21 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] imWhereParams = new String[]{contact_id,
             ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE};
         
-        Cursor imCur = cr.query(ContactsContract.Data.CONTENT_URI,
+        c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, imWhere, imWhereParams, null);
-        startManagingCursor(imCur);
+        //startManagingCursor(c);
 
         
-        while (imCur.moveToNext()) {
-            im = imCur.getString(imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA));
+        while (c.moveToNext()) {
+            im = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA));
             
-            String imTypeRaw = imCur.getString(imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.PROTOCOL));
+            String imTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Im.PROTOCOL));
             
             try {
             	switch(Integer.parseInt(imTypeRaw))
                 {
                 	case -1:
-                        imType = imCur.getString(imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA6));
+                        imType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA6));
                 		break;
                 	case 0:
                 		imType = "AIM";
@@ -729,19 +734,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] relationshipWhereParams = new String[]{contact_id,
         ContactsContract.CommonDataKinds.Relation.CONTENT_ITEM_TYPE};
         
-        Cursor relationshipCur = cr.query(ContactsContract.Data.CONTENT_URI, null, relationshipWhere, relationshipWhereParams, null);
-        startManagingCursor(relationshipCur);
+        c = cr.query(ContactsContract.Data.CONTENT_URI, null, relationshipWhere, relationshipWhereParams, null);
+        //startManagingCursor(c);
 
-        while (relationshipCur.moveToNext()) {
-            relationship = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.NAME));
+        while (c.moveToNext()) {
+            relationship = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Relation.NAME));
             
-            String relationshipTypeRaw = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.TYPE));
+            String relationshipTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Relation.TYPE));
             
             try {
             	switch(Integer.parseInt(relationshipTypeRaw))
                 {
 	            	case 0:
-	                	relationshipType = relationshipCur.getString(relationshipCur.getColumnIndex(ContactsContract.CommonDataKinds.Relation.LABEL));
+	                	relationshipType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Relation.LABEL));
 	            		break;
                 	case 1:
                 		relationshipType = getString(R.string.assistant);
@@ -854,19 +859,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] dateWhereParams = new String[]{contact_id,
         ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE};
         
-        Cursor dateCur = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
-        startManagingCursor(dateCur);
+        c = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
+        //startManagingCursor(c);
 
-        while (dateCur.moveToNext()) {
-            date = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
+        while (c.moveToNext()) {
+            date = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
             
-            String dateTypeRaw = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE));
+            String dateTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.TYPE));
             
             try {
             	switch(Integer.parseInt(dateTypeRaw))
                 {
                 	case 0:
-	                    dateType = dateCur.getString(dateCur.getColumnIndex(ContactsContract.CommonDataKinds.Event.LABEL));
+	                    dateType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.LABEL));
 	                    break;
                 	case 1:
                 		dateType = getString(R.string.anniversary);
@@ -961,28 +966,32 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
 		ContentResolver cr = getContentResolver();
 		
+	    String[] columns = new String[] { ContactsContract.CommonDataKinds.Note.NOTE };
+
         String noteWhere = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
         String[] noteWhereParams = new String[]{contact_id,
         ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE};
         
-        Cursor noteCur = cr.query(ContactsContract.Data.CONTENT_URI, null, noteWhere, noteWhereParams, null);
+        Cursor noteCur = cr.query(ContactsContract.Data.CONTENT_URI, columns, noteWhere, noteWhereParams, null);
         startManagingCursor(noteCur);
 
         while (noteCur.moveToNext()) {
         	try {
                 note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
+            	System.out.println("NOTE: " + note);
         	} catch (NullPointerException e) {
         		note.isEmpty();
         	}
 
             contact.setNotes(note);
 
-            if (note != null || !note.isEmpty() || note != "")
+            if (!note.isEmpty())
             {
+            	System.out.println("visible");
             	noteLayout.setVisibility(View.VISIBLE);
+                lblNoteContent.setText(note);
             }
         }
-        lblNoteContent.setText(note);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -997,12 +1006,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] orgWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
         
-		Cursor orgCur = cr.query(ContactsContract.Data.CONTENT_URI,
+		c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, orgWhere, orgWhereParams, null);
-        startManagingCursor(orgCur);
+        //startManagingCursor(c);
 
-        while (orgCur.moveToNext()) {
-            company = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
+        while (c.moveToNext()) {
+            company = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
             contact.setOrganization(company); 
             
         }
@@ -1042,20 +1051,20 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] websiteWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE};
         
-		Cursor webCur = cr.query(ContactsContract.Data.CONTENT_URI,
+		c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, websiteWhere, websiteWhereParams, null);
-        startManagingCursor(webCur);
+        //startManagingCursor(c);
 
-        while (webCur.moveToNext()) {
-            website = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
+        while (c.moveToNext()) {
+            website = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
             
-            String websiteTypeRaw = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.TYPE));
+            String websiteTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Website.TYPE));
 
             try {
             	switch(Integer.parseInt(websiteTypeRaw))
                 {
             		case 0:
-            			websiteType = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.LABEL));
+            			websiteType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Website.LABEL));
             			break;
                 	case 1:
                 		websiteType = getString(R.string.homepage);
@@ -1186,19 +1195,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] addressWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE};
         
-		Cursor addrCur = cr.query(ContactsContract.Data.CONTENT_URI,
+		c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, addressWhere, addressWhereParams, null);
-        startManagingCursor(addrCur);
+        //startManagingCursor(c);
 
-        while (addrCur.moveToNext()) {
-            address = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
+        while (c.moveToNext()) {
+            address = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
             
-            String addressTypeRaw = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
+            String addressTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
             try {
             	switch(Integer.parseInt(addressTypeRaw))
                 {
             		case 0:
-            			addressType = addrCur.getString(addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.LABEL));
+            			addressType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.LABEL));
             		break;
                 	case 1:
                 		addressType = getString(R.string.home);
@@ -1344,25 +1353,25 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		ContentResolver cr = getContentResolver();
 		String emailType = null;
 		
-		Cursor emailCur = cr.query(
+		c = cr.query(
                 ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                 null,
                 ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                 new String[]{contact_id},
                 null);
-        startManagingCursor(emailCur);
+        //startManagingCursor(c);
 
 		
-        while (emailCur.moveToNext()) {
-            email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+        while (c.moveToNext()) {
+            email = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
             
-            String emailTypeRaw = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+            String emailTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
             
             try {
             	switch(Integer.parseInt(emailTypeRaw))
                 {
                 	case 0:
-                        emailType = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.LABEL));
+                        emailType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.LABEL));
                 		break;
                 	case 1:
                 		emailType = getString(R.string.home);
@@ -1470,14 +1479,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 
 		ContentResolver cr = getContentResolver();
 		
-		Cursor nameCur = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
+		c = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
                 ContactsContract.Contacts._ID + " =? ",
                 new String[]{contact_id}, null);
-        startManagingCursor(nameCur);
+        //startManagingCursor(c);
 
-        while (nameCur.moveToNext()) {
-            name = nameCur.getString(
-            		nameCur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+        while (c.moveToNext()) {
+            name = c.getString(
+            		c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             
             contact.setName(name);  
             
@@ -1506,20 +1515,22 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		String phoneType = null;
 		
 		
-		Cursor phoneCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+		c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                 new String[]{contact_id}, null);
-        startManagingCursor(phoneCur);
+        //startManagingCursor(c);
 
-        while (phoneCur.moveToNext()) {
-            number = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            String phoneTypeRaw = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+        while (c.moveToNext()) {
+            number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            number = PhoneNumberUtils.formatNumber(number);
+            
+            String phoneTypeRaw = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             
             try {
             	switch(Integer.parseInt(phoneTypeRaw))
                 {
             		case 0:
-                        phoneType = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+                        phoneType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
                         break;
     	        	case 1:
     	        		phoneType = getString(R.string.home);
@@ -1682,9 +1693,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	}
 	
 	public void deleteContact(String lookup_key) {
-		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+		c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
 		        null, null, null, null);
-		if (cur.moveToFirst()) {
+		if (c.moveToFirst()) {
 		    try{
 		        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookup_key);
 		        getContentResolver().delete(uri, null, null);
@@ -2121,7 +2132,21 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
-
+	  
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (c != null) {
+		      c.close();
+		   }
+		}
+	  
+	  public void onPause() {
+		   super.onPause();
+		   if (c != null) {
+		      c.close();
+		   }
+		}
+	  
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -2146,5 +2171,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
   public void onResume() {
       super.onResume();  // Always call the superclass method first
       setupActionBar();
+      c = null;
   }
 }

@@ -51,7 +51,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
     ArrayList<FreqContact> freqContactList = new ArrayList<FreqContact>();
 
 	private boolean firstRunDoneGraph;
+	String [] colorArray;
 	
+	Cursor c = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,18 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
+		
+		colorArray = new String[10];
+		colorArray[0] = "#34AADC";
+		colorArray[1] = "#FF5E3A";
+		colorArray[2] = "#FF2A68";
+		colorArray[3] = "#FF9500";
+		colorArray[4] = "#87FC70";
+		colorArray[5] = "#FFDB4C";
+		colorArray[6] = "#0BD318";
+		colorArray[7] = "#1D62F0";
+		colorArray[8] = "#5856D6";
+		colorArray[9] = "#C643FC";
 		
 		createData();
 	}
@@ -174,23 +188,26 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 
 	@SuppressWarnings("deprecation")
 	private void createData() {
-				
+			
 		Integer count = 0;
-	    GraphAdapter adapter = new GraphAdapter(GraphActivity.this, freqContactList);
-		
-		String [] colorArray;
-		colorArray = new String[10];
+	    GraphAdapter adapter = null;
+	    adapter = new GraphAdapter(GraphActivity.this, freqContactList);
+	    
+		ListView freqGraphList = (ListView) findViewById(R.id.freq_graph_list);
+	    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            	FreqContact selectedFreqContact = new FreqContact();
+				
+            	selectedFreqContact = (FreqContact) parent.getItemAtPosition(position);
+                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
+                intent.putExtra("contact_id", selectedFreqContact.getID());
 
-		colorArray[0] = "#34AADC";
-		colorArray[1] = "#FF5E3A";
-		colorArray[2] = "#FF2A68";
-		colorArray[3] = "#FF9500";
-		colorArray[4] = "#87FC70";
-		colorArray[5] = "#FFDB4C";
-		colorArray[6] = "#0BD318";
-		colorArray[7] = "#1D62F0";
-		colorArray[8] = "#5856D6";
-		colorArray[9] = "#C643FC";
+                startActivity(intent);
+            }
+        });
+	    freqGraphList.setAdapter(adapter);
+
 		
 		PieGraph pie = (PieGraph)findViewById(R.id.graph);
 		PieSlice slice;
@@ -205,22 +222,23 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
 
 	    try {
-			Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
-		    startManagingCursor(cursor);
-			
-		    while (cursor.moveToNext() && count != 9) {
+	    
+			c = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
+	    	FreqContact curFreqContact;
+
+		    while (c.moveToNext() && count <= 9) {
+				curFreqContact = null;
+		    	curFreqContact = new FreqContact();
 		    	
-		    	FreqContact curFreqContact = new FreqContact();
-		    	
-		        curFreqContact.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-		        curFreqContact.setTimesContacted(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
-		        curFreqContact.setURL(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+		        curFreqContact.setName(c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+		        curFreqContact.setTimesContacted(c.getString(c.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
+		        curFreqContact.setURL(c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+		        curFreqContact.setID(c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)));
 		        curFreqContact.setCount(count);
-		        curFreqContact.setID(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
-		        	        	       				        
+    	       				        
 				slice = new PieSlice();
 				slice.setColor(Color.parseColor(colorArray[count]));
 				slice.setTitle(curFreqContact.getName());
@@ -228,30 +246,14 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				pie.addSlice(slice); 
 				
 				freqContactList.add(curFreqContact);
-				
 				count++;
+				curFreqContact = null;
+	            adapter.notifyDataSetChanged();
 		    }    
-		  
 		    
-		    ListView freqGraphList = (ListView) findViewById(R.id.freq_graph_list);
-		    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
-	            @Override
-	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	            	FreqContact selectedFreqContact = new FreqContact();
-					
-	            	selectedFreqContact = (FreqContact) parent.getItemAtPosition(position);
-	                Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
-	                intent.putExtra("contact_id", selectedFreqContact.getID());
-
-	                startActivity(intent);
-	            }
-	        });
-	        
-		    freqGraphList.setAdapter(adapter);
 	    } catch (Exception e) {
 	    
 	    }
-	    
 	}
 	
 	@Override
@@ -324,11 +326,25 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	  }
 	  
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (c != null) {
+		      c.close();
+		   }
+		}
+	  
+	  public void onPause() {
+		   super.onPause();
+		   if (c != null) {
+		      c.close();
+		   }
+		}
+	  
 	  @Override
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
+	      c = null;
 	      setupActionBar();
 
 	  }
-
 }

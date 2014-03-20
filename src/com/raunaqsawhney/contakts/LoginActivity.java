@@ -333,7 +333,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				Color.parseColor("#5856D6"),
 				Color.parseColor("#C86EDF"),
 				Color.parseColor("#C644FC"),
-				Color.parseColor("#1F1F21")}, Color.parseColor(theme), 3, 2);
+				Color.parseColor("#000000")}, Color.parseColor(theme), 3, 2);
 		
 		colorPickerDialog.setOnColorSelectedListener(new OnColorSelectedListener() {
 
@@ -369,11 +369,12 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 					themeColor = "#C86EDF";
 				} else if (color == -46719) {
 					themeColor = "#FF4981";
-				} else if (color == -14737631) {
-					themeColor = "#1F1F21";
+				} else if (color == -16777216) {
+					themeColor = "#000000";
 				} else if (color == -3783428) {
 					themeColor = "#C644FC";
 				}
+
 				
 				edit.putString("theme", themeColor);
 				edit.apply(); 
