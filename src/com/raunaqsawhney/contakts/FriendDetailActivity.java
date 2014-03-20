@@ -476,7 +476,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
  
         while (cursorPhone.moveToNext()) {
             contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            
+			contactNumber = PhoneNumberUtils.formatNumber(contactNumber);
+
             String phoneTypeRaw = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             
             try {
