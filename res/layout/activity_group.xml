@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    tools:context=".GroupActivity" >
+
+    <com.google.android.gms.ads.AdView android:id="@+id/adView"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         ads:adUnitId="@string/admob_id"
+                         android:visibility="gone"
+                         ads:adSize="SMART_BANNER"/>
+    
+        <ListView
+        android:id="@+id/groupList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        android:dividerHeight="0.10dp"
+        android:fadeScrollbars="true"
+        android:fastScrollEnabled="true"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:scrollingCache="true"
+        android:soundEffectsEnabled="true"
+        android:paddingBottom="40dip" />
+
+
+</LinearLayout>

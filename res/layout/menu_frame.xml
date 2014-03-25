@@ -7,9 +7,14 @@
     <ListView
         android:id="@+id/nav_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:fitsSystemWindows="true"/>
+        android:fitsSystemWindows="true"
+        android:paddingBottom="40dip"
+        android:dividerHeight="0.10dp"
+        android:scrollingCache="true"
+        android:paddingLeft="10dip"
+        android:soundEffectsEnabled="true"/>
     
 
 </LinearLayout>

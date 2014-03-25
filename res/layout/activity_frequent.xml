@@ -14,7 +14,8 @@
                          ads:adSize="SMART_BANNER"/> 
                          
 
-    
+
+        
     <ListView
         android:id="@+id/freqList"
         android:layout_width="fill_parent"
@@ -47,5 +48,5 @@
         android:textColor="#8E8E93"
         android:text="@string/emptyFreqs"/>
     
-
+	
 </LinearLayout> 

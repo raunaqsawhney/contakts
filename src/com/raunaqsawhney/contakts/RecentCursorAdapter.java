@@ -65,8 +65,13 @@ public class RecentCursorAdapter extends SimpleCursorAdapter {
         	typePhoto.setImageResource(R.drawable.ic_incoming);
         }
 
-        recentName.setText(name);
-        recentNumber.setText(number);
+        try {
+            recentName.setText(name);
+            recentNumber.setText(number);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        }
+
         recentDate.setText(callDayTime.toLocaleString());
     }
     

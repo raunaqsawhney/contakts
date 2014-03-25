@@ -41,7 +41,8 @@
     <string name="sMRecent">Recents</string>
     <string name="sMMostContacted">Most Contacted</string>
     <string name="sMPhoneContacts">Phone Contacts</string>
-    <string name="sMGoogleContacts">Google Contacts</string>
+    <string name="sMGroups">Groups</string>
+    <string name="sMGoogleContacts">All Contacts</string>
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Settings</string>
     <string name="sMAbout">About</string>
@@ -178,22 +179,33 @@
     <string name="clear">Clear</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_recent">RecentActivity</string>
-    
     <string name="noPhoneNumber">No phone number found.</string>
     <string name="noPhoneContact">Number not associated with a phone contact.</string>
     <string name="deleteMessage">Are you sure you want to delete this contact?</string>
     <string name="deleteTitle">Delete</string>
-
-    
     <string name="recDialogHeader">Recently Contacted</string>
     <string name="recMsg1">People you recently interacted with are presented here.\n\n</string>
-   	<string name="recMsg5">You can also long-press on an item and call directly.</string>
-    
+    <string name="recMsg5">You can also long-press on an item and call directly.</string>
     <string name="emptyFreqs">You do not enough interactions with people to populate frequents list.</string>
-    
     <string name="clearRecents">Clear Logs</string>
     <string name="clearLogs">Are you sure you want to clear call history?</string>
-    
     <string name="emptyRecs">Call Log is empty.</string>
+    <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_group_detail">GroupDetailActivity</string>
+    <string name="contactCountLabel">Contacts</string>
+    <string name="emptyGroups">No people in this group.</string>
+    <string name="newGroup">New Group</string>
+    <string name="deleteGroupMessage">Are you sure you want to delete this group?</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="emptyGroupInfo">To add people to a group, select a contact, then edit it, and select a group for that contact.</string>
+    
+    <string name="youtubeheader">YouTube</string>
+    <string name="androidheader">Starred in Android</string>
+    <string name="contactsheader">My Contacts</string>
+    <string name="googleplusheader">Google+ circles</string>
+    <string name="friendsheader">Friends</string>
+    <string name="familyheader">Family</string>
+    <string name="coworkerheader">Coworkers</string>
     
 </resources>

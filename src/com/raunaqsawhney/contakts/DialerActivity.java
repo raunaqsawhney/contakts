@@ -599,6 +599,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings),
 				getString(R.string.sMAbout)
@@ -608,7 +609,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_nav_google,
+				R.drawable.ic_allcontacts,
+				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings,
 				R.drawable.ic_nav_about
@@ -675,12 +677,15 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	   		Intent googleIntent = new Intent(DialerActivity.this, GoogleActivity.class);
 	   		DialerActivity.this.startActivity(googleIntent);
 	   } else if (selected == 5) {
-		   	Intent fbIntent = new Intent(DialerActivity.this, FBActivity.class);
+		   	Intent fbIntent = new Intent(DialerActivity.this, GroupActivity.class);
 		   	DialerActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(DialerActivity.this, LoginActivity.class);
+		   	Intent loIntent = new Intent(DialerActivity.this, FBActivity.class);
 		   	DialerActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(DialerActivity.this, LoginActivity.class);
+		   	DialerActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(DialerActivity.this, InfoActivity.class);
 		   	DialerActivity.this.startActivity(iIntent);
 	   } 

@@ -230,6 +230,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings),
 				getString(R.string.sMAbout)
@@ -239,7 +240,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_nav_google,
+				R.drawable.ic_allcontacts,
+				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings,
 				R.drawable.ic_nav_about
@@ -268,7 +270,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		
 		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
         
-	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0)";
+	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20)";
 
 	    String[] projection = new String[] {
 	            ContactsContract.Contacts._ID,
@@ -334,60 +336,12 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	            to,
 	            0);
 		
-	    /*
-	    String[] projection = new String[] {
-	            ContactsContract.Contacts._ID,
-	            ContactsContract.Contacts.LOOKUP_KEY,
-	            ContactsContract.Contacts.PHOTO_URI,
-	            ContactsContract.Contacts.DISPLAY_NAME,
-	            ContactsContract.Contacts.TIMES_CONTACTED};
-
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 10)";
-
-	    
-		Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, ContactsContract.Contacts.TIMES_CONTACTED + " DESC");
-		startManagingCursor(cursor);
-		
-	    long id = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-	    
-	    Bitmap bitmap = loadContactPhoto(getContentResolver(), id);
-	    if(bitmap!=null) {
-	    	favIcon.setImageBitmap(bitmap);
-	    } else {
-	    	// NOTHING
-	    }
-	    
-	    String[] from = {ContactsContract.Contacts.Photo.PHOTO_URI , ContactsContract.Contacts.DISPLAY_NAME};
-	    int to[] = new int[]{
-	    		R.id.freq_photo,
-	    		R.id.freq_name
-	    };
-
-	    mAdapter = new SimpleCursorAdapter(
-	            this,
-	            R.layout.freq_layout,
-	            cursor,
-	            from,
-	            to,
-	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		*/
 	   
         View header = getLayoutInflater().inflate(R.layout.freq_header, null);
         freqList.addHeaderView(header, null, false);
         freqList.setAdapter(mAdapter);
 	}
 	
-	/*
-	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
-		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-	    if (input == null) {
-
-	        return null;
-	    }
-	    return BitmapFactory.decodeStream(input);		
-	}
-	*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -416,12 +370,15 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	   		Intent googleIntent = new Intent(FrequentActivity.this, GoogleActivity.class);
 	   		FrequentActivity.this.startActivity(googleIntent);
 	   } else if (selected == 5) {
-		   	Intent fbIntent = new Intent(FrequentActivity.this, FBActivity.class);
+		   	Intent fbIntent = new Intent(FrequentActivity.this, GroupActivity.class);
 		   	FrequentActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(FrequentActivity.this, LoginActivity.class);
+		   	Intent loIntent = new Intent(FrequentActivity.this, FBActivity.class);
 		   	FrequentActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(FrequentActivity.this, LoginActivity.class);
+		   	FrequentActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(FrequentActivity.this, InfoActivity.class);
 		   	FrequentActivity.this.startActivity(iIntent);
 	   } 

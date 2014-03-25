@@ -25,6 +25,7 @@
         android:fastScrollEnabled="true"
         android:fitsSystemWindows="true"
         android:paddingLeft="10dip"
+        android:paddingBottom="40dip"
         android:paddingRight="10dip"
         android:scrollingCache="true"
         android:soundEffectsEnabled="true">

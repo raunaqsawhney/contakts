@@ -38,7 +38,8 @@
     <string name="sMRecent">Reciente</string>
     <string name="sMMostContacted">Contactado frecuentes</string>
     <string name="sMPhoneContacts">Contactos del Teléfono</string>
-    <string name="sMGoogleContacts">Contactos del Google</string>
+    <string name="sMGroups">Grupos</string>
+    <string name="sMGoogleContacts">Todos los Contactos</string>
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Configuración</string>
     <string name="sMAbout">Información</string>
@@ -205,5 +206,14 @@
     <string name="clearLogs">¿Está seguro que desea borrar el historial de llamada?</string>
     
     <string name="emptyRecs">Registro de llamadas está vacía.</string>
+    
+    <string name="contactCountLabel">Contactos</string>
+    <string name="emptyGroups">No people in this group.</string>
+    <string name="emptyGroups">No hay gente en este grupo.</string>
+  	<string name="newGroup">Nuevo Grupo</string>
+  	<string name="deleteGroupMessage">¿Está seguro que desea eliminar este grupo?</string>
+  	
+  	<string name="emptyGroupInfo">Para agregar personas a un grupo, seleccione un contacto y luego editarlo, y seleccione un grupo para ese contacto.</string>
+    
     
 </resources>

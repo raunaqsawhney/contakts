@@ -15,7 +15,7 @@ public final class R {
 	}
 	public static final class drawable {
 		public static final int color_picker_swatch = 0x7f020048;
-		public static final int ic_colorpicker_swatch_selected = 0x7f020094;
+		public static final int ic_colorpicker_swatch_selected = 0x7f020097;
 	}
 	public static final class id {
 		public static final int color_picker = 0x7f050008;
@@ -23,8 +23,8 @@ public final class R {
 		public static final int color_picker_swatch = 0x7f050009;
 	}
 	public static final class layout {
-		public static final int color_picker_dialog = 0x7f03000e;
-		public static final int color_picker_swatch = 0x7f03000f;
+		public static final int color_picker_dialog = 0x7f030012;
+		public static final int color_picker_swatch = 0x7f030013;
 	}
 	public static final class string {
 		public static final int color_picker_default_title = 0x7f08001c;

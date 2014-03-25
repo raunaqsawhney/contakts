@@ -268,6 +268,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings),
 				getString(R.string.sMAbout)
@@ -277,7 +278,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_nav_google,
+				R.drawable.ic_allcontacts,
+				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings,
 				R.drawable.ic_nav_about
@@ -432,15 +434,18 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	   		Intent googleIntent = new Intent(LoginActivity.this, GoogleActivity.class);
 	   		LoginActivity.this.startActivity(googleIntent);
 	   } else if (selected == 5) {
-		   	Intent fbIntent = new Intent(LoginActivity.this, FBActivity.class);
+		   	Intent fbIntent = new Intent(LoginActivity.this, GroupActivity.class);
 		   	LoginActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(LoginActivity.this, LoginActivity.class);
+		   	Intent loIntent = new Intent(LoginActivity.this, FBActivity.class);
 		   	LoginActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(LoginActivity.this, LoginActivity.class);
+		   	LoginActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(LoginActivity.this, InfoActivity.class);
 		   	LoginActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	

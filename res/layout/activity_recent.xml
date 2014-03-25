@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     tools:context=".RecentActivity"
     android:orientation="vertical" >
+    
+    <TextView 
+		android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:paddingTop="50dip"
+        android:textSize="22sp"
+        android:textColor="#8E8E93"
+        android:text="@string/emptyRecs"/>
 
     <ListView
         android:id="@+id/recentList"
@@ -22,18 +36,5 @@
 
     </ListView>
     
-    <TextView 
-		android:id="@+id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="50dip"
-        android:textSize="22sp"
-        android:textColor="#8E8E93"
-        android:text="@string/emptyRecs"/>
 
 </LinearLayout>

@@ -242,6 +242,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings),
 				getString(R.string.sMAbout)
@@ -251,7 +252,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_nav_google,
+				R.drawable.ic_allcontacts,
+				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings,
 				R.drawable.ic_nav_about
@@ -379,13 +381,13 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	    	System.out.println("NOT EMPTY");
 	    }
         
-        favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(final AdapterView<?> parent, View view,
-					final int position, long id) {
-				
-	            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+	        favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
+	
+				@Override
+				public boolean onItemLongClick(final AdapterView<?> parent, View view,
+						final int position, long id) {
+					
+		            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
 				AlertDialog alertDialog = new AlertDialog.Builder(
                        FavActivity.this).create();
@@ -501,15 +503,18 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	   		Intent phoneIntent = new Intent(FavActivity.this, MainActivity.class);
 	   		FavActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(FavActivity.this, GoogleActivity.class);
+	   		Intent googleIntent = new Intent(FavActivity.this, GroupActivity.class);
 	   		FavActivity.this.startActivity(googleIntent);
 	   } else if (selected == 5) {
-		   	Intent fbIntent = new Intent(FavActivity.this, FBActivity.class);
+		   	Intent fbIntent = new Intent(FavActivity.this, GroupActivity.class);
 		   	FavActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(FavActivity.this, LoginActivity.class);
+		   	Intent loIntent = new Intent(FavActivity.this, FBActivity.class);
 		   	FavActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(FavActivity.this, LoginActivity.class);
+		   	FavActivity.this.startActivity(iIntent);
+	   }    else if (selected == 8) {
 		   	Intent iIntent = new Intent(FavActivity.this, InfoActivity.class);
 		   	FavActivity.this.startActivity(iIntent);
 	   } 

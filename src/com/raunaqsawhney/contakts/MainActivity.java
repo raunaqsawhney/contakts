@@ -218,6 +218,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
+				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings),
 				getString(R.string.sMAbout)
@@ -227,7 +228,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_nav_google,
+				R.drawable.ic_allcontacts,
+				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings,
 				R.drawable.ic_nav_about
@@ -370,15 +372,18 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	   		Intent googleIntent = new Intent(MainActivity.this, GoogleActivity.class);
 	   		MainActivity.this.startActivity(googleIntent);
 	   } else if (selected == 5) {
-		   	Intent fbIntent = new Intent(MainActivity.this, FBActivity.class);
+		   	Intent fbIntent = new Intent(MainActivity.this, GroupActivity.class);
 		   	MainActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(MainActivity.this, LoginActivity.class);
+		   	Intent loIntent = new Intent(MainActivity.this, FBActivity.class);
 		   	MainActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(MainActivity.this, LoginActivity.class);
+		   	MainActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(MainActivity.this, InfoActivity.class);
 		   	MainActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	@Override

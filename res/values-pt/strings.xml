@@ -35,10 +35,11 @@
     <string name="error">Erro</string>
     
     <string name="sMfavourites">Favoritos</string>
-    <string name="sMRecent">recente</string>
+    <string name="sMRecent">Recentes</string>
     <string name="sMMostContacted">Contactado frequentes</string>
     <string name="sMPhoneContacts">Contatos do Telefone</string>
-    <string name="sMGoogleContacts">Contatos do Google</string>
+    <string name="sMGroups">Grupos</string>
+    <string name="sMGoogleContacts">Todos os Contatos</string>
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Configurações</string>
     <string name="sMAbout">Informações</string>
@@ -204,5 +205,12 @@
     <string name="clearLogs">Tem certeza de que deseja apagar o histórico de chamadas?</string>
     
     <string name="emptyRecs">Registro de chamadas está vazio.</string>
-    
+   	<string name="contactCountLabel">Contactos</string>
+   	<string name="emptyGroups">Não há pessoas neste grupo.</string>
+   	
+   	<string name="newGroup">Novo Grupo</string>
+   	<string name="deleteGroupMessage">Tem certeza de que deseja excluir este grupo?</string>
+   	
+   	<string name="emptyGroupInfo">Para adicionar pessoas a um grupo, selecione um contato, em seguida, editá-lo e selecionar um grupo para esse contato.</string>
+   	
 </resources>

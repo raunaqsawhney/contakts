@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dip"
-        android:src="@drawable/ic_nav_google"/>
+        android:src="@drawable/ic_allcontacts"/>
         
     <TextView
         android:id="@+id/header_name"
