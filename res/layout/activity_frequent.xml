@@ -14,7 +14,8 @@
                          ads:adSize="SMART_BANNER"/> 
                          
 
-
+	
+    
         
     <ListView
         android:id="@+id/freqList"
@@ -32,10 +33,12 @@
         android:scrollingCache="true"
         android:soundEffectsEnabled="true"
         android:paddingBottom="40dip">
+        
+
     </ListView>
     
 	<TextView 
-		android:id="@+id/empty"
+		android:id="@+id/emptyFreqText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"

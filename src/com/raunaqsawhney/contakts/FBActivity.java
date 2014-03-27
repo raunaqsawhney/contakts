@@ -258,8 +258,7 @@ private void initializePayments() {
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -269,8 +268,7 @@ private void initializePayments() {
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -423,10 +421,7 @@ private void initializePayments() {
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(FBActivity.this, LoginActivity.class);
 		   	FBActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(FBActivity.this, InfoActivity.class);
-		   	FBActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	@Override

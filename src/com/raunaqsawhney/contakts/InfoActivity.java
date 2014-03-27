@@ -109,8 +109,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -120,8 +119,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -241,9 +239,6 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		   	InfoActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(InfoActivity.this, LoginActivity.class);
-		   	InfoActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(InfoActivity.this, InfoActivity.class);
 		   	InfoActivity.this.startActivity(iIntent);
 	   }
 	}

@@ -67,16 +67,16 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		setupSlidingMenu();
 		
 		colorArray = new String[10];
-		colorArray[0] = "#34AADC";
-		colorArray[1] = "#FF5E3A";
-		colorArray[2] = "#FF2A68";
-		colorArray[3] = "#FF9500";
-		colorArray[4] = "#87FC70";
-		colorArray[5] = "#FFDB4C";
-		colorArray[6] = "#0BD318";
-		colorArray[7] = "#1D62F0";
-		colorArray[8] = "#5856D6";
-		colorArray[9] = "#C643FC";
+		colorArray[0] = "#33B5E5";
+		colorArray[1] = "#AA66CC";
+		colorArray[2] = "#4F2F4F";
+		colorArray[3] = "#99CC00";
+		colorArray[4] = "#669900";
+		colorArray[5] = "#FFBB33";
+		colorArray[6] = "#FF8800";
+		colorArray[7] = "#FF2D55";
+		colorArray[8] = "#FF4444";
+		colorArray[9] = "#CC0000";
 		
 		createData();
 	}
@@ -158,8 +158,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -169,8 +168,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -224,7 +222,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20)";
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20) AND ("
+	    	    + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
+	            + ContactsContract.Contacts.DISPLAY_NAME + " != '' )";
 
 	    try {
 	    
@@ -312,9 +312,6 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		   	GraphActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(GraphActivity.this, LoginActivity.class);
-		   	GraphActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(GraphActivity.this, InfoActivity.class);
 		   	GraphActivity.this.startActivity(iIntent);
 	   }
 	}

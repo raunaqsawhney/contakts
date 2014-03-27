@@ -72,17 +72,17 @@ public class GraphAdapter extends ArrayAdapter<FreqContact>{
 			String [] colorArray;
 			colorArray = new String[10];
 
-			colorArray[0] = "#34AADC";
-			colorArray[1] = "#FF5E3A";
-			colorArray[2] = "#FF2A68";
-			colorArray[3] = "#FF9500";
-			colorArray[4] = "#87FC70";
-			colorArray[5] = "#FFDB4C";
-			colorArray[6] = "#0BD318";
-			colorArray[7] = "#1D62F0";
-			colorArray[8] = "#5856D6";
-			colorArray[9] = "#C643FC";
-	       
+			colorArray[0] = "#33B5E5";
+			colorArray[1] = "#AA66CC";
+			colorArray[2] = "#4F2F4F";
+			colorArray[3] = "#99CC00";
+			colorArray[4] = "#669900";
+			colorArray[5] = "#FFBB33";
+			colorArray[6] = "#FF8800";
+			colorArray[7] = "#FF2D55";
+			colorArray[8] = "#FF4444";
+			colorArray[9] = "#CC0000";
+				       
 	       Integer count = freqContact.getCount();
 	       
 	       // Populate the data into the template view using the data object

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -14,9 +15,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -270,8 +273,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -281,8 +283,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 		
 		List<RowItem> rowItems;
@@ -321,62 +322,61 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		
     	final ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
 		colorPickerDialog.initialize(R.string.color_dialog_title, new int[] { 
-				Color.parseColor("#34AADC"),
-				Color.parseColor("#18A7B5"),
-				Color.parseColor("#8E8E93"),
+				Color.parseColor("#33B5E5"),
+				Color.parseColor("#0099CC"),
+				Color.parseColor("#AA66CC"),
+				Color.parseColor("#9933CC"),
+				Color.parseColor("#4F2F4F"),
+				Color.parseColor("#4C004C"),
+				Color.parseColor("#99CC00"),
+				Color.parseColor("#669900"),
+				Color.parseColor("#FFBB33"),
+				Color.parseColor("#FF8800"),
 				Color.parseColor("#FF2D55"),
-				Color.parseColor("#FF4981"),
-				Color.parseColor("#FF3B30"),
-				Color.parseColor("#FF9500"),
-				Color.parseColor("#FFCC00"),
-				Color.parseColor("#0BD318"),
-				Color.parseColor("#4CD964"),
-				Color.parseColor("#007AFF"),
-				Color.parseColor("#5856D6"),
-				Color.parseColor("#C86EDF"),
-				Color.parseColor("#C644FC"),
-				Color.parseColor("#000000")}, Color.parseColor(theme), 3, 2);
+				Color.parseColor("#FF4444"),
+				Color.parseColor("#CC0000"),
+				Color.parseColor("#590000"),
+				Color.parseColor("#1F1F21")}, Color.parseColor(theme), 3,2);
 		
 		colorPickerDialog.setOnColorSelectedListener(new OnColorSelectedListener() {
-
+			
 			@Override
 			public void onColorSelected(int color) {
 						
 				System.out.println(color);
 				String themeColor = null;
 				
-				if (color == -13325604) {
-					themeColor = "#34AADC";
-				} else if (color == -7434605 ) {
-					themeColor = "#8E8E93";
+				if (color == -13388315) {
+					themeColor = "#33B5E5";
+				} else if (color == -16737844 ) {
+					themeColor = "#0099CC";
+				} else if (color == -5609780) {
+					themeColor = "#AA66CC";
+				} else if (color == -6736948 ) {
+					themeColor = "#9933CC";
+				} else if (color == -6697984 ) {
+					themeColor = "#99CC00";
+				} else if (color == -10053376) {
+					themeColor = "#669900";
+				} else if (color == -17613 ) {
+					themeColor = "#FFBB33";
+				} else if (color == -30720) {
+					themeColor = "#FF8800";
+				} else if (color == -48060) {
+					themeColor = "#FF4444";
+				} else if (color == -3407872) {
+					themeColor = "#CC0000";
+				}  else if (color == -11587761 ) {
+					themeColor = "#4F2F4F";
+				} else if (color == -11796404) {
+					themeColor = "#4C004C";
 				} else if (color == -53931) {
 					themeColor = "#FF2D55";
-				} else if (color == -13312 ) {
-					themeColor = "#FFCC00";
-				} else if (color == -27392 ) {
-					themeColor = "#FF9500";
-				} else if (color == -50384) {
-					themeColor = "#FF3B30";
-				} else if (color == -11740828 ) {
-					themeColor = "#4CD964";
-				} else if (color == -16745729) {
-					themeColor = "#007AFF";
-				} else if (color == -10987818) {
-					themeColor = "#5856D6";
-				} else if (color == -15161419) {
-					themeColor = "#18A7B5";
-				} else if (color == -16002280) {
-					themeColor = "#0BD318";
-				} else if (color == -3641633) {
-					themeColor = "#C86EDF";
-				} else if (color == -46719) {
-					themeColor = "#FF4981";
-				} else if (color == -16777216) {
-					themeColor = "#000000";
-				} else if (color == -3783428) {
-					themeColor = "#C644FC";
+				} else if (color == -10944512) {
+					themeColor = "#590000";
+				}  else if (color == -14737631) {
+					themeColor = "#1F1F21";
 				}
-
 				
 				edit.putString("theme", themeColor);
 				edit.apply(); 
@@ -401,6 +401,20 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_info:
+	        	Intent iIntent = new Intent(LoginActivity.this, InfoActivity.class);
+			   	LoginActivity.this.startActivity(iIntent);
+	            return true;  
+	        
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 	
 	@Override
 	 public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -442,11 +456,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(LoginActivity.this, LoginActivity.class);
 		   	LoginActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(LoginActivity.this, InfoActivity.class);
-		   	LoginActivity.this.startActivity(iIntent);
 	   }
 	}
+
 	
 	
 	@Override

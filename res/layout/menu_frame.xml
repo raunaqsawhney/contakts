@@ -11,9 +11,11 @@
         android:clipToPadding="false"
         android:fitsSystemWindows="true"
         android:paddingBottom="40dip"
-        android:dividerHeight="0.10dp"
+        android:dividerHeight="0.1dp"
         android:scrollingCache="true"
         android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:scrollbars="none"
         android:soundEffectsEnabled="true"/>
     
 

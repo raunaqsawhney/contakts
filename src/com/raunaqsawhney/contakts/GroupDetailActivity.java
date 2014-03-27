@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -48,7 +49,6 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	private String group_id;
 	
 	SimpleCursorAdapter mAdapter;
-	private ListView groupContactListView;
 	private ListView contactGroupListView;
 	
 	Cursor cursor;
@@ -129,8 +129,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -140,8 +139,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -216,10 +214,8 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
         }
         
 	    getLoaderManager().initLoader(0, null, this);
+	    contactGroupListView.setAdapter(mAdapter);	
 	    
-        contactGroupListView.addHeaderView(header, null, false);
-        contactGroupListView.setItemsCanFocus(true);
-	    contactGroupListView.setAdapter(mAdapter);		
 	}
 	
 	@Override
@@ -253,21 +249,18 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		mAdapter.swapCursor(cursor);
+		View empty = findViewById(R.id.empty);
+		if (contactGroupListView.getAdapter().isEmpty()) {
+	        contactGroupListView.setEmptyView(empty);
+		    contactGroupListView.removeHeaderView(header);
+	    } else {
+		    contactGroupListView.addHeaderView(header, null, false);
+	    }
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		mAdapter.changeCursor(null);		
-	}
-	
-	
-	@Override
-	public void onContentChanged() {
-	    super.onContentChanged();
-
-	    View empty = findViewById(R.id.empty);
-	    ListView list = (ListView) findViewById(R.id.contactGroupList);
-	    list.setEmptyView(empty);
+		mAdapter.changeCursor(null);
 	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -297,9 +290,6 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 		   	GroupDetailActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(GroupDetailActivity.this, LoginActivity.class);
-		   	GroupDetailActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(GroupDetailActivity.this, InfoActivity.class);
 		   	GroupDetailActivity.this.startActivity(iIntent);
 	   }
 	}

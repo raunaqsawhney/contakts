@@ -296,7 +296,7 @@
 	        android:layout_weight="0.9"
 	        android:background="#DD4CD964"
 	        android:fontFamily="sans-serif-light"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textColor="#FFF"
 	        android:text="@string/call" />
 
@@ -313,7 +313,7 @@
            	android:paddingLeft="10dip"
             android:text="@string/clear"
             android:textColor="#FFF"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
         
     </LinearLayout>
         

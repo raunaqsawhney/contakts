@@ -149,8 +149,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -160,8 +159,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -333,9 +331,6 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		   	RecentActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(RecentActivity.this, LoginActivity.class);
-		   	RecentActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(RecentActivity.this, InfoActivity.class);
 		   	RecentActivity.this.startActivity(iIntent);
 	   }
 	}

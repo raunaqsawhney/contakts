@@ -7,6 +7,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,6 +39,7 @@ import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -47,6 +49,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -71,6 +74,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	Cursor cursor;
 	
 	LinearLayout dialerLayout;
+	
+	TextView number;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +161,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		
 		final Button clearBtn = (Button) findViewById(R.id.clear);
 		
-	    final TextView number = (TextView) findViewById(R.id.number);
+	    number = (TextView) findViewById(R.id.number);
 	    number.setTextColor(Color.parseColor(theme));
 	    number.setBackgroundColor(0);
 	    number.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
@@ -601,8 +606,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -612,8 +616,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -657,6 +660,23 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		return true;
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_add:
+	        	try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		addIntent.putExtra(ContactsContract.Intents.Insert.PHONE, number.getText().toString());
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		long selected = (navListView.getItemIdAtPosition(position));
@@ -685,10 +705,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(DialerActivity.this, LoginActivity.class);
 		   	DialerActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(DialerActivity.this, InfoActivity.class);
-		   	DialerActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	public Bitmap BlurImageLegacy(Bitmap input, int radius) {

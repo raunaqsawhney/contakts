@@ -20,6 +20,8 @@ import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -74,7 +76,7 @@ public class WelcomeActivity extends Activity {
         actionBarTitleText.setTextSize(22);
         
         ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#34AADC")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#33B5E5")));
         bar.setDisplayShowHomeEnabled(false);
        
         // Do Tint if KitKat
@@ -86,7 +88,7 @@ public class WelcomeActivity extends Activity {
 	        getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, -150, 0,0);
 	        config.getPixelInsetBottom();
 	        
-	        int actionBarColor = Color.parseColor("#34AADC");
+	        int actionBarColor = Color.parseColor("#33B5E5");
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }		
 	}
@@ -151,7 +153,7 @@ public class WelcomeActivity extends Activity {
             	mProgressBar.setIndeterminate(true);
             	
             	mProgressBar.setProgress(i);
-            	mCountDownTimer = new CountDownTimer(3000, 1000) {
+            	mCountDownTimer = new CountDownTimer(2000, 1000) {
 
             	        @Override
             	        public void onTick(long millisUntilFinished) {

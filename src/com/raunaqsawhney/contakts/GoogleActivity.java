@@ -214,8 +214,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -225,8 +224,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -412,10 +410,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 		   	GoogleActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(GoogleActivity.this, InfoActivity.class);
-		   	GoogleActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	private Boolean checkOnlineStatus() {

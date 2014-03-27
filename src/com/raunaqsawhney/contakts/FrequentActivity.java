@@ -77,6 +77,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	SimpleCursorAdapter mAdapter;
 	
 	private ListView freqList;
+	
+	Cursor cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -232,8 +234,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -243,8 +244,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -255,51 +255,14 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
             rowItems.add(item);
         }
 		
-		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
+        CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
                 R.layout.nav_item_layout, rowItems);
 		
+		navListView.setOnItemClickListener(this);
 		navListView.setAdapter(listAdapter);
-	    getLoaderManager().initLoader(0, null, this);
-		navListView.setOnItemClickListener(this);		
 	}
 	
-	@Override
-	public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
-		
-		CursorLoader cursorLoader = null;
-		
-		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
-        
-	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20)";
-
-	    String[] projection = new String[] {
-	            ContactsContract.Contacts._ID,
-	            ContactsContract.Contacts.LOOKUP_KEY,
-	            ContactsContract.Contacts.PHOTO_URI,
-	            ContactsContract.Contacts.DISPLAY_NAME,
-	            ContactsContract.Contacts.TIMES_CONTACTED};
-        
-        cursorLoader = new CursorLoader(
-        		FrequentActivity.this, 
-        		baseUri,
-                projection, 
-                query, 
-                null,
-                ContactsContract.Contacts.TIMES_CONTACTED + " DESC");	
-        
-        return cursorLoader;
-	}
 	
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		mAdapter.swapCursor(cursor);
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		mAdapter.changeCursor(null);		
-	}
-
 	@SuppressWarnings("deprecation")
 	private void fetchFrequents() {
 
@@ -308,8 +271,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         freqList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
+				cursor = (Cursor)parent.getItemAtPosition(position);
 				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
@@ -336,10 +298,59 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	            to,
 	            0);
 		
-	   
-        View header = getLayoutInflater().inflate(R.layout.freq_header, null);
-        freqList.addHeaderView(header, null, false);
+	    View header = getLayoutInflater().inflate(R.layout.freq_header, null);
+	    freqList.addHeaderView(header, null, false);
+	    getLoaderManager().initLoader(0, null, this);
         freqList.setAdapter(mAdapter);
+	}
+	
+	@Override
+	public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+		
+		CursorLoader cursorLoader = null;
+		
+		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
+        
+	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20) AND ("
+	    + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
+        + ContactsContract.Contacts.DISPLAY_NAME + " != '' )";
+	    
+
+	    String[] projection = new String[] {
+	            ContactsContract.Contacts._ID,
+	            ContactsContract.Contacts.LOOKUP_KEY,
+	            ContactsContract.Contacts.PHOTO_URI,
+	            ContactsContract.Contacts.DISPLAY_NAME,
+	            ContactsContract.Contacts.TIMES_CONTACTED};
+        
+        cursorLoader = new CursorLoader(
+        		FrequentActivity.this, 
+        		baseUri,
+                projection, 
+                query, 
+                null,
+                ContactsContract.Contacts.TIMES_CONTACTED + " DESC");	
+        
+        return cursorLoader;
+	}
+	
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		mAdapter.swapCursor(cursor);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		mAdapter.changeCursor(null);
+	}
+	
+	@Override
+	public void onContentChanged() {
+	    super.onContentChanged();
+
+	    View empty = findViewById(R.id.emptyFreqText);
+	    ListView list = (ListView) findViewById(R.id.freqList);
+	    list.setEmptyView(empty);
 	}
 	
 	
@@ -378,10 +389,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(FrequentActivity.this, LoginActivity.class);
 		   	FrequentActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(FrequentActivity.this, InfoActivity.class);
-		   	FrequentActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	@Override
@@ -420,20 +428,18 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	}
 	
 	@Override
-	public void onContentChanged() {
-	    super.onContentChanged();
-
-	    View empty = findViewById(R.id.empty);
-	    ListView list = (ListView) findViewById(R.id.freqList);
-	    list.setEmptyView(empty);
-	}
-	
-	@Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
+	  }
+	  
+	  @Override
 	  public void onStart() {
 	    super.onStart();
+	    cursor = null;
 	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
 	  }
-	
+
 	  @Override
 	  public void onStop() {
 	    super.onStop();
@@ -441,10 +447,10 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	  }
 	  
 	  @Override
-	  public void onResume() {
-		  
-	      super.onResume();  // Always call the superclass method first
-	      setupActionBar();
-
-	  }
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (cursor != null) {
+		      cursor.close();
+		   }
+		}
 }

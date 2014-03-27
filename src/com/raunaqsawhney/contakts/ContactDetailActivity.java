@@ -44,6 +44,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -170,6 +171,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	private void setupActionBar() {
 		
+		
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
@@ -182,6 +184,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         bar.setDisplayShowHomeEnabled(false);
         bar.setHomeButtonEnabled(true);
        
+        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -193,7 +196,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
-        }		
+        }
 	}
 
 	private void setupSlidingMenu() {
@@ -220,8 +223,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+				getString(R.string.sMSettings)
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
@@ -231,8 +233,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings,
-				R.drawable.ic_nav_about
+				R.drawable.ic_nav_settings
 		};
 
 		List<RowItem> rowItems;
@@ -2122,9 +2123,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		   	ContactDetailActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
 		   	Intent iIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
-		   	ContactDetailActivity.this.startActivity(iIntent);
-	   } else if (selected == 8) {
-		   	Intent iIntent = new Intent(ContactDetailActivity.this, InfoActivity.class);
 		   	ContactDetailActivity.this.startActivity(iIntent);
 	   }
 	}
