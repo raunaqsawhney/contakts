@@ -73,6 +73,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
 	boolean mIsPremium = false;
 	
+	Cursor cursor;
+	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,7 +158,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+        theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -253,8 +255,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
             @SuppressWarnings("deprecation")
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
+				cursor = (Cursor)parent.getItemAtPosition(position);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -423,12 +424,19 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		    return false;
 	}
 	
-	@Override
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
+	  }
+	  
+	  @Override
 	  public void onStart() {
 	    super.onStart();
+	    cursor = null;
 	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
 	  }
-	
+
 	  @Override
 	  public void onStop() {
 	    super.onStop();
@@ -436,8 +444,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	  }
 	  
 	  @Override
-	  public void onResume() {
-	      super.onResume();  // Always call the superclass method first	   
-	      setupActionBar();
-	  }
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (cursor != null) {
+		      cursor.close();
+		   }
+		}
 }

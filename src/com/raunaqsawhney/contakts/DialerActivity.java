@@ -200,7 +200,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		        	
 		        	String selection = ContactsContract.PhoneLookup.DISPLAY_NAME;
 		        	cursor = getContentResolver().query(uri, projection, selection, null, null);
-		        	startManagingCursor(cursor); 
 		        	
 		        	if(cursor.moveToFirst()) {
 		        		
@@ -549,7 +548,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+        theme = prefs.getString("theme", "#33B5E5");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
 	}
@@ -940,23 +939,31 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         return (bitmap);
     }
 	
-  @Override
-  public void onResume() {
-      super.onResume();  // Always call the superclass method first
-      setupActionBar();
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
+	  }
+	  
+	  @Override
+	  public void onStart() {
+	    super.onStart();
+	    cursor = null;
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
 
-  }
-  
-  @Override
-  public void onStart() {
-    super.onStart();
-    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-  }
-
-  @Override
-  public void onStop() {
-    super.onStop();
-    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
-  }
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (cursor != null) {
+		      cursor.close();
+		   }
+		}
 
 }

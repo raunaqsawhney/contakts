@@ -73,6 +73,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	GridView favGrid;
 	private SimpleCursorAdapter mAdapter;
 
+	Cursor cursor;
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +175,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#34AADC");
+		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -345,7 +346,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 				public boolean onItemLongClick(final AdapterView<?> parent, View view,
 						final int position, long id) {
 					
-		            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+				view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
 				AlertDialog alertDialog = new AlertDialog.Builder(
                        FavActivity.this).create();
@@ -359,9 +360,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		        // Setting OK Button
 		        alertDialog.setButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 		                public void onClick(DialogInterface dialog, int which) {
-		                	
-		                	Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-		                	startManagingCursor(cursor);
+		                	cursor = null;
+		                	cursor = (Cursor)parent.getItemAtPosition(position);
 		                	
 		    				String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 		                	
@@ -387,8 +387,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         favGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
+				cursor = null;
+            	cursor = (Cursor)parent.getItemAtPosition(position);
 				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
@@ -485,12 +485,19 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		    return false;
 	}
 	
-	@Override
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
+	  }
+	  
+	  @Override
 	  public void onStart() {
 	    super.onStart();
+	    cursor = null;
 	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
 	  }
-	
+
 	  @Override
 	  public void onStop() {
 	    super.onStop();
@@ -498,9 +505,10 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	  }
 	  
 	  @Override
-	  public void onResume() {
-	      super.onResume();  // Always call the superclass method first
-	      setupActionBar();
-
-	  }
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (cursor != null) {
+		      cursor.close();
+		   }
+		}
 }

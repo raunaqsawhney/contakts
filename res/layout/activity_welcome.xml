@@ -28,15 +28,16 @@
         android:layout_marginTop="20dip"/>
     
 	<TextView
-        android:id="@+id/c_welcome_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:textAlignment="gravity"
-        android:gravity="center"
-        android:layout_below="@id/c_welcome_text"
-        android:textSize="18sp"
-        android:layout_marginTop="30dip"/>
+	    android:id="@+id/c_welcome_info"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/c_welcome_text"
+	    android:layout_marginTop="30dip"
+	    android:fontFamily="sans-serif-thin"
+	    android:gravity="center"
+	    android:layout_gravity="center"
+	    android:textAlignment="center"
+	    android:textSize="18sp" />
 
 	<Button
 	    android:id="@+id/c_welcome_button"

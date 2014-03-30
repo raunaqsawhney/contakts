@@ -2,8 +2,15 @@ package com.raunaqsawhney.contakts;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -35,6 +42,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -44,7 +52,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -122,6 +129,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	Boolean isWhatsAppEnabled = false;
 	
 	Cursor c;
+    String formattedDate = null;
+    Date convertedDate;
+
     	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -149,13 +159,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#34AADC");
+		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);
         isWhatsAppEnabled = prefs.getBoolean("whatsAppEnabled", false);
 
-        
         firstRunDoneConDet = prefs.getBoolean("firstRunDoneConDet", false);
         if (!firstRunDoneConDet) {
         	edit.putBoolean("firstRunDoneConDet", true);
@@ -893,7 +902,19 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	dateType = getString(R.string.other);
             }
             
-            contact.addDates(date + ":" + dateType);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            DateFormat targetFormat = new SimpleDateFormat("dd LLLL yyyy", Locale.getDefault());
+            convertedDate = new Date();
+            try {
+                 convertedDate = dateFormat.parse(date);
+                 formattedDate = targetFormat.format(convertedDate);
+            } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            	formattedDate = "--";
+            	e.printStackTrace();
+            }
+            
+            contact.addDates(formattedDate + ":" + dateType);
             count++;
             
             if (date != null && !date.isEmpty())
@@ -950,6 +971,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        dateLayout.addView(dateContentLayout);
 	        
 	        dateTextViews[i] = dateTextView;
+	        
         }
 	}
 

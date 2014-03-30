@@ -208,7 +208,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	private void setupGlobalPrefs() {
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+        theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -325,7 +325,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				Color.parseColor("#33B5E5"),
 				Color.parseColor("#0099CC"),
 				Color.parseColor("#AA66CC"),
-				Color.parseColor("#9933CC"),
+				Color.parseColor("#9b59b6"),
 				Color.parseColor("#4F2F4F"),
 				Color.parseColor("#4C004C"),
 				Color.parseColor("#99CC00"),
@@ -352,8 +352,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 					themeColor = "#0099CC";
 				} else if (color == -5609780) {
 					themeColor = "#AA66CC";
-				} else if (color == -6736948 ) {
-					themeColor = "#9933CC";
+				} else if (color == -6596170 ) {
+					themeColor = "#9b59b6";
 				} else if (color == -6697984 ) {
 					themeColor = "#99CC00";
 				} else if (color == -10053376) {

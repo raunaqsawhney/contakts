@@ -1189,7 +1189,7 @@ containing a value of this type.
         public static final int emptyFreqs=0x7f0800ce;
         public static final int emptyGroupInfo=0x7f0800d9;
         public static final int emptyGroups=0x7f0800d5;
-        public static final int emptyInfo=0x7f0800e1;
+        public static final int emptyInfo=0x7f0800e6;
         public static final int emptyRecs=0x7f0800d1;
         public static final int enableWhatsApp=0x7f0800c1;
         public static final int error=0x7f080055;
@@ -1243,6 +1243,10 @@ containing a value of this type.
          */
         public static final int graphDialogHeader=0x7f0800a8;
         public static final int graphDialogText=0x7f0800a9;
+        public static final int groupDialogHeader=0x7f0800e1;
+        public static final int groupDialogText=0x7f0800e2;
+        public static final int groupMainDialogHeader=0x7f0800e3;
+        public static final int groupMainDialogText=0x7f0800e4;
         public static final int happyBday=0x7f080093;
         public static final int hello=0x7f0800c0;
         public static final int hello_world=0x7f080039;
@@ -1273,27 +1277,27 @@ containing a value of this type.
         public static final int parent=0x7f08006f;
         public static final int partner=0x7f080070;
         public static final int phoneHeader=0x7f080084;
-        public static final int pref_default_display_name=0x7f0800e6;
-        public static final int pref_description_social_recommendations=0x7f0800e4;
+        public static final int pref_default_display_name=0x7f0800eb;
+        public static final int pref_description_social_recommendations=0x7f0800e9;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f0800e8;
+        public static final int pref_header_data_sync=0x7f0800ed;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f0800e2;
+        public static final int pref_header_general=0x7f0800e7;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f0800eb;
-        public static final int pref_ringtone_silent=0x7f0800ee;
-        public static final int pref_title_add_friends_to_messages=0x7f0800e7;
-        public static final int pref_title_display_name=0x7f0800e5;
-        public static final int pref_title_new_message_notifications=0x7f0800ec;
-        public static final int pref_title_ringtone=0x7f0800ed;
-        public static final int pref_title_social_recommendations=0x7f0800e3;
-        public static final int pref_title_sync_frequency=0x7f0800e9;
-        public static final int pref_title_system_sync_settings=0x7f0800ea;
-        public static final int pref_title_vibrate=0x7f0800ef;
+        public static final int pref_header_notifications=0x7f0800f0;
+        public static final int pref_ringtone_silent=0x7f0800f3;
+        public static final int pref_title_add_friends_to_messages=0x7f0800ec;
+        public static final int pref_title_display_name=0x7f0800ea;
+        public static final int pref_title_new_message_notifications=0x7f0800f1;
+        public static final int pref_title_ringtone=0x7f0800f2;
+        public static final int pref_title_social_recommendations=0x7f0800e8;
+        public static final int pref_title_sync_frequency=0x7f0800ee;
+        public static final int pref_title_system_sync_settings=0x7f0800ef;
+        public static final int pref_title_vibrate=0x7f0800f4;
         public static final int profile=0x7f08009b;
         public static final int radio=0x7f0800a3;
         public static final int rateOnPlay=0x7f0800ae;
@@ -1350,6 +1354,7 @@ containing a value of this type.
         public static final int title_activity_settings=0x7f0800b7;
         public static final int title_activity_welcome=0x7f080045;
         public static final int tos=0x7f0800b0;
+        public static final int unknown=0x7f0800e5;
         public static final int username=0x7f080095;
         public static final int usesContakts=0x7f080094;
         public static final int website=0x7f0800af;

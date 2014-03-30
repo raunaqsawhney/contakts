@@ -141,6 +141,7 @@ public class WelcomeActivity extends Activity {
 
 			public void onClick(View v) {
             	
+				
             	final ProgressBar mProgressBar;
                 final TextView mProgressText;
 
@@ -153,7 +154,7 @@ public class WelcomeActivity extends Activity {
             	mProgressBar.setIndeterminate(true);
             	
             	mProgressBar.setProgress(i);
-            	mCountDownTimer = new CountDownTimer(2000, 1000) {
+            	mCountDownTimer = new CountDownTimer(3000, 1000) {
 
             	        @Override
             	        public void onTick(long millisUntilFinished) {
@@ -171,8 +172,10 @@ public class WelcomeActivity extends Activity {
             	        }
             	    };
             	    mCountDownTimer.start();
+            	    
             }
         });
+        
 	}
 	
 	@Override

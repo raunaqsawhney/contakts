@@ -87,7 +87,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#34AADC");
+		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -190,8 +190,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	private void createData() {
 			
 		Integer count = 0;
-	    GraphAdapter adapter = null;
-	    adapter = new GraphAdapter(GraphActivity.this, freqContactList);
+	    GraphAdapter adapter = new GraphAdapter(GraphActivity.this, freqContactList);
 	    
 		ListView freqGraphList = (ListView) findViewById(R.id.freq_graph_list);
 	    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
@@ -248,9 +247,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				pie.addSlice(slice); 
 				
 				freqContactList.add(curFreqContact);
-				count++;
 				curFreqContact = null;
 	            adapter.notifyDataSetChanged();
+	            count++;
 		    }    
 		    
 	    } catch (Exception e) {

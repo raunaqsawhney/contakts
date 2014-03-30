@@ -75,6 +75,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	
 	AdView adView;
 	
+	Cursor cursor;
+	
    @Override
    public void onCreate(Bundle savedInstanceState) {
        
@@ -162,7 +164,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+        theme = prefs.getString("theme", "#33B5E5");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
@@ -255,8 +257,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             @SuppressWarnings("deprecation")
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
+				cursor = (Cursor)parent.getItemAtPosition(position);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -435,21 +436,30 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		    return false;
 	}
 	
-	  @Override
-	  public void onStart() {
-	    super.onStart();
-	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-	  }
-	
-	  @Override
-	  public void onStop() {
-	    super.onStop();
-	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
-	  }
-	  
-	  @Override
-	  public void onResume() {
-	      super.onResume();  // Always call the superclass method first
-	      setupActionBar();
-	  } 
+  @Override
+  public void onResume() {
+      super.onResume();  // Always call the superclass method first
+      setupActionBar();
+  }
+  
+  @Override
+  public void onStart() {
+    super.onStart();
+    cursor = null;
+    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+  }
+  
+  @Override
+  public void onDestroy() {
+	   super.onDestroy();
+	   if (cursor != null) {
+	      cursor.close();
+	   }
+	} 
 }

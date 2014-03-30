@@ -102,13 +102,13 @@
     <!-- END OF FB ACTIVITY -->
 
     <string name="freqDialogHeader">Frequent Contacts</string>
-    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted. You can also visualize data using graphs, by tapping on the graph icon at the top.</string>
+    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted.\n\nYou can also visualize data using graphs, by tapping on the graph icon at the top.</string>
     <string name="mostContactedHeader">Most Contacted</string>
 
     <!-- END OF FREQ ACTIVITY -->
 
     <string name="friendDialogHeader">Friend Details</string>
-    <string name="friendDialogText">Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.\n\nIf there is are any phone numbers, or email addresses associated with a friend, it will show up here.</string>
+    <string name="friendDialogText">Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.\n\nIf there are any phone numbers, or email addresses associated with a friend, it will show up here.</string>
     <string name="wish">Wish</string>
     <string name="happyBday">a Happy Birthday!</string>
     <string name="usesContakts">uses Contakts</string>
@@ -208,4 +208,11 @@
     <string name="familyheader">Family</string>
     <string name="coworkerheader">Coworkers</string>
     
+    <string name="groupDialogHeader">Group Details</string>
+    <string name="groupDialogText">To add contacts to a group, tap on Add Contact icon at the top, and select a contact.\n\nYou can manage groups, using the system Contacts app.</string>
+    
+    <string name="groupMainDialogHeader">Groups</string>
+    <string name="groupMainDialogText">Groups present on the phone are shown here.\n\nTo create new groups, or modify existing groups, using the system Contacts app.</string>
+    
+    <string name="unknown">Unknown</string>
 </resources>

@@ -4,7 +4,6 @@
 <item name="android:windowTranslucentStatus">true</item>
 <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
 <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-<item name="android:homeAsUpIndicator">@drawable/ic_action_navigation_previous_item</item>
 
 
 </style>

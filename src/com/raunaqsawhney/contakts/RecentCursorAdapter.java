@@ -66,9 +66,14 @@ public class RecentCursorAdapter extends SimpleCursorAdapter {
         }
 
         try {
-            recentName.setText(name);
+        	if (!name.isEmpty())
+        		recentName.setText(name);
+        	else 
+        		recentName.setText(mContext.getResources().getString(R.string.unknown));
+
             recentNumber.setText(number);
         } catch (NullPointerException e) {
+    		recentName.setText(mContext.getResources().getString(R.string.unknown));
         	e.printStackTrace();
         }
 

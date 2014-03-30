@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -71,6 +73,8 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 	boolean mIsPremium = false;
 	
 	AdView adView;
+	
+	private boolean firstRunDoneGroupMain = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -152,10 +156,25 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+
+        theme = prefs.getString("theme", "#33B5E5");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
+        
+        firstRunDoneGroupMain = prefs.getBoolean("firstRunDoneGroupMain", false);
+        if (!firstRunDoneGroupMain) {
+        	edit.putBoolean("firstRunDoneGroupMain", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle(getString(R.string.groupMainDialogHeader))
+		    .setMessage(getString(R.string.groupMainDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
+		    .show();
+        }
 	}
 
 	private void setupActionBar() {
@@ -247,9 +266,13 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				cursor = (Cursor)parent.getItemAtPosition(position);
+				String group_name = cursor.getString(cursor.getColumnIndex(ContactsContract.Groups.TITLE));	
 				String group_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Groups._ID));		      
+
                 Intent intent = new Intent(getApplicationContext(), GroupDetailActivity.class);
+                intent.putExtra("group_name", group_name);
                 intent.putExtra("group_id", group_id);
+
                 startActivity(intent);
             }
         });

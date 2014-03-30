@@ -48,42 +48,43 @@ public class GraphAdapter extends ArrayAdapter<FreqContact>{
 	    }
 
 
+	
+	
+	
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 		 
 		try {
-	       // Get the data item for this position
 	       FreqContact freqContact = getItem(position);    
 	       
-	       // Check if an existing view is being reused, otherwise inflate the view
-	       ViewHolder viewHolder; // view lookup cache stored in tag
+	       ViewHolder viewHolder = null;
 	       if (convertView == null) {
-	          viewHolder = new ViewHolder();
 	          LayoutInflater inflater = LayoutInflater.from(getContext());
 	          convertView = inflater.inflate(R.layout.graph_item_layout, null);
-	          viewHolder.name = (TextView) convertView.findViewById(R.id.freq_name);
-	          viewHolder.photo = (ImageView) convertView.findViewById(R.id.freq_photo);
-	          viewHolder.timeContacted = (TextView) convertView.findViewById(R.id.freq_count);
-	          convertView.setTag(viewHolder);
-	       } else {
-	           viewHolder = (ViewHolder) convertView.getTag();
-	       }
+	          viewHolder = new ViewHolder();
+	       } 
 	       
-			String [] colorArray;
-			colorArray = new String[10];
+	       viewHolder.name = (TextView) convertView.findViewById(R.id.freq_name);
+	       viewHolder.photo = (ImageView) convertView.findViewById(R.id.freq_photo);
+	       viewHolder.timeContacted = (TextView) convertView.findViewById(R.id.freq_count);
+	       convertView.setTag(viewHolder);
+	       
+	       String [] colorArray;
+	       colorArray = new String[10];
 
-			colorArray[0] = "#33B5E5";
-			colorArray[1] = "#AA66CC";
-			colorArray[2] = "#4F2F4F";
-			colorArray[3] = "#99CC00";
-			colorArray[4] = "#669900";
-			colorArray[5] = "#FFBB33";
-			colorArray[6] = "#FF8800";
-			colorArray[7] = "#FF2D55";
-			colorArray[8] = "#FF4444";
-			colorArray[9] = "#CC0000";
+	       colorArray[0] = "#33B5E5";
+	       colorArray[1] = "#AA66CC";
+	       colorArray[2] = "#4F2F4F";
+	       colorArray[3] = "#99CC00";
+	       colorArray[4] = "#669900";
+	       colorArray[5] = "#FFBB33";
+	       colorArray[6] = "#FF8800";
+	       colorArray[7] = "#FF2D55";
+	       colorArray[8] = "#FF4444";
+	       colorArray[9] = "#CC0000";
 				       
-	       Integer count = freqContact.getCount();
+	       Integer count = null;
+	       count = freqContact.getCount();
 	       
 	       // Populate the data into the template view using the data object
 	       viewHolder.name.setText(freqContact.getName());
@@ -91,17 +92,18 @@ public class GraphAdapter extends ArrayAdapter<FreqContact>{
 	       
 	       viewHolder.photo.setImageURI(Uri.parse(freqContact.getURL()));
 	       
-	       viewHolder.timeContacted.setText(freqContact.getTimesContacted());
+	       if (!freqContact.getTimesContacted().isEmpty() || freqContact.getTimesContacted().equalsIgnoreCase("NULL") || freqContact.getTimesContacted().equals("".toString())) {
+		       viewHolder.timeContacted.setText(freqContact.getTimesContacted());
+	       } else {
+		       viewHolder.timeContacted.setText("--");
+	       }
 	       viewHolder.timeContacted.setTextColor(Color.parseColor(colorArray[count]));
-	       
-		   System.out.println("DONE getView");
-			
-		}catch (NullPointerException e) {
-			//
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 
        // Return the completed view to render on screen
        return convertView;
-       
    }
 }

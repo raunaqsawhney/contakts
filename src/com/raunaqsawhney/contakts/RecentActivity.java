@@ -77,7 +77,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#34AADC");
+		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -190,7 +190,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
                 
                 if (number.isEmpty()) {
                 	Toast.makeText(getBaseContext(), getString(R.string.noPhoneNumber), Toast.LENGTH_LONG).show();
-                } else if (name.isEmpty()) {
+                } else if (name.isEmpty() || name.equalsIgnoreCase(getString(R.string.unknown))) {
                 	Toast.makeText(getBaseContext(), getString(R.string.noPhoneContact), Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -235,8 +235,9 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	            from,
 	            to);		
 	    
-        recentList.setAdapter(mAdapter);
 	    getLoaderManager().initLoader(0, null, this);
+        recentList.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
 
 	}
 	

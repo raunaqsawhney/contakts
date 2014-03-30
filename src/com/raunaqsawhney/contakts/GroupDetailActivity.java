@@ -5,12 +5,14 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -26,7 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -47,12 +49,15 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	private SlidingMenu menu;
 	private ListView navListView;
 	private String group_id;
+	private String group_name;
 	
 	SimpleCursorAdapter mAdapter;
 	private ListView contactGroupListView;
 	
 	Cursor cursor;
     View header = null;
+    
+	private boolean firstRunDoneGroup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,8 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 		setContentView(R.layout.activity_group_detail);
 		
         group_id = getIntent().getStringExtra("group_id");
-		
+        group_name = getIntent().getStringExtra("group_name");
+
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -71,10 +77,25 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#34AADC");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = preferences.edit();
+
+        theme = prefs.getString("theme", "#33B5E5");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
+        
+        firstRunDoneGroup = prefs.getBoolean("firstRunDoneGroup", false);
+        if (!firstRunDoneGroup) {
+        	edit.putBoolean("firstRunDoneGroup", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle(getString(R.string.groupDialogHeader))
+		    .setMessage(getString(R.string.groupDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
+		    .show();
+        }
 	}
 
 	private void setupActionBar() {
@@ -195,22 +216,41 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
                 to, 
                 0);
         	
+        
 	    
         
-        if (Integer.parseInt(group_id) == 1 ) {
-        	header = getLayoutInflater().inflate(R.layout.mycontacts_header, null);
-        } else if (Integer.parseInt(group_id) == 2 ) {
-        	header = getLayoutInflater().inflate(R.layout.android_header, null);
-        } else if (Integer.parseInt(group_id) == 3 ) {
-        	header = getLayoutInflater().inflate(R.layout.friends_header, null);
-        } else if (Integer.parseInt(group_id) == 4 ) {
-        	header = getLayoutInflater().inflate(R.layout.family_header, null);
-        } else if (Integer.parseInt(group_id) == 5 ) {
-        	header = getLayoutInflater().inflate(R.layout.coworker_header, null);
-        } else if (Integer.parseInt(group_id) == 6 ) {
-        	header = getLayoutInflater().inflate(R.layout.youtube_header, null);
-        } else if (Integer.parseInt(group_id) == 8 ) {
-        	header = getLayoutInflater().inflate(R.layout.googleplus_header, null);
+        header = getLayoutInflater().inflate(R.layout.group_header, null);
+        TextView groupNameHeader = (TextView) header.findViewById(R.id.header_name);
+        groupNameHeader.setText(group_name);
+        
+        ImageView groupImage = (ImageView) header.findViewById(R.id.header_photo);
+
+        if (group_name.equalsIgnoreCase("Family")) {
+        	groupImage.setImageResource(R.drawable.ic_family);
+        }
+        
+        if (group_name.equalsIgnoreCase("Friends")) {
+        	groupImage.setImageResource(R.drawable.ic_family);
+        }
+        
+        if (group_name.equalsIgnoreCase("Google+ circles")) {
+        	groupImage.setImageResource(R.drawable.ic_nav_google);
+        }
+        
+        if (group_name.equalsIgnoreCase("Starred in Android")) {
+        	groupImage.setImageResource(R.drawable.ic_android);
+        }
+        
+        if (group_name.equalsIgnoreCase("Youtube")) {
+        	groupImage.setImageResource(R.drawable.ic_youtube);
+        }
+        
+        if (group_name.equalsIgnoreCase("My Contacts")) {
+        	groupImage.setImageResource(R.drawable.ic_my_contacts);
+        }
+        
+        if (group_name.equalsIgnoreCase("Coworkers")) {
+        	groupImage.setImageResource(R.drawable.ic_coworker);
         }
         
 	    getLoaderManager().initLoader(0, null, this);

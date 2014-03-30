@@ -213,4 +213,12 @@
    	
    	<string name="emptyGroupInfo">Para adicionar pessoas a um grupo, selecione um contato, em seguida, editá-lo e selecionar um grupo para esse contato.</string>
    	
+   	<string name="groupDialogHeader">Detalhes do grupo</string>
+   	<string name="groupDialogText">Para adicionar contatos a um grupo, toque em \'Adicionar Contacto\' ícone na parte superior, e selecione um contato.\n\nVocê pode gerenciar grupos, utilizando-se o sistema padrão app Contatos.</string>
+   	
+   	<string name="groupMainDialogHeader">Grupos</string>
+    <string name="groupMainDialogText">Grupos presentes no telefone são mostrados aqui.\n\nPara criar novos grupos ou modificar grupos existentes, usando o aplicativo de sistema de contatos.</string>
+    
+	<string name="unknown">Desconhecido</string>
+    
 </resources>

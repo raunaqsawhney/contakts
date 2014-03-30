@@ -128,7 +128,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/phoneHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -154,7 +154,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/emailHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip"/>
                 
@@ -180,7 +180,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/websiteHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -206,7 +206,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/addressHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -246,7 +246,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/relationshipHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="18sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -273,7 +273,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/imHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -299,7 +299,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/eventsHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
@@ -326,7 +326,7 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/notesHeader"
-		            android:textColor="#34AADC"
+		            android:textColor="#33B5E5"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 

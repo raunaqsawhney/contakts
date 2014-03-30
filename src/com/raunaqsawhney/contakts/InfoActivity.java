@@ -53,7 +53,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		theme = prefs.getString("theme", "#34AADC");
+		theme = prefs.getString("theme", "#33B5E5");
 		fontTitle = prefs.getString("fontTitle", null);
        	
 	}

@@ -129,6 +129,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	ArrayList<String> globalPhoneNumberListOfContact = new ArrayList<String>();
 	
 	Boolean isWhatsAppEnabled = false;
+	
+	Cursor cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -178,12 +180,12 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         String sortOrder = null;
         
-        Cursor c = getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
-        startManagingCursor(c);
+        cursor = null;
+        cursor = getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
         
 
-        while (c.moveToNext()){
-        	contact_friend_id = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+        while (cursor.moveToNext()){
+        	contact_friend_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
         }
         showContactFriendInfo();
     }
@@ -215,14 +217,14 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         String[] websiteWhereParams = new String[]{contact_friend_id,
                 ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE};
         
-		Cursor webCur = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+        cursor = null;
+		cursor = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
                 null, websiteWhere, websiteWhereParams, null);
-        startManagingCursor(webCur);
 
-        while (webCur.moveToNext()) {
-            contactWebsite = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
+        while (cursor.moveToNext()) {
+            contactWebsite = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
             
-            String websiteTypeRaw = webCur.getString(webCur.getColumnIndex(ContactsContract.CommonDataKinds.Website.TYPE));
+            String websiteTypeRaw = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Website.TYPE));
 
             try {
             	switch(Integer.parseInt(websiteTypeRaw))
@@ -347,14 +349,14 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         String[] emailWhereParams = new String[] {contact_friend_id,
         		ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE};
         
-        Cursor cursorEmail = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+        cursor = null;
+        cursor = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
                 null, emailWhere, emailWhereParams, null);
-        startManagingCursor(cursorEmail);
         
-        while (cursorEmail.moveToNext()) {
-            contactEmail = cursorEmail.getString(cursorEmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+        while (cursor.moveToNext()) {
+            contactEmail = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
             
-            String emailTypeRaw = cursorEmail.getString(cursorEmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+            String emailTypeRaw = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
             
             try {
             	switch(Integer.parseInt(emailTypeRaw))
@@ -470,15 +472,15 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         String[] phoneWhereParams = new String[]{contact_friend_id,
                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
         
-		Cursor cursorPhone = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+        cursor = null;
+        cursor = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
                 null, phoneWhere, phoneWhereParams, null);
-        startManagingCursor(cursorPhone);
  
-        while (cursorPhone.moveToNext()) {
-            contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        while (cursor.moveToNext()) {
+            contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 			contactNumber = PhoneNumberUtils.formatNumber(contactNumber);
 
-            String phoneTypeRaw = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            String phoneTypeRaw = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             
             try {
             	switch(Integer.parseInt(phoneTypeRaw))
@@ -629,7 +631,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#34AADC");
+		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -1155,18 +1157,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	@Override
-	  public void onStart() {
-	    super.onStart();
-	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-	  }
-	
-	  @Override
-	  public void onStop() {
-	    super.onStop();
-	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
-	  }
+
 
 	@Override
 	public void call(Session session, SessionState state, Exception exception) {
@@ -1192,6 +1183,26 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	  public void onResume() {
 	      super.onResume();  // Always call the superclass method first
 	      setupActionBar();
-
 	  }
+	  
+	  @Override
+	  public void onStart() {
+	    super.onStart();
+	    cursor = null;
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+	  
+	  @Override
+	  public void onDestroy() {
+		   super.onDestroy();
+		   if (cursor != null) {
+		      cursor.close();
+		   }
+		}
 }
