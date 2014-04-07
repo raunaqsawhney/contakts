@@ -309,7 +309,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
                 //startManagingCursor(c);
-                number = PhoneNumberUtils.formatNumber(number);
+                try {
+                    number = PhoneNumberUtils.formatNumber(number);
+                } catch (NullPointerException e ) {
+                	e.printStackTrace();
+                }
 
                 while (c.moveToNext()) {
                     allContacts.add(PhoneNumberUtils.formatNumber(c.getString(
@@ -576,7 +580,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	        } else 
 	        {
-	        	contactPhoto.setImageURI((Uri.parse(photo)));   
+	        	try {
+		        	contactPhoto.setImageURI((Uri.parse(photo)));   
+	        	} catch (IllegalArgumentException e) {
+		        	contactPhoto.setImageResource(R.drawable.ic_contact_picture);
+	        	}
 	        }
         }
         

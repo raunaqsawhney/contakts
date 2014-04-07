@@ -290,12 +290,18 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		mAdapter.swapCursor(cursor);
 		View empty = findViewById(R.id.empty);
-		if (contactGroupListView.getAdapter().isEmpty()) {
-	        contactGroupListView.setEmptyView(empty);
-		    contactGroupListView.removeHeaderView(header);
-	    } else {
+		try {
+			if (contactGroupListView.getAdapter().isEmpty()) {
+		        contactGroupListView.setEmptyView(empty);
+			    contactGroupListView.removeHeaderView(header);
+		    } else {
+			    contactGroupListView.addHeaderView(header, null, false);
+		    }
+		} catch (IllegalStateException e) {
+	        header = getLayoutInflater().inflate(R.layout.group_header, null);
 		    contactGroupListView.addHeaderView(header, null, false);
-	    }
+		}
+		
 	}
 
 	@Override
