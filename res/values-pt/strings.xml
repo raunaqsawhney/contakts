@@ -220,5 +220,14 @@
     <string name="groupMainDialogText">Grupos presentes no telefone são mostrados aqui.\n\nPara criar novos grupos ou modificar grupos existentes, usando o aplicativo de sistema de contatos.</string>
     
 	<string name="unknown">Desconhecido</string>
+	
+	<string name="ascending">Ascendente</string>
+    <string name="descending">Descendente</string>
+    <string name="frequency">Freqüência</string>
+    <string name="recency">Recente</string>
+    <string name="clean">Limpo</string>
+    <string name="funky">Legal</string>
     
+    <string name="sortHeader">Classificando</string>
+    <string name="fontHeader">Fonte</string>
 </resources>

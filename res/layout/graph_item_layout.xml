@@ -21,10 +21,10 @@
         android:layout_toRightOf="@+id/freq_photo"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
-        android:textColor="#4A4A4A"
-        android:textSize="18sp"
+        android:textColor="#1F1F21"
+        android:textSize="16sp"
         android:layout_marginLeft="20dip" 
-        android:fontFamily="sans-serif-condensed" />
+        android:fontFamily="sans-serif-light" />
     
     <TextView
         android:id="@+id/freq_count"

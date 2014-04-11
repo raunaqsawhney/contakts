@@ -209,10 +209,22 @@
     <string name="coworkerheader">Coworkers</string>
     
     <string name="groupDialogHeader">Group Details</string>
-    <string name="groupDialogText">To add contacts to a group, tap on Add Contact icon at the top, and select a contact.\n\nYou can manage groups, using the system Contacts app.</string>
+    <string name="groupDialogText">To add contacts to a group, tap on the Add Contact icon at the top, and select a contact.\n\nYou can also manage groups, using the system Contacts app.</string>
     
     <string name="groupMainDialogHeader">Groups</string>
     <string name="groupMainDialogText">Groups present on the phone are shown here.\n\nTo create new groups, or modify existing groups, using the system Contacts app.</string>
     
     <string name="unknown">Unknown</string>
+    
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="frequency">Frequency</string>
+    <string name="recency">Recency</string>
+    <string name="clean">Clean</string>
+    <string name="funky">Funky</string>
+    
+    
+    <string name="sortHeader">Sort Order</string>
+    <string name="fontHeader">Font</string>
+    
 </resources>

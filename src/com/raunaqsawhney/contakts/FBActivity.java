@@ -101,7 +101,7 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 		uiHelper = new UiLifecycleHelper(this, null);
 	    uiHelper.onCreate(savedInstanceState);
 		
-	    initializePayments();
+	    //initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -380,7 +380,7 @@ private void initializePayments() {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.fb, menu);
 	    
-	 // Set up Action Bar       
+	    // Set up Action Bar       
         SearchView searchView = (SearchView) menu.findItem(R.id.fb_search).getActionView();
         searchView.setQueryHint(Html.fromHtml("<font color = #F7F7F7>" + getResources().getString(R.string.search_hint) + "</font>"));
         
@@ -428,18 +428,17 @@ private void initializePayments() {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
+		    case R.id.menu_dial:
+	    		Intent dialIntent = new Intent(FBActivity.this, DialerActivity.class);
+			   	FBActivity.this.startActivity(dialIntent);
+	            return true;
+            
 	        case R.id.fb_logout:
 	        	logoutFromFB();
 	        	
 	        	Intent fbLogoutIntent = new Intent(FBActivity.this, FavActivity.class);
 	        	FBActivity.this.startActivity(fbLogoutIntent);
-	            return true; 
-	        /*    
-	        case R.id.fb_map:
-	        	Intent fbMapIntent = new Intent(FBActivity.this, FBMapActivity.class);
-	        	FBActivity.this.startActivity(fbMapIntent);
-			    return true;
-			  */  
+	            return true;  
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

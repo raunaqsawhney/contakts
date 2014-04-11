@@ -81,7 +81,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group);
 		
-		initializePayments();
+		//initializePayments();
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();

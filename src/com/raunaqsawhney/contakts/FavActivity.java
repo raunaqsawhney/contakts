@@ -27,7 +27,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
@@ -38,6 +37,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -74,6 +74,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	private SimpleCursorAdapter mAdapter;
 
 	Cursor cursor;
+	String sortOrder;
+	String sortParam;
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +177,9 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
+		sortOrder = prefs.getString("sortOrder", "display_name");
+		sortParam = prefs.getString("sortParam", " ASC");
+		
 		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
@@ -225,7 +230,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		
 		// Set up Sliding Menu
         menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
+        menu.setMode(SlidingMenu.LEFT_RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidth(8);
         menu.setFadeDegree(0.8f);
@@ -236,6 +241,10 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
+        menu.setSecondaryMenu(R.layout.extra_options);
+        menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
+        
+        
         navListView = (ListView) findViewById(R.id.nav_menu);
       
         final String[] nav = { getString(R.string.sMfavourites),
@@ -272,6 +281,133 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);	
 		
+		TextView sortASC;
+		TextView sortDESC;
+		TextView sortFreq;
+		TextView sortRec;
+		
+		TextView sortHeader = (TextView) findViewById(R.id.sortOrder);
+		sortHeader.setTextColor(Color.parseColor(theme));
+		
+		TextView fontHeader = (TextView) findViewById(R.id.fontHeader);
+		fontHeader.setTextColor(Color.parseColor(theme));
+		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+		String so = preferences.getString("sortOrder", "display_name");
+		String sp = preferences.getString("sortParam", " ASC");
+		
+		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
+			sortASC = (TextView) findViewById(R.id.azText);
+			sortASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("display_name DESC")) {
+			sortDESC = (TextView) findViewById(R.id.zaText);
+			sortDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("times_contacted DESC")) {
+			sortFreq = (TextView) findViewById(R.id.waveText);
+			sortFreq.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted DESC")) {
+			sortRec = (TextView) findViewById(R.id.clockText);
+			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+			
+			
+		TextView funkyText = (TextView) findViewById(R.id.funkytext);
+		funkyText.setTypeface(Typeface.createFromAsset(this.getAssets(), "RobotoCondensed-Light.ttf"));
+		
+		
+		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
+		ascending.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder", "display_name");
+            	edit.putString("sortParam", " ASC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout descending = (LinearLayout) findViewById(R.id.descending);
+		descending.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder", "display_name");
+            	edit.putString("sortParam", " DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout frequency = (LinearLayout) findViewById(R.id.frequency);
+		frequency.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("sortOrder", "times_contacted");
+            	edit.putString("sortParam", " DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout recency = (LinearLayout) findViewById(R.id.recency);
+		recency.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("sortOrder", "last_time_contacted");
+            	edit.putString("sortParam", " DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout clean = (LinearLayout) findViewById(R.id.clean);
+		clean.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("fontMain", "Roboto-Light.ttf");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout funky = (LinearLayout) findViewById(R.id.funky);
+		funky.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("fontMain", "RobotoCondensed-Regular.ttf");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
 	}
 	
 	@Override
@@ -289,14 +425,14 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	            ContactsContract.Contacts.PHOTO_URI,
 	            ContactsContract.Contacts.DISPLAY_NAME,
 	            ContactsContract.Contacts.STARRED};
-        
+	    
         cursorLoader = new CursorLoader(
         		FavActivity.this, 
         		baseUri,
                 projection, 
                 query, 
                 null,
-                Contacts.DISPLAY_NAME + " ASC");	
+                sortOrder + sortParam);	
 
         return cursorLoader;
 	}

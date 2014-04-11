@@ -341,7 +341,7 @@
 		            android:id="@+id/c_detail_note_content"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:textColor="#4A4A4A"
+		            android:textColor="#1F1F21"
 		            android:textSize="18sp"
 		            android:gravity="left"
 		            android:layout_marginLeft="20dip" />

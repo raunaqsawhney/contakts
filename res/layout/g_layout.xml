@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
-        android:textColor="#4A4A4A"
+        android:textColor="#1F1F21"
         android:textSize="20sp"
         android:layout_marginLeft="10dip" 
-        android:fontFamily="sans-serif-condensed" />
+        android:fontFamily="sans-serif-light" />
     
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
 	        android:layout_gravity="center_vertical"
 	        android:layout_centerVertical="true" 
 	        android:textColor="#4A4A4A"
-	        android:textSize="16sp"
+	        android:textSize="14sp"
 	        android:text="@string/contactCountLabel"
 	        android:layout_marginLeft="5dip" 
 	        android:fontFamily="sans-serif-light" />

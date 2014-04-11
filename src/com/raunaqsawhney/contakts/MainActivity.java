@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         // Initialize the loader for background activity
 	    
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();

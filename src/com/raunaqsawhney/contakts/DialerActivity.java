@@ -283,7 +283,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		                try {
 		                	if (inputStream != null) {
 		                    	
-		                		Bitmap bitmap = BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 30);
+		                		Bitmap bitmap = BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 50);
 		                		BitmapDrawable background = new BitmapDrawable(bitmap);
 		                		dialerLayout.setBackground(background);
 		                		

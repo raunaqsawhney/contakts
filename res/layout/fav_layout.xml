@@ -15,10 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#4A4A4A"
-        android:textSize="16sp" 
+        android:textSize="14sp" 
         android:gravity="center"
         android:layout_marginTop="10dip"
         android:layout_gravity="center_horizontal"
-        android:fontFamily="sans-serif-condensed" />
+        android:fontFamily="sans-serif-light" />
 	
 </LinearLayout>

@@ -590,8 +590,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         headerBG = (ImageView) findViewById(R.id.header_bg);
         
-        InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),
-                ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)));
+        InputStream inputStream;
+        try {
+        	inputStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),
+                    ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contact_id)));
+        } catch (IllegalArgumentException e) {
+        	e.printStackTrace();
+        	inputStream = null;
+        }
         
         try {
         	if (inputStream != null) {
@@ -600,7 +606,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
             } else {
         		headerBG.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg));
-
             }
         } catch (OutOfMemoryError e) {
         	e.printStackTrace();

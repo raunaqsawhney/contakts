@@ -21,12 +21,12 @@
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
         android:textColor="#4A4A4A"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_marginLeft="10dip" 
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:fontFamily="sans-serif-condensed" />
+        android:fontFamily="sans-serif-light" />
     
 	<TextView
         android:id="@+id/friend_isappuser"
@@ -38,12 +38,12 @@
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
         android:textColor="#8E8E93"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_marginLeft="10dip" 
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:fontFamily="sans-serif-condensed" />
+        android:fontFamily="sans-serif-light" />
     
  
 </RelativeLayout>

@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
-        android:textColor="#4A4A4A"
+        android:textColor="#1F1F21"
         android:textSize="18sp"
         android:layout_marginLeft="10dip" 
         android:text="NAME"
-        android:fontFamily="sans-serif-condensed" />
+        android:fontFamily="sans-serif-light" />
 
 	<TextView
         android:id="@+id/r_number"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
-        android:textColor="#4A4A4A"
+        android:textColor="#8E8E93"
         android:textSize="14sp"
         android:text="NUMBER"
         android:layout_marginLeft="10dip" 
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true" 
-        android:textColor="#4A4A4A"
+        android:textColor="#8E8E93"
         android:textSize="14sp"
         android:text="DATE"
         android:layout_marginLeft="10dip" 

@@ -224,5 +224,15 @@
     
     <string name="unknown">Desconocido</string>
     
+    <string name="ascending">Ascendente</string>
+    <string name="descending">Descendiente</string>
+    <string name="frequency">Frecuencia</string>
+    <string name="recency">Reciente</string>
+    <string name="clean">Limpio</string>
+    <string name="funky">Fresco</string>
+    
+    <string name="sortHeader">Clasificación</string>
+    <string name="fontHeader">Fuente</string>
+    
     
 </resources>

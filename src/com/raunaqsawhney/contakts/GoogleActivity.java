@@ -81,7 +81,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setContentView(R.layout.activity_main);
         
 
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();

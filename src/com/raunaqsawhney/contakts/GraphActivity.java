@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
@@ -221,7 +223,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
-	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20) AND ("
+	    String selection = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0) AND ("
 	    	    + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
 	            + ContactsContract.Contacts.DISPLAY_NAME + " != '' )";
 
@@ -231,29 +233,27 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	    	FreqContact curFreqContact;
 
 		    while (c.moveToNext() && count <= 9) {
-				curFreqContact = null;
-		    	curFreqContact = new FreqContact();
+				curFreqContact = new FreqContact();
 		    	
 		        curFreqContact.setName(c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
 		        curFreqContact.setTimesContacted(c.getString(c.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
 		        curFreqContact.setURL(c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
 		        curFreqContact.setID(c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)));
 		        curFreqContact.setCount(count);
-    	       				        
+    	       				 
+				freqContactList.add(curFreqContact);
+
 				slice = new PieSlice();
 				slice.setColor(Color.parseColor(colorArray[count]));
-				slice.setTitle(curFreqContact.getName());
 				slice.setValue(Float.parseFloat(curFreqContact.getTimesContacted()));
 				pie.addSlice(slice); 
 				
-				freqContactList.add(curFreqContact);
-				curFreqContact = null;
 	            adapter.notifyDataSetChanged();
 	            count++;
 		    }    
 		    
 	    } catch (Exception e) {
-	    
+	    	e.printStackTrace();
 	    }
 	}
 	
@@ -274,15 +274,16 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	}
 	
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_dial:
+        		Intent dialIntent = new Intent(GraphActivity.this, DialerActivity.class);
+    		   	GraphActivity.this.startActivity(dialIntent);
+	            return true;    
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

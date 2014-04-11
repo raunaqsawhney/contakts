@@ -254,6 +254,11 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
         }
         
 	    getLoaderManager().initLoader(0, null, this);
+	    
+	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+		    header = getLayoutInflater().inflate(R.layout.group_header, null);
+		    contactGroupListView.addHeaderView(header, null, false);
+	    }
 	    contactGroupListView.setAdapter(mAdapter);	
 	    
 	}
@@ -289,25 +294,23 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		mAdapter.swapCursor(cursor);
-		View empty = findViewById(R.id.empty);
-		try {
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			View empty = findViewById(R.id.empty);
 			if (contactGroupListView.getAdapter().isEmpty()) {
 		        contactGroupListView.setEmptyView(empty);
 			    contactGroupListView.removeHeaderView(header);
 		    } else {
 			    contactGroupListView.addHeaderView(header, null, false);
 		    }
-		} catch (IllegalStateException e) {
-	        header = getLayoutInflater().inflate(R.layout.group_header, null);
-		    contactGroupListView.addHeaderView(header, null, false);
 		}
-		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		mAdapter.changeCursor(null);
 	}
+	
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

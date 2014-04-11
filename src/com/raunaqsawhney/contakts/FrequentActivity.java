@@ -85,7 +85,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_frequent);
 		
-		initializePayments();
+		//initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -311,7 +311,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		
 		Uri baseUri = ContactsContract.Contacts.CONTENT_URI;
         
-	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 20) AND ("
+	    String query = "("+ ContactsContract.Contacts.TIMES_CONTACTED + " > 0) AND ("
 	    + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
         + ContactsContract.Contacts.DISPLAY_NAME + " != '' )";
 	    
