@@ -177,9 +177,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
-        sortOrder = prefs.getString("sortOrder_main", "display_name");
-		sortParam = prefs.getString("sortParam_main", " ASC");
-		longPressAction = prefs.getString("longPress_main", "call_main");
+        sortOrder = prefs.getString("sortOrder_google", "display_name");
+		sortParam = prefs.getString("sortParam_google", " ASC");
+		longPressAction = prefs.getString("longPress_google", "call_google");
 	}
 	
 	private void setupActionBar() {
@@ -279,9 +279,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		longPressHeader.setTextColor(Color.parseColor(theme));
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
-		String so = preferences.getString("sortOrder_main", "display_name");
-		String sp = preferences.getString("sortParam_main", " ASC");
-		String lpa = preferences.getString("longPress_main", "call_main");
+		String so = preferences.getString("sortOrder_google", "display_name");
+		String sp = preferences.getString("sortParam_google", " ASC");
+		String lpa = preferences.getString("longPress_google", "call_google");
 		
 		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
 			sortASC = (TextView) findViewById(R.id.azText);
@@ -303,17 +303,17 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if (lpa.toString().equals("call_main")) {
+		if (lpa.toString().equals("call_google")) {
 			lpaCall = (TextView) findViewById(R.id.callText);
 			lpaCall.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if (lpa.toString().equals("sms_main")) {
+		if (lpa.toString().equals("sms_google")) {
 			lpaSMS = (TextView) findViewById(R.id.smsText);
 			lpaSMS.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if (lpa.toString().equals("email_main")) {
+		if (lpa.toString().equals("email_google")) {
 			lpaEmail = (TextView) findViewById(R.id.emailText);
 			lpaEmail.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
@@ -324,8 +324,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-        		edit.putString("sortOrder_main", "display_name");
-            	edit.putString("sortParam_main", " ASC");
+        		edit.putString("sortOrder_google", "display_name");
+            	edit.putString("sortParam_google", " ASC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -339,8 +339,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-        		edit.putString("sortOrder_main", "display_name");
-            	edit.putString("sortParam_main", " DESC");
+        		edit.putString("sortOrder_google", "display_name");
+            	edit.putString("sortParam_google", " DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -354,8 +354,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("sortOrder_main", "times_contacted");
-            	edit.putString("sortParam_main", " DESC");
+            	edit.putString("sortOrder_google", "times_contacted");
+            	edit.putString("sortParam_google", " DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -369,8 +369,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("sortOrder_main", "last_time_contacted");
-            	edit.putString("sortParam_main", " DESC");
+            	edit.putString("sortOrder_google", "last_time_contacted");
+            	edit.putString("sortParam_google", " DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -384,7 +384,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("longPress_main", "call_main");
+            	edit.putString("longPress_google", "call_google");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -398,7 +398,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("longPress_main", "sms_main");
+            	edit.putString("longPress_google", "sms_google");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -412,7 +412,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("longPress_main", "email_main");
+            	edit.putString("longPress_google", "email_google");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
@@ -475,7 +475,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				
 				view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 				
-				if (longPressAction.equals("call_main")) {
+				if (longPressAction.equals("call_google")) {
 					
 					int count = 0;
 
@@ -546,7 +546,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	                	}
 	                }
 	                
-				} else if (longPressAction.equals("sms_main")) {
+				} else if (longPressAction.equals("sms_google")) {
 
 					int count = 0;
 
@@ -611,7 +611,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	                	}
 	                }
 					
-				} else if (longPressAction.equals("email_main")) {
+				} else if (longPressAction.equals("email_google")) {
 					
 					int count = 0;
 

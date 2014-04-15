@@ -180,10 +180,10 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
-        sortOrder = prefs.getString("sortOrder_main", "display_name");
-		sortParam = prefs.getString("sortParam_main", " ASC");
+        sortOrder = prefs.getString("sortOrder_freq", "display_name");
+		sortParam = prefs.getString("sortParam_freq", " ASC");
 		
-		longPressAction = prefs.getString("longPress_main", "call_main");
+		longPressAction = prefs.getString("longPress_freq", "call_freq");
         
         firstRunDoneFreq = prefs.getBoolean("firstRunDoneFreq", false);
         if (!firstRunDoneFreq) {
@@ -287,20 +287,20 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		longPressHeader.setTextColor(Color.parseColor(theme));
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
-		String lpa = preferences.getString("longPress_main", "call_main");
+		String lpa = preferences.getString("longPress_freq", "call_freq");
 		
 		
-		if (lpa.toString().equals("call_main")) {
+		if (lpa.toString().equals("call_freq")) {
 			lpaCall = (TextView) findViewById(R.id.callText);
 			lpaCall.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if (lpa.toString().equals("sms_main")) {
+		if (lpa.toString().equals("sms_freq")) {
 			lpaSMS = (TextView) findViewById(R.id.smsText);
 			lpaSMS.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if (lpa.toString().equals("email_main")) {
+		if (lpa.toString().equals("email_freq")) {
 			lpaEmail = (TextView) findViewById(R.id.emailText);
 			lpaEmail.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
@@ -311,7 +311,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("longPress_main", "call_main");
+            	edit.putString("longPress_freq", "call_freq");
             	edit.apply();
             	
             	Intent intent = new Intent(FrequentActivity.this, FrequentActivity.class);
@@ -325,7 +325,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("longPress_main", "sms_main");
+            	edit.putString("longPress_freq", "sms_freq");
             	edit.apply();
             	
             	Intent intent = new Intent(FrequentActivity.this, FrequentActivity.class);
@@ -339,7 +339,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("longPress_main", "email_main");
+            	edit.putString("longPress_freq", "email_freq");
             	edit.apply();
             	
             	Intent intent = new Intent(FrequentActivity.this, FrequentActivity.class);
@@ -396,7 +396,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				
 				view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 				
-				if (longPressAction.equals("call_main")) {
+				if (longPressAction.equals("call_freq")) {
 					
 					int count = 0;
 
@@ -467,7 +467,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	                	}
 	                }
 	                
-				} else if (longPressAction.equals("sms_main")) {
+				} else if (longPressAction.equals("sms_freq")) {
 
 					int count = 0;
 
@@ -532,7 +532,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	                	}
 	                }
 					
-				} else if (longPressAction.equals("email_main")) {
+				} else if (longPressAction.equals("email_freq")) {
 					
 					int count = 0;
 
