@@ -86,6 +86,6 @@
 	   	android:fitsSystemWindows="true"
 	    android:stretchMode="columnWidth"
 	    android:gravity="center" 
-	    android:paddingBottom="40dip"/>
+	    android:paddingBottom="50dip"/>
 
 </LinearLayout>

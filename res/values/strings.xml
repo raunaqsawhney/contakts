@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Contakts</string>
+    <string name="contact">Contact</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="search_hint">Find contact</string>
@@ -212,7 +213,7 @@
     <string name="groupDialogText">To add contacts to a group, tap on the Add Contact icon at the top, and select a contact.\n\nYou can also manage groups, using the system Contacts app.</string>
     
     <string name="groupMainDialogHeader">Groups</string>
-    <string name="groupMainDialogText">Groups present on the phone are shown here.\n\nTo create new groups, or modify existing groups, using the system Contacts app.</string>
+    <string name="groupMainDialogText">Groups present on the phone are shown here.\n\nTo create new groups, or modify existing groups, use the system Contacts app.</string>
     
     <string name="unknown">Unknown</string>
     
@@ -224,7 +225,15 @@
     <string name="funky">Funky</string>
     
     
-    <string name="sortHeader">Sort Order</string>
-    <string name="fontHeader">Font</string>
+    <string name="sortHeader">SORT ORDER</string>
+    <string name="longPress">LONG PRESS ACTION</string>
+    
+    <string name="showHeader">SHOW CALL TYPE</string>
+    <string name="allCalls">All Calls</string>
+    <string name="missCalls">Missed Calls</string>
+    <string name="inCalls">Incoming Calls</string>
+    <string name="outCalls">Outgoing Calls</string>
+    
+    <string name="remContact">Remove Contact</string>
     
 </resources>

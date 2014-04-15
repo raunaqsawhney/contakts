@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <ScrollView
+        android:id="@+id/extraRecScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+        
+        <LinearLayout 
+            android:id="@+id/extraRecMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="40dip">
+            
+	        <TextView 
+		        android:id="@+id/show"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/showHeader"
+		        android:fontFamily="sans-serif-condensed"
+		        android:textColor="#33B5E5"
+		        android:paddingLeft="10dip"
+		        android:paddingRight="10dip"
+		        android:paddingTop="10dip"
+		        android:textSize="20sp" />
+	            
+			
+		    <LinearLayout 
+		        android:id="@+id/all"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip" >
+	    
+			    <ImageView 
+			        android:id="@+id/allImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_all"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/allText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/allCalls"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+			
+		    <View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+		    
+			<LinearLayout 
+		        android:id="@+id/incoming"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip" >
+	    
+			    <ImageView 
+			        android:id="@+id/inImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_incoming"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/inText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/inCalls"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+			
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+		    
+			<LinearLayout 
+		        android:id="@+id/missed"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip" >
+	    
+			    <ImageView 
+			        android:id="@+id/missImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_missed"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/missText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/missCalls"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+			
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+		    
+			<LinearLayout 
+		        android:id="@+id/out"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip" >
+	    
+			    <ImageView 
+			        android:id="@+id/outImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_outgoing"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/outText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/outCalls"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+		    
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

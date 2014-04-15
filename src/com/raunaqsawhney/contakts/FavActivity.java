@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -27,14 +28,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -56,7 +60,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public class FavActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener{
 
 	static final String TAG = "com.raunaqsawhney.contakts";
-
+	
 	private SlidingMenu menu;
 	private ListView navListView;
 	
@@ -72,10 +76,14 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	
 	GridView favGrid;
 	private SimpleCursorAdapter mAdapter;
-
+	
 	Cursor cursor;
 	String sortOrder;
 	String sortParam;
+	String longPressAction;
+	
+	String number;
+	Contact contact = new Contact();
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +155,6 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 			Log.e(TAG, "Initial inventory query finished; enabling main UI.");
 			}
 		};
-
 		
 	private void disableAds() {
 		AdView adView = (AdView) findViewById(R.id.adView);
@@ -179,6 +186,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		
 		sortOrder = prefs.getString("sortOrder", "display_name");
 		sortParam = prefs.getString("sortParam", " ASC");
+		
+		longPressAction = prefs.getString("longPress", "remove");
 		
 		theme = prefs.getString("theme", "#33B5E5");
         font = prefs.getString("font", null);
@@ -281,20 +290,26 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);	
 		
+				
 		TextView sortASC;
 		TextView sortDESC;
 		TextView sortFreq;
 		TextView sortRec;
+		TextView lpaRem;
+		TextView lpaCall;
+		TextView lpaSMS;
+		TextView lpaEmail;
 		
 		TextView sortHeader = (TextView) findViewById(R.id.sortOrder);
 		sortHeader.setTextColor(Color.parseColor(theme));
 		
-		TextView fontHeader = (TextView) findViewById(R.id.fontHeader);
-		fontHeader.setTextColor(Color.parseColor(theme));
+		TextView longPressHeader = (TextView) findViewById(R.id.longPressHeader);
+		longPressHeader.setTextColor(Color.parseColor(theme));
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
 		String so = preferences.getString("sortOrder", "display_name");
 		String sp = preferences.getString("sortParam", " ASC");
+		String lpa = preferences.getString("longPress", "remove");
 		
 		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
 			sortASC = (TextView) findViewById(R.id.azText);
@@ -315,11 +330,26 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 			sortRec = (TextView) findViewById(R.id.clockText);
 			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
-			
-			
-		TextView funkyText = (TextView) findViewById(R.id.funkytext);
-		funkyText.setTypeface(Typeface.createFromAsset(this.getAssets(), "RobotoCondensed-Light.ttf"));
 		
+		if (lpa.toString().equals("remove")) {
+			lpaRem = (TextView) findViewById(R.id.removeText);
+			lpaRem.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if (lpa.toString().equals("call")) {
+			lpaCall = (TextView) findViewById(R.id.callText);
+			lpaCall.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if (lpa.toString().equals("sms")) {
+			lpaSMS = (TextView) findViewById(R.id.smsText);
+			lpaSMS.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if (lpa.toString().equals("email")) {
+			lpaEmail = (TextView) findViewById(R.id.emailText);
+			lpaEmail.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
 		
 		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
 		ascending.setOnClickListener(new View.OnClickListener() {
@@ -381,13 +411,13 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
             }
         });
 		
-		LinearLayout clean = (LinearLayout) findViewById(R.id.clean);
-		clean.setOnClickListener(new View.OnClickListener() {
+		LinearLayout call = (LinearLayout) findViewById(R.id.call);
+		call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("fontMain", "Roboto-Light.ttf");
+            	edit.putString("longPress", "call");
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
@@ -395,13 +425,41 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
             }
         });
 		
-		LinearLayout funky = (LinearLayout) findViewById(R.id.funky);
-		funky.setOnClickListener(new View.OnClickListener() {
+		LinearLayout sms = (LinearLayout) findViewById(R.id.sms);
+		sms.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
-            	edit.putString("fontMain", "RobotoCondensed-Regular.ttf");
+            	edit.putString("longPress", "sms");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout email = (LinearLayout) findViewById(R.id.email);
+		email.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("longPress", "email");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+    		   	FavActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout remove = (LinearLayout) findViewById(R.id.remove);
+		remove.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("longPress", "remove");
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
@@ -469,55 +527,256 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	            to,
 	            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		
-	    
-	    if (favGrid.getChildCount() <= 0) {
-	    	System.out.println("EMPTY");
-	    } else {
-	    	System.out.println("NOT EMPTY");
-	    }
-        
+
 	        favGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 	
 				@Override
-				public boolean onItemLongClick(final AdapterView<?> parent, View view,
-						final int position, long id) {
+				public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
 					
-				view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+					view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+					
+					if (longPressAction.equals("remove")) {
+						
+						AlertDialog alertDialog = new AlertDialog.Builder(FavActivity.this).create();
+						
+				        alertDialog.setTitle(getString(R.string.remFav));
+				        
+				        alertDialog.setMessage(getString(R.string.confirmRemFav));
+				        
+				        alertDialog.setButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int which) {
+			                	cursor = null;
+			                	cursor = (Cursor)parent.getItemAtPosition(position);
+			                	
+			    				String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+			                	
+			                    String[] fv = new String[] { displayName };
+			                    
+			                	ContentValues values = new ContentValues();
+			                    values.put(ContactsContract.Contacts.STARRED, 0);
+			                    getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
+			                    
+			                    Intent intent = new Intent(getApplicationContext(), FavActivity.class);
+			                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-				AlertDialog alertDialog = new AlertDialog.Builder(
-                       FavActivity.this).create();
-				
-				// Setting Dialog Title
-		        alertDialog.setTitle(getString(R.string.remFav));
-		        
-		        // Setting Dialog Message
-		        alertDialog.setMessage(getString(R.string.confirmRemFav));
-		        
-		        // Setting OK Button
-		        alertDialog.setButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-		                public void onClick(DialogInterface dialog, int which) {
-		                	cursor = null;
-		                	cursor = (Cursor)parent.getItemAtPosition(position);
-		                	
-		    				String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-		                	
-		                    String[] fv = new String[] { displayName };
-		                    
-		                	ContentValues values = new ContentValues();
-		                    values.put(ContactsContract.Contacts.STARRED, 0);
-		                    getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, ContactsContract.Contacts.DISPLAY_NAME + "= ?", fv);
-		                    
-		                    Intent intent = new Intent(getApplicationContext(), FavActivity.class);
-		                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			                    startActivity(intent);
+				        	}
+				        });
+				        
+				        alertDialog.show();
+				        
+					} else if (longPressAction.equals("call")) {
+						
+						int count = 0;
 
-		                    startActivity(intent);
-		        	}
-		        });
-		        // Showing Alert Message
-		        alertDialog.show();
-				return true;
+		                final ArrayList<String> allContacts = new ArrayList<String>();
+
+		                cursor = null;
+	                	cursor = (Cursor)parent.getItemAtPosition(position);
+						String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+		                
+						cursor = null;
+		                cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+		                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+		                        new String[]{contact_id}, null);
+		                
+		                try {
+		                    number = PhoneNumberUtils.formatNumber(number);
+		                } catch (NullPointerException e ) {
+		                	e.printStackTrace();
+		                }
+
+		                while (cursor.moveToNext()) {
+		                    allContacts.add(PhoneNumberUtils.formatNumber(cursor.getString(
+		                    		cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))); 
+		                    		count++;
+		                }
+			        		
+		                if (count > 1) {
+		            		ListView lvDialog = new ListView(FavActivity.this);
+		            		
+		            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(FavActivity.this,android.R.layout.simple_list_item_1, allContacts);
+		            		lvDialog.setAdapter(arrayAdapter); 
+		            		
+		            		AlertDialog.Builder builder = new AlertDialog.Builder(FavActivity.this);
+		            		
+		            		builder.setView(lvDialog);
+		            		builder.setTitle(getString(R.string.callDialogText));
+		            		final Dialog dialog = builder.create();
+
+		            		if (allContacts.isEmpty()) {
+		            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		            		} else  {
+		            			dialog.show();
+		            		}
+		            		
+		            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+		            		    @Override
+		            		    public void onItemClick(AdapterView<?> parent, View view,
+		            		    int position, long id) {
+		            		    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+		            	            callIntent.setData(Uri.parse("tel:"+allContacts.get(position)));          
+		            	            startActivity(callIntent);  
+		            		        dialog.dismiss();
+
+		            		    }
+		            		});
+		                } else {
+		                	if (!allContacts.isEmpty()) {
+		                    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+		        	            callIntent.setData(Uri.parse("tel:" + allContacts.get(0)));          
+		        	            startActivity(callIntent);  
+		                	} else {
+		                		try {
+		                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                		} catch (NullPointerException e) {
+		                			e.printStackTrace();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                		}
+		                	}
+		                }
+		                
+					} else if (longPressAction.equals("sms")) {
+
+						int count = 0;
+
+		                final ArrayList<String> allContacts = new ArrayList<String>();
+
+		                cursor = null;
+	                	cursor = (Cursor)parent.getItemAtPosition(position);
+						String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+		                
+						cursor = null;
+		                cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+		                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+		                        new String[]{contact_id}, null);
+		                
+		                try {
+		                    number = PhoneNumberUtils.formatNumber(number);
+		                } catch (NullPointerException e ) {
+		                	e.printStackTrace();
+		                }
+
+		                while (cursor.moveToNext()) {
+		                    allContacts.add(PhoneNumberUtils.formatNumber(cursor.getString(
+		                    		cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))); 
+		                    		count++;
+		                }
+			        		
+		                if (count > 1) {
+		                	ListView lvDialog = new ListView(FavActivity.this);
+		            		
+		            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(FavActivity.this,android.R.layout.simple_list_item_1, allContacts);
+		            		lvDialog.setAdapter(arrayAdapter); 
+		            		
+		            		AlertDialog.Builder builder = new AlertDialog.Builder(FavActivity.this);
+		            		
+		            		builder.setView(lvDialog);
+		            		builder.setTitle(getString(R.string.messageDialogText));
+		            		final Dialog dialog = builder.create();
+
+		            		if (allContacts.isEmpty()) {
+		            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		            		} else  {
+		            			dialog.show();
+		            		}
+		            		
+		            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+		            		    @Override
+		            		    public void onItemClick(AdapterView<?> parent, View view,
+		            		    int position, long id) {
+		            		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(position), null)));
+		            		    }
+		            		});
+		                } else {
+		                	if (!allContacts.isEmpty()) {
+		        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
+		                	} else {
+		                		try {
+		                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                		} catch (NullPointerException e) {
+		                			e.printStackTrace();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                		}
+		                	}
+		                }
+						
+					} else if (longPressAction.equals("email")) {
+						
+						int count = 0;
+
+		        		final ArrayList<String> allContacts = new ArrayList<String>();
+		                
+		        		cursor = null;
+	                	cursor = (Cursor)parent.getItemAtPosition(position);
+						String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+		        		
+		        		cursor = null;
+		        		cursor = getContentResolver().query(
+		                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+		                        null,
+		                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+		                        new String[]{contact_id},
+		                        null);
+
+		                while (cursor.moveToNext()) {
+		                    allContacts.add(cursor.getString(
+		                    		cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS))); 
+		                    		count++;
+		                }
+			        		
+		                if (count > 1) {
+		                	ListView lvDialog = new ListView(FavActivity.this);
+		            		
+		            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(FavActivity.this,android.R.layout.simple_list_item_1, allContacts);
+		            		lvDialog.setAdapter(arrayAdapter); 
+		            		
+		            		AlertDialog.Builder builder = new AlertDialog.Builder(FavActivity.this);
+		            		
+		            		builder.setView(lvDialog);
+		            		builder.setTitle(getString((R.string.emailDialogText)));
+		            		final Dialog dialog = builder.create();
+
+		            		if (allContacts.isEmpty()) {
+		            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+		            		} else  {
+		            			dialog.show();
+		            		}
+		            		
+		            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+		            		    @Override
+		            		    public void onItemClick(AdapterView<?> parent, View view,
+		            		    int position, long id) {
+		            		    	try {
+		                		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+		                		                "mailto",allContacts.get(position), null));
+		                		    	//TODO: Change domain name signature
+		                            	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+		                		    	startActivity(emailIntent);
+		            		    	} catch (IndexOutOfBoundsException e) {
+		            		    		e.printStackTrace();
+		            		    	}
+		            		    }
+		            		});
+		                } else {
+		                	if (!allContacts.isEmpty()) {
+		                    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+		        		                "mailto",allContacts.get(0), null));
+		        		    	//TODO: Change domain name signature
+		                    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+		        		    	startActivity(emailIntent);
+		                	} else {
+		                		try {
+		                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+		                		} catch (NullPointerException e) {
+		                			e.printStackTrace();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+		                		}
+		                	}
+		                }
+					}
+					return true;
 			}
-            
         });
         
         favGrid.setOnItemClickListener(new OnItemClickListener() {

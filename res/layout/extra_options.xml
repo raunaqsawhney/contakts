@@ -4,245 +4,323 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <TextView 
-        android:id="@+id/sortOrder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sortHeader"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="#33B5E5"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="20dip"
-        android:textSize="20sp" />
+    
+    <ScrollView
+        android:id="@+id/extraScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+        
+        <LinearLayout 
+            android:id="@+id/extraMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="40dip">
             
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
-	    android:layout_marginLeft="10dip"
-	    android:layout_marginRight="10dip"
-	    android:background="#C7C7CC" />
-	
-    <LinearLayout 
-        android:id="@+id/ascending"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:paddingTop="10dip"
-	    android:paddingBottom="10dip" >
-    
-	    <ImageView 
-	        android:id="@+id/azImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/ic_az"
-	        android:layout_marginLeft="10dip"/>
-	        
-	    <TextView
-	        android:id="@+id/azText"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/ascending"
-	        android:layout_gravity="center_vertical"
-	        android:textColor="#1F1F21"
-	        android:textSize="18sp" 
-	        android:fontFamily="sans-serif-light" 
-	        android:layout_marginLeft="10dip"/>
-    
-	</LinearLayout>
-	
-    <View
-	    android:layout_width="match_parent"
-	    android:layout_height="0.1dp"
-	    android:layout_marginLeft="10dip"
-	    android:layout_marginRight="10dip"
-	    android:background="#C7C7CC" />
-    
-	<LinearLayout 
-        android:id="@+id/descending"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:paddingTop="10dip"
-	    android:paddingBottom="10dip">
-    
-	    <ImageView 
-	        android:id="@+id/zaImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/ic_za"
-	        android:layout_marginLeft="10dip"/>
-	        
-	    <TextView
-	        android:id="@+id/zaText"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/descending"
-	        android:layout_gravity="center_vertical"
-	        android:textColor="#1F1F21"
-	        android:textSize="18sp" 
-	        android:fontFamily="sans-serif-light" 
-	        android:layout_marginLeft="10dip"/>
-    
-	</LinearLayout>
-	
-	
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="0.1dp"
-	    android:layout_marginLeft="10dip"
-	    android:layout_marginRight="10dip"
-	    android:background="#C7C7CC" />
-    
-	<LinearLayout 
-        android:id="@+id/frequency"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:paddingTop="10dip"
-	    android:paddingBottom="10dip">
-    
-	    <ImageView 
-	        android:id="@+id/waveImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/ic_wave"
-	        android:layout_marginLeft="10dip"/>
-	        
-	    <TextView
-	        android:id="@+id/waveText"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/frequency"
-	        android:layout_gravity="center_vertical"
-	        android:textColor="#1F1F21"
-	        android:textSize="18sp" 
-	        android:fontFamily="sans-serif-light" 
-	        android:layout_marginLeft="10dip"/>
-    
-	</LinearLayout>
-	
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="0.1dp"
-	    android:layout_marginLeft="10dip"
-	    android:layout_marginRight="10dip"
-	    android:background="#C7C7CC" />
-    
-	<LinearLayout 
-        android:id="@+id/recency"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:paddingTop="10dip"
-	    android:paddingBottom="10dip">
-    
-	    <ImageView 
-	        android:id="@+id/clockImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/ic_recent"
-	        android:layout_marginLeft="10dip"/>
-	        
-	    <TextView
-	        android:id="@+id/clockText"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/recency"
-	        android:layout_gravity="center_vertical"
-	        android:textColor="#1F1F21"
-	        android:textSize="18sp" 
-	        android:fontFamily="sans-serif-light" 
-	        android:layout_marginLeft="10dip"/>
-    
-	</LinearLayout>
-	
-	<TextView 
-        android:id="@+id/fontHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fontHeader"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="#33B5E5"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="20dip"
-        android:textSize="20sp" />
+	        <TextView 
+		        android:id="@+id/sortOrder"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/sortHeader"
+		        android:fontFamily="sans-serif-condensed"
+		        android:textColor="#33B5E5"
+		        android:paddingLeft="10dip"
+		        android:paddingRight="10dip"
+		        android:paddingTop="10dip"
+		        android:textSize="20sp" />
+	            
+			
+		    <LinearLayout 
+		        android:id="@+id/ascending"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip" >
+	    
+			    <ImageView 
+			        android:id="@+id/azImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_az"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/azText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/ascending"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+		
+		    <View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+	    
+			<LinearLayout 
+		        android:id="@+id/descending"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+	    
+			    <ImageView 
+			        android:id="@+id/zaImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_za"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/zaText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/descending"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+		
+		
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+	    
+			<LinearLayout 
+		        android:id="@+id/frequency"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+	    
+			    <ImageView 
+			        android:id="@+id/waveImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_wave"
+			        android:layout_marginLeft="10dip"/>
+		        
+			    <TextView
+			        android:id="@+id/waveText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/frequency"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
+		
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+	    
+			<LinearLayout 
+		        android:id="@+id/recency"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+	    
+			    <ImageView 
+			        android:id="@+id/clockImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_recent"
+			        android:layout_marginLeft="10dip"/>
+			        
+			    <TextView
+			        android:id="@+id/clockText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/recency"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+		    
+			</LinearLayout>
+		
+			<TextView 
+		        android:id="@+id/longPressHeader"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/longPress"
+		        android:fontFamily="sans-serif-condensed"
+		        android:textColor="#33B5E5"
+		        android:paddingLeft="10dip"
+		        android:paddingRight="10dip"
+		        android:paddingTop="10dip"
+		        android:textSize="20sp" />
+		            
+			
+			<LinearLayout 
+		        android:id="@+id/call"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+	    
+			    <ImageView 
+			        android:id="@+id/callImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_call"
+			        android:layout_marginLeft="10dip"/>
+			        
+			    <TextView
+			        android:id="@+id/callText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/call"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+		    
+			</LinearLayout>
+		
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+			
+			<LinearLayout 
+		        android:id="@+id/sms"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+	    
+			    <ImageView 
+			        android:id="@+id/smsImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_sms"
+			        android:layout_marginLeft="10dip"/>
+			        
+			    <TextView
+			        android:id="@+id/smsText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/messageDialogText"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+		    
+			</LinearLayout>
+		
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+			
+			<LinearLayout 
+		        android:id="@+id/email"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+		    
+			    <ImageView 
+			        android:id="@+id/emailImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_email"
+			        android:layout_marginLeft="10dip"/>
+			        
+			    <TextView
+			        android:id="@+id/emailText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/emailDialogText"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+		    
+			</LinearLayout>
+			
+			<View
+			    android:layout_width="match_parent"
+			    android:layout_height="0.1dp"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="#C7C7CC" />
+			
+			<LinearLayout 
+		        android:id="@+id/remove"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" 
+			    android:paddingTop="8dip"
+			    android:paddingBottom="8dip">
+	    
+			    <ImageView 
+			        android:id="@+id/removeImage"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:src="@drawable/ic_remove"
+			        android:layout_marginLeft="10dip"/>
+			        
+			    <TextView
+			        android:id="@+id/removeText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/remFav"
+			        android:layout_gravity="center_vertical"
+			        android:textColor="#1F1F21"
+			        android:textSize="16sp" 
+			        android:fontFamily="sans-serif-light" 
+			        android:layout_marginLeft="10dip"/>
+	    
+			</LinearLayout>
             
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
-	    android:layout_marginLeft="10dip"
-	    android:layout_marginRight="10dip"
-	    android:background="#C7C7CC" />
-	
-    <LinearLayout 
-        android:id="@+id/clean"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:paddingTop="10dip"
-	    android:paddingBottom="10dip" >
-    
-	    <ImageView 
-	        android:id="@+id/cleanImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/ic_clean"
-	        android:layout_marginLeft="10dip"/>
-	        
-	    <TextView
-	        android:id="@+id/cleantext"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/clean"
-	        android:layout_gravity="center_vertical"
-	        android:textColor="#1F1F21"
-	        android:textSize="18sp" 
-	        android:fontFamily="sans-serif-light" 
-	        android:layout_marginLeft="10dip"/>
-    
-	</LinearLayout>
-	
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="0.1dp"
-	    android:layout_marginLeft="10dip"
-	    android:layout_marginRight="10dip"
-	    android:background="#C7C7CC" />
-	
-    <LinearLayout 
-        android:id="@+id/funky"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:paddingTop="10dip"
-	    android:paddingBottom="10dip" >
-    
-	    <ImageView 
-	        android:id="@+id/funkyImage"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/ic_dj"
-	        android:layout_marginLeft="10dip"/>
-	        
-	    <TextView
-	        android:id="@+id/funkytext"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/funky"
-	        android:layout_gravity="center_vertical"
-	        android:textColor="#1F1F21"
-	        android:textSize="18sp" 
-	        android:fontFamily="sans-serif-light" 
-	        android:layout_marginLeft="10dip"/>
-    
-	</LinearLayout>
+            
+        </LinearLayout>
+        
+    </ScrollView>
     
 </LinearLayout>

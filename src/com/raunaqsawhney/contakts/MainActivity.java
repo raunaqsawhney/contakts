@@ -5,13 +5,18 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -24,15 +29,20 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
+import android.telephony.PhoneNumberUtils;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -76,6 +86,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	AdView adView;
 	
 	Cursor cursor;
+	String sortOrder;
+	String sortParam;
+	String longPressAction;
+	
+	String number;
+	Contact contact = new Contact();
 	
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -168,6 +184,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
+        
+        sortOrder = prefs.getString("sortOrder_main", "display_name");
+		sortParam = prefs.getString("sortParam_main", " ASC");
+		
+		longPressAction = prefs.getString("longPress_main", "call_main");
 	}
 
 	private void setupActionBar() {
@@ -201,7 +222,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		
 		// Set up Sliding Menu
         menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
+        menu.setMode(SlidingMenu.LEFT_RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidth(8);
         menu.setFadeDegree(0.8f);
@@ -212,6 +233,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
+        menu.setSecondaryMenu(R.layout.extra_options_main);
+        menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
@@ -248,6 +271,163 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
+		
+		TextView sortASC;
+		TextView sortDESC;
+		TextView sortFreq;
+		TextView sortRec;
+		TextView lpaCall;
+		TextView lpaSMS;
+		TextView lpaEmail;
+		
+		TextView sortHeader = (TextView) findViewById(R.id.sortOrder);
+		sortHeader.setTextColor(Color.parseColor(theme));
+		
+		TextView longPressHeader = (TextView) findViewById(R.id.longPressHeader);
+		longPressHeader.setTextColor(Color.parseColor(theme));
+		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+		String so = preferences.getString("sortOrder_main", "display_name");
+		String sp = preferences.getString("sortParam_main", " ASC");
+		String lpa = preferences.getString("longPress_main", "call_main");
+		
+		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
+			sortASC = (TextView) findViewById(R.id.azText);
+			sortASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("display_name DESC")) {
+			sortDESC = (TextView) findViewById(R.id.zaText);
+			sortDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("times_contacted DESC")) {
+			sortFreq = (TextView) findViewById(R.id.waveText);
+			sortFreq.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted DESC")) {
+			sortRec = (TextView) findViewById(R.id.clockText);
+			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if (lpa.toString().equals("call_main")) {
+			lpaCall = (TextView) findViewById(R.id.callText);
+			lpaCall.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if (lpa.toString().equals("sms_main")) {
+			lpaSMS = (TextView) findViewById(R.id.smsText);
+			lpaSMS.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if (lpa.toString().equals("email_main")) {
+			lpaEmail = (TextView) findViewById(R.id.emailText);
+			lpaEmail.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
+		ascending.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder_main", "display_name");
+            	edit.putString("sortParam_main", " ASC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout descending = (LinearLayout) findViewById(R.id.descending);
+		descending.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder_main", "display_name");
+            	edit.putString("sortParam_main", " DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout frequency = (LinearLayout) findViewById(R.id.frequency);
+		frequency.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("sortOrder_main", "times_contacted");
+            	edit.putString("sortParam_main", " DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout recency = (LinearLayout) findViewById(R.id.recency);
+		recency.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("sortOrder_main", "last_time_contacted");
+            	edit.putString("sortParam_main", " DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout call = (LinearLayout) findViewById(R.id.call);
+		call.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("longPress_main", "call_main");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout sms = (LinearLayout) findViewById(R.id.sms);
+		sms.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("longPress_main", "sms_main");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout email = (LinearLayout) findViewById(R.id.email);
+		email.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        		Editor edit = preferences.edit();
+
+            	edit.putString("longPress_main", "email_main");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	MainActivity.this.startActivity(intent);
+            }
+        });
+		
 	}
 
 	private void initializeLoader() {
@@ -293,6 +473,227 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	    contactList.addHeaderView(header, null, false);
 	    getLoaderManager().initLoader(0, null, this);
         contactList.setAdapter(mAdapter);
+        
+        contactList.setOnItemLongClickListener(new OnItemLongClickListener() {
+        	
+			@Override
+			public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+				
+				view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+				
+				if (longPressAction.equals("call_main")) {
+					
+					int count = 0;
+
+	                final ArrayList<String> allContacts = new ArrayList<String>();
+
+	                cursor = null;
+                	cursor = (Cursor)parent.getItemAtPosition(position);
+					String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+	                
+					cursor = null;
+	                cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+	                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+	                        new String[]{contact_id}, null);
+	                
+	                try {
+	                    number = PhoneNumberUtils.formatNumber(number);
+	                } catch (NullPointerException e ) {
+	                	e.printStackTrace();
+	                }
+
+	                while (cursor.moveToNext()) {
+	                    allContacts.add(PhoneNumberUtils.formatNumber(cursor.getString(
+	                    		cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))); 
+	                    		count++;
+	                }
+		        		
+	                if (count > 1) {
+	            		ListView lvDialog = new ListView(MainActivity.this);
+	            		
+	            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, allContacts);
+	            		lvDialog.setAdapter(arrayAdapter); 
+	            		
+	            		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+	            		
+	            		builder.setView(lvDialog);
+	            		builder.setTitle(getString(R.string.callDialogText));
+	            		final Dialog dialog = builder.create();
+
+	            		if (allContacts.isEmpty()) {
+	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	            		} else  {
+	            			dialog.show();
+	            		}
+	            		
+	            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+	            		    @Override
+	            		    public void onItemClick(AdapterView<?> parent, View view,
+	            		    int position, long id) {
+	            		    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+	            	            callIntent.setData(Uri.parse("tel:"+allContacts.get(position)));          
+	            	            startActivity(callIntent);  
+	            		        dialog.dismiss();
+
+	            		    }
+	            		});
+	                } else {
+	                	if (!allContacts.isEmpty()) {
+	                    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
+	        	            callIntent.setData(Uri.parse("tel:" + allContacts.get(0)));          
+	        	            startActivity(callIntent);  
+	                	} else {
+	                		try {
+	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                		} catch (NullPointerException e) {
+	                			e.printStackTrace();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                		}
+	                	}
+	                }
+	                
+				} else if (longPressAction.equals("sms_main")) {
+
+					int count = 0;
+
+	                final ArrayList<String> allContacts = new ArrayList<String>();
+
+	                cursor = null;
+                	cursor = (Cursor)parent.getItemAtPosition(position);
+					String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+	                
+					cursor = null;
+	                cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+	                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+	                        new String[]{contact_id}, null);
+	                
+	                try {
+	                    number = PhoneNumberUtils.formatNumber(number);
+	                } catch (NullPointerException e ) {
+	                	e.printStackTrace();
+	                }
+
+	                while (cursor.moveToNext()) {
+	                    allContacts.add(PhoneNumberUtils.formatNumber(cursor.getString(
+	                    		cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))); 
+	                    		count++;
+	                }
+		        		
+	                if (count > 1) {
+	                	ListView lvDialog = new ListView(MainActivity.this);
+	            		
+	            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, allContacts);
+	            		lvDialog.setAdapter(arrayAdapter); 
+	            		
+	            		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+	            		
+	            		builder.setView(lvDialog);
+	            		builder.setTitle(getString(R.string.messageDialogText));
+	            		final Dialog dialog = builder.create();
+
+	            		if (allContacts.isEmpty()) {
+	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	            		} else  {
+	            			dialog.show();
+	            		}
+	            		
+	            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+	            		    @Override
+	            		    public void onItemClick(AdapterView<?> parent, View view,
+	            		    int position, long id) {
+	            		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(position), null)));
+	            		    }
+	            		});
+	                } else {
+	                	if (!allContacts.isEmpty()) {
+	        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
+	                	} else {
+	                		try {
+	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                		} catch (NullPointerException e) {
+	                			e.printStackTrace();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                		}
+	                	}
+	                }
+					
+				} else if (longPressAction.equals("email_main")) {
+					
+					int count = 0;
+
+	        		final ArrayList<String> allContacts = new ArrayList<String>();
+	                
+	        		cursor = null;
+                	cursor = (Cursor)parent.getItemAtPosition(position);
+					String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity._ID));
+	        		
+	        		cursor = null;
+	        		cursor = getContentResolver().query(
+	                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+	                        null,
+	                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+	                        new String[]{contact_id},
+	                        null);
+
+	                while (cursor.moveToNext()) {
+	                    allContacts.add(cursor.getString(
+	                    		cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS))); 
+	                    		count++;
+	                }
+		        		
+	                if (count > 1) {
+	                	ListView lvDialog = new ListView(MainActivity.this);
+	            		
+	            		ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, allContacts);
+	            		lvDialog.setAdapter(arrayAdapter); 
+	            		
+	            		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+	            		
+	            		builder.setView(lvDialog);
+	            		builder.setTitle(getString((R.string.emailDialogText)));
+	            		final Dialog dialog = builder.create();
+
+	            		if (allContacts.isEmpty()) {
+	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	            		} else  {
+	            			dialog.show();
+	            		}
+	            		
+	            		lvDialog.setOnItemClickListener(new OnItemClickListener() {
+	            		    @Override
+	            		    public void onItemClick(AdapterView<?> parent, View view,
+	            		    int position, long id) {
+	            		    	try {
+	                		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+	                		                "mailto",allContacts.get(position), null));
+	                		    	//TODO: Change domain name signature
+	                            	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+	                		    	startActivity(emailIntent);
+	            		    	} catch (IndexOutOfBoundsException e) {
+	            		    		e.printStackTrace();
+	            		    	}
+	            		    }
+	            		});
+	                } else {
+	                	if (!allContacts.isEmpty()) {
+	                    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+	        		                "mailto",allContacts.get(0), null));
+	        		    	//TODO: Change domain name signature
+	                    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+	        		    	startActivity(emailIntent);
+	                	} else {
+	                		try {
+	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                		} catch (NullPointerException e) {
+	                			e.printStackTrace();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                		}
+	                	}
+	                }
+				}
+				return true;
+			}
+        });
 	}
 
 	@Override
@@ -324,7 +725,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 projection, 
                 query, 
                 null,
-                Contacts.DISPLAY_NAME + " ASC");	
+                sortOrder + sortParam);	
         
         return cursorLoader;
 	}

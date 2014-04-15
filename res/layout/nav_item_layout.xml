@@ -8,8 +8,10 @@
         android:id="@+id/nav_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dip"/>
+        android:layout_gravity="center_vertical" 
+        android:layout_marginLeft="10dip"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"/>
         
     <TextView
         android:id="@+id/nav_name"
@@ -20,8 +22,8 @@
         android:textSize="18sp" 
         android:fontFamily="sans-serif-light" 
         android:layout_marginLeft="10dip"
-        android:paddingTop="18dip"
-        android:paddingBottom="18dip"/>
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"/>
     
 
 </LinearLayout>

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Contakts</string>
+    <string name="contact">Contato</string>
     <string name="action_settings">Configurações</string>
     <string name="hello_world">Hello world!</string>
     <string name="search_hint">procurar contato</string>

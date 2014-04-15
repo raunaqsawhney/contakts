@@ -219,7 +219,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.LOOKUP_KEY,
 	            ContactsContract.Contacts.DISPLAY_NAME,
-	            ContactsContract.Contacts.PHOTO_URI,
+	            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
 	            ContactsContract.Contacts.TIMES_CONTACTED};
 	    
 
@@ -237,7 +237,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		    	
 		        curFreqContact.setName(c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
 		        curFreqContact.setTimesContacted(c.getString(c.getColumnIndex(ContactsContract.Contacts.TIMES_CONTACTED)));
-		        curFreqContact.setURL(c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+		        curFreqContact.setURL(c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)));
 		        curFreqContact.setID(c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)));
 		        curFreqContact.setCount(count);
     	       				 

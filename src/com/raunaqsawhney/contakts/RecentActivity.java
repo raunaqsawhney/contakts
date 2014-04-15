@@ -34,6 +34,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	
 	private RecentCursorAdapter mAdapter;
 	private boolean firstRunDoneRec;
+	String selectionParam;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
+        selectionParam = prefs.getString("selectionParam", "?");
         
         firstRunDoneRec = prefs.getBoolean("firstRunDoneRec", false);
         if (!firstRunDoneRec) {
@@ -129,7 +132,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		
 		// Set up Sliding Menu
         menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
+        menu.setMode(SlidingMenu.LEFT_RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidth(8);
         menu.setFadeDegree(0.8f);
@@ -141,6 +144,9 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
+        
+        menu.setSecondaryMenu(R.layout.extra_options_rec);
+        menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
       
         final String[] nav = { getString(R.string.sMfavourites),
         		getString(R.string.sMRecent),
@@ -174,7 +180,83 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
                 R.layout.nav_item_layout, rowItems);
 		
 		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);			
+		navListView.setOnItemClickListener(this);		
+		
+		
+		LinearLayout all = (LinearLayout) findViewById(R.id.all);
+		all.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("selectionParam", "?");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
+    		   	RecentActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout incoming = (LinearLayout) findViewById(R.id.incoming);
+		incoming.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("selectionParam", "1");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
+    		   	RecentActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout outgoing = (LinearLayout) findViewById(R.id.out);
+		outgoing.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("selectionParam", "2");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
+    		   	RecentActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout missed = (LinearLayout) findViewById(R.id.missed);
+		missed.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("selectionParam", "3");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
+    		   	RecentActivity.this.startActivity(intent);
+            }
+        });
+		
+		TextView showHeader = (TextView) findViewById(R.id.show);
+		showHeader.setTextColor(Color.parseColor(theme));
+		
+		TextView allCalls = (TextView) findViewById(R.id.allText);
+		TextView inCalls = (TextView) findViewById(R.id.inText);
+		TextView outCalls = (TextView) findViewById(R.id.outText);
+		TextView missCalls = (TextView) findViewById(R.id.missText);
+		
+		if (selectionParam.equals("?"))
+			allCalls.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		else if (selectionParam.equals("1"))
+			inCalls.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		else if (selectionParam.equals("2"))
+			outCalls.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		else if (selectionParam.equals("3"))
+			missCalls.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+
+
 	}
 	
 	private void getRecents() {
@@ -259,13 +341,19 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         
 	    String sortOrder = String.format("%s limit 100 ", CallLog.Calls.DATE + " DESC");
 
+	    String selection;
+	    if (selectionParam.equals("?"))
+	    	selection = null;
+	    else 
+	    	selection = CallLog.Calls.TYPE + "=" + selectionParam;
+	    
         cursorLoader = new CursorLoader(
         		RecentActivity.this, 
         		queryUri,
                 projection, 
-                null, 
+                selection, 
                 null,
-                sortOrder);	
+                sortOrder );	
         
         return cursorLoader;
 	}

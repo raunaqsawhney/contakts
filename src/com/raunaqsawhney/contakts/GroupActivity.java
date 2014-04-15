@@ -374,6 +374,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
         		GroupActivity.this, 
         		baseUri,
                 projection, 
+                ContactsContract.Groups.SUMMARY_COUNT + " > 0 AND " + 
                 ContactsContract.Groups.DELETED + "!='1'",
                 null,
                 ContactsContract.Groups.TITLE + " ASC");	

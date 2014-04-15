@@ -27,7 +27,7 @@
         android:paddingRight="10dip"
         android:scrollingCache="true"
         android:soundEffectsEnabled="true"
-        android:paddingBottom="40dip" />
+        android:paddingBottom="50dip" />
 
 
 </LinearLayout>
