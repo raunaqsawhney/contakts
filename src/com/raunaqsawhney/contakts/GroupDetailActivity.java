@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,7 +81,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
@@ -149,6 +150,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -159,6 +161,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -185,7 +188,9 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
             @SuppressWarnings("deprecation")
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor = (Cursor)parent.getItemAtPosition(position);
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+            	cursor = (Cursor)parent.getItemAtPosition(position);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID));		      
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -215,9 +220,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
                 from,
                 to, 
                 0);
-        	
         
-	    
         
         header = getLayoutInflater().inflate(R.layout.group_header, null);
         TextView groupNameHeader = (TextView) header.findViewById(R.id.header_name);
@@ -230,7 +233,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
         }
         
         if (group_name.equalsIgnoreCase("Friends")) {
-        	groupImage.setImageResource(R.drawable.ic_family);
+        	groupImage.setImageResource(R.drawable.ic_friends);
         }
         
         if (group_name.equalsIgnoreCase("Google+ circles")) {
@@ -255,10 +258,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
         
 	    getLoaderManager().initLoader(0, null, this);
 	    
-	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-		    header = getLayoutInflater().inflate(R.layout.group_header, null);
-		    contactGroupListView.addHeaderView(header, null, false);
-	    }
+	    contactGroupListView.addHeaderView(header, null, false);
 	    contactGroupListView.setAdapter(mAdapter);	
 	    
 	}
@@ -294,16 +294,6 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		mAdapter.swapCursor(cursor);
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			View empty = findViewById(R.id.empty);
-			if (contactGroupListView.getAdapter().isEmpty()) {
-		        contactGroupListView.setEmptyView(empty);
-			    contactGroupListView.removeHeaderView(header);
-		    } else {
-			    contactGroupListView.addHeaderView(header, null, false);
-		    }
-		}
 	}
 
 	@Override
@@ -314,6 +304,8 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -335,9 +327,12 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 		   	Intent fbIntent = new Intent(GroupDetailActivity.this, GroupActivity.class);
 		   	GroupDetailActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(GroupDetailActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(GroupDetailActivity.this, ShuffleActivity.class);
 		   	GroupDetailActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(GroupDetailActivity.this, FBActivity.class);
+		   	GroupDetailActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(GroupDetailActivity.this, LoginActivity.class);
 		   	GroupDetailActivity.this.startActivity(iIntent);
 	   }

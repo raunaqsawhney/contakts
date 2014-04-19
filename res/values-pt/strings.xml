@@ -41,6 +41,7 @@
     <string name="sMPhoneContacts">Contatos do Telefone</string>
     <string name="sMGroups">Grupos</string>
     <string name="sMGoogleContacts">Todos os Contatos</string>
+    <string name="sMShuffle">Embaralhar</string>
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Configurações</string>
     <string name="sMAbout">Informações</string>
@@ -82,19 +83,19 @@
 	<string name="shareWith">Compartilhe com</string>
 	<string name="whatsAppNotFound">WhatsApp não está instalado</string>
 	
-	<string name="notesHeader">Notas</string>
+	<string name="notesHeader">NOTAS</string>
 	<string name="imHeader">IM</string>
-	<string name="eventsHeader">Eventos</string>
-	<string name="relationshipHeader">Relacionamento</string>
-	<string name="addressHeader">Endereço</string>
-	<string name="websiteHeader">Site</string>
-	<string name="emailHeader">Email</string>
-	<string name="phoneHeader">Telefone</string>
+	<string name="eventsHeader">EVENTOS</string>
+	<string name="relationshipHeader">RELACIONAMENTO</string>
+	<string name="addressHeader">ENDEREÇO</string>
+	<string name="websiteHeader">SITE</string>
+	<string name="emailHeader">EMAIL</string>
+	<string name="phoneHeader">TELEFONE</string>
 	
 	<!-- END OF CONTACT DETAIL ACTIVITY -->
 	
-	<string name="favDialogHeader">Favoritos</string>
-	<string name="favDialogText">Aqui você pode ver uma grade de todos os seus contatos favoritos. Para remover um contato, basta tocar e segurar um contato.</string>
+	<string name="favDialogHeader">Olá!</string>
+	<string name="favDialogText">Passando direita revela o menu de navegação, e passando à esquerda revela um menu de ajustes extra que pode ser usado para personalizar a sua experiência.\n\nHá um menu ajustes independentes para cada tela, dando-lhe total flexibilidade na customização.</string>
 	<string name="remFav">Remover favorito</string>
 	<string name="confirmRemFav">Você tem certeza que deseja remover este contato dos seus favoritos?</string>
 	
@@ -119,12 +120,12 @@
 	<string name="happyBday">um feliz aniversário!</string>
 	<string name="usesContakts">usa Contakts</string>
 	
-	<string name="username">Nome de Usuário</string>
-	<string name="birthday">Aniversário</string>
-	<string name="education">Educação</string>
-	<string name="work">Trabalho</string>
-	<string name="curLoc">Localização Atual</string>
-	<string name="hometown">Cidade Natal</string>
+	<string name="username">NOME DE USUÁRIO</string>
+	<string name="birthday">ANIVERSÁRIO</string>
+	<string name="education">EDUCAÇÃO</string>
+	<string name="work">TRABALHO</string>
+	<string name="curLoc">LOCALIZAÇÃO ACTUAL</string>
+	<string name="hometown">CIDADE NATAL</string>
 	
 	<string name="homepage">Pessoal</string>
 	<string name="blog">Blog</string>
@@ -171,8 +172,8 @@
 	<string name="edit">Modificar</string>
 	
 	<string name="removeAds">Remover as Propagandas</string>
-	<string name="generalHeader">Geral</string>
-	<string name="facebookHeader">Facebook</string>
+	<string name="generalHeader">GERAL</string>
+	<string name="facebookHeader">FACEBOOK</string>
 	
 	<string name="delete">Excluir</string>
 	<string name="dialerNotFound">A aplicação Dialer não encontrado.</string>
@@ -229,6 +230,38 @@
     <string name="clean">Limpo</string>
     <string name="funky">Legal</string>
     
-    <string name="sortHeader">Classificando</string>
-    <string name="fontHeader">Fonte</string>
+    <string name="sortHeader">CLASSIFICAÇÃO</string>
+    
+ 	<string name="longPress">IMPRENSA LONGO</string>
+    <string name="showHeader">TIPO DE CHAMADA</string>
+    <string name="allCalls">Todas as Chamadas</string>
+    <string name="missCalls">Chamadas não Atendidas</string>
+    <string name="inCalls">Chamadas Recebidas</string>
+    <string name="outCalls">Chamadas de Saída</string>
+    <string name="remContact">Excluir Contato</string>
+    <string name="num_asc">Aumentar Contagem</string>
+    <string name="num_desc">Diminuindo Contagem</string>
+    <string name="noPhoneFound">Não há números de telefone encontrados</string>
+    <string name="noEmailFound">Nenhum e-mail encontrado</string>
+    <string name="title_activity_shuffle">ShuffleActivity</string>
+    <string name="sayHello">Diga Olá para </string>
+    <string name="shuffleProfile">Ver Perfil</string>
+    
+    <string name="shuffle_ls_contacted">ÚLTIMA CHAMADA</string>
+    <string name="noContactYet1">Você nunca ter chamado</string>
+	<string name="noContactYet2">Chame-se já?</string>
+	
+	<string name="shuffle_tc_contacted">VEZES CONTACTADA</string>
+	<string name="noTimeContacted1">Você nunca ter contactado</string>
+	<string name="noTimeContacted2">Por que não enviar uma mensagem de texto?</string>
+	
+	<string name="rare">Uma conversa rara ou dois</string>
+	<string name="occasional">Um bate-papo ocasional nunca é demais</string>
+	<string name="frequent">Parece uma conversa frequente está se formando...</string>
+	<string name="heavy">Um monte de grandes conversas aqui!</string>
+	<string name="crazy">Viva! Muitas conversas!</string>
+	<string name="unavailable">Las estadísticas no están disponibles</string>	
+	
+	<string name="shuffleHeader">Barajada</string>
+	<string name="shuffleText">Interagir com alguém novo a cada vez em modo shuffle.\n\nRestaurar velhas amizades ou criar novos!</string>
 </resources>

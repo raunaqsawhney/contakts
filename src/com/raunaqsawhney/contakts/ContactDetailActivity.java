@@ -48,6 +48,7 @@ import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -159,7 +160,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#33B5E5");
+		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);
@@ -231,6 +232,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -241,6 +243,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -305,6 +308,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             public void onClick(View v) {
                 final ArrayList<String> allContacts = new ArrayList<String>();
 
+                c = null;
                 c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
@@ -371,6 +375,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
                 
+        		c = null;
                 c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{contact_id}, null);
@@ -428,6 +433,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
                 
+        		c = null;
         		c = getContentResolver().query(
                         ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                         null,
@@ -500,6 +506,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID,
 	            ContactsContract.Contacts.STARRED};
 
+	    c = null;
 	    c = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            projection,
@@ -546,6 +553,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
 		
+		c = null;
 		c = getContentResolver().query(
 	            ContactsContract.Contacts.CONTENT_URI,  
 	            proj,
@@ -566,6 +574,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
 		ContentResolver cr = getContentResolver();
 		
+		c = null;
 		c = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
                 ContactsContract.Contacts._ID +" = ?",
                 new String[]{contact_id}, null);
@@ -632,6 +641,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] imWhereParams = new String[]{contact_id,
             ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE};
         
+        c = null;
         c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, imWhere, imWhereParams, null);
         //startManagingCursor(c);
@@ -711,7 +721,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	e.printStackTrace();
 	        }
 
-	        imTypeTextView.setText(currentType);
+	        imTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
 	        imTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        imTypeTextView.setTextSize(14);
 	        imTypeTextView.setWidth(200);
@@ -759,6 +769,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] relationshipWhereParams = new String[]{contact_id,
         ContactsContract.CommonDataKinds.Relation.CONTENT_ITEM_TYPE};
         
+        c = null;
         c = cr.query(ContactsContract.Data.CONTENT_URI, null, relationshipWhere, relationshipWhereParams, null);
         //startManagingCursor(c);
 
@@ -836,7 +847,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         final TextView lblRelationshipContent = new TextView(this);
         final LinearLayout relationshipContentLayout = new LinearLayout(this);
 
-        lblRelationshipType.setText(contact.getRelationshipType());
+        
+        try {
+            lblRelationshipType.setText(contact.getRelationshipType().toUpperCase(Locale.getDefault()));
+        } catch (NullPointerException e ) {
+        	e.printStackTrace();
+        }
         lblRelationshipType.setTypeface(Typeface.createFromAsset(getAssets(), font));
         lblRelationshipType.setTextSize(14);
         lblRelationshipType.setWidth(200);
@@ -884,6 +900,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] dateWhereParams = new String[]{contact_id,
         ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE};
         
+        c = null;
         c = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
         //startManagingCursor(c);
 
@@ -955,7 +972,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	e.printStackTrace();
 	        }
 
-	        dateTypeTextView.setText(currentType);
+	        dateTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
 	        dateTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        dateTypeTextView.setTextSize(14);
 	        dateTypeTextView.setWidth(200);
@@ -1036,7 +1053,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	private void getOrganizationInfo(String contact_id) {
 
         lblCompany = (TextView) findViewById(R.id.c_detail_header_company);
-        lblCompany.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+        lblCompany.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
 		
         ContentResolver cr = getContentResolver();
 		
@@ -1044,6 +1061,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] orgWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
         
+        c = null;
 		c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, orgWhere, orgWhereParams, null);
         //startManagingCursor(c);
@@ -1089,6 +1107,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] websiteWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE};
         
+        c = null;
 		c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, websiteWhere, websiteWhereParams, null);
         //startManagingCursor(c);
@@ -1161,7 +1180,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
            
-            websiteTypeTextView.setText(currentType);
+            websiteTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             websiteTypeTextView.setTextSize(14);
             websiteTypeTextView.setWidth(200);
@@ -1233,6 +1252,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         String[] addressWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE};
         
+        c = null;
 		c = cr.query(ContactsContract.Data.CONTENT_URI,
                 null, addressWhere, addressWhereParams, null);
         //startManagingCursor(c);
@@ -1264,7 +1284,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	addressType = getString(R.string.other);
             }
             
-            System.out.println("ADD TYPE NOT RAW: " + addressType);
 
             contact.addAddresses(address + ":" + addressType);  
             Boolean isNetworkAvailable = checkOnlineStatus();
@@ -1323,7 +1342,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
 
-            addressTypeTextView.setText(currentType);
+            addressTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
             addressTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             addressTypeTextView.setTextSize(14);
             addressTypeTextView.setWidth(200);
@@ -1391,6 +1410,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		ContentResolver cr = getContentResolver();
 		String emailType = null;
 		
+		c = null;
 		c = cr.query(
                 ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                 null,
@@ -1463,7 +1483,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
 
-            emailTypeTextView.setText(currentType);
+            emailTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
             emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             emailTypeTextView.setTextSize(14);
             emailTypeTextView.setWidth(200);
@@ -1513,10 +1533,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	private void getNameInfo(String contact_id) {
 		
         lblName = (TextView) findViewById(R.id.c_detail_header_name);
-        lblName.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
+        lblName.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
                 
 		ContentResolver cr = getContentResolver();
 		
+		c = null;
 		c = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
                 ContactsContract.Contacts._ID + " =? ",
                 new String[]{contact_id}, null);
@@ -1552,7 +1573,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		ContentResolver cr = getContentResolver();
 		String phoneType = null;
 		
-		
+		c = null;
 		c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                 new String[]{contact_id}, null);
@@ -1670,7 +1691,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
 
-            phoneTypeTextView.setText(currentType);
+            phoneTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
             phoneTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             phoneTypeTextView.setTextSize(14);
             phoneTypeTextView.setWidth(200);
@@ -2133,6 +2154,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -2154,9 +2177,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		   	Intent fbIntent = new Intent(ContactDetailActivity.this, GroupActivity.class);
 		   	ContactDetailActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(ContactDetailActivity.this, ShuffleActivity.class);
 		   	ContactDetailActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
+		   	ContactDetailActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
 		   	ContactDetailActivity.this.startActivity(iIntent);
 	   }

@@ -185,18 +185,18 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		Editor edit = preferences.edit();
 		
 		sortOrder = prefs.getString("sortOrder", "display_name");
-		sortParam = prefs.getString("sortParam", " ASC");
+		sortParam = prefs.getString("sortParam", " COLLATE LOCALIZED ASC");
 		
 		longPressAction = prefs.getString("longPress", "remove");
 		
-		theme = prefs.getString("theme", "#33B5E5");
+		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
-        firstRunDoneFav = prefs.getBoolean("firstRunDoneFav", false);
+        firstRunDoneFav = prefs.getBoolean("firstRunDoneFavourite", false);
         if (!firstRunDoneFav) {
-        	edit.putBoolean("firstRunDoneFav", true);
+        	edit.putBoolean("firstRunDoneFavourite", true);
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
@@ -262,6 +262,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -272,6 +273,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -308,25 +310,25 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
 		String so = preferences.getString("sortOrder", "display_name");
-		String sp = preferences.getString("sortParam", " ASC");
+		String sp = preferences.getString("sortParam", " COLLATE LOCALIZED ASC");
 		String lpa = preferences.getString("longPress", "remove");
 		
-		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
+		if ((so + sp).toString().equalsIgnoreCase("display_name COLLATE LOCALIZED ASC")) {
 			sortASC = (TextView) findViewById(R.id.azText);
 			sortASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("display_name DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("display_name COLLATE LOCALIZED DESC")) {
 			sortDESC = (TextView) findViewById(R.id.zaText);
 			sortDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("times_contacted DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("times_contacted COLLATE LOCALIZED DESC")) {
 			sortFreq = (TextView) findViewById(R.id.waveText);
 			sortFreq.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted COLLATE LOCALIZED DESC")) {
 			sortRec = (TextView) findViewById(R.id.clockText);
 			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
@@ -354,66 +356,80 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
 		ascending.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
         		edit.putString("sortOrder", "display_name");
-            	edit.putString("sortParam", " ASC");
+            	edit.putString("sortParam", " COLLATE LOCALIZED ASC");
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout descending = (LinearLayout) findViewById(R.id.descending);
 		descending.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
         		edit.putString("sortOrder", "display_name");
-            	edit.putString("sortParam", " DESC");
+            	edit.putString("sortParam", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout frequency = (LinearLayout) findViewById(R.id.frequency);
 		frequency.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
             	edit.putString("sortOrder", "times_contacted");
-            	edit.putString("sortParam", " DESC");
+            	edit.putString("sortParam", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout recency = (LinearLayout) findViewById(R.id.recency);
 		recency.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
             	edit.putString("sortOrder", "last_time_contacted");
-            	edit.putString("sortParam", " DESC");
+            	edit.putString("sortParam", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout call = (LinearLayout) findViewById(R.id.call);
 		call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
@@ -421,13 +437,16 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout sms = (LinearLayout) findViewById(R.id.sms);
 		sms.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
@@ -435,13 +454,16 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout email = (LinearLayout) findViewById(R.id.email);
 		email.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
@@ -449,13 +471,16 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
-    		   	FavActivity.this.startActivity(intent);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	FavActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout remove = (LinearLayout) findViewById(R.id.remove);
 		remove.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
         		Editor edit = preferences.edit();
 
@@ -463,6 +488,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
             	edit.apply();
             	
             	Intent intent = new Intent(FavActivity.this, FavActivity.class);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     		   	FavActivity.this.startActivity(intent);
             }
         });
@@ -605,7 +631,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		            		final Dialog dialog = builder.create();
 
 		            		if (allContacts.isEmpty()) {
-		            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		            			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 		            		} else  {
 		            			dialog.show();
 		            		}
@@ -615,7 +641,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		            		    public void onItemClick(AdapterView<?> parent, View view,
 		            		    int position, long id) {
 		            		    	Intent callIntent = new Intent(Intent.ACTION_CALL);          
-		            	            callIntent.setData(Uri.parse("tel:"+allContacts.get(position)));          
+		            	            callIntent.setData(Uri.parse("tel:" + allContacts.get(position)));          
 		            	            startActivity(callIntent);  
 		            		        dialog.dismiss();
 
@@ -628,10 +654,10 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		        	            startActivity(callIntent);  
 		                	} else {
 		                		try {
-		                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 		                		} catch (NullPointerException e) {
 		                			e.printStackTrace();
-		                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                			Toast.makeText(getApplicationContext(),  getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 		                		}
 		                	}
 		                }
@@ -676,7 +702,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		            		final Dialog dialog = builder.create();
 
 		            		if (allContacts.isEmpty()) {
-		            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		            			Toast.makeText(getApplicationContext(),  getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 		            		} else  {
 		            			dialog.show();
 		            		}
@@ -693,10 +719,10 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
 		                	} else {
 		                		try {
-		                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 		                		} catch (NullPointerException e) {
 		                			e.printStackTrace();
-		                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 		                		}
 		                	}
 		                }
@@ -738,7 +764,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		            		final Dialog dialog = builder.create();
 
 		            		if (allContacts.isEmpty()) {
-		            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+		            			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 		            		} else  {
 		            			dialog.show();
 		            		}
@@ -767,10 +793,10 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		        		    	startActivity(emailIntent);
 		                	} else {
 		                		try {
-		                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 		                		} catch (NullPointerException e) {
 		                			e.printStackTrace();
-		                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+		                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 		                		}
 		                	}
 		                }
@@ -782,12 +808,13 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         favGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor = null;
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+            	cursor = null;
             	cursor = (Cursor)parent.getItemAtPosition(position);
 				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
-				// Explicit Intent Example
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
                 intent.putExtra("contact_id", contact_id);
                 intent.putExtra("activity","fav");
@@ -799,22 +826,9 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         getLoaderManager().initLoader(0, null, this);
 
    }
-
-	/*
-	private Bitmap loadContactPhoto(ContentResolver contentResolver, long id) {
-		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-	    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-	    if (input == null) {
-
-	        return null;
-	    }
-	    return BitmapFactory.decodeStream(input);		
-	}
-	*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.fav, menu);
 		return true;
 	}
@@ -841,6 +855,9 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -862,9 +879,12 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		   	Intent fbIntent = new Intent(FavActivity.this, GroupActivity.class);
 		   	FavActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(FavActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(FavActivity.this, ShuffleActivity.class);
 		   	FavActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(FavActivity.this, FBActivity.class);
+		   	FavActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(FavActivity.this, LoginActivity.class);
 		   	FavActivity.this.startActivity(iIntent);
 	   }

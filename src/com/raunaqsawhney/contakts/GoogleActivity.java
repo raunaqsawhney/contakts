@@ -95,7 +95,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setContentView(R.layout.activity_main);
         
 
-        //initializePayments();
+        initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -172,13 +172,13 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
         sortOrder = prefs.getString("sortOrder_google", "display_name");
-		sortParam = prefs.getString("sortParam_google", " ASC");
+		sortParam = prefs.getString("sortParam_google", " COLLATE LOCALIZED ASC");
 		longPressAction = prefs.getString("longPress_google", "call_google");
 	}
 	
@@ -236,6 +236,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -246,6 +247,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -280,25 +282,25 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
 		String so = preferences.getString("sortOrder_google", "display_name");
-		String sp = preferences.getString("sortParam_google", " ASC");
+		String sp = preferences.getString("sortParam_google", " COLLATE LOCALIZED ASC");
 		String lpa = preferences.getString("longPress_google", "call_google");
 		
-		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
+		if ((so + sp).toString().equalsIgnoreCase("display_name COLLATE LOCALIZED ASC")) {
 			sortASC = (TextView) findViewById(R.id.azText);
 			sortASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("display_name DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("display_name COLLATE LOCALIZED DESC")) {
 			sortDESC = (TextView) findViewById(R.id.zaText);
 			sortDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("times_contacted DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("times_contacted COLLATE LOCALIZED DESC")) {
 			sortFreq = (TextView) findViewById(R.id.waveText);
 			sortFreq.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted COLLATE LOCALIZED DESC")) {
 			sortRec = (TextView) findViewById(R.id.clockText);
 			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
@@ -321,14 +323,17 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
 		ascending.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
         		edit.putString("sortOrder_google", "display_name");
-            	edit.putString("sortParam_google", " ASC");
+            	edit.putString("sortParam_google", " COLLATE LOCALIZED ASC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -336,14 +341,17 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout descending = (LinearLayout) findViewById(R.id.descending);
 		descending.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
         		edit.putString("sortOrder_google", "display_name");
-            	edit.putString("sortParam_google", " DESC");
+            	edit.putString("sortParam_google", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -351,14 +359,17 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout frequency = (LinearLayout) findViewById(R.id.frequency);
 		frequency.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
             	edit.putString("sortOrder_google", "times_contacted");
-            	edit.putString("sortParam_google", " DESC");
+            	edit.putString("sortParam_google", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -366,14 +377,17 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout recency = (LinearLayout) findViewById(R.id.recency);
 		recency.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
             	edit.putString("sortOrder_google", "last_time_contacted");
-            	edit.putString("sortParam_google", " DESC");
+            	edit.putString("sortParam_google", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -381,6 +395,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout call = (LinearLayout) findViewById(R.id.call);
 		call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
@@ -388,6 +404,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -395,6 +412,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout sms = (LinearLayout) findViewById(R.id.sms);
 		sms.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
@@ -402,6 +421,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -409,6 +429,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		LinearLayout email = (LinearLayout) findViewById(R.id.email);
 		email.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GoogleActivity.this);
         		Editor edit = preferences.edit();
 
@@ -416,6 +438,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
             	edit.apply();
             	
             	Intent intent = new Intent(GoogleActivity.this, GoogleActivity.class);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	GoogleActivity.this.startActivity(intent);
             }
         });
@@ -432,7 +455,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
             @SuppressWarnings("deprecation")
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor = (Cursor)parent.getItemAtPosition(position);
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+            	cursor = (Cursor)parent.getItemAtPosition(position);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -515,7 +540,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -538,10 +563,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        	            startActivity(callIntent);  
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -586,7 +611,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -603,10 +628,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -648,7 +673,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -677,10 +702,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        		    	startActivity(emailIntent);
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -783,6 +808,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -804,9 +831,12 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		   	Intent fbIntent = new Intent(GoogleActivity.this, GroupActivity.class);
 		   	GoogleActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(GoogleActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(GoogleActivity.this, ShuffleActivity.class);
 		   	GoogleActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(GoogleActivity.this, FBActivity.class);
+		   	GoogleActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 		   	GoogleActivity.this.startActivity(iIntent);
 	   }

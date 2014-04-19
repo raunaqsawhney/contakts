@@ -44,6 +44,7 @@
     <string name="sMPhoneContacts">Phone Contacts</string>
     <string name="sMGroups">Groups</string>
     <string name="sMGoogleContacts">All Contacts</string>
+    <string name="sMShuffle">Shuffle</string>
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Settings</string>
     <string name="sMAbout">About</string>
@@ -52,9 +53,9 @@
     <string name="callDialogText">Call</string>
     <string name="messageDialogText">Message</string>
     <string name="emailDialogText">Email</string>
-    <string name="noPhoneDialogText">does not have any phone numbers.</string>
-    <string name="noEmailDialogText">does not have any email addresses.</string>
-    <string name="noWhatsAppDialogText">does not have any phone number associated with WhatsApp.</string>
+    <string name="noPhoneDialogText">does not have any phone numbers</string>
+    <string name="noEmailDialogText">does not have any email addresses</string>
+    <string name="noWhatsAppDialogText">does not have any phone number associated with WhatsApp</string>
     <string name="assistant">Assistant</string>
     <string name="brother">Brother</string>
     <string name="child">Child</string>
@@ -75,50 +76,50 @@
     <string name="work">Work</string>
     <string name="mobile">Mobile</string>
     <string name="assistant">Assistant</string>
-    <string name="googleMapWarning">Google Map not visible. You are not connected to the Internet.</string>
+    <string name="googleMapWarning">Google Map not visible. You are not connected to the Internet</string>
     <string name="shareWith">Share with</string>
     <string name="whatsAppNotFound">WhatsApp is not installed</string>
-    <string name="notesHeader">Notes</string>
+    <string name="notesHeader">NOTES</string>
     <string name="imHeader">IM</string>
-    <string name="eventsHeader">Events</string>
-    <string name="relationshipHeader">Relationship</string>
-    <string name="addressHeader">Address</string>
-    <string name="websiteHeader">Website</string>
-    <string name="emailHeader">Email</string>
-    <string name="phoneHeader">Phone</string>
+    <string name="eventsHeader">EVENTS</string>
+    <string name="relationshipHeader">RELATIONSHIP</string>
+    <string name="addressHeader">ADDRESS</string>
+    <string name="websiteHeader">WEBSITE</string>
+    <string name="emailHeader">EMAIL</string>
+    <string name="phoneHeader">PHONE</string>
 
     <!-- END OF CONTACT DETAIL ACTIVITY -->
 
-    <string name="favDialogHeader">Favourites</string>
-    <string name="favDialogText">Here you can see a grid of all your starred contacts. To remove a favourite, simply tap and hold on a contact.</string>
+    <string name="favDialogHeader">Hello!</string>
+    <string name="favDialogText">Swiping right reveals the navigation menu, and swiping left reveals an extra tweaks menu which can be used to customize your experience.\n\nThere is a seperate tweaks menu for every screen, giving you complete flexibility in customization.</string>
     <string name="remFav">Remove Favourite</string>
     <string name="confirmRemFav">Are you sure you want to remove this contact from your favourites?</string>
 
     <!-- END OF FAV ACTIVITY -->
 
     <string name="fbDialogText">If this is your first time accessing Facebook on Contakts, please go to Settings and login first.</string>
-    <string name="notLoggedInFB">You have not logged into a Facebook account.</string>
-    <string name="loggedOutofFB">Logged out of Facebook.</string>
+    <string name="notLoggedInFB">You have not logged into a Facebook account</string>
+    <string name="loggedOutofFB">Logged out of Facebook</string>
     <string name="fbFriendHeader">Facebook Friends</string>
     <!-- END OF FB ACTIVITY -->
 
     <string name="freqDialogHeader">Frequent Contacts</string>
-    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted.\n\nYou can also visualize data using graphs, by tapping on the graph icon at the top.</string>
+    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted.\n\nYou can also visualize data using graphs by tapping on the graph icon at the top.</string>
     <string name="mostContactedHeader">Most Contacted</string>
 
     <!-- END OF FREQ ACTIVITY -->
 
     <string name="friendDialogHeader">Friend Details</string>
-    <string name="friendDialogText">Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.\n\nIf there are any phone numbers, or email addresses associated with a friend, it will show up here.</string>
+    <string name="friendDialogText">Here you can see all data associated with a Facebook friend. Simply tap on any item and learn more about it.\n\nIf there are any phone numbers, or email addresses associated with a friend, they will show up here.</string>
     <string name="wish">Wish</string>
     <string name="happyBday">a Happy Birthday!</string>
     <string name="usesContakts">uses Contakts</string>
-    <string name="username">Username</string>
-    <string name="birthday">Birthday</string>
-    <string name="education">Education</string>
-    <string name="work">Work</string>
-    <string name="curLoc">Current Location</string>
-    <string name="hometown">Hometown</string>
+    <string name="username">USERNAME</string>
+    <string name="birthday">BIRTHDAY</string>
+    <string name="education">EDUCATION</string>
+    <string name="work">WORK</string>
+    <string name="curLoc">CURRENT LOCATION</string>
+    <string name="hometown">HOMETOWN</string>
     <string name="homepage">Homepage</string>
     <string name="blog">Blog</string>
     <string name="profile">Profile</string>
@@ -138,7 +139,7 @@
     <!-- END OF FRIEND DETAIL ACTIVITY -->
 
     <string name="graphDialogHeader">Contact Graphs</string>
-    <string name="graphDialogText">Here you can visually see the top 10 people you connect with most, via phone, messaging, and email, combined to give a raw score listed next to each contact.</string>
+    <string name="graphDialogText">Here you can visualize the top 10 people you connect with most, via phone, messaging, and email, combined to give a raw score listed next to each contact.</string>
 
     <!-- END OF GRAPH ACTIVITY -->
 
@@ -160,14 +161,14 @@
     <string name="title_activity_fbsearch">FBSearchActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="removeAds">Remove Ads</string>
-    <string name="generalHeader">General</string>
-    <string name="facebookHeader">Facebook</string>
+    <string name="generalHeader">GENERAL</string>
+    <string name="facebookHeader">FACEBOOK</string>
 
     <!-- END OF STUFF -->
 
     <string name="title_activity_fbmap">FBMapActivity</string>
     <string name="delete">Delete</string>
-    <string name="dialerNotFound">A Dialer application not found.</string>
+    <string name="dialerNotFound">A Dialer application was not found</string>
     <string name="emptyFavs">You do not have any favourite contacts. Why not add some?</string>
     <string name="emptyFavsInfo">Swipe right on the screen to open menu</string>
     <string name="hello">Hello</string>
@@ -180,8 +181,8 @@
     <string name="clear">Clear</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_recent">RecentActivity</string>
-    <string name="noPhoneNumber">No phone number found.</string>
-    <string name="noPhoneContact">Number not associated with a phone contact.</string>
+    <string name="noPhoneNumber">No phone number found</string>
+    <string name="noPhoneContact">Number not associated with a phone contact</string>
     <string name="deleteMessage">Are you sure you want to delete this contact?</string>
     <string name="deleteTitle">Delete</string>
     <string name="recDialogHeader">Recently Contacted</string>
@@ -198,9 +199,7 @@
     <string name="newGroup">New Group</string>
     <string name="deleteGroupMessage">Are you sure you want to delete this group?</string>
     <string name="title_activity_home">HomeActivity</string>
-
     <string name="emptyGroupInfo">To add people to a group, select a contact, then edit it, and select a group for that contact.</string>
-    
     <string name="youtubeheader">YouTube</string>
     <string name="androidheader">Starred in Android</string>
     <string name="contactsheader">My Contacts</string>
@@ -208,32 +207,49 @@
     <string name="friendsheader">Friends</string>
     <string name="familyheader">Family</string>
     <string name="coworkerheader">Coworkers</string>
-    
     <string name="groupDialogHeader">Group Details</string>
-    <string name="groupDialogText">To add contacts to a group, tap on the Add Contact icon at the top, and select a contact.\n\nYou can also manage groups, using the system Contacts app.</string>
-    
+    <string name="groupDialogText">To add contacts to a group, tap on the Add Contact icon at the top and select a contact.\n\nYou can also manage groups using the system Contacts app.</string>
     <string name="groupMainDialogHeader">Groups</string>
-    <string name="groupMainDialogText">Groups present on the phone are shown here.\n\nTo create new groups, or modify existing groups, use the system Contacts app.</string>
-    
+    <string name="groupMainDialogText">Groups present on the phone are shown here.\n\nTo create new groups, or modify existing ones, use the system Contacts app.</string>
     <string name="unknown">Unknown</string>
-    
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="frequency">Frequency</string>
     <string name="recency">Recency</string>
     <string name="clean">Clean</string>
     <string name="funky">Funky</string>
-    
-    
     <string name="sortHeader">SORT ORDER</string>
     <string name="longPress">LONG PRESS ACTION</string>
-    
     <string name="showHeader">SHOW CALL TYPE</string>
     <string name="allCalls">All Calls</string>
     <string name="missCalls">Missed Calls</string>
     <string name="inCalls">Incoming Calls</string>
     <string name="outCalls">Outgoing Calls</string>
-    
     <string name="remContact">Remove Contact</string>
+    <string name="num_asc">Increasing Count</string>
+    <string name="num_desc">Decreasing Count</string>
+    <string name="noPhoneFound">No phone numbers found</string>
+    <string name="noEmailFound">No email addresses found</string>
+    <string name="title_activity_shuffle">ShuffleActivity</string>
+    <string name="sayHello">Say hello to </string>
+    <string name="shuffleProfile">View Profile</string>
     
+    <string name="shuffle_ls_contacted">LAST CALLED</string>
+    <string name="noContactYet1">You have never called</string>
+	<string name="noContactYet2">Call up now?</string>
+	
+	<string name="shuffle_tc_contacted">TIMES CONTACTED</string>
+	<string name="noTimeContacted1">You have never contacted</string>
+	<string name="noTimeContacted2">Why not send a text message?</string>
+	
+	<string name="rare">A rare conversation or two</string>
+	<string name="occasional">An occasional chitchat never hurts</string>
+	<string name="frequent">Looks like a frequent conversation is brewing...</string>
+	<string name="heavy">A lot of great conversations here!</string>
+	<string name="crazy">Hurray! Too many conversations! Slow Down!</string>
+	<string name="unavailable">Statistics are not available</string>
+	
+	<string name="shuffleHeader">Shuffle it up!</string>
+	<string name="shuffleText">Interact with someone new every time in shuffle mode.\n\nRestore old friendships or create new ones!</string>	
+	
 </resources>

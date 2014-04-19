@@ -27,15 +27,14 @@
         android:orientation="vertical">
         
         <TextView
-	        android:id="@+id/number"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:fontFamily="sans-serif-light"
-	        android:textColor="#FFF"
-	        android:layout_gravity="center"
-	        android:singleLine="true"
-	        android:gravity="center"
-	        android:textSize="40sp" />
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textSize="40sp" />
         
 		<TextView
 	        android:id="@+id/contactInfo"
@@ -52,7 +51,7 @@
         android:id="@+id/row1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="15dip"
         android:orientation="horizontal"
         android:layout_below="@id/numberFieldLayout">
         
@@ -61,15 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
             android:layout_gravity="left"
-            android:textColor="#FFF"
             android:text="1    " />
 	
 		<Button
@@ -77,14 +75,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="2" />
 		
@@ -93,14 +90,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="3" />
         
@@ -111,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="15dip"
         android:layout_below="@id/row1">
         
         <Button
@@ -118,14 +115,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="4" />
 	
@@ -134,14 +130,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="5" />
 		
@@ -150,14 +145,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left" 
             android:text="6" />
         
@@ -168,6 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="15dip"
         android:layout_below="@id/row2">
         
         <Button
@@ -175,14 +170,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="7" />
 	
@@ -191,14 +185,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="8" />
 		
@@ -207,14 +200,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left" 
             android:text="9" />
         
@@ -225,6 +217,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="15dip"
         android:layout_below="@id/row3">
         
         <Button
@@ -232,14 +225,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="*" />
 	
@@ -248,14 +240,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="0" />
 		
@@ -264,14 +255,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="20dip"
-            android:paddingBottom="20dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
             android:background="@android:color/transparent"
 	        android:fontFamily="sans-serif-light"
             android:textSize="28sp"
-            android:textColor="#FFF"
             android:layout_gravity="left"
             android:text="#" />
         
@@ -290,8 +280,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="10dip"
-	        android:paddingRight="10dip"
-	        android:layout_marginTop="20dip"
+	        android:layout_marginTop="25dip"
 	        android:layout_marginRight="2.5dip"
 	        android:layout_weight="0.9"
 	        android:background="#DD4CD964"
@@ -304,7 +293,7 @@
             android:id="@+id/clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="25dip"
             android:layout_weight="0.1"
             android:background="#DDFF5E3A"
 	        android:fontFamily="sans-serif-light"

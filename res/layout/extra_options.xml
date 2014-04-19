@@ -23,7 +23,7 @@
 		        android:layout_height="wrap_content"
 		        android:text="@string/sortHeader"
 		        android:fontFamily="sans-serif-condensed"
-		        android:textColor="#33B5E5"
+		        android:textColor="#0099CC"
 		        android:paddingLeft="10dip"
 		        android:paddingRight="10dip"
 		        android:paddingTop="10dip"
@@ -59,12 +59,7 @@
 	    
 			</LinearLayout>
 		
-		    <View
-			    android:layout_width="match_parent"
-			    android:layout_height="0.1dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginRight="10dip"
-			    android:background="#C7C7CC" />
+		    
 	    
 			<LinearLayout 
 		        android:id="@+id/descending"
@@ -96,12 +91,7 @@
 			</LinearLayout>
 		
 		
-			<View
-			    android:layout_width="match_parent"
-			    android:layout_height="0.1dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginRight="10dip"
-			    android:background="#C7C7CC" />
+			
 	    
 			<LinearLayout 
 		        android:id="@+id/frequency"
@@ -132,12 +122,7 @@
 	    
 			</LinearLayout>
 		
-			<View
-			    android:layout_width="match_parent"
-			    android:layout_height="0.1dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginRight="10dip"
-			    android:background="#C7C7CC" />
+			
 	    
 			<LinearLayout 
 		        android:id="@+id/recency"
@@ -174,7 +159,7 @@
 		        android:layout_height="wrap_content"
 		        android:text="@string/longPress"
 		        android:fontFamily="sans-serif-condensed"
-		        android:textColor="#33B5E5"
+		        android:textColor="#0099CC"
 		        android:paddingLeft="10dip"
 		        android:paddingRight="10dip"
 		        android:paddingTop="10dip"
@@ -209,13 +194,6 @@
 			        android:layout_marginLeft="10dip"/>
 		    
 			</LinearLayout>
-		
-			<View
-			    android:layout_width="match_parent"
-			    android:layout_height="0.1dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginRight="10dip"
-			    android:background="#C7C7CC" />
 			
 			<LinearLayout 
 		        android:id="@+id/sms"
@@ -245,13 +223,6 @@
 			        android:layout_marginLeft="10dip"/>
 		    
 			</LinearLayout>
-		
-			<View
-			    android:layout_width="match_parent"
-			    android:layout_height="0.1dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginRight="10dip"
-			    android:background="#C7C7CC" />
 			
 			<LinearLayout 
 		        android:id="@+id/email"
@@ -281,13 +252,6 @@
 			        android:layout_marginLeft="10dip"/>
 		    
 			</LinearLayout>
-			
-			<View
-			    android:layout_width="match_parent"
-			    android:layout_height="0.1dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginRight="10dip"
-			    android:background="#C7C7CC" />
 			
 			<LinearLayout 
 		        android:id="@+id/remove"

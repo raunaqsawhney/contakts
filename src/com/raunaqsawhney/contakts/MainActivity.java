@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         // Initialize the loader for background activity
 	    
-        //initializePayments();
+        initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -180,13 +180,13 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
         
         sortOrder = prefs.getString("sortOrder_main", "display_name");
-		sortParam = prefs.getString("sortParam_main", " ASC");
+		sortParam = prefs.getString("sortParam_main", " COLLATE LOCALIZED ASC");
 		
 		longPressAction = prefs.getString("longPress_main", "call_main");
 	}
@@ -244,6 +244,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -254,6 +255,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -288,25 +290,25 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		String so = preferences.getString("sortOrder_main", "display_name");
-		String sp = preferences.getString("sortParam_main", " ASC");
+		String sp = preferences.getString("sortParam_main", " COLLATE LOCALIZED ASC");
 		String lpa = preferences.getString("longPress_main", "call_main");
 		
-		if ((so + sp).toString().equalsIgnoreCase("display_name ASC")) {
+		if ((so + sp).toString().equalsIgnoreCase("display_name COLLATE LOCALIZED ASC")) {
 			sortASC = (TextView) findViewById(R.id.azText);
 			sortASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("display_name DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("display_name COLLATE LOCALIZED DESC")) {
 			sortDESC = (TextView) findViewById(R.id.zaText);
 			sortDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("times_contacted DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("times_contacted COLLATE LOCALIZED DESC")) {
 			sortFreq = (TextView) findViewById(R.id.waveText);
 			sortFreq.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
 		
-		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted DESC")) {
+		if ((so + sp).toString().equalsIgnoreCase("last_time_contacted COLLATE LOCALIZED DESC")) {
 			sortRec = (TextView) findViewById(R.id.clockText);
 			sortRec.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
 		}
@@ -333,10 +335,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		Editor edit = preferences.edit();
 
         		edit.putString("sortOrder_main", "display_name");
-            	edit.putString("sortParam_main", " ASC");
+            	edit.putString("sortParam_main", " COLLATE LOCALIZED ASC");
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -348,10 +351,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		Editor edit = preferences.edit();
 
         		edit.putString("sortOrder_main", "display_name");
-            	edit.putString("sortParam_main", " DESC");
+            	edit.putString("sortParam_main", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -363,10 +367,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		Editor edit = preferences.edit();
 
             	edit.putString("sortOrder_main", "times_contacted");
-            	edit.putString("sortParam_main", " DESC");
+            	edit.putString("sortParam_main", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -378,10 +383,11 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		Editor edit = preferences.edit();
 
             	edit.putString("sortOrder_main", "last_time_contacted");
-            	edit.putString("sortParam_main", " DESC");
+            	edit.putString("sortParam_main", " COLLATE LOCALIZED DESC");
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -396,6 +402,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -410,6 +417,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -424,6 +432,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             	edit.apply();
             	
             	Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	MainActivity.this.startActivity(intent);
             }
         });
@@ -437,7 +446,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             @SuppressWarnings("deprecation")
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor = (Cursor)parent.getItemAtPosition(position);
+        		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+            	cursor = (Cursor)parent.getItemAtPosition(position);
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
                 Intent intent = new Intent(getApplicationContext(), ContactDetailActivity.class);
@@ -521,7 +532,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -544,10 +555,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        	            startActivity(callIntent);  
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -609,10 +620,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -654,7 +665,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -683,10 +694,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        		    	startActivity(emailIntent);
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -754,6 +765,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -775,9 +788,12 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		   	Intent fbIntent = new Intent(MainActivity.this, GroupActivity.class);
 		   	MainActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(MainActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(MainActivity.this, ShuffleActivity.class);
 		   	MainActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(MainActivity.this, FBActivity.class);
+		   	MainActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(MainActivity.this, LoginActivity.class);
 		   	MainActivity.this.startActivity(iIntent);
 	   }

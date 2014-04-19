@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,7 +54,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		theme = prefs.getString("theme", "#33B5E5");
+		theme = prefs.getString("theme", "#0099CC");
 		fontTitle = prefs.getString("fontTitle", null);
        	
 	}
@@ -108,6 +109,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -118,6 +120,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -214,6 +217,8 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -235,12 +240,15 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		   	Intent fbIntent = new Intent(InfoActivity.this, GroupActivity.class);
 		   	InfoActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(InfoActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(InfoActivity.this, ShuffleActivity.class);
 		   	InfoActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(InfoActivity.this, FBActivity.class);
+		   	InfoActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(InfoActivity.this, LoginActivity.class);
 		   	InfoActivity.this.startActivity(iIntent);
-	   }
+	   } 
 	}
 	
 	@Override

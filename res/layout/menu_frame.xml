@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:fitsSystemWindows="true"
-        android:paddingBottom="40dip"
+        android:paddingBottom="50dip"
         android:dividerHeight="0.1dp"
         android:scrollingCache="true"
         android:paddingLeft="10dip"

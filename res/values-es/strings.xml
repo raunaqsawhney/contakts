@@ -41,6 +41,7 @@
     <string name="sMPhoneContacts">Contactos del Teléfono</string>
     <string name="sMGroups">Grupos</string>
     <string name="sMGoogleContacts">Todos los Contactos</string>
+    <string name="sMShuffle">Barajada</string>
     <string name="sMFacebook">Facebook</string>
     <string name="sMSettings">Configuración</string>
     <string name="sMAbout">Información</string>
@@ -82,19 +83,19 @@
 	<string name="shareWith">Comparte con</string>
 	<string name="whatsAppNotFound">WhatsApp no está instalado</string>
 	
-	<string name="notesHeader">Notas</string>
+	<string name="notesHeader">NOTAS</string>
 	<string name="imHeader">IM</string>
-	<string name="eventsHeader">Eventos</string>
-	<string name="relationshipHeader">Relación</string>
-	<string name="addressHeader">Dirección</string>
-	<string name="websiteHeader">Sitio Web</string>
-	<string name="emailHeader">Email</string>
-	<string name="phoneHeader">Teléfono</string>
+	<string name="eventsHeader">EVENTOS</string>
+	<string name="relationshipHeader">RELACIÓN</string>
+	<string name="addressHeader">DIRECCIÓN</string>
+	<string name="websiteHeader">SITIO WEB</string>
+	<string name="emailHeader">EMAIL</string>
+	<string name="phoneHeader">TELÉFONO</string>
 	
 	<!-- END OF CONTACT DETAIL ACTIVITY -->
 	
-	<string name="favDialogHeader">Favoritos</string>
-	<string name="favDialogText">Aquí puedes ver una cuadrícula de todos sus contactos favoritos. Para eliminar un favorito, sólo tiene que pulsar y soltar en un contacto.</string>
+	<string name="favDialogHeader">Hola!</string>
+	<string name="favDialogText">Deslizar derecha revela el menú de navegación, y deslizar izquierda revela un menú ajustes extra que se puede utilizar para personalizar su experiencia.\n\nHay un menú de ajustes por separado para cada pantalla, que le da una completa flexibilidad en la personalización.</string>
 	<string name="remFav">Eliminar favorito</string>
 	<string name="confirmRemFav">¿Está seguro que desea eliminar este contacto de tus favoritos?</string>
 	
@@ -119,12 +120,12 @@
 	<string name="happyBday">un Feliz Cumpleaños!</string>
 	<string name="usesContakts">utiliza Contakts</string>
 	
-	<string name="username">Nombre de usuario</string>
-	<string name="birthday">Cumpleaños</string>
-	<string name="education">Educación</string>
-	<string name="work">Trabajo</string>
-	<string name="curLoc">Ubicación Actual</string>
-	<string name="hometown">Ciudad Natal</string>
+	<string name="username">NOMBRE DE USUARIO</string>
+	<string name="birthday">CUMPLEAÑOS</string>
+	<string name="education">EDUCACIÓN</string>
+	<string name="work">TRABAJO</string>
+	<string name="curLoc">UBICACIÓN ACTUAL</string>
+	<string name="hometown">CIUDAD NATAL</string>
 	
 	<string name="homepage">Personal</string>
 	<string name="blog">Blog</string>
@@ -171,8 +172,8 @@
 	<string name="edit">Modificar</string>
 	
 	<string name="removeAds">Quitar la Publicidad</string>
-	<string name="generalHeader">General</string>
-	<string name="facebookHeader">Facebook</string>
+	<string name="generalHeader">GENERAL</string>
+	<string name="facebookHeader">FACEBOOK</string>
 	
 	<string name="delete">Borrar</string>
 	<string name="dialerNotFound">Una aplicación Dialer no encontrado.</string>
@@ -228,12 +229,40 @@
     <string name="ascending">Ascendente</string>
     <string name="descending">Descendiente</string>
     <string name="frequency">Frecuencia</string>
-    <string name="recency">Reciente</string>
-    <string name="clean">Limpio</string>
-    <string name="funky">Fresco</string>
+    <string name="recency">Reciente</string>    
+    <string name="sortHeader">ORDENAR</string>
     
-    <string name="sortHeader">Clasificación</string>
-    <string name="fontHeader">Fuente</string>
+	<string name="longPress">PRENSA DE LARGO</string>
+    <string name="showHeader">TIPO DE LLAMADA</string>
     
+    <string name="allCalls">Todas las Llamadas</string>
+    <string name="missCalls">Llamadas Perdidas</string>
+    <string name="inCalls">Llamadas Entrantes</string>
+    <string name="outCalls">Llamadas Salientes</string>
+    <string name="remContact">Eliminar Contacto</string>
+    <string name="num_asc">El Aumento de Conde</string>
+    <string name="num_desc">La Disminución de Conde</string>
+    <string name="noPhoneFound">No hay números de teléfono se encuentran</string>
+    <string name="noEmailFound">Sin correo electrónico que figura</string>
+    <string name="title_activity_shuffle">ShuffleActivity</string>
+    <string name="sayHello">Da la bienvenida a </string>
+    <string name="shuffleProfile">Ver Perfil</string>
     
+    <string name="shuffle_ls_contacted">ÚLTIMA LLAMADA</string>
+    <string name="noContactYet1">Usted nunca ha llamado</string>
+	<string name="noContactYet2">Llame ahora?</string>
+	
+	<string name="shuffle_tc_contacted">VECES CONTACTADA</string>
+	<string name="noTimeContacted1">Nunca se ha puesto en contacto</string>
+	<string name="noTimeContacted2">Por qué no enviar un mensaje de texto?</string>
+	
+	<string name="rare">Una conversación rara o dos</string>
+	<string name="occasional">Una charla ocasional nunca está de más</string>
+	<string name="frequent">Parece una conversación frecuente se está gestando ...</string>
+	<string name="heavy">Una gran cantidad de grandes conversaciones aquí!</string>
+	<string name="crazy">¡Hurra! Demasiados conversaciones! Retraso!</string>
+	<string name="unavailable">Las estadísticas no están disponibles</string>	
+    
+	<string name="shuffleHeader">Baraja para arriba!</string>
+	<string name="shuffleText">Interactuar con alguien nuevo cada vez que en el modo de reproducción aleatoria.\n\nRestaurar viejas amistades o crear otros nuevos!</string>
 </resources>

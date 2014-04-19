@@ -48,7 +48,7 @@
 		            android:layout_marginTop="30dp"
 		            android:textAlignment="textStart"
 		            android:textColor="#FFF" 
-		            android:textSize="22sp"/>
+		            android:textSize="26sp"/>
 	  
 		        <TextView
 		            android:id="@+id/c_detail_header_company"
@@ -56,7 +56,7 @@
 		            android:layout_height="wrap_content"
 		            android:textColor="#FFF"
 		            android:layout_marginLeft="12dip"
-		            android:textSize="16sp"/>
+		            android:textSize="18sp"/>
 		        
 		        <LinearLayout 
 		            android:id="@+id/c_detail_header_quickLinks"
@@ -132,12 +132,14 @@
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
 
             </LinearLayout>
             
@@ -154,16 +156,16 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/emailHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip"/>
                 
-                <View 
+                <!-- <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
-				   android:layout_marginRight="20dip" />
+				   android:layout_marginRight="20dip" /> -->
 
             </LinearLayout>
                
@@ -180,16 +182,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/websiteHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
 
             </LinearLayout>
 				
@@ -206,16 +210,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/addressHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 				<FrameLayout
 					android:id="@+id/frame_layout"
@@ -246,16 +252,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/relationshipHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="18sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 
             </LinearLayout>
@@ -273,16 +281,16 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/imHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
-                <View 
+                <!-- <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
-				   android:layout_marginRight="20dip" />
+				   android:layout_marginRight="20dip" /> -->
 
             </LinearLayout>
 				
@@ -299,16 +307,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/eventsHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
 
             </LinearLayout>
 				
@@ -326,16 +336,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/notesHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 				<TextView 
 		            android:id="@+id/c_detail_note_content"

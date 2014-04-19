@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -35,6 +36,7 @@ import android.support.v4.app.NavUtils;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -286,7 +288,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             	e.printStackTrace();
             }
            
-            websiteTypeTextView.setText(currentTypeWeb);
+            websiteTypeTextView.setText(currentTypeWeb.toUpperCase(Locale.getDefault()));
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             websiteTypeTextView.setTextSize(14);
             websiteTypeTextView.setWidth(200);
@@ -409,7 +411,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             	e.printStackTrace();
             }
 
-            emailTypeTextView.setText(currentTypeEmail);
+            emailTypeTextView.setText(currentTypeEmail.toUpperCase(Locale.getDefault()));
             emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             emailTypeTextView.setTextSize(14);
             emailTypeTextView.setWidth(200);
@@ -582,7 +584,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             	e.printStackTrace();
             }
 
-            phoneTypeTextView.setText(currentType);
+            phoneTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
             phoneTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             phoneTypeTextView.setTextSize(14);
             phoneTypeTextView.setWidth(200);
@@ -631,7 +633,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#33B5E5");
+		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -702,6 +704,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -712,6 +715,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -1066,6 +1070,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -1087,9 +1093,12 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		   	Intent fbIntent = new Intent(FriendDetailActivity.this, GroupActivity.class);
 		   	FriendDetailActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(FriendDetailActivity.this, ShuffleActivity.class);
 		   	FriendDetailActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
+		   	FriendDetailActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
 		   	FriendDetailActivity.this.startActivity(iIntent);
 	   }

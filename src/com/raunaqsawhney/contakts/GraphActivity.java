@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,7 +90,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#33B5E5");
+		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -159,6 +160,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -169,6 +171,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -198,6 +201,8 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	    freqGraphList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
             	FreqContact selectedFreqContact = new FreqContact();
 				
             	selectedFreqContact = (FreqContact) parent.getItemAtPosition(position);
@@ -287,6 +292,8 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -308,12 +315,15 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		   	Intent fbIntent = new Intent(GraphActivity.this, GroupActivity.class);
 		   	GraphActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(GraphActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(GraphActivity.this, ShuffleActivity.class);
 		   	GraphActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(GraphActivity.this, FBActivity.class);
+		   	GraphActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(GraphActivity.this, LoginActivity.class);
 		   	GraphActivity.this.startActivity(iIntent);
-	   }
+	   } 
 	}
 	
 	@Override

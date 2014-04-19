@@ -55,16 +55,17 @@
 		            android:layout_marginTop="30dp"
 		            android:textAlignment="textStart"
 		            android:textColor="#FFF" 
-		            android:textSize="22sp"
-		            android:fontFamily="sans-serif-light"/>
+		            android:textSize="26sp"
+		            android:fontFamily="sans-serif-thin"/>
 	  
 		        <TextView
 		            android:id="@+id/f_detail_header_isappuser"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:textColor="#F7F7F7"
+		            android:fontFamily="sans-serif-thin"
 		            android:layout_marginLeft="12dip"
-		            android:textSize="14sp"/>
+		            android:textSize="16sp"/>
 		        
 		        <LinearLayout 
 		            android:id="@+id/f_detail_header_birthday_layout"
@@ -119,18 +120,20 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/username"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" 
 		            android:layout_marginRight="20dip" 
 		            android:fontFamily="sans-serif-condensed"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 				<TextView 
 		            android:id="@+id/f_detail_username_content"
@@ -157,17 +160,19 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/birthday"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" 
 		            android:fontFamily="sans-serif-condensed"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 				<TextView 
 		            android:id="@+id/f_detail_birthday_content"
@@ -193,16 +198,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/phoneHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
 
             </LinearLayout>
             
@@ -219,16 +226,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/emailHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
 
             </LinearLayout>
                
@@ -245,16 +254,18 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/websiteHeader"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" />
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
 
             </LinearLayout>
 			
@@ -271,17 +282,19 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/education"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" 
 		            android:fontFamily="sans-serif-condensed"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 			</LinearLayout>
 			
@@ -298,17 +311,19 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/work"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" 
 		            android:fontFamily="sans-serif-condensed"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 			</LinearLayout>
 			
@@ -326,17 +341,19 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/curLoc"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" 
 		            android:fontFamily="sans-serif-condensed"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 				<TextView 
 		            android:id="@+id/f_detail_currentloc_content"
@@ -362,17 +379,19 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/hometown"
-		            android:textColor="#33B5E5"
+		            android:textColor="#0099CC"
 		            android:textSize="20sp"
 		            android:layout_marginLeft="20dip" 
 		            android:fontFamily="sans-serif-condensed"/>
                 
+                <!-- 
                 <View 
 				   android:layout_width="fill_parent"
 				   android:layout_height="1dp"       
 				   android:background="#C7C7CC"
 				   android:layout_marginLeft="20dip"
 				   android:layout_marginRight="20dip" />
+                 -->
                 
 				<TextView 
 		            android:id="@+id/f_detail_hometown_content"
@@ -384,8 +403,6 @@
 		            android:ellipsize="end" 
 		            android:fontFamily="sans-serif-light"/>
 			</LinearLayout>
-            
-            
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

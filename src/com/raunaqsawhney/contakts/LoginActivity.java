@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -208,7 +209,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	private void setupGlobalPrefs() {
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -232,7 +233,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(false);
 
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -272,6 +273,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -282,6 +284,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -389,7 +392,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		
 		colorPicker.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	
+
             	colorPickerDialog.show(getSupportFragmentManager(), "colorpicker");
             }
         });		
@@ -430,6 +433,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -451,9 +456,12 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		   	Intent fbIntent = new Intent(LoginActivity.this, GroupActivity.class);
 		   	LoginActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(LoginActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(LoginActivity.this, ShuffleActivity.class);
 		   	LoginActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(LoginActivity.this, FBActivity.class);
+		   	LoginActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(LoginActivity.this, LoginActivity.class);
 		   	LoginActivity.this.startActivity(iIntent);
 	   }

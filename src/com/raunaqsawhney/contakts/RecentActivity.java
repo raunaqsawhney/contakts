@@ -28,6 +28,7 @@ import android.provider.CallLog;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,7 +80,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-		theme = prefs.getString("theme", "#33B5E5");
+		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -154,6 +155,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -164,6 +166,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -193,13 +196,16 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
             	edit.apply();
             	
             	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
-    		   	RecentActivity.this.startActivity(intent);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	RecentActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout incoming = (LinearLayout) findViewById(R.id.incoming);
 		incoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
         		Editor edit = preferences.edit();
 
@@ -207,13 +213,16 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
             	edit.apply();
             	
             	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
-    		   	RecentActivity.this.startActivity(intent);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	RecentActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout outgoing = (LinearLayout) findViewById(R.id.out);
 		outgoing.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
         		Editor edit = preferences.edit();
 
@@ -221,13 +230,16 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
             	edit.apply();
             	
             	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
-    		   	RecentActivity.this.startActivity(intent);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	RecentActivity.this.startActivity(intent);
             }
         });
 		
 		LinearLayout missed = (LinearLayout) findViewById(R.id.missed);
 		missed.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RecentActivity.this);
         		Editor edit = preferences.edit();
 
@@ -235,7 +247,8 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
             	edit.apply();
             	
             	Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
-    		   	RecentActivity.this.startActivity(intent);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	RecentActivity.this.startActivity(intent);
             }
         });
 		
@@ -265,6 +278,8 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		recentList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
             	String name = ((TextView)view.findViewById(R.id.r_name)).getText().toString();
                 String number = ((TextView)view.findViewById(R.id.r_number)).getText().toString();
@@ -339,7 +354,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	            CallLog.Calls.DURATION,
 	            CallLog.Calls.TYPE};
         
-	    String sortOrder = String.format("%s limit 100 ", CallLog.Calls.DATE + " DESC");
+	    String sortOrder = String.format("%s limit 100 ", CallLog.Calls.DATE + " COLLATE LOCALIZED DESC");
 
 	    String selection;
 	    if (selectionParam.equals("?"))
@@ -395,6 +410,8 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -416,12 +433,16 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		   	Intent fbIntent = new Intent(RecentActivity.this, GroupActivity.class);
 		   	RecentActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(RecentActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(RecentActivity.this, ShuffleActivity.class);
 		   	RecentActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(RecentActivity.this, FBActivity.class);
+		   	RecentActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(RecentActivity.this, LoginActivity.class);
 		   	RecentActivity.this.startActivity(iIntent);
 	   }
+		
 	}
 	
 	@Override

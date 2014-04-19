@@ -16,13 +16,9 @@
         android:layout_height="wrap_content"
         android:text="@string/generalHeader"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="#33B5E5"
+        android:textColor="#0099CC"
         android:textSize="20sp" />
             
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
-	    android:background="#C7C7CC" />
 
     <Button
         android:id="@+id/colorPicker"
@@ -62,13 +58,9 @@
         android:layout_marginTop="30dip"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/facebookHeader"
-        android:textColor="#33B5E5"
+        android:textColor="#0099CC"
         android:textSize="20sp" />
             
-	<View
-	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
-	    android:background="#C7C7CC" />
     
     <ScrollView
         android:layout_width="wrap_content"

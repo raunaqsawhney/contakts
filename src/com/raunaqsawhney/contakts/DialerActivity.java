@@ -186,10 +186,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
 	        	
-	        	System.out.println(number.getText().toString());
 	        	
 	        	try {
-		        	//number.setInputType(InputType.TYPE_CLASS_PHONE);
 
 		        	Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number.getText().toString()));
 		        	String[] projection = new String[]{ ContactsContract.PhoneLookup.DISPLAY_NAME,
@@ -512,6 +510,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			public boolean onLongClick(View v) {
 				contactInfo.setText("");
 				
+
         		oneBtn.setTextColor(Color.parseColor(theme));
         		twoBtn.setTextColor(Color.parseColor(theme));
         		threeBtn.setTextColor(Color.parseColor(theme));
@@ -548,7 +547,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
 	}
@@ -604,6 +603,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -614,6 +614,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -678,6 +679,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -699,9 +702,12 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		   	Intent fbIntent = new Intent(DialerActivity.this, GroupActivity.class);
 		   	DialerActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(DialerActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(DialerActivity.this, ShuffleActivity.class);
 		   	DialerActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(DialerActivity.this, FBActivity.class);
+		   	DialerActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(DialerActivity.this, LoginActivity.class);
 		   	DialerActivity.this.startActivity(iIntent);
 	   }

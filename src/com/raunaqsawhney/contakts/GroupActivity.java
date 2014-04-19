@@ -26,11 +26,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -75,13 +77,16 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 	AdView adView;
 	
 	private boolean firstRunDoneGroupMain = false;
+	
+	String sortOrder;
+	String sortParam;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group);
 		
-		//initializePayments();
+		initializePayments();
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -159,10 +164,13 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
+        
+        sortOrder = prefs.getString("sortOrder_group", "title");
+		sortParam = prefs.getString("sortParam_group", " COLLATE LOCALIZED ASC");
         
         firstRunDoneGroupMain = prefs.getBoolean("firstRunDoneGroupMain", false);
         if (!firstRunDoneGroupMain) {
@@ -208,7 +216,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		
 		// Set up Sliding Menu
         menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
+        menu.setMode(SlidingMenu.LEFT_RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setShadowWidth(8);
         menu.setFadeDegree(0.8f);
@@ -219,6 +227,8 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.setMenu(R.layout.menu_frame);
+        menu.setSecondaryMenu(R.layout.extra_options_group);
+        menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
@@ -228,6 +238,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -238,6 +249,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -255,6 +267,110 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 
 		navListView.setAdapter(listAdapter);
 		navListView.setOnItemClickListener(this);
+		
+		TextView sortASC;
+		TextView sortDESC;
+		TextView sortNUMASC;
+		TextView sortNUMDESC;
+		
+		TextView sortHeader = (TextView) findViewById(R.id.sortOrder);
+		sortHeader.setTextColor(Color.parseColor(theme));
+		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroupActivity.this);
+		String so = preferences.getString("sortOrder_group", "title");
+		String sp = preferences.getString("sortParam_group", " COLLATE LOCALIZED ASC");
+		
+		if ((so + sp).toString().equalsIgnoreCase("title COLLATE LOCALIZED ASC")) {
+			sortASC = (TextView) findViewById(R.id.azText);
+			sortASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("title COLLATE LOCALIZED DESC")) {
+			sortDESC = (TextView) findViewById(R.id.zaText);
+			sortDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("summ_count COLLATE LOCALIZED ASC")) {
+			sortNUMASC = (TextView) findViewById(R.id.numascText);
+			sortNUMASC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		if ((so + sp).toString().equalsIgnoreCase("summ_count COLLATE LOCALIZED DESC")) {
+			sortNUMDESC = (TextView) findViewById(R.id.numdescText);
+			sortNUMDESC.setTypeface(Typeface.createFromAsset(this.getAssets(), "Roboto-Regular.ttf"));
+		}
+		
+		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
+		ascending.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroupActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder_group", "title");
+            	edit.putString("sortParam_group", " COLLATE LOCALIZED ASC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(GroupActivity.this, GroupActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	GroupActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout descending = (LinearLayout) findViewById(R.id.descending);
+		descending.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroupActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder_group", "title");
+            	edit.putString("sortParam_group", " COLLATE LOCALIZED DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(GroupActivity.this, GroupActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	GroupActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout numasc = (LinearLayout) findViewById(R.id.num_ascending);
+		numasc.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroupActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder_group", "summ_count");
+            	edit.putString("sortParam_group", " COLLATE LOCALIZED ASC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(GroupActivity.this, GroupActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	GroupActivity.this.startActivity(intent);
+            }
+        });
+		
+		LinearLayout numdesc = (LinearLayout) findViewById(R.id.num_descending);
+		numdesc.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+        		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroupActivity.this);
+        		Editor edit = preferences.edit();
+
+        		edit.putString("sortOrder_group", "summ_count");
+            	edit.putString("sortParam_group", " COLLATE LOCALIZED DESC");
+            	edit.apply();
+            	
+            	Intent intent = new Intent(GroupActivity.this, GroupActivity.class);
+            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	GroupActivity.this.startActivity(intent);
+            }
+        });
 	}
 	
 	private void showGroups() {
@@ -265,7 +381,9 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
             @SuppressWarnings("deprecation")
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor = (Cursor)parent.getItemAtPosition(position);
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+            	cursor = (Cursor)parent.getItemAtPosition(position);
 				String group_name = cursor.getString(cursor.getColumnIndex(ContactsContract.Groups.TITLE));	
 				String group_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Groups._ID));		      
 
@@ -277,58 +395,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
             }
         });
         
-        /*
-        groupListView.setOnItemLongClickListener(new OnItemLongClickListener() {
-        	String group_id;
-			@SuppressWarnings("deprecation")
-			@Override
-			public boolean onItemLongClick(final AdapterView<?> parent, View view,
-					final int position, long id) {
-				
-				cursor = (Cursor)parent.getItemAtPosition(position);
-				startManagingCursor(cursor);
-				group_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Groups._ID));
-				
-						AlertDialog.Builder deleteBuilder = new AlertDialog.Builder(GroupActivity.this);
-						deleteBuilder.setMessage(getString(R.string.deleteGroupMessage));
-						deleteBuilder.setCancelable(true);
-						deleteBuilder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-			                public void onClick(DialogInterface dialog, int id) {
-			                			      
-								ArrayList<ContentProviderOperation> mOperations = new ArrayList<ContentProviderOperation>();
-								Uri uri = ContentUris.withAppendedId(Groups.CONTENT_URI, Long.valueOf(group_id)).buildUpon()
-								        .appendQueryParameter(ContactsContract.CALLER_IS_SYNCADAPTER, "true")
-								        .build();
-								ContentProviderOperation.Builder builder = ContentProviderOperation.newDelete(uri);
-								mOperations.add(builder.build());
-								
-							    try {
-									getApplicationContext().getContentResolver().applyBatch(ContactsContract.AUTHORITY, mOperations);
-									Intent iIntent = new Intent(GroupActivity.this, GroupActivity.class);
-									GroupActivity.this.startActivity(iIntent);
-								} catch (RemoteException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (OperationApplicationException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-			                    dialog.cancel();
-			                }
-			            });
-						deleteBuilder.setNegativeButton(getString(R.string.no),
-			                    new DialogInterface.OnClickListener() {
-			                public void onClick(DialogInterface dialog, int id) {
-			                    dialog.cancel();
-			                }
-			            });
-		
-			            AlertDialog deleteAlert = deleteBuilder.create();
-			            deleteAlert.show();
-	            return true;
-			}
-        });
-	     */   
+          
         String[] from = new String[] {
         		ContactsContract.Groups.TITLE,
         		ContactsContract.Groups.SUMMARY_COUNT
@@ -377,7 +444,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
                 ContactsContract.Groups.SUMMARY_COUNT + " > 0 AND " + 
                 ContactsContract.Groups.DELETED + "!='1'",
                 null,
-                ContactsContract.Groups.TITLE + " ASC");	
+                sortOrder + sortParam);	
         
         return cursorLoader;
 	}
@@ -445,6 +512,8 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -466,9 +535,12 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		   	Intent fbIntent = new Intent(GroupActivity.this, GroupActivity.class);
 		   	GroupActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(GroupActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(GroupActivity.this, ShuffleActivity.class);
 		   	GroupActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(GroupActivity.this, FBActivity.class);
+		   	GroupActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(GroupActivity.this, LoginActivity.class);
 		   	GroupActivity.this.startActivity(iIntent);
 	   } 

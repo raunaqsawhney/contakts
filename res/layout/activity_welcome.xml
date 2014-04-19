@@ -47,7 +47,7 @@
 	    android:text="@string/getStarted"
 	    android:gravity="center"
 	    android:layout_marginTop="30dip"
-	    android:background="#33B5E5"
+	    android:background="#0099CC"
 	    android:textColor="@android:color/white"
 	    android:fontFamily="sans-serif-light" />
 	

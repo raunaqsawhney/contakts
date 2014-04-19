@@ -97,7 +97,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_frequent);
 		
-		//initializePayments();
+		initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -176,12 +176,12 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor edit = preferences.edit();
 		
-        theme = prefs.getString("theme", "#33B5E5");
+        theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         sortOrder = prefs.getString("sortOrder_freq", "display_name");
-		sortParam = prefs.getString("sortParam_freq", " ASC");
+		sortParam = prefs.getString("sortParam_freq", " COLLATE LOCALIZED ASC");
 		
 		longPressAction = prefs.getString("longPress_freq", "call_freq");
         
@@ -251,6 +251,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				getString(R.string.sMPhoneContacts),
 				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
+				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
 				getString(R.string.sMSettings)
 		};
@@ -261,6 +262,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				R.drawable.ic_nav_phone,
 				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
+				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
 				R.drawable.ic_nav_settings
 		};
@@ -308,6 +310,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		LinearLayout call = (LinearLayout) findViewById(R.id.call);
 		call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
         		Editor edit = preferences.edit();
 
@@ -315,6 +319,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
             	edit.apply();
             	
             	Intent intent = new Intent(FrequentActivity.this, FrequentActivity.class);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	FrequentActivity.this.startActivity(intent);
             }
         });
@@ -322,6 +327,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		LinearLayout sms = (LinearLayout) findViewById(R.id.sms);
 		sms.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
         		Editor edit = preferences.edit();
 
@@ -329,6 +336,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
             	edit.apply();
             	
             	Intent intent = new Intent(FrequentActivity.this, FrequentActivity.class);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	FrequentActivity.this.startActivity(intent);
             }
         });
@@ -336,6 +344,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		LinearLayout email = (LinearLayout) findViewById(R.id.email);
 		email.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FrequentActivity.this);
         		Editor edit = preferences.edit();
 
@@ -343,6 +353,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
             	edit.apply();
             	
             	Intent intent = new Intent(FrequentActivity.this, FrequentActivity.class);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             	FrequentActivity.this.startActivity(intent);
             }
         });
@@ -357,7 +368,9 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         freqList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				cursor = (Cursor)parent.getItemAtPosition(position);
+				view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+            	cursor = (Cursor)parent.getItemAtPosition(position);
 				
 				String contact_id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));		      
 				
@@ -436,7 +449,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -459,10 +472,10 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	        	            startActivity(callIntent);  
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -507,7 +520,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -524,10 +537,10 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	        		    	startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", allContacts.get(0), null)));
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noPhoneDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noPhoneFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -569,7 +582,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	            		final Dialog dialog = builder.create();
 
 	            		if (allContacts.isEmpty()) {
-	            			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	            		} else  {
 	            			dialog.show();
 	            		}
@@ -598,10 +611,10 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	        		    	startActivity(emailIntent);
 	                	} else {
 	                		try {
-	                			Toast.makeText(getApplicationContext(), contact.getName() + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	                		} catch (NullPointerException e) {
 	                			e.printStackTrace();
-	                			Toast.makeText(getApplicationContext(), getString(R.string.contact) + " " + getString(R.string.noEmailDialogText), Toast.LENGTH_LONG).show();
+	                			Toast.makeText(getApplicationContext(), getString(R.string.noEmailFound), Toast.LENGTH_LONG).show();
 	                		}
 	                	}
 	                }
@@ -636,7 +649,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
                 projection, 
                 query, 
                 null,
-                ContactsContract.Contacts.TIMES_CONTACTED + " DESC");	
+                ContactsContract.Contacts.TIMES_CONTACTED + " COLLATE LOCALIZED DESC");	
         
         return cursorLoader;
 	}
@@ -670,6 +683,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
@@ -691,9 +706,12 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		   	Intent fbIntent = new Intent(FrequentActivity.this, GroupActivity.class);
 		   	FrequentActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(FrequentActivity.this, FBActivity.class);
+		   	Intent loIntent = new Intent(FrequentActivity.this, ShuffleActivity.class);
 		   	FrequentActivity.this.startActivity(loIntent);
 	   }  else if (selected == 7) {
+		   	Intent iIntent = new Intent(FrequentActivity.this, FBActivity.class);
+		   	FrequentActivity.this.startActivity(iIntent);
+	   }   else if (selected == 8) {
 		   	Intent iIntent = new Intent(FrequentActivity.this, LoginActivity.class);
 		   	FrequentActivity.this.startActivity(iIntent);
 	   }

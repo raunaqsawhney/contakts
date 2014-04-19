@@ -18,6 +18,7 @@ import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
@@ -62,6 +63,7 @@ public class WelcomeActivity extends Activity {
     		edit.putString("font","RobotoCondensed-Regular.ttf");
     		edit.putString("fontContent","Roboto-Light.ttf");
     		edit.putString("fontTitle", "Harabara.ttf");
+    		edit.putString("theme", "#0099CC");
     		edit.apply();
         }		
 	}
@@ -76,7 +78,7 @@ public class WelcomeActivity extends Activity {
         actionBarTitleText.setTextSize(22);
         
         ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#33B5E5")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0099CC")));
         bar.setDisplayShowHomeEnabled(false);
        
         // Do Tint if KitKat
@@ -88,7 +90,7 @@ public class WelcomeActivity extends Activity {
 	        getWindow().getDecorView().findViewById(android.R.id.content).setPadding(0, -150, 0,0);
 	        config.getPixelInsetBottom();
 	        
-	        int actionBarColor = Color.parseColor("#33B5E5");
+	        int actionBarColor = Color.parseColor("#0099CC");
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }		
 	}
@@ -141,7 +143,8 @@ public class WelcomeActivity extends Activity {
 
 			public void onClick(View v) {
             	
-				
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
             	final ProgressBar mProgressBar;
                 final TextView mProgressText;
 
