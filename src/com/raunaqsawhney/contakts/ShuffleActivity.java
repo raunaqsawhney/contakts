@@ -114,7 +114,6 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
 		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
         }
-        
 	}
 
 	private void setupActionBar() {

@@ -132,6 +132,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	Cursor c;
     String formattedDate = null;
     Date convertedDate;
+    
+    Integer rateIt = 0;
 
     	
 	@Override
@@ -176,6 +178,36 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		    .setMessage(getString(R.string.cdWelcomeDialog))
 		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
+        }
+        
+        rateIt = prefs.getInt("rateIt", 0);
+    	Integer doneRate = prefs.getInt("doneRate", 0);
+
+        if (rateIt != 10 ) {
+        	if (doneRate == 0) {
+        		rateIt += 1;
+            	edit.putInt("rateIt", rateIt);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneRate != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.rateItHeader))
+    		    .setMessage(getString(R.string.rateItText))
+    		    .setPositiveButton(getString(R.string.playstore), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		final String appPackageName = getPackageName();
+    	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneRate", 1);
+            	edit.apply();	
+        	}
         }
 	}
 
@@ -562,9 +594,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            null);
 		//startManagingCursor(c);
  
-		while (c.moveToNext()) {
-	        lookupKey = c.getString(c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-		}		
+		try {
+			while (c.moveToNext()) {
+		        lookupKey = c.getString(c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -642,9 +678,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE};
         
         c = null;
-        c = cr.query(ContactsContract.Data.CONTENT_URI,
-                null, imWhere, imWhereParams, null);
-        //startManagingCursor(c);
+        try {
+            c = cr.query(ContactsContract.Data.CONTENT_URI,
+                    null, imWhere, imWhereParams, null);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        }
+
 
         
         while (c.moveToNext()) {
@@ -721,7 +761,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	e.printStackTrace();
 	        }
 
-	        imTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+	        try {
+		        imTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+	        } catch (NullPointerException e) {
+	        	e.printStackTrace();
+	        }
 	        imTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        imTypeTextView.setTextSize(14);
 	        imTypeTextView.setWidth(200);
@@ -901,8 +945,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE};
         
         c = null;
-        c = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
-        //startManagingCursor(c);
+        try {
+            c = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        }
 
         while (c.moveToNext()) {
             date = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
@@ -972,7 +1019,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        	e.printStackTrace();
 	        }
 
-	        dateTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+	        try {
+		        dateTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+	        } catch (NullPointerException e) {
+	        	e.printStackTrace();
+	        }
 	        dateTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
 	        dateTypeTextView.setTextSize(14);
 	        dateTypeTextView.setWidth(200);
@@ -1062,8 +1113,14 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
         
         c = null;
-		c = cr.query(ContactsContract.Data.CONTENT_URI,
-                null, orgWhere, orgWhereParams, null);
+        
+        try {
+    		c = cr.query(ContactsContract.Data.CONTENT_URI,
+                    null, orgWhere, orgWhereParams, null);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        }
+
         //startManagingCursor(c);
 
         while (c.moveToNext()) {
@@ -1108,9 +1165,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE};
         
         c = null;
-		c = cr.query(ContactsContract.Data.CONTENT_URI,
-                null, websiteWhere, websiteWhereParams, null);
-        //startManagingCursor(c);
+        try {
+    		c = cr.query(ContactsContract.Data.CONTENT_URI,
+                    null, websiteWhere, websiteWhereParams, null);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        }
 
         while (c.moveToNext()) {
             website = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
@@ -1180,7 +1240,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
            
-            websiteTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+            try {
+                websiteTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+            } catch (NullPointerException e) {
+            	e.printStackTrace();
+            }
             websiteTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             websiteTypeTextView.setTextSize(14);
             websiteTypeTextView.setWidth(200);
@@ -1253,9 +1317,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE};
         
         c = null;
-		c = cr.query(ContactsContract.Data.CONTENT_URI,
-                null, addressWhere, addressWhereParams, null);
-        //startManagingCursor(c);
+        try {
+    		c = cr.query(ContactsContract.Data.CONTENT_URI,
+                    null, addressWhere, addressWhereParams, null);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        }
 
         while (c.moveToNext()) {
             address = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
@@ -1342,7 +1409,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
 
-            addressTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+            try {
+                addressTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+            } catch (NullPointerException e) {
+            	e.printStackTrace();
+            }
             addressTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             addressTypeTextView.setTextSize(14);
             addressTypeTextView.setWidth(200);
@@ -1411,13 +1482,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		String emailType = null;
 		
 		c = null;
-		c = cr.query(
-                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                null,
-                ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
-                new String[]{contact_id},
-                null);
-        //startManagingCursor(c);
+		try {
+			c = cr.query(
+	                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+	                null,
+	                ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+	                new String[]{contact_id},
+	                null);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 
 		
         while (c.moveToNext()) {
@@ -1483,7 +1557,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	e.printStackTrace();
             }
 
-            emailTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+            try {
+                emailTypeTextView.setText(currentType.toUpperCase(Locale.getDefault()));
+            } catch (NullPointerException e) {
+            	e.printStackTrace();
+            }
             emailTypeTextView.setTypeface(Typeface.createFromAsset(getAssets(), font));
             emailTypeTextView.setTextSize(14);
             emailTypeTextView.setWidth(200);
@@ -1574,10 +1652,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		String phoneType = null;
 		
 		c = null;
-		c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
-                new String[]{contact_id}, null);
-        //startManagingCursor(c);
+		try {
+			c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+	                ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
+	                new String[]{contact_id}, null);	
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 
         while (c.moveToNext()) {
             number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
@@ -1824,7 +1905,12 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	    		edit_intent.setData(contactUri);
 	    		edit_intent.putExtra("finishActivityOnSaveCompleted", true);
 
-	    		startActivity(edit_intent);
+	    		try {
+		    		startActivity(edit_intent);
+	    		} catch (ActivityNotFoundException e) {
+	    			e.printStackTrace();
+	        		Toast.makeText(this, getString(R.string.editNotFound), Toast.LENGTH_LONG).show();
+	    		}
 	        	return true;
 	        	
 	        case R.id.menu_share:

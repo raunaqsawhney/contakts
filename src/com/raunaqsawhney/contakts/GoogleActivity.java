@@ -12,6 +12,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -88,6 +89,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	
 	String number;
 	Contact contact = new Contact();
+	
+	Integer rateIt = 0;
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +175,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#0099CC");
+		Editor edit = prefs.edit();
+
+		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
@@ -180,6 +185,66 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         sortOrder = prefs.getString("sortOrder_google", "display_name");
 		sortParam = prefs.getString("sortParam_google", " COLLATE LOCALIZED ASC");
 		longPressAction = prefs.getString("longPress_google", "call_google");
+		
+        rateIt = prefs.getInt("rateIt", 0);
+    	Integer doneRate = prefs.getInt("doneRate", 0);
+
+        if (rateIt != 10 ) {
+        	if (doneRate == 0) {
+        		rateIt += 1;
+            	edit.putInt("rateIt", rateIt);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneRate != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.rateItHeader))
+    		    .setMessage(getString(R.string.rateItText))
+    		    .setPositiveButton(getString(R.string.playstore), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		final String appPackageName = getPackageName();
+    	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneRate", 1);
+            	edit.apply();	
+        	}
+        }
+        
+        Integer buyApp = prefs.getInt("buyApp", 0);
+        Integer doneBuy = prefs.getInt("doneBuy", 0);
+
+        if (buyApp != 15 ) {
+        	if (doneBuy == 0) {
+        		buyApp += 1;
+            	edit.putInt("buyApp", buyApp);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneBuy != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.buyItHeader))
+    		    .setMessage(getString(R.string.buyItText))
+    		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		Intent iIntent = new Intent(GoogleActivity.this, LoginActivity.class);
+    				   	GoogleActivity.this.startActivity(iIntent);
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneBuy", 1);
+            	edit.apply();	
+        	}
+        }
 	}
 	
 	private void setupActionBar() {
@@ -207,7 +272,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
-        }	
+        }        
 	}
 
 	private void setupSlidingMenu() {

@@ -7,10 +7,13 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -76,6 +79,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	LinearLayout dialerLayout;
 	
 	TextView number;
+	
+	Integer rateIt = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -547,9 +552,41 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor edit = prefs.edit();
+
         theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
+        
+        rateIt = prefs.getInt("rateIt", 0);
+    	Integer doneRate = prefs.getInt("doneRate", 0);
+
+        if (rateIt != 10 ) {
+        	if (doneRate == 0) {
+        		rateIt += 1;
+            	edit.putInt("rateIt", rateIt);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneRate != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.rateItHeader))
+    		    .setMessage(getString(R.string.rateItText))
+    		    .setPositiveButton(getString(R.string.playstore), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		final String appPackageName = getPackageName();
+    	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneRate", 1);
+            	edit.apply();	
+        	}
+        }
 	}
 
 	private void setupActionBar() {

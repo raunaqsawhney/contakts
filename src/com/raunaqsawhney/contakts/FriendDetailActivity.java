@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -133,6 +134,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 	Boolean isWhatsAppEnabled = false;
 	
 	Cursor cursor;
+	
+	Integer rateIt = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -649,7 +652,37 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		    .setMessage(getString(R.string.friendDialogText))
 		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
-        }	
+        }
+        
+        rateIt = prefs.getInt("rateIt", 0);
+    	Integer doneRate = prefs.getInt("doneRate", 0);
+
+        if (rateIt != 10 ) {
+        	if (doneRate == 0) {
+        		rateIt += 1;
+            	edit.putInt("rateIt", rateIt);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneRate != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.rateItHeader))
+    		    .setMessage(getString(R.string.rateItText))
+    		    .setPositiveButton(getString(R.string.playstore), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		final String appPackageName = getPackageName();
+    	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneRate", 1);
+            	edit.apply();	
+        	}
+        }
 	}
 
 	private void setupActionBar() {

@@ -52,12 +52,37 @@ public class WelcomeActivity extends Activity {
 		Editor edit = preferences.edit();
 		
         Boolean firstRunDone = false;
-        firstRunDone = prefs.getBoolean("firstRunDone", false);
+        Integer startView = 0;
         
+        firstRunDone = prefs.getBoolean("firstRunDone", false);        
+		startView = prefs.getInt("startView", 0);
+		
         if (firstRunDone) {
-        	Intent firstRunDoneIntent = new Intent(WelcomeActivity.this, FavActivity.class);
+        	Intent firstRunDoneIntent = null;
+        	
+        	if (startView == 0) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, FavActivity.class);
+        	} else if (startView == 1) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, RecentActivity.class);
+        	} else if (startView == 2) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, FrequentActivity.class);
+        	} else if (startView == 3) { 
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+        	} else if (startView == 4) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, GoogleActivity.class);
+        	} else if (startView == 5) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, GroupActivity.class);
+        	} else if (startView == 6 ) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, ShuffleActivity.class);
+        	} else if (startView == 7) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, FBActivity.class);
+        	} else if (startView == 8) {
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, DialerActivity.class);
+        	}
+        	
   		   	WelcomeActivity.this.startActivity(firstRunDoneIntent);
   		   	finish();
+  		   	
         } else {
         	edit.putBoolean("firstRunDone", true);
     		edit.putString("font","RobotoCondensed-Regular.ttf");

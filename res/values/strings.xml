@@ -14,7 +14,7 @@
     <string name="title_activity_log">LogActivity</string>
     <string name="title_activity_friend_detail">FriendDetailActivity</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="color_dialog_title">Pick Theme</string>
+    <string name="color_dialog_title">Pick theme</string>
     <string name="title_activity_li">LIActivity</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="themeButton">Theme</string>
@@ -23,9 +23,7 @@
     <string name="welcomeInfo">Contakts is a beautiful new way to connect with
          everyone that matters to you.\n\nSimply swipe right anywhere on the screen
           to slide out the navigation menu and start connecting with everyone!</string>
-    <string name="fbInfo">Upon login, you will be asked to accept permissions, allowing us to present you with all
-        the information you need to keep in touch with your friends.\n\nNo personal information
-        is collected or stored by Contakts.</string>
+    <string name="fbInfo">No personal information is ever collected or stored by Contakts.</string>
     <string name="admob_id">a152f39c37b61f7</string>
     <string name="title_activity_frequent">FrequentActivity</string>
     <string name="title_activity_graph">GraphActivity</string>
@@ -174,7 +172,8 @@
     <string name="hello">Hello</string>
     <string name="enableWhatsApp">Enable WhatsApp integration</string>
     <string name="addNotFound">Unable to add contact. Use stock contacts app on your device to add contact.</string>
-
+    <string name="editNotFound">Unable to edit contact. Use stock contacts app on your device to edit contact.</string>
+    
     <!-- DIALER -->
 
     <string name="call">Call</string>
@@ -251,5 +250,16 @@
 	
 	<string name="shuffleHeader">Shuffle it up!</string>
 	<string name="shuffleText">Interact with someone new every time in shuffle mode.\n\nRestore old friendships or create new ones!</string>	
+	
+	<string name="rateItHeader">Enjoy using Contakts?</string>
+	<string name="rateItText">Please take a minute to rate Contakts in the Play Store.\n\nIt would help us in creating a better user experience for you.\n\nThanks!</string>
+	<string name="playstore">Rate Now</string>
+	
+	<string name="startupViewBtn">Startup View</string>
+	<string name="dialer">Dialer</string>
+	<string name="pickView">Pick startup view</string>
+	
+	<string name="buyItHeader">Upgrade to Premium?</string>
+	<string name="buyItText">If you enjoy using Contakts, consider supporting us by purchasing the Ad-Free upgrade.\n\nIt will help in further development and maintenance of Contakts.\n\nThanks!</string>
 	
 </resources>

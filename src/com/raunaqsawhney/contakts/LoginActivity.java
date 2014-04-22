@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.content.ActivityNotFoundException;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -15,7 +16,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
@@ -70,6 +70,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	CheckBox whatsApp;
 	
 	SharedPreferences prefs;
+    Integer checkedItem = -1;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -247,6 +249,29 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	        int actionBarColor = Color.parseColor(theme);
 	        tintManager.setStatusBarTintColor(actionBarColor);
         }	
+        
+		Integer startView = prefs.getInt("startView", 0);
+		
+		if (startView == 0) {
+			checkedItem = 0;
+    	} else if (startView == 1) {
+			checkedItem = 1;
+    	} else if (startView == 2) {
+			checkedItem = 2;
+    	} else if (startView == 3) { 
+			checkedItem = 3;
+    	} else if (startView == 4) {
+			checkedItem = 4;
+    	} else if (startView == 5) {
+			checkedItem = 5;
+    	} else if (startView == 6 ) {
+			checkedItem = 6;
+    	} else if (startView == 7) {
+			checkedItem = 7;
+    	} else if (startView == 8) {
+			checkedItem = 8;
+    	}
+
 	}
 
 	private void setupSlidingMenu() {
@@ -308,6 +333,22 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		edit = preferences.edit();
+		
+		final String views[] = new String[9];
+		views[0] = getString(R.string.sMfavourites);
+		views[1] = getString(R.string.sMRecent);
+		views[2] = getString(R.string.sMMostContacted);
+		views[3] = getString(R.string.sMPhoneContacts);
+		views[4] = getString(R.string.sMGoogleContacts);
+		views[5] = getString(R.string.sMGroups);
+		views[6] = getString(R.string.sMShuffle);
+		views[7] = getString(R.string.sMFacebook);
+		views[8] = getString(R.string.dialer);
+		
+		
+		Button startupViewButton = new Button(this);
+		startupViewButton = (Button) findViewById(R.id.startupView);
+		startupViewButton.setBackgroundColor(Color.parseColor(theme));
 		
 		Button colorPicker = new Button(this);
 		colorPicker = (Button) findViewById(R.id.colorPicker);
@@ -384,7 +425,7 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				edit.putString("theme", themeColor);
 				edit.apply(); 
 								
-			   	Intent goBackToFav = new Intent(LoginActivity.this, FavActivity.class);
+			   	Intent goBackToFav = new Intent(LoginActivity.this, LoginActivity.class);
 			   	goBackToFav.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				LoginActivity.this.startActivity(goBackToFav);		
 			}
@@ -396,6 +437,53 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
             	colorPickerDialog.show(getSupportFragmentManager(), "colorpicker");
             }
         });		
+		
+		startupViewButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder viewPicker  = new AlertDialog.Builder(LoginActivity.this)
+				.setTitle(getString(R.string.pickView))
+				.setSingleChoiceItems(views, checkedItem, new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					if (which == 0) {
+						edit.putInt("startView", 0);
+					} else if (which == 1) {
+						edit.putInt("startView", 1);
+					} else if (which == 2) {
+						edit.putInt("startView", 2);
+					} else if (which == 3) {
+						edit.putInt("startView", 3);
+					} else if (which == 4) {
+						edit.putInt("startView", 4);
+					} else if (which == 5) {
+						edit.putInt("startView", 5);
+					} else if (which == 6) {
+						edit.putInt("startView", 6);
+					} else if (which == 7) {
+						edit.putInt("startView", 7);
+					} else if (which == 8) {
+						edit.putInt("startView", 8);
+					}
+					
+					edit.apply();
+	
+					//dismissing the dialog when the user makes a selection.
+					dialog.dismiss();
+					
+					Intent i = getBaseContext().getPackageManager()
+				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);
+					}
+				});
+				AlertDialog viewPickerDialog = viewPicker.create();		
+				viewPickerDialog.show();
+			}
+		});
 	}
 
 	@Override

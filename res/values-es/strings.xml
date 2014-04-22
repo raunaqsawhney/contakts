@@ -20,7 +20,7 @@
     <string name="themeButton">Tema</string>
     <string name="themeButtonInfo">Cambiar el aspecto de la aplicación a su gusto escogiendo un tema de su elección!</string>
     <string name="welcomeInfo">Contakts es una nueva manera hermosa de conectarse con todo el mundo que le importa a usted.\n\nSimplemente deslice derecho en cualquier lugar de la pantalla para extraer el menú de navegación y comenzar a conectar con todo el mundo!</string>
-    <string name="fbInfo">Tras la sesión, se le pedirá que acepte los permisos, lo que nos permite le presentamos toda la información que necesitas para mantenerte en contacto con tus amigos.\n\nNinguna información personal se recoge ni almacena Contakts.</string>
+    <string name="fbInfo">Ninguna información personal se recoge ni almacena Contakts.</string>
     <string name="admob_id">a152f39c37b61f7</string>
     <string name="title_activity_frequent">FrequentActivity</string>
     <string name="title_activity_graph">GraphActivity</string>
@@ -184,7 +184,8 @@
 	<string name="hello">¡Hola</string>
 	<string name="enableWhatsApp">Habilitar la integración WhatsApp</string>
 	<string name="addNotFound">No se puede agregar el contacto. Usa contactos de valores aplicación en su dispositivo.</string>
-
+    <string name="editNotFound">No es posible editar el contacto. Utilice la acción de los contactos aplicación en su dispositivo para editar el contacto.</string>
+	
 	
 	<!-- DIALER -->
 	<string name="call">Teléfono</string>
@@ -265,4 +266,16 @@
     
 	<string name="shuffleHeader">Baraja para arriba!</string>
 	<string name="shuffleText">Interactuar con alguien nuevo cada vez que en el modo de reproducción aleatoria.\n\nRestaurar viejas amistades o crear otros nuevos!</string>
+	
+	<string name="rateItHeader">Disfrute utilizando Contakts?</string>
+	<string name="rateItText">Por favor, tómese un minuto para evaluar Contakts en la Play Store.\n\nNos ayudaría a crear una mejor experiencia de usuario para usted.\n\nGracias!</string>
+	<string name="playstore">Califica ahora</string>
+	
+	<string name="dialer">Almohadilla</string>
+	
+	<string name="pickView">Elige Empezar Ver</string>
+	
+	<string name="buyItHeader">Actualícese a Premium?</string>
+	<string name="buyItText">Si te gusta usar Contakts, considere apoyarnos comprando la actualización sin publicidad.\n\nLe ayudará en el desarrollo y la conservación de Contakts.\n\nGracias!</string>
+	
 </resources>

@@ -85,6 +85,9 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	String number;
 	Contact contact = new Contact();
 	
+	Integer rateIt = 0;
+	Integer buyApp = 0;
+	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,6 +207,66 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 		    .setMessage(getString(R.string.favDialogText))
 		    .setNeutralButton(getString(R.string.okay), null)
 		    .show();
+        }
+        
+        rateIt = prefs.getInt("rateIt", 0);
+    	Integer doneRate = prefs.getInt("doneRate", 0);
+
+        if (rateIt != 10 ) {
+        	if (doneRate == 0) {
+        		rateIt += 1;
+            	edit.putInt("rateIt", rateIt);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneRate != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.rateItHeader))
+    		    .setMessage(getString(R.string.rateItText))
+    		    .setPositiveButton(getString(R.string.playstore), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		final String appPackageName = getPackageName();
+    	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneRate", 1);
+            	edit.apply();	
+        	}
+        }
+        
+        buyApp = prefs.getInt("buyApp", 0);
+        Integer doneBuy = prefs.getInt("doneBuy", 0);
+
+        if (buyApp != 15 ) {
+        	if (doneBuy == 0) {
+        		buyApp += 1;
+            	edit.putInt("buyApp", buyApp);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneBuy != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.buyItHeader))
+    		    .setMessage(getString(R.string.buyItText))
+    		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		Intent iIntent = new Intent(FavActivity.this, LoginActivity.class);
+    				   	FavActivity.this.startActivity(iIntent);
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneBuy", 1);
+            	edit.apply();	
+        	}
         }
 	}
 

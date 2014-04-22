@@ -93,6 +93,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	String number;
 	Contact contact = new Contact();
 	
+	Integer rateIt = 0;
+	
    @Override
    public void onCreate(Bundle savedInstanceState) {
        
@@ -180,7 +182,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	private void setupGlobalPrefs() {
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        theme = prefs.getString("theme", "#0099CC");
+        Editor edit = prefs.edit();
+        
+    	theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
@@ -189,6 +193,37 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		sortParam = prefs.getString("sortParam_main", " COLLATE LOCALIZED ASC");
 		
 		longPressAction = prefs.getString("longPress_main", "call_main");
+		
+        rateIt = prefs.getInt("rateIt", 0);
+    	Integer doneRate = prefs.getInt("doneRate", 0);
+
+        if (rateIt != 10 ) {
+        	if (doneRate == 0) {
+        		rateIt += 1;
+            	edit.putInt("rateIt", rateIt);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneRate != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.rateItHeader))
+    		    .setMessage(getString(R.string.rateItText))
+    		    .setPositiveButton(getString(R.string.playstore), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		final String appPackageName = getPackageName();
+    	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneRate", 1);
+            	edit.apply();	
+        	}
+        }
+
 	}
 
 	private void setupActionBar() {

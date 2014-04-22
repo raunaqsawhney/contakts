@@ -77,7 +77,12 @@ public class GraphAdapter extends ArrayAdapter<FreqContact> {
 	       viewHolder.name.setText(freqContact.getName().toString());
 	       viewHolder.name.setTextColor(Color.parseColor(colorArray[count])); 
 	       
-	       viewHolder.photo.setImageURI(Uri.parse(freqContact.getURL()));
+	       try {
+		       viewHolder.photo.setImageURI(Uri.parse(freqContact.getURL()));
+	       } catch (NullPointerException f) {
+	    	   viewHolder.photo.setImageResource(R.drawable.ic_contact_picture);
+	    	   f.printStackTrace();
+	       }
 	       
 	       if (!freqContact.getTimesContacted().isEmpty() || freqContact.getTimesContacted().equalsIgnoreCase("NULL") || freqContact.getTimesContacted().equals("".toString())) {
 		       viewHolder.timeContacted.setText(freqContact.getTimesContacted());
