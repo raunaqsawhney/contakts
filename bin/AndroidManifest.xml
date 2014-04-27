@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <permission
         android:name="com.raunaqsawhney.contakts.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -122,7 +123,7 @@
         <activity
             android:name="com.raunaqsawhney.contakts.GraphActivity"
             android:label="@string/app_name"
-           	android:parentActivityName="com.raunaqsawhney.contakts.FrequentActivity"
+            android:parentActivityName="com.raunaqsawhney.contakts.FrequentActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -176,6 +177,19 @@
             android:name="com.raunaqsawhney.contakts.ShuffleActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.raunaqsawhney.contakts.ChooseContactActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="com.raunaqsawhney.contakts.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name="com.raunaqsawhney.contakts.EditSpeedActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

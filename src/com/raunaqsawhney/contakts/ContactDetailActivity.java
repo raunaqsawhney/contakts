@@ -209,6 +209,36 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             	edit.apply();	
         	}
         }
+        
+        Integer buyApp = prefs.getInt("buyApp", 0);
+        Integer doneBuy = prefs.getInt("doneBuy", 0);
+
+        if (buyApp != 15 ) {
+        	if (doneBuy == 0) {
+        		buyApp += 1;
+            	edit.putInt("buyApp", buyApp);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneBuy != 1) {
+        		new AlertDialog.Builder(this)
+            	.setCancelable(true)
+    		    .setTitle(getString(R.string.buyItHeader))
+    		    .setMessage(getString(R.string.buyItText))
+    		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+    		    	public void onClick(DialogInterface dialog, int id) {
+    		    		Intent iIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
+    				   	ContactDetailActivity.this.startActivity(iIntent);
+                        dialog.cancel();
+    		    	}
+    		    })
+    		    .setNegativeButton(getString(R.string.cancel), null)
+    		    .show();
+            	
+            	edit.putInt("doneBuy", 1);
+            	edit.apply();	
+        	}
+        }
 	}
 
 	private void setupActionBar() {

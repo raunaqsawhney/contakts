@@ -86,7 +86,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 	Contact contact = new Contact();
 	
 	Integer rateIt = 0;
-	Integer buyApp = 0;
+	
 	
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +148,10 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
 					Log.e(TAG, "Query inventory was successful.");
 					mIsPremium = inventory.hasPurchase(ITEM_SKU);
 					
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FavActivity.this);
+					Editor edit = prefs.edit();
+					edit.putBoolean("isPremium", mIsPremium);
+					
 					if (!mIsPremium)
 						enableAds();
 					else 
@@ -197,6 +201,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
+        Boolean isPremium = prefs.getBoolean("isPremium", false);
+        
         firstRunDoneFav = prefs.getBoolean("firstRunDoneFavourite", false);
         if (!firstRunDoneFav) {
         	edit.putBoolean("firstRunDoneFavourite", true);
@@ -239,7 +245,7 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         	}
         }
         
-        buyApp = prefs.getInt("buyApp", 0);
+        Integer buyApp = prefs.getInt("buyApp", 0);
         Integer doneBuy = prefs.getInt("doneBuy", 0);
 
         if (buyApp != 15 ) {
@@ -250,22 +256,25 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
         	}
         } else {
         	if (doneBuy != 1) {
-        		new AlertDialog.Builder(this)
-            	.setCancelable(true)
-    		    .setTitle(getString(R.string.buyItHeader))
-    		    .setMessage(getString(R.string.buyItText))
-    		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
-    		    	public void onClick(DialogInterface dialog, int id) {
-    		    		Intent iIntent = new Intent(FavActivity.this, LoginActivity.class);
-    				   	FavActivity.this.startActivity(iIntent);
-                        dialog.cancel();
-    		    	}
-    		    })
-    		    .setNegativeButton(getString(R.string.cancel), null)
-    		    .show();
-            	
-            	edit.putInt("doneBuy", 1);
-            	edit.apply();	
+        		
+        		if (!isPremium) {
+            		new AlertDialog.Builder(this)
+                	.setCancelable(true)
+        		    .setTitle(getString(R.string.buyItHeader))
+        		    .setMessage(getString(R.string.buyItText))
+        		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+        		    	public void onClick(DialogInterface dialog, int id) {
+        		    		Intent iIntent = new Intent(FavActivity.this, LoginActivity.class);
+        				   	FavActivity.this.startActivity(iIntent);
+                            dialog.cancel();
+        		    	}
+        		    })
+        		    .setNegativeButton(getString(R.string.cancel), null)
+        		    .show();
+                	
+                	edit.putInt("doneBuy", 1);
+                	edit.apply();
+        		}
         	}
         }
 	}

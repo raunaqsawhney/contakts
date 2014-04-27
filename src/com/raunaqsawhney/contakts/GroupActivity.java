@@ -172,6 +172,8 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
         
+        Boolean isPremium = prefs.getBoolean("isPremium", false);
+        
         sortOrder = prefs.getString("sortOrder_group", "title");
 		sortParam = prefs.getString("sortParam_group", " COLLATE LOCALIZED ASC");
         
@@ -228,22 +230,25 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
         	}
         } else {
         	if (doneBuy != 1) {
-        		new AlertDialog.Builder(this)
-            	.setCancelable(true)
-    		    .setTitle(getString(R.string.buyItHeader))
-    		    .setMessage(getString(R.string.buyItText))
-    		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
-    		    	public void onClick(DialogInterface dialog, int id) {
-    		    		Intent iIntent = new Intent(GroupActivity.this, LoginActivity.class);
-    				   	GroupActivity.this.startActivity(iIntent);
-                        dialog.cancel();
-    		    	}
-    		    })
-    		    .setNegativeButton(getString(R.string.cancel), null)
-    		    .show();
-            	
-            	edit.putInt("doneBuy", 1);
-            	edit.apply();	
+        		
+        		if (!isPremium) {
+            		new AlertDialog.Builder(this)
+                	.setCancelable(true)
+        		    .setTitle(getString(R.string.buyItHeader))
+        		    .setMessage(getString(R.string.buyItText))
+        		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+        		    	public void onClick(DialogInterface dialog, int id) {
+        		    		Intent iIntent = new Intent(GroupActivity.this, LoginActivity.class);
+        				   	GroupActivity.this.startActivity(iIntent);
+                            dialog.cancel();
+        		    	}
+        		    })
+        		    .setNegativeButton(getString(R.string.cancel), null)
+        		    .show();
+                	
+                	edit.putInt("doneBuy", 1);
+                	edit.apply();
+        		}
         	}
         }
 

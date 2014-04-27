@@ -5,5 +5,11 @@
 	    android:title="Add Contact"
 	    android:icon="@drawable/ic_action_add_person"
 	    android:showAsAction="always" />
+    
+    <item
+        android:id="@+id/menu_edit_speed"
+        android:title="Edit speed dial"
+        android:icon="@drawable/ic_speed"
+        android:showAsAction="always"/>
 
 </menu>

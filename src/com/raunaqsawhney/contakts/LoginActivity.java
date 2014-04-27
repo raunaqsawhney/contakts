@@ -427,7 +427,8 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 								
 			   	Intent goBackToFav = new Intent(LoginActivity.this, LoginActivity.class);
 			   	goBackToFav.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				LoginActivity.this.startActivity(goBackToFav);		
+				LoginActivity.this.startActivity(goBackToFav);	
+				finish();
 			}
 		});
 		

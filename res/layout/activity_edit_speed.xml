@@ -1,0 +1,571 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditSpeedActivity" 
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+        	android:paddingBottom="50dip">
+            
+            <LinearLayout
+                android:id="@+id/one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="1"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#33B5E5"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed1ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed1ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="2"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#AA66CC"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed2ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed2ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="3"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4F2F4F"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed3ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed3ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="4"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#99CC00"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed4ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed4ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/five"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="5"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFBB33"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed5ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed5ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/six"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="6"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF8800"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed6ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed6ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/seven"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="7"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF2D55"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed7ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed7ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/eight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="8"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF4444"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed8ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed8ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            <View 
+			   android:layout_width="fill_parent"
+			   android:layout_height="0.1dp"       
+			   android:background="#C7C7CC"
+			   android:layout_marginLeft="20dip"
+			   android:layout_marginRight="20dip" />
+            
+            <LinearLayout
+                android:id="@+id/nine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:layout_gravity="center_vertical">
+                
+                <TextView
+                    android:text="9"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="42sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#CC0000"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+				        android:id="@+id/speed9ContactName"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#4A4A4A"
+				        android:textSize="18sp"
+				        android:layout_marginLeft="20dip" 
+				        android:text="NAME"
+				        android:fontFamily="sans-serif-light" />
+				
+					<TextView
+				        android:id="@+id/speed9ContactNumber"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_centerVertical="true" 
+				        android:textColor="#8E8E93"
+				        android:textSize="14sp"
+				        android:text="NUMBER"
+				        android:layout_marginLeft="20dip" 
+				        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                
+            </LinearLayout>
+            
+            
+        </LinearLayout>
+        
+        
+    </ScrollView>
+    
+    colorArray[0] = "#33B5E5";
+		colorArray[1] = "#AA66CC";
+		colorArray[2] = "#4F2F4F";
+		colorArray[3] = "#99CC00";
+		colorArray[4] = "#669900";
+		colorArray[5] = "#FFBB33";
+		colorArray[6] = "#FF8800";
+		colorArray[7] = "#FF2D55";
+		colorArray[8] = "#FF4444";
+		colorArray[9] = "#CC0000";
+
+</LinearLayout>

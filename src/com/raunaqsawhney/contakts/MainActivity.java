@@ -189,6 +189,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         fontTitle = prefs.getString("fontTitle", null);	
         font = prefs.getString("font", null);
         
+        Boolean isPremium = prefs.getBoolean("isPremium", false);
+        
         sortOrder = prefs.getString("sortOrder_main", "display_name");
 		sortParam = prefs.getString("sortParam_main", " COLLATE LOCALIZED ASC");
 		
@@ -221,6 +223,38 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
             	
             	edit.putInt("doneRate", 1);
             	edit.apply();	
+        	}
+        }
+        
+        Integer buyApp = prefs.getInt("buyApp", 0);
+        Integer doneBuy = prefs.getInt("doneBuy", 0);
+
+        if (buyApp != 15 ) {
+        	if (doneBuy == 0) {
+        		buyApp += 1;
+            	edit.putInt("buyApp", buyApp);
+            	edit.apply();
+        	}
+        } else {
+        	if (doneBuy != 1) {
+        		if (!isPremium) {
+        			new AlertDialog.Builder(this)
+                	.setCancelable(true)
+        		    .setTitle(getString(R.string.buyItHeader))
+        		    .setMessage(getString(R.string.buyItText))
+        		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+        		    	public void onClick(DialogInterface dialog, int id) {
+        		    		Intent iIntent = new Intent(MainActivity.this, LoginActivity.class);
+        				   	MainActivity.this.startActivity(iIntent);
+                            dialog.cancel();
+        		    	}
+        		    })
+        		    .setNegativeButton(getString(R.string.cancel), null)
+        		    .show();
+                	
+                	edit.putInt("doneBuy", 1);
+                	edit.apply();
+        		}
         	}
         }
 
@@ -366,6 +400,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout ascending = (LinearLayout) findViewById(R.id.ascending);
 		ascending.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 
@@ -382,6 +419,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout descending = (LinearLayout) findViewById(R.id.descending);
 		descending.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            	
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 
@@ -398,6 +438,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout frequency = (LinearLayout) findViewById(R.id.frequency);
 		frequency.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 
@@ -414,6 +457,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout recency = (LinearLayout) findViewById(R.id.recency);
 		recency.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 
@@ -430,6 +476,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout call = (LinearLayout) findViewById(R.id.call);
 		call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 
@@ -445,6 +494,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout sms = (LinearLayout) findViewById(R.id.sms);
 		sms.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 
@@ -460,6 +512,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		LinearLayout email = (LinearLayout) findViewById(R.id.email);
 		email.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         		Editor edit = preferences.edit();
 

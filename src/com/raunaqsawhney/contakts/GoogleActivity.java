@@ -182,6 +182,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
+        Boolean isPremium = prefs.getBoolean("isPremium", false);
+        
         sortOrder = prefs.getString("sortOrder_google", "display_name");
 		sortParam = prefs.getString("sortParam_google", " COLLATE LOCALIZED ASC");
 		longPressAction = prefs.getString("longPress_google", "call_google");
@@ -227,22 +229,24 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         	}
         } else {
         	if (doneBuy != 1) {
-        		new AlertDialog.Builder(this)
-            	.setCancelable(true)
-    		    .setTitle(getString(R.string.buyItHeader))
-    		    .setMessage(getString(R.string.buyItText))
-    		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
-    		    	public void onClick(DialogInterface dialog, int id) {
-    		    		Intent iIntent = new Intent(GoogleActivity.this, LoginActivity.class);
-    				   	GoogleActivity.this.startActivity(iIntent);
-                        dialog.cancel();
-    		    	}
-    		    })
-    		    .setNegativeButton(getString(R.string.cancel), null)
-    		    .show();
-            	
-            	edit.putInt("doneBuy", 1);
-            	edit.apply();	
+        		if (!isPremium) {
+        			new AlertDialog.Builder(this)
+                	.setCancelable(true)
+        		    .setTitle(getString(R.string.buyItHeader))
+        		    .setMessage(getString(R.string.buyItText))
+        		    .setPositiveButton(getString(R.string.removeAds), new DialogInterface.OnClickListener() {
+        		    	public void onClick(DialogInterface dialog, int id) {
+        		    		Intent iIntent = new Intent(GoogleActivity.this, LoginActivity.class);
+        				   	GoogleActivity.this.startActivity(iIntent);
+                            dialog.cancel();
+        		    	}
+        		    })
+        		    .setNegativeButton(getString(R.string.cancel), null)
+        		    .show();
+                	
+                	edit.putInt("doneBuy", 1);
+                	edit.apply();	
+        		}
         	}
         }
 	}

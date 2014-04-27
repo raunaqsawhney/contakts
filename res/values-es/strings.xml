@@ -278,4 +278,20 @@
 	<string name="buyItHeader">Actualícese a Premium?</string>
 	<string name="buyItText">Si te gusta usar Contakts, considere apoyarnos comprando la actualización sin publicidad.\n\nLe ayudará en el desarrollo y la conservación de Contakts.\n\nGracias!</string>
 	
+	<string name="setSpeedDial">Establecer marcado rápido</string>
+    <string name="setSpeedDialText">¿Le gustaría establecer un contacto de marcación rápida para este número?</string>
+    <string name="title_activity_choose_contact">ChooseContactActivity</string>
+    <string name="added">Sumado</string>
+    <string name="toSpeedDial">a la marcación rápida</string>
+    <string name="title_activity_edit_speed">EditSpeedActivity</string>
+    <string name="noContactAssigned">No hay contacto asignado</string>
+    
+    <string name="editSpeedDial">Editar marcado rápido</string>
+    <string name="removeSpeedDial">Eliminar de marcación rápida</string>
+    <string name="changeSpeedDial">Cambio Contacto</string>
+    <string name="voicemail">Voicemail</string>
+    
+    <string name="dialDialogHeader">Teclado telefónico</string>
+    <string name="dialDialogText">Usted puede acelerar los contactos de marcación por largo pulsando sobre números en el teclado de marcación.\n\nPara editar números de marcado rápido existente, toque en el velocímetro en la parte superior</string>
+	
 </resources>

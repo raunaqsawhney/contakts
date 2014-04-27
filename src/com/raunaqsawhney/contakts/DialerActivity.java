@@ -334,6 +334,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			}		
 	    });
 	    
+	    oneBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(1)) {
+						String number = prefs.getString("oneBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 1);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
+	    
 	    twoBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -343,6 +382,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			}		
 	    	
 	    });
+	    
+	    twoBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(2)) {
+						String number = prefs.getString("twoBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 2);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
 	    
 	    threeBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -354,6 +432,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	    	
 	    });
 	    
+	    threeBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(3)) {
+						String number = prefs.getString("threeBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 3);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
+	    
 	    fourBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -363,6 +480,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			}		
 	    	
 	    });
+	    
+	    fourBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(4)) {
+						String number = prefs.getString("fourBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 4);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
 	    
 	    fiveBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -374,6 +530,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	    	
 	    });
 	    
+	    fiveBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(5)) {
+						String number = prefs.getString("fiveBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 5);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
+	    
 	    sixBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -384,6 +579,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	    	
 	    });
 	    
+	    sixBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(6)) {
+						String number = prefs.getString("sixBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 6);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
+	    
 	    sevenBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -392,6 +626,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	            sevenBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			}		
 	    });
+	    
+	    sevenBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(7)) {
+						String number = prefs.getString("sevenBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 7);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
 
 	    eightBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -403,6 +676,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	    	
 	    });
 	    
+	    eightBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(8)) {
+						String number = prefs.getString("eightBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 8);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
+	    
 	    nineBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -412,6 +724,45 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			}		
 	    	
 	    });
+	    
+	    nineBtn.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				
+				if (number.length() < 1) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DialerActivity.this);
+				
+					if (checkIfInSpeedDial(9)) {
+						String number = prefs.getString("nineBtn", null);
+						
+						Intent callIntent = new Intent(Intent.ACTION_CALL);          
+        	            callIntent.setData(Uri.parse("tel:" + number));          
+        	            startActivity(callIntent);
+        	            
+					} else {
+						
+						new AlertDialog.Builder(DialerActivity.this)
+					    .setTitle(getString(R.string.setSpeedDial))
+					    .setMessage(getString(R.string.setSpeedDialText))
+					    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                	
+			                	Intent chooseContactIntent = new Intent(DialerActivity.this, ChooseContactActivity.class);
+			        	   		chooseContactIntent.putExtra("dialPadNumber", 9);
+			                	
+			                	DialerActivity.this.startActivity(chooseContactIntent);
+
+			                    dialog.cancel();
+			                }
+			            })
+					    .setNegativeButton(getString(R.string.cancel), null)
+					    .show();
+					}
+				}
+				return true;
+			}
+		});
 	    
 	    starBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -587,6 +938,18 @@ public class DialerActivity extends Activity implements OnItemClickListener {
             	edit.apply();	
         	}
         }
+        
+        Boolean firstRunDoneDialer = prefs.getBoolean("firstRunDoneDialer", false);
+        if (!firstRunDoneDialer) {
+        	edit.putBoolean("firstRunDoneDialer", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle(getString(R.string.dialDialogHeader))
+		    .setMessage(getString(R.string.dialDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
+		    .show();
+        }
 	}
 
 	private void setupActionBar() {
@@ -709,6 +1072,11 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	}
+	        	
+	        case R.id.menu_edit_speed:
+	        	Intent editSpeedIntent = new Intent(DialerActivity.this, EditSpeedActivity.class);
+			   	DialerActivity.this.startActivity(editSpeedIntent);
+			   	
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -748,6 +1116,19 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		   	Intent iIntent = new Intent(DialerActivity.this, LoginActivity.class);
 		   	DialerActivity.this.startActivity(iIntent);
 	   }
+	}
+	
+	private boolean checkIfInSpeedDial(Integer i) {
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		Boolean isInSpeedDial = false;
+		String dialNumber = i.toString(); 
+		
+		isInSpeedDial = prefs.getBoolean(dialNumber, false);
+		
+		return isInSpeedDial;
+		
 	}
 	
 	public Bitmap BlurImageLegacy(Bitmap input, int radius) {

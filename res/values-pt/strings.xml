@@ -277,4 +277,21 @@
 	<string name="buyItHeader">Actualiza para o Prêmio?</string>
 	<string name="buyItText">Se você gosta de usar Contakts, considerar apoiar-nos com a compra do anúncio sem atualização de versão.\n\nEla vai ajudar na continuação do desenvolvimento e manutenção de Contakts.\n\nObrigado!</string>
 	
+	<string name="setSpeedDial">Definir discagem rápida</string>
+    <string name="setSpeedDialText">Gostaria de estabelecer um contato de discagem rápida para este número?</string>
+    <string name="title_activity_choose_contact">ChooseContactActivity</string>
+    <string name="added">Adicionado</string>
+    <string name="toSpeedDial">para discagem rápida</string>
+    <string name="title_activity_edit_speed">EditSpeedActivity</string>
+    <string name="noContactAssigned">Nenhum contato atribuído</string>
+    
+    <string name="editSpeedDial">Editar discagem velocidade</string>
+    <string name="removeSpeedDial">Remover da discagem rápida</string>
+    <string name="changeSpeedDial">Mudança contato</string>
+    <string name="voicemail">Voicemail</string>
+    
+    <string name="dialDialogHeader">Almofada</string>
+    <string name="dialDialogText">Você pode acelerar os contatos de discagem por longo pressionando os números no teclado de discagem.\n\nPara editar os números de discagem rápida existentes, toque no velocímetro no topo</string>
+	
+	
 </resources>

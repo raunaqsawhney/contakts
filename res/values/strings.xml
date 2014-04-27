@@ -173,7 +173,7 @@
     <string name="enableWhatsApp">Enable WhatsApp integration</string>
     <string name="addNotFound">Unable to add contact. Use stock contacts app on your device to add contact.</string>
     <string name="editNotFound">Unable to edit contact. Use stock contacts app on your device to edit contact.</string>
-    
+
     <!-- DIALER -->
 
     <string name="call">Call</string>
@@ -232,34 +232,42 @@
     <string name="title_activity_shuffle">ShuffleActivity</string>
     <string name="sayHello">Say hello to </string>
     <string name="shuffleProfile">View Profile</string>
-    
     <string name="shuffle_ls_contacted">LAST CALLED</string>
     <string name="noContactYet1">You have never called</string>
-	<string name="noContactYet2">Call up now?</string>
-	
-	<string name="shuffle_tc_contacted">TIMES CONTACTED</string>
-	<string name="noTimeContacted1">You have never contacted</string>
-	<string name="noTimeContacted2">Why not send a text message?</string>
-	
-	<string name="rare">A rare conversation or two</string>
-	<string name="occasional">An occasional chitchat never hurts</string>
-	<string name="frequent">Looks like a frequent conversation is brewing...</string>
-	<string name="heavy">A lot of great conversations here!</string>
-	<string name="crazy">Hurray! Too many conversations! Slow Down!</string>
-	<string name="unavailable">Statistics are not available</string>
-	
-	<string name="shuffleHeader">Shuffle it up!</string>
-	<string name="shuffleText">Interact with someone new every time in shuffle mode.\n\nRestore old friendships or create new ones!</string>	
-	
-	<string name="rateItHeader">Enjoy using Contakts?</string>
-	<string name="rateItText">Please take a minute to rate Contakts in the Play Store.\n\nIt would help us in creating a better user experience for you.\n\nThanks!</string>
-	<string name="playstore">Rate Now</string>
-	
-	<string name="startupViewBtn">Startup View</string>
-	<string name="dialer">Dialer</string>
-	<string name="pickView">Pick startup view</string>
-	
-	<string name="buyItHeader">Upgrade to Premium?</string>
-	<string name="buyItText">If you enjoy using Contakts, consider supporting us by purchasing the Ad-Free upgrade.\n\nIt will help in further development and maintenance of Contakts.\n\nThanks!</string>
-	
+    <string name="noContactYet2">Call up now?</string>
+    <string name="shuffle_tc_contacted">TIMES CONTACTED</string>
+    <string name="noTimeContacted1">You have never contacted</string>
+    <string name="noTimeContacted2">Why not send a text message?</string>
+    <string name="rare">A rare conversation or two</string>
+    <string name="occasional">An occasional chitchat never hurts</string>
+    <string name="frequent">Looks like a frequent conversation is brewing...</string>
+    <string name="heavy">A lot of great conversations here!</string>
+    <string name="crazy">Hurray! Too many conversations! Slow Down!</string>
+    <string name="unavailable">Statistics are not available</string>
+    <string name="shuffleHeader">Shuffle it up!</string>
+    <string name="shuffleText">Interact with someone new every time in shuffle mode.\n\nRestore old friendships or create new ones!</string>
+    <string name="rateItHeader">Enjoy using Contakts?</string>
+    <string name="rateItText">Please take a minute to rate Contakts in the Play Store.\n\nIt would help us in creating a better user experience for you.\n\nThanks!</string>
+    <string name="playstore">Rate Now</string>
+    <string name="startupViewBtn">Startup View</string>
+    <string name="dialer">Dialer</string>
+    <string name="pickView">Pick startup view</string>
+    <string name="buyItHeader">Upgrade to Premium?</string>
+    <string name="buyItText">If you enjoy using Contakts, consider supporting us by purchasing the Ad-Free upgrade.\n\nIt will help in further development and maintenance of Contakts.\n\nThanks!</string>
+    <string name="setSpeedDial">Set speed dial</string>
+    <string name="setSpeedDialText">Would you like to set a speed dial contact for this number?</string>
+    <string name="title_activity_choose_contact">ChooseContactActivity</string>
+    <string name="added">Added</string>
+    <string name="toSpeedDial">to speed dial</string>
+    <string name="title_activity_edit_speed">EditSpeedActivity</string>
+    <string name="noContactAssigned">No contact assigned</string>
+    
+    <string name="editSpeedDial">Edit speed dial</string>
+    <string name="removeSpeedDial">Remove from speed dial</string>
+    <string name="changeSpeedDial">Change contact</string>
+    <string name="voicemail">Voicemail</string>
+    
+    <string name="dialDialogHeader">Dialer</string>
+    <string name="dialDialogText">You can speed dial contacts by long-pressing on numbers on the dialpad.\n\nTo edit existing speed dial numbers, tap on the Speedometer at the top</string>
+
 </resources>
