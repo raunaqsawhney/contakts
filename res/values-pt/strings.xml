@@ -284,6 +284,8 @@
     <string name="toSpeedDial">para discagem rápida</string>
     <string name="title_activity_edit_speed">EditSpeedActivity</string>
     <string name="noContactAssigned">Nenhum contato atribuído</string>
+	<string name="enterSpeedContact">Toque aqui para selecionar um contato de discagem rápida</string>
+    
     
     <string name="editSpeedDial">Editar discagem velocidade</string>
     <string name="removeSpeedDial">Remover da discagem rápida</string>

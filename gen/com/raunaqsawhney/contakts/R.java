@@ -721,7 +721,7 @@ containing a value of this type.
         public static final int underline=0x7f0200d9;
     }
     public static final class id {
-        public static final int action_settings=0x7f050148;
+        public static final int action_settings=0x7f05014b;
         public static final int action_shuffle=0x7f05014f;
         public static final int adView=0x7f050010;
         public static final int all=0x7f050112;
@@ -863,11 +863,11 @@ containing a value of this type.
         public static final int fbHeader=0x7f050128;
         public static final int fbInfo=0x7f05009f;
         public static final int fbList=0x7f050058;
-        public static final int fb_logout=0x7f05014b;
+        public static final int fb_logout=0x7f05014a;
         public static final int fb_map=0x7f05005a;
         public static final int fb_map_frame_layout=0x7f050059;
         public static final int fb_map_photo=0x7f0500d1;
-        public static final int fb_search=0x7f05014a;
+        public static final int fb_search=0x7f050149;
         public static final int five=0x7f05003a;
         public static final int four=0x7f050039;
         public static final int frame_layout=0x7f050024;
@@ -913,7 +913,7 @@ containing a value of this type.
         public static final int menu_add=0x7f050146;
         public static final int menu_clearRecents=0x7f05014e;
         public static final int menu_delete=0x7f050144;
-        public static final int menu_dial=0x7f050149;
+        public static final int menu_dial=0x7f050148;
         public static final int menu_edit=0x7f050143;
         public static final int menu_edit_speed=0x7f050147;
         public static final int menu_graph=0x7f05014c;
@@ -1208,7 +1208,7 @@ containing a value of this type.
         public static final int car=0x7f0800a2;
         public static final int cdDialogHeader=0x7f080061;
         public static final int cdWelcomeDialog=0x7f080062;
-        public static final int changeSpeedDial=0x7f08011d;
+        public static final int changeSpeedDial=0x7f08011e;
         public static final int child=0x7f08006b;
         public static final int clean=0x7f0800ed;
         public static final int clear=0x7f0800c7;
@@ -1334,14 +1334,14 @@ containing a value of this type.
         public static final int deleteMessage=0x7f0800cc;
         public static final int deleteTitle=0x7f0800cd;
         public static final int descending=0x7f0800ea;
-        public static final int dialDialogHeader=0x7f08011f;
-        public static final int dialDialogText=0x7f080120;
+        public static final int dialDialogHeader=0x7f080120;
+        public static final int dialDialogText=0x7f080121;
         public static final int dialer=0x7f080110;
         public static final int dialerNotFound=0x7f0800bf;
         public static final int domPartner=0x7f08006c;
         public static final int edit=0x7f0800b7;
         public static final int editNotFound=0x7f0800c5;
-        public static final int editSpeedDial=0x7f08011b;
+        public static final int editSpeedDial=0x7f08011c;
         public static final int education=0x7f080098;
         public static final int emailDialogText=0x7f080065;
         public static final int emailHeader=0x7f080085;
@@ -1350,9 +1350,10 @@ containing a value of this type.
         public static final int emptyFreqs=0x7f0800d1;
         public static final int emptyGroupInfo=0x7f0800dc;
         public static final int emptyGroups=0x7f0800d8;
-        public static final int emptyInfo=0x7f080121;
+        public static final int emptyInfo=0x7f080122;
         public static final int emptyRecs=0x7f0800d4;
         public static final int enableWhatsApp=0x7f0800c3;
+        public static final int enterSpeedContact=0x7f08011b;
         public static final int error=0x7f080056;
         public static final int eventsHeader=0x7f080081;
         public static final int facebookHeader=0x7f0800bc;
@@ -1458,27 +1459,27 @@ containing a value of this type.
         public static final int phoneHeader=0x7f080086;
         public static final int pickView=0x7f080111;
         public static final int playstore=0x7f08010e;
-        public static final int pref_default_display_name=0x7f080126;
-        public static final int pref_description_social_recommendations=0x7f080124;
+        public static final int pref_default_display_name=0x7f080127;
+        public static final int pref_description_social_recommendations=0x7f080125;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f080128;
+        public static final int pref_header_data_sync=0x7f080129;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f080122;
+        public static final int pref_header_general=0x7f080123;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f08012b;
-        public static final int pref_ringtone_silent=0x7f08012e;
-        public static final int pref_title_add_friends_to_messages=0x7f080127;
-        public static final int pref_title_display_name=0x7f080125;
-        public static final int pref_title_new_message_notifications=0x7f08012c;
-        public static final int pref_title_ringtone=0x7f08012d;
-        public static final int pref_title_social_recommendations=0x7f080123;
-        public static final int pref_title_sync_frequency=0x7f080129;
-        public static final int pref_title_system_sync_settings=0x7f08012a;
-        public static final int pref_title_vibrate=0x7f08012f;
+        public static final int pref_header_notifications=0x7f08012c;
+        public static final int pref_ringtone_silent=0x7f08012f;
+        public static final int pref_title_add_friends_to_messages=0x7f080128;
+        public static final int pref_title_display_name=0x7f080126;
+        public static final int pref_title_new_message_notifications=0x7f08012d;
+        public static final int pref_title_ringtone=0x7f08012e;
+        public static final int pref_title_social_recommendations=0x7f080124;
+        public static final int pref_title_sync_frequency=0x7f08012a;
+        public static final int pref_title_system_sync_settings=0x7f08012b;
+        public static final int pref_title_vibrate=0x7f080130;
         public static final int profile=0x7f08009d;
         public static final int radio=0x7f0800a5;
         public static final int rare=0x7f080104;
@@ -1495,7 +1496,7 @@ containing a value of this type.
         public static final int remContact=0x7f0800f6;
         public static final int remFav=0x7f080089;
         public static final int removeAds=0x7f0800ba;
-        public static final int removeSpeedDial=0x7f08011c;
+        public static final int removeSpeedDial=0x7f08011d;
         public static final int sMAbout=0x7f080060;
         public static final int sMFacebook=0x7f08005e;
         public static final int sMGoogleContacts=0x7f08005c;
@@ -1561,7 +1562,7 @@ containing a value of this type.
         public static final int unknown=0x7f0800e8;
         public static final int username=0x7f080097;
         public static final int usesContakts=0x7f080096;
-        public static final int voicemail=0x7f08011e;
+        public static final int voicemail=0x7f08011f;
         public static final int website=0x7f0800b1;
         public static final int websiteHeader=0x7f080084;
         public static final int welcomeInfo=0x7f080049;

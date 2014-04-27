@@ -285,6 +285,8 @@
     <string name="toSpeedDial">a la marcación rápida</string>
     <string name="title_activity_edit_speed">EditSpeedActivity</string>
     <string name="noContactAssigned">No hay contacto asignado</string>
+	<string name="enterSpeedContact">Toque aquí para seleccionar un contacto de marcación rápida</string>
+    
     
     <string name="editSpeedDial">Editar marcado rápido</string>
     <string name="removeSpeedDial">Eliminar de marcación rápida</string>

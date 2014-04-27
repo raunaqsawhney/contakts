@@ -45,7 +45,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChooseContactActivity extends Activity implements OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener {
+public class ChooseContactActivity extends Activity implements OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	private SlidingMenu menu;
 	private ListView navListView;
@@ -106,7 +106,6 @@ public class ChooseContactActivity extends Activity implements OnQueryTextListen
     	
 		setupGlobalPrefs();
 		setupActionBar();
-		setupSlidingMenu();
 		
 		showContacts();
 	}
@@ -151,61 +150,6 @@ public class ChooseContactActivity extends Activity implements OnQueryTextListen
         
 	}
 
-	private void setupSlidingMenu() {
-		
-		// Set up Sliding Menu
-        menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setShadowWidth(8);
-        menu.setFadeDegree(0.8f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setBehindWidth(800);
-        menu.setShadowDrawable(R.drawable.shadow);
-        menu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menu.setFadeDegree(0.35f);
-        menu.setMenu(R.layout.menu_frame);
-        navListView = (ListView) findViewById(R.id.nav_menu);
-      
-        final String[] nav = { getString(R.string.sMfavourites),
-        		getString(R.string.sMRecent),
-				getString(R.string.sMMostContacted),
-				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
-				getString(R.string.sMGroups),
-				getString(R.string.sMShuffle),
-				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings)
-		};
-		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
-				R.drawable.ic_nav_recent,
-				R.drawable.ic_nav_popular,
-				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
-				R.drawable.ic_nav_group,
-				R.drawable.ic_shuffle,
-				R.drawable.ic_nav_fb,
-				R.drawable.ic_nav_settings
-		};
-
-		List<RowItem> rowItems;
-		
-		rowItems = new ArrayList<RowItem>();
-        for (int i = 0; i < nav.length; i++) {
-            RowItem item = new RowItem(navPhoto[i], nav[i]);
-            rowItems.add(item);
-        }
-		
-		CustomListViewAdapter listAdapter = new CustomListViewAdapter(this,
-                R.layout.nav_item_layout, rowItems);
-		
-		navListView.setAdapter(listAdapter);
-		navListView.setOnItemClickListener(this);			
-	}
-	
-	
 	
 	private void showContacts() {
 		// Set up the ListView for contacts to be displayed
@@ -331,8 +275,6 @@ public class ChooseContactActivity extends Activity implements OnQueryTextListen
                 0);
         	
 	    
-        View header = getLayoutInflater().inflate(R.layout.phone_header, null);
-	    contactList.addHeaderView(header, null, false);
 	    getLoaderManager().initLoader(0, null, this);
         contactList.setAdapter(mAdapter);
 	}
@@ -412,42 +354,6 @@ public class ChooseContactActivity extends Activity implements OnQueryTextListen
 		return true;
 	}
 
-
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		
-		long selected = (navListView.getItemIdAtPosition(position));
-		
-		if (selected == 0) {
-		   	Intent favIntent = new Intent(ChooseContactActivity.this, FavActivity.class);
-		   	ChooseContactActivity.this.startActivity(favIntent);
-	   } else if (selected == 1) {
-		   Intent recIntent = new Intent(ChooseContactActivity.this, RecentActivity.class);
-		   ChooseContactActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(ChooseContactActivity.this, FrequentActivity.class);
-	   		ChooseContactActivity.this.startActivity(freqIntent);
-	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(ChooseContactActivity.this, MainActivity.class);
-	   		ChooseContactActivity.this.startActivity(phoneIntent);
-	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(ChooseContactActivity.this, GoogleActivity.class);
-	   		ChooseContactActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
-		   	Intent fbIntent = new Intent(ChooseContactActivity.this, GroupActivity.class);
-		   	ChooseContactActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
-		   	Intent loIntent = new Intent(ChooseContactActivity.this, ShuffleActivity.class);
-		   	ChooseContactActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
-		   	Intent iIntent = new Intent(ChooseContactActivity.this, FBActivity.class);
-		   	ChooseContactActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
-		   	Intent iIntent = new Intent(ChooseContactActivity.this, LoginActivity.class);
-		   	ChooseContactActivity.this.startActivity(iIntent);
-	   } 
-	}
 	
 	  @Override
 	  public void onResume() {

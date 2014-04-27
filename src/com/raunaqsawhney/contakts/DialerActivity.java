@@ -43,7 +43,9 @@ import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -314,7 +316,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		                }     
 		                
 		        		contactInfo.setText(Html.fromHtml(name + " " + "<b>" + type + "</b>"));
-
+		        		Animation mAnim = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+		        		contactInfo.startAnimation(mAnim);
 		        	}
 	        	} catch (IllegalArgumentException e) {
 	        		e.printStackTrace();
@@ -323,8 +326,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        	}
 	        } 
 	    });
-	    
-	    
+	    	    
 	    oneBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override

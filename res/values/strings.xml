@@ -261,6 +261,7 @@
     <string name="toSpeedDial">to speed dial</string>
     <string name="title_activity_edit_speed">EditSpeedActivity</string>
     <string name="noContactAssigned">No contact assigned</string>
+    <string name="enterSpeedContact">Tap here to select a speed dial contact</string>
     
     <string name="editSpeedDial">Edit speed dial</string>
     <string name="removeSpeedDial">Remove from speed dial</string>

@@ -423,12 +423,12 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				}
 				
 				edit.putString("theme", themeColor);
-				edit.apply(); 
+				edit.apply();
 								
-			   	Intent goBackToFav = new Intent(LoginActivity.this, LoginActivity.class);
-			   	goBackToFav.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				LoginActivity.this.startActivity(goBackToFav);	
-				finish();
+				Intent i = getBaseContext().getPackageManager()
+			             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
 			}
 		});
 		
@@ -475,9 +475,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 					//dismissing the dialog when the user makes a selection.
 					dialog.dismiss();
 					
+					
 					Intent i = getBaseContext().getPackageManager()
 				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
 					}
 				});

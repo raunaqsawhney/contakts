@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -131,112 +132,167 @@ public class EditSpeedActivity extends Activity {
 		String eightNumber = prefs.getString("eightBtn", null);
 		String nineNumber = prefs.getString("nineBtn", null);
 		
+		
 		try {
-			oneNameTV.setText(oneName);
+			if (oneName.length() < 1)
+				oneNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				oneNameTV.setText(oneName);
 		} catch (NullPointerException e) {
-			oneName = getString(R.string.noContactAssigned);
+			oneNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			twoNameTV.setText(twoName);
+			if (twoName.length() < 1)
+				twoNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				twoNameTV.setText(twoName);
 		} catch (NullPointerException e) {
-			twoName = getString(R.string.noContactAssigned);
+			twoNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			threeNameTV.setText(threeName);
+			if (threeName.length() < 1) 
+				threeNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				threeNameTV.setText(threeName);
 		} catch (NullPointerException e) {
-			threeName = getString(R.string.noContactAssigned);
+			threeNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			fourNameTV.setText(fourName);
+			if (fourName.length() < 1)
+				fourNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				fourNameTV.setText(fourName);
 		} catch (NullPointerException e) {
-			fourName = getString(R.string.noContactAssigned);
+			fourNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			fiveNameTV.setText(fiveName);
+			if (fiveName.length() < 1)
+				fiveNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				fiveNameTV.setText(fiveName);
 		} catch (NullPointerException e) {
-			fiveName = getString(R.string.noContactAssigned);
+			fiveNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			sixNameTV.setText(sixName);
+			if (sixName.length() < 1)
+				sixNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				sixNameTV.setText(sixName);
 		} catch (NullPointerException e) {
-			sixName = getString(R.string.noContactAssigned);
+			sixNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			sevenNameTV.setText(sevenName);
+			if (sevenName.length() < 1)
+				sevenNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				sevenNameTV.setText(sevenName);
 		} catch (NullPointerException e) {
-			sevenName = getString(R.string.noContactAssigned);
+			sevenNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			eightNameTV.setText(eightName);
+			if (eightName.length() < 1)
+				eightNameTV.setText(getString(R.string.noContactAssigned));
+			else
+				eightNameTV.setText(eightName);
 		} catch (NullPointerException e) {
-			eightName = getString(R.string.noContactAssigned);
+			eightNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			nineNameTV.setText(nineName);
+			if (nineName.length() < 1) 
+				nineNameTV.setText(getString(R.string.noContactAssigned));
+			else 
+				nineNameTV.setText(nineName);
 		} catch (NullPointerException e) {
-			nineName = getString(R.string.noContactAssigned);
+			nineNameTV.setText(getString(R.string.noContactAssigned));
 		}
 		
 		try {
-			oneNumberTV.setText(oneNumber);
+			if (oneNumber.length() < 1)
+				oneNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				oneNumberTV.setText(oneNumber);
 		} catch (NullPointerException e) {
-			oneNumber = "";
+			oneNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			twoNumberTV.setText(twoNumber);
+			if (twoNumber.length() < 1 )
+				twoNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				twoNumberTV.setText(twoNumber);
 		} catch (NullPointerException e) {
-			twoNumber = "";
+			twoNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			threeNumberTV.setText(threeNumber);
+			if (threeNumber.length() < 1 )
+				threeNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				threeNumberTV.setText(threeNumber);
 		} catch (NullPointerException e) {
-			threeNumber = "";
+			threeNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			fourNumberTV.setText(fourNumber);
+			if (fourNumber.length() < 1)
+				fourNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				fourNumberTV.setText(fourNumber);
 		} catch (NullPointerException e) {
-			fourNumber = "";
+			fourNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			fiveNumberTV.setText(fiveNumber);
+			if (fiveNumber.length() < 1)
+				fiveNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				fiveNumberTV.setText(fiveNumber);
 		} catch (NullPointerException e) {
-			fiveNumber = "";
+			fiveNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			sixNumberTV.setText(sixNumber);
+			if (sixNumber.length() < 1)
+				sixNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				sixNumberTV.setText(sixNumber);
 		} catch (NullPointerException e) {
-			sixNumber = "";
+			sixNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			sevenNumberTV.setText(sevenNumber);
+			if (sevenNumber.length() < 1)
+				sevenNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				sevenNumberTV.setText(sevenNumber);
 		} catch (NullPointerException e) {
-			sevenNumber = "";
+			sevenNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			eightNumberTV.setText(eightNumber);
+			if (eightNumber.length() < 1)
+				eightNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				eightNumberTV.setText(eightNumber);
 		} catch (NullPointerException e) {
-			eightNumber = "";
+			eightNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		try {
-			nineNumberTV.setText(nineNumber);
+			if (nineNumber.length() < 1)
+				nineNumberTV.setText(getString(R.string.enterSpeedContact));
+			else 
+				nineNumberTV.setText(nineNumber);
 		} catch (NullPointerException e) {
-			nineNumber = "";
+			nineNumberTV.setText(getString(R.string.enterSpeedContact));
 		}
 		
 		oneLayout.setOnClickListener(new View.OnClickListener() {
@@ -245,8 +301,9 @@ public class EditSpeedActivity extends Activity {
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
 
-				
-				if (oneNameTV.length() < 1 ) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+				if (oneNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned))) {
 		    		changeSpeedDial(1); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -273,8 +330,9 @@ public class EditSpeedActivity extends Activity {
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
 
-				
-				if (twoNameTV.length() < 1 ) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+				if (twoNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned))) {
 		    		changeSpeedDial(2); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -301,8 +359,9 @@ public class EditSpeedActivity extends Activity {
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
 
-				
-				if (threeNameTV.length() < 1 ) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+				if (threeNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned))) {
 		    		changeSpeedDial(3); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -329,8 +388,9 @@ public class EditSpeedActivity extends Activity {
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
 
-				
-				if (fourNameTV.length() < 1 ) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+				if (fourNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned)) ) {
 		    		changeSpeedDial(4); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -356,9 +416,10 @@ public class EditSpeedActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
 				
-				if (fiveNameTV.length() < 1 ) {
+				if (fiveNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned)) ) {
 		    		changeSpeedDial(5); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -384,9 +445,10 @@ public class EditSpeedActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
 				
-				if (sixNameTV.length() < 1 ) {
+				if (sixNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned)) ) {
 		    		changeSpeedDial(6); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -412,9 +474,10 @@ public class EditSpeedActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
 				
-				if (sevenNameTV.length() < 1 ) {
+				if (sevenNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned))) {
 		    		changeSpeedDial(7); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -441,8 +504,9 @@ public class EditSpeedActivity extends Activity {
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
 
-				
-				if (eightNameTV.length() < 1 ) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+				if (eightNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned))) {
 		    		changeSpeedDial(8); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
@@ -469,8 +533,9 @@ public class EditSpeedActivity extends Activity {
 			public void onClick(View v) {
 				final CharSequence[] items = {getString(R.string.changeSpeedDial), getString(R.string.removeSpeedDial)};
 
-				
-				if (nineNameTV.length() < 1 ) {
+				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+				if (nineNameTV.getText().toString().equalsIgnoreCase(getString(R.string.noContactAssigned))) {
 		    		changeSpeedDial(9); 
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(EditSpeedActivity.this);
