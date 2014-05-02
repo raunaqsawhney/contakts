@@ -735,7 +735,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
@@ -746,7 +745,6 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
@@ -1107,31 +1105,28 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-		if (selected == 0) {
+	if (selected == 0) {
 		   	Intent favIntent = new Intent(FriendDetailActivity.this, FavActivity.class);
 		   	FriendDetailActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
 		   Intent recIntent = new Intent(FriendDetailActivity.this, RecentActivity.class);
 		   FriendDetailActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(FriendDetailActivity.this, FrequentActivity.class);
+	   		Intent freqIntent = new Intent(FriendDetailActivity.this, GraphActivity.class);
 	   		FriendDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(FriendDetailActivity.this, MainActivity.class);
 	   		FriendDetailActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(FriendDetailActivity.this, GoogleActivity.class);
-	   		FriendDetailActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
 		   	Intent fbIntent = new Intent(FriendDetailActivity.this, GroupActivity.class);
 		   	FriendDetailActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 5) {
 		   	Intent loIntent = new Intent(FriendDetailActivity.this, ShuffleActivity.class);
 		   	FriendDetailActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
+	   }  else if (selected == 6) {
 		   	Intent iIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
 		   	FriendDetailActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
+	   }   else if (selected == 7) {
 		   	Intent iIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
 		   	FriendDetailActivity.this.startActivity(iIntent);
 	   }

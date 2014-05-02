@@ -216,7 +216,6 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
@@ -227,7 +226,6 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
@@ -486,28 +484,24 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		   Intent recIntent = new Intent(RecentActivity.this, RecentActivity.class);
 		   RecentActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(RecentActivity.this, FrequentActivity.class);
+	   		Intent freqIntent = new Intent(RecentActivity.this, GraphActivity.class);
 	   		RecentActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(RecentActivity.this, MainActivity.class);
 	   		RecentActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(RecentActivity.this, GoogleActivity.class);
-	   		RecentActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
 		   	Intent fbIntent = new Intent(RecentActivity.this, GroupActivity.class);
 		   	RecentActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 5) {
 		   	Intent loIntent = new Intent(RecentActivity.this, ShuffleActivity.class);
 		   	RecentActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
+	   }  else if (selected == 6) {
 		   	Intent iIntent = new Intent(RecentActivity.this, FBActivity.class);
 		   	RecentActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
+	   }   else if (selected == 7) {
 		   	Intent iIntent = new Intent(RecentActivity.this, LoginActivity.class);
 		   	RecentActivity.this.startActivity(iIntent);
 	   }
-		
 	}
 	
 	@Override

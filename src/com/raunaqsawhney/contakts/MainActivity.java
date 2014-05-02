@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         // Initialize the loader for background activity
 	    
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -311,7 +311,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
@@ -322,7 +321,6 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
@@ -866,24 +864,21 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		   Intent recIntent = new Intent(MainActivity.this, RecentActivity.class);
 		   MainActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(MainActivity.this, FrequentActivity.class);
+	   		Intent freqIntent = new Intent(MainActivity.this, GraphActivity.class);
 	   		MainActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(MainActivity.this, MainActivity.class);
 	   		MainActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(MainActivity.this, GoogleActivity.class);
-	   		MainActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
 		   	Intent fbIntent = new Intent(MainActivity.this, GroupActivity.class);
 		   	MainActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 5) {
 		   	Intent loIntent = new Intent(MainActivity.this, ShuffleActivity.class);
 		   	MainActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
+	   }  else if (selected == 6) {
 		   	Intent iIntent = new Intent(MainActivity.this, FBActivity.class);
 		   	MainActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
+	   }   else if (selected == 7) {
 		   	Intent iIntent = new Intent(MainActivity.this, LoginActivity.class);
 		   	MainActivity.this.startActivity(iIntent);
 	   }
@@ -924,6 +919,14 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        	try {
 		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
 		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
+	        case R.id.menu_allcontacts:
+	        	try {
+	        		Intent googleIntent = new Intent(MainActivity.this, GoogleActivity.class);
+	    	   		MainActivity.this.startActivity(googleIntent);
 		    		return true;
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();

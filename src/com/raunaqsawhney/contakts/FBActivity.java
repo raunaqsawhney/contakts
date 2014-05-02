@@ -105,7 +105,7 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 		uiHelper = new UiLifecycleHelper(this, null);
 	    uiHelper.onCreate(savedInstanceState);
 		
-	    initializePayments();
+	    //initializePayments();
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
@@ -324,7 +324,6 @@ private void initializePayments() {
         		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
@@ -335,7 +334,6 @@ private void initializePayments() {
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
@@ -471,31 +469,28 @@ private void initializePayments() {
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-		if (selected == 0) {
+	if (selected == 0) {
 		   	Intent favIntent = new Intent(FBActivity.this, FavActivity.class);
 		   	FBActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
 		   Intent recIntent = new Intent(FBActivity.this, RecentActivity.class);
 		   FBActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(FBActivity.this, FrequentActivity.class);
+	   		Intent freqIntent = new Intent(FBActivity.this, GraphActivity.class);
 	   		FBActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(FBActivity.this, MainActivity.class);
 	   		FBActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(FBActivity.this, GoogleActivity.class);
-	   		FBActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
 		   	Intent fbIntent = new Intent(FBActivity.this, GroupActivity.class);
 		   	FBActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 5) {
 		   	Intent loIntent = new Intent(FBActivity.this, ShuffleActivity.class);
 		   	FBActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
+	   }  else if (selected == 6) {
 		   	Intent iIntent = new Intent(FBActivity.this, FBActivity.class);
 		   	FBActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
+	   }   else if (selected == 7) {
 		   	Intent iIntent = new Intent(FBActivity.this, LoginActivity.class);
 		   	FBActivity.this.startActivity(iIntent);
 	   }

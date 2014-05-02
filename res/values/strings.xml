@@ -102,7 +102,7 @@
     <!-- END OF FB ACTIVITY -->
 
     <string name="freqDialogHeader">Frequent Contacts</string>
-    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted.\n\nYou can also visualize data using graphs by tapping on the graph icon at the top.</string>
+    <string name="freqDialogText">Here you can see all the contacts that are most frequently contacted.</string>
     <string name="mostContactedHeader">Most Contacted</string>
 
     <!-- END OF FREQ ACTIVITY -->
@@ -137,7 +137,7 @@
     <!-- END OF FRIEND DETAIL ACTIVITY -->
 
     <string name="graphDialogHeader">Contact Graphs</string>
-    <string name="graphDialogText">Here you can visualize the top 10 people you connect with most, via phone, messaging, and email, combined to give a raw score listed next to each contact.</string>
+    <string name="graphDialogText">Visualize the top 10 people you connect with most, via phone, messaging, and email, combined to give a raw score.\n\n\nYou can also list all frequent contacts by tapping on the list icon at the top.</string>
 
     <!-- END OF GRAPH ACTIVITY -->
 

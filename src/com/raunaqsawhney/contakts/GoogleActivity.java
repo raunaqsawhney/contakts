@@ -98,7 +98,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setContentView(R.layout.activity_main);
         
 
-        initializePayments();
+        //initializePayments();
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -303,7 +303,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
@@ -314,7 +313,6 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
@@ -838,7 +836,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-         getMenuInflater().inflate(R.menu.options_menu, menu);
+         getMenuInflater().inflate(R.menu.google, menu);
     	
         // Set up the Action Bar menu Search
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
@@ -870,6 +868,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	}
+	        case R.id.menu_phonecontacts:
+	        	Intent phoneIntent = new Intent(GoogleActivity.this, MainActivity.class);
+		   		GoogleActivity.this.startActivity(phoneIntent);
+		   		return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -881,31 +883,28 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-		if (selected == 0) {
+	if (selected == 0) {
 		   	Intent favIntent = new Intent(GoogleActivity.this, FavActivity.class);
 		   	GoogleActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
 		   Intent recIntent = new Intent(GoogleActivity.this, RecentActivity.class);
 		   GoogleActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(GoogleActivity.this, FrequentActivity.class);
+	   		Intent freqIntent = new Intent(GoogleActivity.this, GraphActivity.class);
 	   		GoogleActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(GoogleActivity.this, MainActivity.class);
 	   		GoogleActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(GoogleActivity.this, GoogleActivity.class);
-	   		GoogleActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
 		   	Intent fbIntent = new Intent(GoogleActivity.this, GroupActivity.class);
 		   	GoogleActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 5) {
 		   	Intent loIntent = new Intent(GoogleActivity.this, ShuffleActivity.class);
 		   	GoogleActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
+	   }  else if (selected == 6) {
 		   	Intent iIntent = new Intent(GoogleActivity.this, FBActivity.class);
 		   	GoogleActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
+	   }   else if (selected == 7) {
 		   	Intent iIntent = new Intent(GoogleActivity.this, LoginActivity.class);
 		   	GoogleActivity.this.startActivity(iIntent);
 	   }

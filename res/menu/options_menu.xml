@@ -19,6 +19,12 @@
 	    android:id="@+id/menu_add"
 	    android:title="Add Contact"
 	    android:icon="@drawable/ic_action_add_person"
-	    android:showAsAction="always" />
+	    android:showAsAction="never" />
+	
+	<item
+	    android:id="@+id/menu_allcontacts"
+	    android:title="@string/sMGoogleContacts"
+	    android:icon="@drawable/ic_allcontacts"
+	    android:showAsAction="never"/>
 
 </menu>

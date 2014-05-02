@@ -148,7 +148,7 @@
 	<!-- END OF FRIEND DETAIL ACTIVITY -->
 	
 	<string name="graphDialogHeader">Contactar Gráficos</string>
-	<string name="graphDialogText">Aquí usted puede ver visualmente los 10 la gente se conecta con la mayoría, a través del teléfono, la mensajería y el correo electrónico, se combinaron para dar un puntaje bruto que aparece junto a cada contacto.</string>
+	<string name="graphDialogText">Visualice los 10 la gente se conecta con la mayor parte, por teléfono, mensajería y correo electrónico, se combinaron para dar una puntuación cruda.\n\nNo se puede enumerar todos los contactos frecuentes pulsando en el icono de lista en la parte superior.</string>
 
 	
 	<!-- END OF GRAPH ACTIVITY -->

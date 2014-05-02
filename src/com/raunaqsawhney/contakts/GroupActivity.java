@@ -89,7 +89,7 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group);
 		
-		initializePayments();
+		//initializePayments();
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -305,7 +305,6 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
         		getString(R.string.sMRecent),
 				getString(R.string.sMMostContacted),
 				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
 				getString(R.string.sMGroups),
 				getString(R.string.sMShuffle),
 				getString(R.string.sMFacebook),
@@ -316,7 +315,6 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
-				R.drawable.ic_allcontacts,
 				R.drawable.ic_nav_group,
 				R.drawable.ic_shuffle,
 				R.drawable.ic_nav_fb,
@@ -585,34 +583,31 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-		if (selected == 0) {
+	if (selected == 0) {
 		   	Intent favIntent = new Intent(GroupActivity.this, FavActivity.class);
 		   	GroupActivity.this.startActivity(favIntent);
 	   } else if (selected == 1) {
 		   Intent recIntent = new Intent(GroupActivity.this, RecentActivity.class);
 		   GroupActivity.this.startActivity(recIntent);
 	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(GroupActivity.this, FrequentActivity.class);
+	   		Intent freqIntent = new Intent(GroupActivity.this, GraphActivity.class);
 	   		GroupActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
 	   		Intent phoneIntent = new Intent(GroupActivity.this, MainActivity.class);
 	   		GroupActivity.this.startActivity(phoneIntent);
 	   } else if (selected == 4) {
-	   		Intent googleIntent = new Intent(GroupActivity.this, GoogleActivity.class);
-	   		GroupActivity.this.startActivity(googleIntent);
-	   } else if (selected == 5) {
 		   	Intent fbIntent = new Intent(GroupActivity.this, GroupActivity.class);
 		   	GroupActivity.this.startActivity(fbIntent);
-	   }  else if (selected == 6) {
+	   }  else if (selected == 5) {
 		   	Intent loIntent = new Intent(GroupActivity.this, ShuffleActivity.class);
 		   	GroupActivity.this.startActivity(loIntent);
-	   }  else if (selected == 7) {
+	   }  else if (selected == 6) {
 		   	Intent iIntent = new Intent(GroupActivity.this, FBActivity.class);
 		   	GroupActivity.this.startActivity(iIntent);
-	   }   else if (selected == 8) {
+	   }   else if (selected == 7) {
 		   	Intent iIntent = new Intent(GroupActivity.this, LoginActivity.class);
 		   	GroupActivity.this.startActivity(iIntent);
-	   } 
+	   }
 	}
 	
 	private Boolean checkOnlineStatus() {

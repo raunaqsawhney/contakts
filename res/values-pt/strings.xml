@@ -148,7 +148,7 @@
 	<!-- END OF FRIEND DETAIL ACTIVITY -->
 	
 	<string name="graphDialogHeader">Gráficos de Contato</string>
-	<string name="graphDialogText">Aqui você pode ver visualmente as 10 pessoas que você se conectar com a maioria, através de telefone, mensagens, e-mail, combinados para dar uma pontuação bruta listado ao lado de cada contato.</string>
+	<string name="graphDialogText">Visualize as 10 pessoas que você se conectar com a maioria, através de telefone, mensagens, e-mail, combinados para dar um escore bruto.\n\nVocê também pode listar todos os contatos freqüentes tocando no ícone de lista no topo.</string>
 	
 	<!-- END OF GRAPH ACTIVITY -->
 	
