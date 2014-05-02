@@ -29,9 +29,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,8 +92,9 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fav_activity);
-
-        //initializePayments();
+			
+		//initializePayments();
+		
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();

@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -98,8 +99,13 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         setContentView(R.layout.activity_main);
         
 
-        //initializePayments();
-        setupGlobalPrefs();
+        TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String uid = tManager.getDeviceId();
+        
+		if (!uid.equalsIgnoreCase("358239051659912")) // This is developer device uid
+			initializePayments();
+		
+		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
         initializeLoader();

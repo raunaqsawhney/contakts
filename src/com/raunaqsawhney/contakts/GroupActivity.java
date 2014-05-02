@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
@@ -89,7 +90,12 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group);
 		
-		//initializePayments();
+        TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String uid = tManager.getDeviceId();
+        
+		if (!uid.equalsIgnoreCase("358239051659912")) // This is developer device uid
+			initializePayments();
+		
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();

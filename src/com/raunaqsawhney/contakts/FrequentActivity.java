@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
@@ -100,7 +101,12 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_frequent);
 		
-		//initializePayments();
+        TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String uid = tManager.getDeviceId();
+        
+		if (!uid.equalsIgnoreCase("358239051659912")) // This is developer device uid
+			initializePayments();
+		
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();

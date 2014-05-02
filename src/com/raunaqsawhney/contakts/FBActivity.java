@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -105,7 +106,12 @@ public class FBActivity extends Activity implements OnItemClickListener, OnQuery
 		uiHelper = new UiLifecycleHelper(this, null);
 	    uiHelper.onCreate(savedInstanceState);
 		
-	    //initializePayments();
+        TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String uid = tManager.getDeviceId();
+        
+		if (!uid.equalsIgnoreCase("358239051659912")) // This is developer device uid
+			initializePayments();
+		
 		setupGlobalPrefs();
 		setupActionBar();
 		setupSlidingMenu();
