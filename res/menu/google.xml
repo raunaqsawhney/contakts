@@ -13,18 +13,18 @@
 	    android:id="@+id/menu_dial"
 	    android:title="Dial"
 	    android:icon="@drawable/ic_menu_call"
-	    android:showAsAction="always" />
+	    android:showAsAction="ifRoom|collapseActionView" />
 	
 	<item 
 	    android:id="@+id/menu_add"
 	    android:title="Add Contact"
 	    android:icon="@drawable/ic_action_add_person"
-	    android:showAsAction="never" />
+	    android:showAsAction="ifRoom|collapseActionView" />
 	
 	<item
 	    android:id="@+id/menu_phonecontacts"
 	    android:title="@string/sMPhoneContacts"
 	    android:icon="@drawable/ic_allcontacts"
-	    android:showAsAction="never"/>
+	    android:showAsAction="ifRoom|collapseActionView"/>
 
 </menu>

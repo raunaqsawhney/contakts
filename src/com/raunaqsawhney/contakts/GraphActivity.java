@@ -98,9 +98,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
         
-        firstRunDoneGraph = prefs.getBoolean("firstRunDoneGraph", false);
+        firstRunDoneGraph = prefs.getBoolean("firstRunDoneGraph1", false);
         if (!firstRunDoneGraph) {
-        	edit.putBoolean("firstRunDoneGraph", true);
+        	edit.putBoolean("firstRunDoneGraph1", true);
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
@@ -319,6 +319,16 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	        case R.id.menu_list:
         		Intent freqIntent = new Intent(GraphActivity.this, FrequentActivity.class);
     		   	GraphActivity.this.startActivity(freqIntent);
+	            return true; 
+	            
+	        case R.id.menu_add:
+				try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
 	            return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);

@@ -423,10 +423,33 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				edit.putString("theme", themeColor);
 				edit.apply();
 								
-				Intent i = getBaseContext().getPackageManager()
-			             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);
+				Intent firstRunDoneIntent = null;
+	        	Integer which = preferences.getInt("startView", 0);
+
+				
+	        	if (which == 0) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, FavActivity.class);
+	        	} else if (which == 1) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, RecentActivity.class);
+	        	} else if (which == 2) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, GraphActivity.class);
+	        	} else if (which == 3) { 
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, MainActivity.class);
+	        	} else if (which == 4) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, GoogleActivity.class);
+	        	} else if (which == 5) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, GroupActivity.class);
+	        	} else if (which == 6 ) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, ShuffleActivity.class);
+	        	} else if (which == 7) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, FBActivity.class);
+	        	} else if (which == 8) {
+	        		firstRunDoneIntent = new Intent(LoginActivity.this, DialerActivity.class);
+	        	}
+	        	
+	        	firstRunDoneIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	        	LoginActivity.this.startActivity(firstRunDoneIntent);
+				finish();
 			}
 		});
 		
@@ -472,12 +495,32 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 	
 					//dismissing the dialog when the user makes a selection.
 					dialog.dismiss();
-					
-					
-					Intent i = getBaseContext().getPackageManager()
-				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(i);
+	
+					Intent firstRunDoneIntent = null;
+		        	
+		        	if (which == 0) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, FavActivity.class);
+		        	} else if (which == 1) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, RecentActivity.class);
+		        	} else if (which == 2) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, GraphActivity.class);
+		        	} else if (which == 3) { 
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, MainActivity.class);
+		        	} else if (which == 4) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, GoogleActivity.class);
+		        	} else if (which == 5) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, GroupActivity.class);
+		        	} else if (which == 6 ) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, ShuffleActivity.class);
+		        	} else if (which == 7) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, FBActivity.class);
+		        	} else if (which == 8) {
+		        		firstRunDoneIntent = new Intent(LoginActivity.this, DialerActivity.class);
+		        	}
+		        	
+		        	firstRunDoneIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		        	LoginActivity.this.startActivity(firstRunDoneIntent);
+		        	finish();
 					}
 				});
 				AlertDialog viewPickerDialog = viewPicker.create();		

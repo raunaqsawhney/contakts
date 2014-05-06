@@ -7,6 +7,12 @@
 	    android:showAsAction="always" />
     
     <item 
+	    android:id="@+id/menu_add"
+	    android:title="Add Contact"
+	    android:icon="@drawable/ic_action_add_person"
+	    android:showAsAction="always" />
+    
+    <item 
 	    android:id="@+id/menu_list"
 	    android:title="List"
 	    android:icon="@drawable/ic_list"

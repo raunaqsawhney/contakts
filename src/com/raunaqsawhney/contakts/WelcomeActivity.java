@@ -65,7 +65,7 @@ public class WelcomeActivity extends Activity {
         	} else if (startView == 1) {
         		firstRunDoneIntent = new Intent(WelcomeActivity.this, RecentActivity.class);
         	} else if (startView == 2) {
-        		firstRunDoneIntent = new Intent(WelcomeActivity.this, FrequentActivity.class);
+        		firstRunDoneIntent = new Intent(WelcomeActivity.this, GraphActivity.class);
         	} else if (startView == 3) { 
         		firstRunDoneIntent = new Intent(WelcomeActivity.this, MainActivity.class);
         	} else if (startView == 4) {

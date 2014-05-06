@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.raunaqsawhney.contakts"
-    android:versionCode="28"
-    android:versionName="1.82" >
-
+    android:versionCode="29"
+    android:versionName="1.83">
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
@@ -59,11 +58,11 @@
         <activity
             android:name="com.raunaqsawhney.contakts.ContactDetailActivity"
             android:label=""
-            android:parentActivityName="com.raunaqsawhney.contakts.FavActivity"
+            android:parentActivityName="com.raunaqsawhney.contakts.MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.raunaqsawhney.contakts.FavActivity" />
+                android:value="com.raunaqsawhney.contakts.MainActivity" />
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
@@ -203,6 +202,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.raunaqsawhney.contakts.DialerActivity" />
         </activity>
+        
+        <activity android:name="com.uservoice.uservoicesdk.activity.PortalActivity" />
+		<activity android:name="com.uservoice.uservoicesdk.activity.ForumActivity" /> 
+		<activity android:name="com.uservoice.uservoicesdk.activity.ArticleActivity" />
+		<activity android:name="com.uservoice.uservoicesdk.activity.TopicActivity" />
+		<activity android:name="com.uservoice.uservoicesdk.activity.ContactActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
+		<activity android:name="com.uservoice.uservoicesdk.activity.PostIdeaActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 
 </manifest>

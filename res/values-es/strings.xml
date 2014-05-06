@@ -5,7 +5,7 @@
     <string name="contact">Contacto</string>
     <string name="action_settings">Configuración</string>
     <string name="hello_world">Hello world!</string>
-    <string name="search_hint">Buscar Contactar</string>
+    <string name="search_hint">Encontrar contactos</string>
     <string name="title_activity_main">Contakts</string>
     <string name="title_activity_contact_detail">ContactDetailActivity</string>
     <string name="app_id">464083147027207</string>
@@ -296,4 +296,7 @@
     <string name="dialDialogHeader">Teclado telefónico</string>
     <string name="dialDialogText">Usted puede acelerar los contactos de marcación por largo pulsando sobre números en el teclado de marcación.\n\nPara editar números de marcado rápido existente, toque en el velocímetro en la parte superior</string>
 	
+    <string name="phoneDialogHeader">Contactos del Teléfono</string>
+	<string name="phoneDialogText">Se puede acceder a todos los contactos de la cuenta de Google pulsando sobre el icono de opciones extra-arriba a la derecha, y la selección de todos los contactos</string>
+    
 </resources>

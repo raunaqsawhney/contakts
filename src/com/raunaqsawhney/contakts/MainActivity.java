@@ -79,6 +79,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	
 	private SlidingMenu menu;
 	private ListView navListView;
+	
+	Boolean firstRunDonePhone;
 
 	IabHelper mHelper;
 	static final String ITEM_SKU = "com.raunaqsawhney.contakts.removeads";
@@ -201,6 +203,19 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		sortParam = prefs.getString("sortParam_main", " COLLATE LOCALIZED ASC");
 		
 		longPressAction = prefs.getString("longPress_main", "call_main");
+		
+		
+		firstRunDonePhone = prefs.getBoolean("firstRunDonePhone", false);
+        if (!firstRunDonePhone) {
+        	edit.putBoolean("firstRunDonePhone", true);
+        	edit.apply();
+        	
+        	new AlertDialog.Builder(this)
+		    .setTitle(getString(R.string.phoneDialogHeader))
+		    .setMessage(getString(R.string.phoneDialogText))
+		    .setNeutralButton(getString(R.string.okay), null)
+		    .show();
+        }
 		
         rateIt = prefs.getInt("rateIt", 0);
     	Integer doneRate = prefs.getInt("doneRate", 0);

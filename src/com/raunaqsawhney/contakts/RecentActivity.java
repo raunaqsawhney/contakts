@@ -542,6 +542,16 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	        		Toast.makeText(getApplicationContext(), getString(R.string.dialerNotFound), Toast.LENGTH_LONG).show();
 	        	}
 	            return true; 
+	            
+			case R.id.menu_add:
+				try {
+		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+		    		startActivity(addIntent);
+		    		return true;
+	        	} catch (ActivityNotFoundException e) {
+	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
+	        	}
+	            return true; 
 	        default:
 	            return super.onOptionsItemSelected(item);
 		}

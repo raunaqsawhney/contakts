@@ -6,7 +6,15 @@
 	    android:icon="@drawable/ic_menu_call"
 	    android:showAsAction="always" />
     
+    <item 
+	    android:id="@+id/menu_add"
+	    android:title="Add Contact"
+	    android:icon="@drawable/ic_action_add_person"
+	    android:showAsAction="always" />
+    
 	<item
-            android:id="@+id/menu_clearRecents"
-            android:title="@string/clearRecents"/>
+        android:id="@+id/menu_clearRecents"
+        android:title="@string/clearRecents"
+        android:icon="@drawable/ic_clearlog"
+        android:showAsAction="never"/>
 </menu>

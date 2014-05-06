@@ -5,7 +5,7 @@
     <string name="contact">Contato</string>
     <string name="action_settings">Configurações</string>
     <string name="hello_world">Hello world!</string>
-    <string name="search_hint">procurar contato</string>
+    <string name="search_hint">Encontrar contato</string>
     <string name="title_activity_main">Contakts</string>
     <string name="title_activity_contact_detail">ContactDetailActivity</string>
     <string name="app_id">464083147027207</string>
@@ -295,5 +295,6 @@
     <string name="dialDialogHeader">Almofada</string>
     <string name="dialDialogText">Você pode acelerar os contatos de discagem por longo pressionando os números no teclado de discagem.\n\nPara editar os números de discagem rápida existentes, toque no velocímetro no topo</string>
 	
-	
+    <string name="phoneDialogHeader">Contatos do Telefone</string>
+	<string name="phoneDialogText">Você pode acessar todos os seus contatos da conta Google tocando no ícone de opções extras superior direito, e selecionar todos os contatos</string>
 </resources>

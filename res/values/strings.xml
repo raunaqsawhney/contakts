@@ -271,4 +271,7 @@
     <string name="dialDialogHeader">Dialer</string>
     <string name="dialDialogText">You can speed dial contacts by long-pressing on numbers on the dialpad.\n\nTo edit existing speed dial numbers, tap on the Speedometer at the top</string>
 
+    <string name="phoneDialogHeader">Phone Contacts</string>
+    <string name="phoneDialogText">You can access all of your Google account contacts by tapping on the top-right extra options icon, and selecting All Contacts</string>
+    
 </resources>

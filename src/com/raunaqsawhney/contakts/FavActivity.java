@@ -39,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -563,6 +564,8 @@ public class FavActivity extends Activity implements LoaderManager.LoaderCallbac
     		   	FavActivity.this.startActivity(intent);
             }
         });
+		
+		
 	}
 	
 	@Override
