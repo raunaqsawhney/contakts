@@ -43,9 +43,7 @@ import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -88,6 +86,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dialer);
+		
 		
 		setupGlobalPrefs();
         setupActionBar();
@@ -192,7 +191,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        @SuppressWarnings("deprecation")
 			@Override
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
-	        	
 	        	
 	        	try {
 
@@ -1072,11 +1070,30 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	}
-	        	
+	        	return true;
 	        case R.id.menu_edit_speed:
 	        	Intent editSpeedIntent = new Intent(DialerActivity.this, EditSpeedActivity.class);
 			   	DialerActivity.this.startActivity(editSpeedIntent);
-			   	
+			   	return true;
+	        case R.id.menu_add_shortcut:
+	        
+	        	Intent shortcutIntent = new Intent(getApplicationContext(),
+    		            DialerActivity.class);
+    			
+    		    shortcutIntent.setAction(Intent.ACTION_MAIN);
+    	         
+    	        Intent intent = new Intent();
+    	        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+    	        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.dialerShortcut));
+        		
+    	        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(),
+    	                R.drawable.dialer_launcher));
+        		
+    	        
+    	        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+    	        getApplicationContext().sendBroadcast(intent);
+    	        
+	        return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

@@ -34,6 +34,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	
 	private SlidingMenu menu;
 	private ListView navListView;
+	String versionName = null;
 
 	private String fontTitle;
 
@@ -140,7 +141,6 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	
 	private void showInfo() {
 		
-		String versionName = null;
 		try {
 			versionName = getString(R.string.currentVersion)+ " "+ getApplicationContext().getPackageManager()
 				    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
@@ -180,7 +180,13 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	        	case 2:
 	        		Intent feedBackIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto","contaktsapp@gmail.com", null));
-	        		feedBackIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nFeedback sent from Contakts for Android.");
+	        		try {
+						feedBackIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nContakts v"+getApplicationContext().getPackageManager()
+							    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName + "\nOS: " + Build.VERSION.RELEASE + "\nManufacturer: " + android.os.Build.MANUFACTURER + "\nModel: " + android.os.Build.MODEL);
+					} catch (NameNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
     		    	startActivity(feedBackIntent);
 	        		break;
 	        	case 3:

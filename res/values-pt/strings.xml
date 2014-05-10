@@ -297,4 +297,9 @@
 	
     <string name="phoneDialogHeader">Contatos do Telefone</string>
 	<string name="phoneDialogText">Você pode acessar todos os seus contatos da conta Google tocando no ícone de opções extras superior direito, e selecionar todos os contatos</string>
+
+	<string name="dialer_shortcut">Adicionar atalho</string>
+	<string name="dialerShortcut">Contakts Dialer</string>
+	<string name="already_shortcut">Atalho já criado</string>
+	
 </resources>

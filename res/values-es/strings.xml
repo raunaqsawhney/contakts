@@ -299,4 +299,7 @@
     <string name="phoneDialogHeader">Contactos del Teléfono</string>
 	<string name="phoneDialogText">Se puede acceder a todos los contactos de la cuenta de Google pulsando sobre el icono de opciones extra-arriba a la derecha, y la selección de todos los contactos</string>
     
+	<string name="dialer_shortcut">Añadir acceso directo</string>
+	<string name="dialerShortcut">Contakts Dialer</string>
+	<string name="already_shortcut">Acceso directo ya creado</string>
 </resources>

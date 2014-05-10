@@ -274,4 +274,8 @@
     <string name="phoneDialogHeader">Phone Contacts</string>
     <string name="phoneDialogText">You can access all of your Google account contacts by tapping on the top-right extra options icon, and selecting All Contacts</string>
     
+    <string name="dialer_shortcut">Add dialer shortcut</string>
+    <string name="dialerShortcut">Contakts Dialer</string>
+    <string name="already_shortcut">Shortcut already created</string>
+    
 </resources>

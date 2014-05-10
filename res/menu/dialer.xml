@@ -11,5 +11,11 @@
         android:title="Edit speed dial"
         android:icon="@drawable/ic_speed"
         android:showAsAction="always"/>
+    
+    <item
+        android:id="@+id/menu_add_shortcut"
+        android:title="@string/dialer_shortcut"
+        android:showAsAction="never" />
+        
 
 </menu>
