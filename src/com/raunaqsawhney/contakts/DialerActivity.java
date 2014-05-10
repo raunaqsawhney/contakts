@@ -1093,6 +1093,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
     	        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
     	        getApplicationContext().sendBroadcast(intent);
     	        
+        		Toast.makeText(this, getString(R.string.already_shortcut), Toast.LENGTH_LONG).show();
+
 	        return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

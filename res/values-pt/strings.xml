@@ -300,6 +300,6 @@
 
 	<string name="dialer_shortcut">Adicionar atalho</string>
 	<string name="dialerShortcut">Contakts Dialer</string>
-	<string name="already_shortcut">Atalho já criado</string>
+	<string name="already_shortcut">Dialer atalho criado</string>
 	
 </resources>

@@ -534,7 +534,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 		                "mailto",allContacts.get(position), null));
                 		    	//TODO: Change domain name signature
-                            	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+                            	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android\nwww.contaktsapp.com");
                 		    	startActivity(emailIntent);
             		    	} catch (IndexOutOfBoundsException e) {
             		    		e.printStackTrace();
@@ -803,6 +803,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        imContentLayout.addView(imTypeTextView);
 
             imTextView.setText(currentIM);
+            imTextView.setTextIsSelectable(true);
             imTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             imTextView.setTextSize(18);
             imTextView.setPadding(30, 10, 0, 10);
@@ -932,6 +933,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         lblRelationshipType.setEllipsize(TextUtils.TruncateAt.END);
 
         lblRelationshipContent.setText(contact.getRelationship());
+        lblRelationshipContent.setTextIsSelectable(true);
         lblRelationshipContent.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
         lblRelationshipContent.setTextSize(18);
         lblRelationshipContent.setPadding(30, 10, 0, 10);
@@ -1061,6 +1063,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             dateContentLayout.addView(dateTypeTextView);
 
             dateTextView.setText(currentDate);
+            dateTextView.setTextIsSelectable(true);
             dateTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             dateTextView.setTextSize(18);
             dateTextView.setPadding(30, 10, 0, 10);
@@ -1159,6 +1162,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         lblCompany.setText(company);
         lblCompany.setSingleLine();
+        lblCompany.setTextIsSelectable(true);
         lblCompany.setEllipsize(TextUtils.TruncateAt.END);
         
         lblCompany.setOnClickListener(new OnClickListener() {
@@ -1282,6 +1286,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             websiteContentLayout.addView(websiteTypeTextView);
 
             websiteTextView.setText(currentWebsite);
+            websiteTextView.setTextIsSelectable(true);
             websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             websiteTextView.setTextSize(18);
             websiteTextView.setPadding(30, 10, 0, 10);
@@ -1451,6 +1456,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             addressContentLayout.addView(addressTypeTextView);
 
             addressTextView.setText(currentAddress);
+            addressTextView.setTextIsSelectable(true);
             addressTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             addressTextView.setTextSize(18);
             addressTextView.setPadding(30, 10, 0, 10);
@@ -1599,6 +1605,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             emailContentLayout.addView(emailTypeTextView);
 
             emailTextView.setText(currentEmail);
+            emailTextView.setTextIsSelectable(true);
             emailTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             emailTextView.setTextSize(18);
             emailTextView.setPadding(30, 10, 0, 10);
@@ -1627,7 +1634,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 public void onClick(View v) {
                 	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto",emailTextView.getText().toString(), null));
-                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android\nwww.contaktsapp.com");
     		    	startActivity(emailIntent);
                 }
             });
@@ -1658,6 +1665,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
         lblName.setText(name);
         lblName.setSingleLine();
+        lblName.setTextIsSelectable(true);
         lblName.setEllipsize(TextUtils.TruncateAt.END);
         ActionBar ab = getActionBar();
         ab.setTitle(name);
@@ -1810,6 +1818,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             phoneContentLayout.addView(phoneTypeTextView);
 
             phoneNumberTextView.setText(currentPhone);
+            phoneNumberTextView.setTextIsSelectable(true);
             phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             phoneNumberTextView.setTextSize(18);
             phoneNumberTextView.setPadding(30, 10, 0, 10);

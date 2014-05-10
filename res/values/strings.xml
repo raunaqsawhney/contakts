@@ -276,6 +276,6 @@
     
     <string name="dialer_shortcut">Add dialer shortcut</string>
     <string name="dialerShortcut">Contakts Dialer</string>
-    <string name="already_shortcut">Shortcut already created</string>
+    <string name="already_shortcut">Dialer shortcut created</string>
     
 </resources>

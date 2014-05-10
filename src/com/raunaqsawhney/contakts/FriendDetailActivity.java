@@ -301,6 +301,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             websiteContentLayout.addView(websiteTypeTextView);
 
             websiteTextView.setText(currentWebsite);
+            websiteTextView.setTextIsSelectable(true);
             websiteTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             websiteTextView.setTextSize(18);
             websiteTextView.setPadding(30, 10, 0, 10);
@@ -424,6 +425,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             emailContentLayout.addView(emailTypeTextView);
 
             emailTextView.setText(currentEmail);
+            emailTextView.setTextIsSelectable(true);
             emailTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             emailTextView.setTextSize(18);
             emailTextView.setPadding(30, 10, 0, 10);
@@ -452,7 +454,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
                 public void onClick(View v) {
                 	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto",emailTextView.getText().toString(), null));
-                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
+                	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android\nwww.contaktsapp.com");
     		    	startActivity(emailIntent);
                 }
             });
@@ -597,6 +599,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
             phoneContentLayout.addView(phoneTypeTextView);
 
             phoneNumberTextView.setText(currentPhone);
+            phoneNumberTextView.setTextIsSelectable(true);
             phoneNumberTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
             phoneNumberTextView.setTextSize(18);
             phoneNumberTextView.setPadding(30, 10, 0, 10);
@@ -964,10 +967,20 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					            friend.setCurrentHomeCountry(current_home_country);
 					            
 					    		friend_name_tv = (TextView) findViewById(R.id.f_detail_header_name);
+					    		friend_name_tv.setTextIsSelectable(true);
+					    		
 					    		friend_username_tv = (TextView) findViewById(R.id.f_detail_username_content);
+					    		friend_username_tv.setTextIsSelectable(true);
+					    		
 					    		friend_birthday_tv = (TextView) findViewById(R.id.f_detail_birthday_content);
+					    		friend_birthday_tv.setTextIsSelectable(true);
+					    		
 					    		friend_curloc_tv = (TextView) findViewById(R.id.f_detail_currentloc_content);
+					    		friend_curloc_tv.setTextIsSelectable(true);
+					    		
 					    		friend_hometown_tv = (TextView) findViewById(R.id.f_detail_hometown_content);
+					    		friend_hometown_tv.setTextIsSelectable(true);
+					    		
 					    		friend_imgurl_iv = (ImageView) findViewById(R.id.f_detail_header_photo);
 					    		friend_cover_iv = (ImageView) findViewById(R.id.cover_photo);
 					    		friend_is_app_user = (TextView) findViewById(R.id.f_detail_header_isappuser);
@@ -982,6 +995,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			final TextView eduTextView = new TextView(getBaseContext());
 					    			
 					    			eduTextView.setText(educationHistory.get(k));
+					    			eduTextView.setTextIsSelectable(true);
+					    			
 					    			eduTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
 					    			eduTextView.setTextSize(18);
 					    			eduTextView.setSingleLine();
@@ -1010,6 +1025,8 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 					    			final TextView workTextView = new TextView(getBaseContext());
 					    			
 					    			workTextView.setText(workHistory.get(m));
+					    			workTextView.setTextIsSelectable(true);
+					    			
 					    			workTextView.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
 					    			workTextView.setTextSize(18);
 					    			workTextView.setSingleLine();
