@@ -1,6 +1,9 @@
 package com.raunaqsawhney.contakts;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
@@ -25,7 +28,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CallLog;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.view.HapticFeedbackConstants;
@@ -62,6 +64,8 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	
 	Integer rateIt = 0;
 	
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,9 +92,9 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         fontTitle = prefs.getString("fontTitle", null);	
         selectionParam = prefs.getString("selectionParam", "?");
         
-        firstRunDoneRec = prefs.getBoolean("firstRunDoneRec", false);
+        firstRunDoneRec = prefs.getBoolean("firstRunDoneRec1", false);
         if (!firstRunDoneRec) {
-        	edit.putBoolean("firstRunDoneRec", true);
+        	edit.putBoolean("firstRunDoneRec1", true);
         	edit.apply();
         	
         	new AlertDialog.Builder(this)
@@ -552,6 +556,13 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	}
 	            return true; 
+	         
+	         
+			case R.id.menu_recent_graph:
+				Intent graphIntent = new Intent(RecentActivity.this, RecentGraph.class);
+    		   	RecentActivity.this.startActivity(graphIntent);
+								
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 		}

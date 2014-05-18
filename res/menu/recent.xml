@@ -17,4 +17,10 @@
         android:title="@string/clearRecents"
         android:icon="@drawable/ic_clearlog"
         android:showAsAction="never"/>
+	
+	<item
+	    android:id="@+id/menu_recent_graph"
+	    android:title="@string/logGraph"
+	    android:showAsAction="never"/>
+
 </menu>

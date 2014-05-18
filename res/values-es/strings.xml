@@ -302,4 +302,19 @@
 	<string name="dialer_shortcut">Añadir acceso directo</string>
 	<string name="dialerShortcut">Contakts Dialer</string>
 	<string name="already_shortcut">Acceso directo Dialer creado</string>
+	
+	<string name="copy">Copia</string>
+    <string name="paste">Encolar</string>
+    <string name="morning">Mañana</string>
+    <string name="afternoon">Mediodía</string>
+    <string name="evening">Tarde</string>
+    <string name="night">Noche</string>
+    <string name="recent_graph_text">Estadísticas del Registro</string>
+    <string name="recent_graph_info_text">Contakts divide el registro de llamadas en 4 fases de un día. Cada fase se representa en el gráfico anterior que consiste en el número total de llamadas entrantes/salientes/perdidas durante ese momento del día.</string>
+	<string name="logGraph">Gráfico</string>
+	
+	<string name="morningMAX"></string>
+	<string name="afternoonMAX"></string>
+	<string name="eveningMAX"></string>
+	<string name="nightMAX"></string>
 </resources>

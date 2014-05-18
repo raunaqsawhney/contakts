@@ -186,7 +186,7 @@
     <string name="deleteTitle">Delete</string>
     <string name="recDialogHeader">Recently Contacted</string>
     <string name="recMsg1">People you recently interacted with are presented here.\n\n</string>
-    <string name="recMsg5">You can also long-press on an item and call directly.</string>
+    <string name="recMsg5">You can also long-press on an item and call directly.\n\nTo view a graph of your call log, tap on the \'Extra Options\' button at the top.</string>
     <string name="emptyFreqs">You do not enough interactions with people to populate frequents list.</string>
     <string name="clearRecents">Clear Logs</string>
     <string name="clearLogs">Are you sure you want to clear call history?</string>
@@ -262,20 +262,30 @@
     <string name="title_activity_edit_speed">EditSpeedActivity</string>
     <string name="noContactAssigned">No contact assigned</string>
     <string name="enterSpeedContact">Tap here to select a speed dial contact</string>
-    
     <string name="editSpeedDial">Edit speed dial</string>
     <string name="removeSpeedDial">Remove from speed dial</string>
     <string name="changeSpeedDial">Change contact</string>
     <string name="voicemail">Voicemail</string>
-    
     <string name="dialDialogHeader">Dialer</string>
     <string name="dialDialogText">You can speed dial contacts by long-pressing on numbers on the dialpad.\n\nTo edit existing speed dial numbers, tap on the Speedometer at the top</string>
-
     <string name="phoneDialogHeader">Phone Contacts</string>
     <string name="phoneDialogText">You can access all of your Google account contacts by tapping on the top-right extra options icon, and selecting All Contacts</string>
-    
     <string name="dialer_shortcut">Add dialer shortcut</string>
     <string name="dialerShortcut">Contakts Dialer</string>
     <string name="already_shortcut">Dialer shortcut created</string>
-    
+    <string name="title_activity_recent_graph">RecentGraph</string>
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
+    <string name="recent_graph_text">Call Log Statistics</string>
+    <string name="recent_graph_info_text">Contakts divides up your call log into 4 phases of a day. Each phase is depicted on the graph consisting of the total number of incoming/outgoing/missed calls during that time of the day.</string>
+	<string name="logGraph">Log Graph</string>
+	
+	<string name="morningMAX">An early social bee!</string>
+	<string name="afternoonMAX">A Mid-day socialite!</string>
+	<string name="eveningMAX">The evening talker!</string>
+	<string name="nightMAX">The Night Owl!</string>
 </resources>

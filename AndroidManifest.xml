@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.raunaqsawhney.contakts"
-    android:versionCode="31"
-    android:versionName="1.85">
+    android:versionCode="32"
+    android:versionName="1.86" >
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
@@ -21,10 +22,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-	
-    
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    
+
     <permission
         android:name="com.raunaqsawhney.contakts.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -144,8 +146,9 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -201,20 +204,32 @@
         </activity>
         <activity
             android:name="com.raunaqsawhney.contakts.EditSpeedActivity"
-            android:label="@string/app_name" 
+            android:label="@string/app_name"
             android:parentActivityName="com.raunaqsawhney.contakts.DialerActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.raunaqsawhney.contakts.DialerActivity" />
         </activity>
-        
         <activity android:name="com.uservoice.uservoicesdk.activity.PortalActivity" />
-		<activity android:name="com.uservoice.uservoicesdk.activity.ForumActivity" /> 
-		<activity android:name="com.uservoice.uservoicesdk.activity.ArticleActivity" />
-		<activity android:name="com.uservoice.uservoicesdk.activity.TopicActivity" />
-		<activity android:name="com.uservoice.uservoicesdk.activity.ContactActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
-		<activity android:name="com.uservoice.uservoicesdk.activity.PostIdeaActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name="com.uservoice.uservoicesdk.activity.ForumActivity" />
+        <activity android:name="com.uservoice.uservoicesdk.activity.ArticleActivity" />
+        <activity android:name="com.uservoice.uservoicesdk.activity.TopicActivity" />
+        <activity
+            android:name="com.uservoice.uservoicesdk.activity.ContactActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.uservoice.uservoicesdk.activity.PostIdeaActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.raunaqsawhney.contakts.RecentGraph"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.raunaqsawhney.contakts.RecentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.raunaqsawhney.contakts.RecentActivity" />
+        </activity>
     </application>
 
 </manifest>

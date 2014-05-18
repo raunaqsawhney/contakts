@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RecentGraph" >
+
+    
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_marginLeft="10dip"
+	    android:layout_marginRight="10dip"
+	    android:layout_marginTop="10dip"
+	    android:fitsSystemWindows="true">
+	    
+	    <ImageView 
+	        android:id="@+id/recent_graph_icon"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:src="@drawable/ic_bar"/>
+	        
+	    <TextView
+	        android:id="@+id/recent_graph_header"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:textColor="#4A4A4A"
+	        android:textSize="20sp" 
+	        android:fontFamily="sans-serif-light" 
+	        android:layout_marginLeft="10dip"
+	        android:text="@string/recent_graph_text"/>
+	</LinearLayout>
+	
+	<com.echo.holographlibrary.BarGraph
+        android:layout_width="match_parent"
+        android:layout_height="280dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:id="@+id/graph"/>
+	
+	<TextView
+	    android:id="@+id/recent_graph_info"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:fontFamily="sans-serif-light"
+	    android:textStyle="italic"
+	    android:text="fd"
+	    android:textSize="30sp"
+	    android:layout_marginLeft="20dip"
+	    android:layout_marginRight="20dip"
+	    android:layout_marginTop="20dip"
+	    android:layout_gravity="center_horizontal"/>
+</LinearLayout>

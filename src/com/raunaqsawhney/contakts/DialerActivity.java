@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;
+import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
@@ -67,7 +69,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	
 	Vibrator vibe;
 	
-
 	private SlidingMenu menu;
 	private ListView navListView;
 	
@@ -82,12 +83,13 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	
 	Integer rateIt = 0;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dialer);
 		
-		
+		vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
@@ -167,9 +169,40 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		
 		final Button clearBtn = (Button) findViewById(R.id.clear);
 		
+		final String[] copypaste = new String[2];
+		copypaste[0] = getString(R.string.copy);
+		copypaste[1] = getString(R.string.paste);
+		
 	    number = (TextView) findViewById(R.id.number);
 	    number.setTextColor(Color.parseColor(theme));
 	    number.setBackgroundColor(0);
+	
+	    number.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				new AlertDialog.Builder(DialerActivity.this)
+					.setItems(copypaste, new DialogInterface.OnClickListener() {
+
+		            @SuppressWarnings("deprecation")
+					public void onClick(DialogInterface dialog, int item) {
+						ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
+
+		            	switch (item) {
+		            	case 0:
+		            	    clipboard.setText(number.getText());
+		            	    break;
+		            	case 1:
+		            	    number.setText(clipboard.getText());
+		            	    break;
+		            	}
+		            }
+		        })
+		       	.show();
+		        return false;
+			}
+		});
+	    
 	    number.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 	    number.addTextChangedListener(new TextWatcher() {
 
@@ -330,8 +363,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"1"));
-	            oneBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			}		
+				vibe.vibrate(20);	
+				}		
 	    });
 	    
 	    oneBtn.setOnLongClickListener(new View.OnLongClickListener() {
@@ -378,7 +411,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"2"));
-	            twoBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -427,7 +460,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"3"));
-	            threeBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -476,7 +509,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"4"));
-	            fourBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -525,7 +558,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"5"));
-	            fiveBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -574,7 +607,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"6"));
-	            sixBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -623,7 +656,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"7"));
-	            sevenBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    });
 	    
@@ -671,7 +704,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"8"));
-	            eightBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -720,7 +753,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"9"));
-	            nineBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -769,7 +802,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"*"));
-	            starBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -779,7 +812,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"0"));
-	            zeroBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -789,7 +822,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public boolean onLongClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"+"));
-	            zeroBtn.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+				vibe.vibrate(20);	
 	            return true;
 			}
 	    });
@@ -799,7 +832,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				number.setText(PhoneNumberUtils.formatNumber(number.getText().toString()+"#"));
-	            hashBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				vibe.vibrate(20);	
 			}		
 	    	
 	    });
@@ -808,7 +841,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 
 			@Override
 			public void onClick(View v) {
-				
+				vibe.vibrate(20);	
+
 	        	number.setInputType(InputType.TYPE_CLASS_PHONE);
 
 				//vibe.vibrate(50);
@@ -817,7 +851,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	            callIntent.setData(Uri.parse("tel:"+number.getText()));          
 	            startActivity(callIntent); 
 	            
-	            callBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 	            
 			}		
 	    });
@@ -826,7 +859,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 
 			@Override
 			public void onClick(View v) {
-				
+				vibe.vibrate(20);	
+
         		oneBtn.setTextColor(Color.parseColor(theme));
         		twoBtn.setTextColor(Color.parseColor(theme));
         		threeBtn.setTextColor(Color.parseColor(theme));
@@ -842,7 +876,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         		number.setTextColor(Color.parseColor(theme));
         		contactInfo.setTextColor(Color.BLACK);
         		
-	            clearBtn.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
 				try {
 					String contents = number.getText().toString();
@@ -864,8 +897,9 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 
 			@Override
 			public boolean onLongClick(View v) {
-				contactInfo.setText("");
-				
+				vibe.vibrate(20);	
+
+				contactInfo.setText("");				
 
         		oneBtn.setTextColor(Color.parseColor(theme));
         		twoBtn.setTextColor(Color.parseColor(theme));
@@ -881,8 +915,6 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         		hashBtn.setTextColor(Color.parseColor(theme));
         		number.setTextColor(Color.parseColor(theme));
         		contactInfo.setTextColor(Color.BLACK);
-
-	            clearBtn.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
 				try {
 					number.setText("");
