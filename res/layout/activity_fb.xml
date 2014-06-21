@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical" >
-
-        <com.google.android.gms.ads.AdView android:id="@+id/adView"
-        				 xmlns:ads="http://schemas.android.com/apk/res-auto"
+ 
+     <com.google.android.gms.ads.AdView android:id="@+id/adView"
+             			 xmlns:ads="http://schemas.android.com/apk/lib/com.raunaqsawhney.contakts.FBActivity"
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          ads:adUnitId="@string/admob_id"
                          android:visibility="gone"
-                         ads:adSize="SMART_BANNER"/> 
-                         
+                         ads:adSize="SMART_BANNER"/>   
+        
     <ListView
         android:id="@+id/fbList"
         android:layout_width="fill_parent"

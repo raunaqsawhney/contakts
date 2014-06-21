@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
         <com.google.android.gms.ads.AdView android:id="@+id/adView"
-        				 xmlns:ads="http://schemas.android.com/apk/res-auto"
+             			 xmlns:ads="http://schemas.android.com/apk/lib/com.raunaqsawhney.contakts.FrequentActivity"
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          ads:adUnitId="@string/admob_id"
