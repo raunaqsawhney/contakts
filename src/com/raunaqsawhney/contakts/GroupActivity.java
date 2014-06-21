@@ -272,7 +272,11 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-       
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
+        
+        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -638,6 +642,9 @@ public class GroupActivity extends Activity implements OnItemClickListener, Load
 	        	}
 	            return true;  
 	        
+	        case android.R.id.home:
+        		menu.toggle(true);
+	            
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

@@ -55,8 +55,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.*;
-
-
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -798,6 +796,10 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	} 
+	        	
+	        case android.R.id.home:
+        		menu.toggle(true);
+        		
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

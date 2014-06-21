@@ -128,7 +128,9 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -919,7 +921,11 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
 	        	Intent intent = new Intent(ShuffleActivity.this, ShuffleActivity.class);
 	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			   	ShuffleActivity.this.startActivity(intent);
-	            return true;  
+	            return true; 
+	            
+	        case android.R.id.home:
+        		menu.toggle(true);
+        		
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

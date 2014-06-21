@@ -291,8 +291,10 @@ private void initializePayments() {
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
-        bar.setHomeButtonEnabled(true);
         bar.setDisplayShowHomeEnabled(false);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -516,7 +518,11 @@ private void initializePayments() {
 	        	
 	        	Intent fbLogoutIntent = new Intent(FBActivity.this, FavActivity.class);
 	        	FBActivity.this.startActivity(fbLogoutIntent);
-	            return true;  
+	            return true; 
+	            
+	        case android.R.id.home:
+        		menu.toggle(true);
+        		
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

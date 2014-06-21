@@ -2,6 +2,7 @@
 <resources>
 <style name="Theme.Transparent" parent="@android:style/Theme.Holo.Light">
     <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+    
 	</style>
 	
 <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">

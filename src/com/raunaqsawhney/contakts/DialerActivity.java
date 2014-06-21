@@ -996,7 +996,10 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-       
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
+        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -1128,6 +1131,10 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         		Toast.makeText(this, getString(R.string.already_shortcut), Toast.LENGTH_LONG).show();
 
 	        return true;
+	        
+	        case android.R.id.home:
+        		menu.toggle(true);
+        		
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

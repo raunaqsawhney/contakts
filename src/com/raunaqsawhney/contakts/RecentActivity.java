@@ -179,7 +179,9 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -563,6 +565,10 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
     		   	RecentActivity.this.startActivity(graphIntent);
 								
 	            return true;
+	            
+			case android.R.id.home:
+        		menu.toggle(true);
+        		
 	        default:
 	            return super.onOptionsItemSelected(item);
 		}

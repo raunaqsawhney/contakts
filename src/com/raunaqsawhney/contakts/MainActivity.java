@@ -9,7 +9,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -28,7 +27,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -101,10 +99,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
    @Override
    public void onCreate(Bundle savedInstanceState) {
        
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);	
-        
+                
         // Initialize the loader for background activity
 	    
         TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -293,6 +290,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true);        
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -325,6 +325,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         menu.setMenu(R.layout.menu_frame);
         menu.setSecondaryMenu(R.layout.extra_options_main);
         menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
+        
+        
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
@@ -920,7 +922,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
         search_text.setTextColor(Color.WHITE);
         search_text.setTypeface(Typeface.createFromAsset(getAssets(), font));
-        
+        getActionBar().setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+
         return true;
     }
 	
@@ -952,6 +955,10 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	}
+	        	
+	        case android.R.id.home:
+        		menu.toggle(true);
+
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

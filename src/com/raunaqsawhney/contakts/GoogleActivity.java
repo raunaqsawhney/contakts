@@ -50,8 +50,8 @@ import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.google.android.gms.ads.*;
 
+import com.google.android.gms.ads.*;
 import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -269,7 +269,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -878,6 +880,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	        	Intent phoneIntent = new Intent(GoogleActivity.this, MainActivity.class);
 		   		GoogleActivity.this.startActivity(phoneIntent);
 		   		return true;
+		   		
+	        case android.R.id.home:
+        		menu.toggle(true);
+        		
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
