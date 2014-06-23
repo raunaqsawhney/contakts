@@ -18,9 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textColor="#1F1F21"
+        android:textColor="#8E8E93"
         android:textSize="18sp" 
-        android:fontFamily="sans-serif-light" 
+        android:fontFamily="sans-serif-condensed" 
         android:layout_marginLeft="10dip"
         android:paddingTop="10dip"
         android:paddingBottom="10dip"/>

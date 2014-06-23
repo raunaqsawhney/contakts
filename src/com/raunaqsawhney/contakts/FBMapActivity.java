@@ -140,13 +140,13 @@ public class FBMapActivity extends Activity implements OnItemClickListener {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites),
-				getString(R.string.sMMostContacted),
-				getString(R.string.sMPhoneContacts),
-				getString(R.string.sMGoogleContacts),
-				getString(R.string.sMFacebook),
-				getString(R.string.sMSettings),
-				getString(R.string.sMAbout)
+        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+				getString(R.string.sMMostContacted).toUpperCase(),
+				getString(R.string.sMPhoneContacts).toUpperCase(),
+				getString(R.string.sMGoogleContacts).toUpperCase(),
+				getString(R.string.sMFacebook).toUpperCase(),
+				getString(R.string.sMSettings).toUpperCase(),
+				getString(R.string.sMAbout).toUpperCase()
 		};
 		
 		final Integer[] navPhoto = { R.drawable.ic_nav_star,
