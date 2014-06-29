@@ -51,8 +51,9 @@
 			        android:layout_height="wrap_content"
 			        android:text="@string/allCalls"
 			        android:layout_gravity="center_vertical"
-			        android:textColor="#1F1F21"
+			        android:textColor="#2B2B2B"
 			        android:textSize="16sp" 
+			        android:textAllCaps="true"
 			        android:fontFamily="sans-serif-light" 
 			        android:layout_marginLeft="10dip"/>
 	    
@@ -80,8 +81,9 @@
 			        android:layout_height="wrap_content"
 			        android:text="@string/inCalls"
 			        android:layout_gravity="center_vertical"
-			        android:textColor="#1F1F21"
-			        android:textSize="16sp" 
+			        android:textColor="#2B2B2B"
+			        android:textSize="16sp"
+			        android:textAllCaps="true" 
 			        android:fontFamily="sans-serif-light" 
 			        android:layout_marginLeft="10dip"/>
 	    
@@ -109,8 +111,9 @@
 			        android:layout_height="wrap_content"
 			        android:text="@string/missCalls"
 			        android:layout_gravity="center_vertical"
-			        android:textColor="#1F1F21"
-			        android:textSize="16sp" 
+			        android:textColor="#2B2B2B"
+			        android:textSize="16sp"
+			        android:textAllCaps="true" 
 			        android:fontFamily="sans-serif-light" 
 			        android:layout_marginLeft="10dip"/>
 	    
@@ -138,8 +141,9 @@
 			        android:layout_height="wrap_content"
 			        android:text="@string/outCalls"
 			        android:layout_gravity="center_vertical"
-			        android:textColor="#1F1F21"
+			        android:textColor="#2B2B2B"
 			        android:textSize="16sp" 
+			        android:textAllCaps="true"
 			        android:fontFamily="sans-serif-light" 
 			        android:layout_marginLeft="10dip"/>
 	    

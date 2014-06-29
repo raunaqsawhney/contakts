@@ -82,6 +82,7 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 	TextView number;
 	
 	Integer rateIt = 0;
+	private String font;
 
 
 	@Override
@@ -940,6 +941,8 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         theme = prefs.getString("theme", "#0099CC");
         fontContent = prefs.getString("fontContent", null);
         fontTitle = prefs.getString("fontTitle", null);	
+        font = prefs.getString("font", null);
+
         
         rateIt = prefs.getInt("rateIt", 0);
     	Integer doneRate = prefs.getInt("doneRate", 0);
@@ -989,9 +992,10 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.dialer).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -1032,7 +1036,9 @@ public class DialerActivity extends Activity implements OnItemClickListener {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -1042,7 +1048,9 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -1146,29 +1154,32 @@ public class DialerActivity extends Activity implements OnItemClickListener {
 		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(DialerActivity.this, FavActivity.class);
-		   	DialerActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(DialerActivity.this, DialerActivity.class);
+		   	DialerActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(DialerActivity.this, FavActivity.class);
+		   DialerActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(DialerActivity.this, RecentActivity.class);
 		   DialerActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(DialerActivity.this, GraphActivity.class);
-	   		DialerActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(DialerActivity.this, MainActivity.class);
-	   		DialerActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(DialerActivity.this, GraphActivity.class);
+		   DialerActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(DialerActivity.this, GroupActivity.class);
-		   	DialerActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(DialerActivity.this, MainActivity.class);
+		   DialerActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(DialerActivity.this, ShuffleActivity.class);
-		   	DialerActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(DialerActivity.this, GroupActivity.class);
+		   DialerActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(DialerActivity.this, FBActivity.class);
-		   	DialerActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(DialerActivity.this, ShuffleActivity.class);
+			DialerActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(DialerActivity.this, LoginActivity.class);
+		   Intent iIntent = new Intent(DialerActivity.this, FBActivity.class);
+		   DialerActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(DialerActivity.this, LoginActivity.class);
 		   	DialerActivity.this.startActivity(iIntent);
 	   }
 	}

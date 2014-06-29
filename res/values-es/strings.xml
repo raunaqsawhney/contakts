@@ -317,4 +317,14 @@
 	<string name="afternoonMAX"></string>
 	<string name="eveningMAX"></string>
 	<string name="nightMAX"></string>
+	
+	<string name="chooseSpeedDialContact">ELEGIR CONTACTO</string>
+	
+	<string name="addContact">Añadir Contacto</string>
+	<string name="editSpeedDial">Editar marcación rápida</string>
+	<string name="logout">Finalizar la Sesión</string>
+	<string name="list">Lista</string>
+	
+	
+	
 </resources>

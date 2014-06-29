@@ -26,6 +26,7 @@
         android:layout_marginLeft="10dip"
         android:paddingTop="20dip"
         android:paddingBottom="20dip"
+        android:textAllCaps="true"
         android:text="@string/fbFriendHeader"/>
   
 </LinearLayout>

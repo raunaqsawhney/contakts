@@ -146,9 +146,10 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMMostContacted).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -188,7 +189,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -198,7 +201,9 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -313,10 +318,7 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.menu_dial:
-        		Intent dialIntent = new Intent(GraphActivity.this, DialerActivity.class);
-    		   	GraphActivity.this.startActivity(dialIntent);
-	            return true;   
+	        
 	        case R.id.menu_list:
         		Intent freqIntent = new Intent(GraphActivity.this, FrequentActivity.class);
     		   	GraphActivity.this.startActivity(freqIntent);
@@ -346,29 +348,32 @@ public class GraphActivity extends Activity implements OnItemClickListener {
 		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(GraphActivity.this, FavActivity.class);
-		   	GraphActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(GraphActivity.this, DialerActivity.class);
+		   	GraphActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(GraphActivity.this, FavActivity.class);
+		   GraphActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(GraphActivity.this, RecentActivity.class);
 		   GraphActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(GraphActivity.this, GraphActivity.class);
-	   		GraphActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(GraphActivity.this, MainActivity.class);
-	   		GraphActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(GraphActivity.this, GraphActivity.class);
+		   GraphActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(GraphActivity.this, GroupActivity.class);
-		   	GraphActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(GraphActivity.this, MainActivity.class);
+		   GraphActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(GraphActivity.this, ShuffleActivity.class);
-		   	GraphActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(GraphActivity.this, GroupActivity.class);
+		   GraphActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(GraphActivity.this, FBActivity.class);
-		   	GraphActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(GraphActivity.this, ShuffleActivity.class);
+			GraphActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(GraphActivity.this, LoginActivity.class);
+		   Intent iIntent = new Intent(GraphActivity.this, FBActivity.class);
+		   GraphActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(GraphActivity.this, LoginActivity.class);
 		   	GraphActivity.this.startActivity(iIntent);
 	   }
 	}

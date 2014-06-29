@@ -6,9 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -19,7 +17,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,7 +38,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -62,7 +57,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -95,7 +89,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	TextView lblEmail;
 	TextView lblDate;
 	TextView lblAddress;
-	TextView lblNote;
 	TextView lblRelationship;
 	TextView lblWebsite;
 	TextView lblNoteContent;
@@ -135,32 +128,31 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
     
     Integer rateIt = 0;
 
-    	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_contact_detail);
         
-        contact_id = getIntent().getStringExtra("contact_id");
-        prevActivity = getIntent().getStringExtra("activity");
-                
+        initialize();        
         setupGlobalPrefs();
         setupActionBar();
         setupSlidingMenu();
         setupQuickLinks();
         
         getContactInfo(contact_id);
-        
-        Session.openActiveSessionFromCache(getBaseContext());
 
     }
+
+	private void initialize() {
+		contact_id = getIntent().getStringExtra("contact_id");
+        prevActivity = getIntent().getStringExtra("activity");		
+	}
 
 	private void setupGlobalPrefs() {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor edit = preferences.edit();
+		Editor edit = prefs.edit();
 		
 		theme = prefs.getString("theme", "#0099CC");
         font = prefs.getString("font", null);
@@ -243,19 +235,17 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 	private void setupActionBar() {
 		
-		
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
-        actionBarTitleText.setTextSize(21);
+        actionBarTitleText.setTextSize(22);
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
         bar.setHomeButtonEnabled(true);
-       
         
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -288,7 +278,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -298,7 +290,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -326,6 +320,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	
 	private void setupQuickLinks() {
 		c = null;
+		
 		// Check for Favourites
         Boolean isStarred = checkStarredStatus(contact_id);
         if (isStarred == true)
@@ -363,7 +358,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         call_quicklink.setOnClickListener(new View.OnClickListener() {
         	
         	int count = 0;
-        	@SuppressWarnings("deprecation")
 			@Override
             public void onClick(View v) {
                 final ArrayList<String> allContacts = new ArrayList<String>();
@@ -430,7 +424,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         text_quicklink.setOnClickListener(new View.OnClickListener() {
         	
         	int count = 0;
-        	@SuppressWarnings("deprecation")
 			@Override
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
@@ -488,7 +481,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         	
         	int count = 0;
         	
-        	@SuppressWarnings("deprecation")
 			@Override
             public void onClick(View v) {
         		final ArrayList<String> allContacts = new ArrayList<String>();
@@ -500,7 +492,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                         ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                         new String[]{contact_id},
                         null);
-                //startManagingCursor(c);
 
                 while (c.moveToNext()) {
                     allContacts.add(c.getString(
@@ -533,7 +524,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
             		    	try {
                 		    	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 		                "mailto",allContacts.get(position), null));
-                		    	//TODO: Change domain name signature
                             	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android\nwww.contaktsapp.com");
                 		    	startActivity(emailIntent);
             		    	} catch (IndexOutOfBoundsException e) {
@@ -545,7 +535,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                 	if (!allContacts.isEmpty()) {
                     	Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
         		                "mailto",allContacts.get(0), null));
-        		    	//TODO: Change domain name signature
                     	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "\n\nSent from Contakts for Android.\nGet it today: www.contaktsapp.com");
         		    	startActivity(emailIntent);
                 	} else {
@@ -556,7 +545,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         });		
 	}
 
-	@SuppressWarnings("deprecation")
 	private Boolean checkStarredStatus(String contact_id2) {
 
 		int starred = 0;
@@ -573,7 +561,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            ContactsContract.Contacts._ID + "=?",
 	            new String[]{contact_id},
 	            null);
-	    //startManagingCursor(c);
 	
 	    while (c.moveToNext()) {
 	        starred = c.getInt(c.getColumnIndex(ContactsContract.Contacts.STARRED));
@@ -600,7 +587,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getAddressInfo(contact_id);
 		getWebsiteInfo(contact_id);
 		getOrganizationInfo(contact_id);
-		//getNotesInfo(contact_id);
 		getDatesInfo(contact_id);
 		getRelationshipInfo(contact_id);
 		getIMInfo(contact_id);
@@ -608,8 +594,8 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		getLookupKey(contact_id);		
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void getLookupKey(String contact_id) {
+		
 		// Look Up Key
 		String [] proj = new String [] {  ContactsContract.Contacts.LOOKUP_KEY };
 		
@@ -619,9 +605,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	            proj,
 	            ContactsContract.Contacts._ID + "=?",
 	            new String[]{contact_id},
-	            null);
-		//startManagingCursor(c);
- 
+	            null
+	        );
+		
 		try {
 			while (c.moveToNext()) {
 		        lookupKey = c.getString(c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
@@ -631,18 +617,18 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getPhoto(String contact_id) {
 		
         contactPhoto = (ImageView) findViewById(R.id.c_detail_header_photo);
-        
-		ContentResolver cr = getContentResolver();
 		
 		c = null;
-		c = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
+		c = getContentResolver().query(
+				ContactsContract.Contacts.CONTENT_URI,
+				null,
                 ContactsContract.Contacts._ID +" = ?",
-                new String[]{contact_id}, null);
-        //startManagingCursor(c);
+                new String[]{contact_id},
+                null
+            );
 
 		while (c.moveToNext()) {
 	        photo = c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
@@ -651,8 +637,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	        {
 	            contactPhoto.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_contact_picture));
 
-	        } else 
-	        {
+	        } else {
 	        	try {
 		        	contactPhoto.setImageURI((Uri.parse(photo)));   
 	        	} catch (IllegalArgumentException e) {
@@ -674,9 +659,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         try {
         	if (inputStream != null) {
-            	
         		headerBG.setImageBitmap(BlurImageLegacy(BitmapFactory.decodeStream(inputStream), 10));
-
             } else {
         		headerBG.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.default_bg));
             }
@@ -685,7 +668,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }       
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void getIMInfo(String contact_id) {
 		
 		TextView imHeader = (TextView) findViewById(R.id.c_detail_im_header);
@@ -698,7 +680,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         LinearLayout imLayout = (LinearLayout) findViewById(R.id.c_detail_im_layout);
 		
-        ContentResolver cr = getContentResolver();
         String imType = null;
 
         String imWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -707,13 +688,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         c = null;
         try {
-            c = cr.query(ContactsContract.Data.CONTENT_URI,
-                    null, imWhere, imWhereParams, null);
+            c = getContentResolver().query(
+            		ContactsContract.Data.CONTENT_URI,
+                    null,
+                    imWhere,
+                    imWhereParams,
+                    null
+                );
         } catch (NullPointerException e) {
         	e.printStackTrace();
         }
-
-
         
         while (c.moveToNext()) {
             im = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA));
@@ -825,7 +809,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getRelationshipInfo(String contact_id) {
 		
 		TextView relationshipHeader = (TextView) findViewById(R.id.c_detail_relationship_header);
@@ -836,15 +819,18 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         LinearLayout relationshipLayout = (LinearLayout) findViewById(R.id.c_detail_relationship_layout);
         
-        ContentResolver cr = getContentResolver();
-        
         String relationshipWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
         String[] relationshipWhereParams = new String[]{contact_id,
         ContactsContract.CommonDataKinds.Relation.CONTENT_ITEM_TYPE};
         
         c = null;
-        c = cr.query(ContactsContract.Data.CONTENT_URI, null, relationshipWhere, relationshipWhereParams, null);
-        //startManagingCursor(c);
+        c = getContentResolver().query(
+        		ContactsContract.Data.CONTENT_URI,
+        		null,
+        		relationshipWhere,
+        		relationshipWhereParams,
+        		null
+        	);
 
         while (c.moveToNext()) {
             relationship = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Relation.NAME));
@@ -954,7 +940,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
        relationshipLayout.addView(relationshipContentLayout);   
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getDatesInfo(String contact_id) {
 		
 		TextView dateHeader = (TextView) findViewById(R.id.c_detail_date_header);
@@ -967,7 +952,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
         LinearLayout dateLayout = (LinearLayout) findViewById(R.id.c_detail_date_layout);
         
-        ContentResolver cr = getContentResolver();
 		String dateType = null;
         
         String dateWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -976,7 +960,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         c = null;
         try {
-            c = cr.query(ContactsContract.Data.CONTENT_URI, null, dateWhere, dateWhereParams, null);
+            c = getContentResolver().query(
+            		ContactsContract.Data.CONTENT_URI,
+            		null,
+            		dateWhere,
+            		dateWhereParams,
+            		null
+            	);
         } catch (NullPointerException e) {
         	e.printStackTrace();
         }
@@ -1016,7 +1006,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
                  convertedDate = dateFormat.parse(date);
                  formattedDate = targetFormat.format(convertedDate);
             } catch (ParseException e) {
-            // TODO Auto-generated catch block
             	formattedDate = "--";
             	e.printStackTrace();
             }
@@ -1087,58 +1076,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
 	}
 
-	@SuppressWarnings("deprecation")
-	private void getNotesInfo(String contact_id) {
-
-		TextView noteHeader = (TextView) findViewById(R.id.c_detail_note_header);
-		noteHeader.setTextColor(Color.parseColor(theme));
-		
-        lblNote = (TextView) findViewById(R.id.c_detail_note_header);
-        lblNote.setTypeface(Typeface.createFromAsset(getAssets(), font));
-        		
-        lblNoteContent = (TextView) findViewById(R.id.c_detail_note_content);
-        lblNoteContent.setTypeface(Typeface.createFromAsset(getAssets(), fontContent));
-        
-        LinearLayout noteLayout = (LinearLayout) findViewById(R.id.c_detail_note_layout);
-        
-		ContentResolver cr = getContentResolver();
-		
-	    String[] columns = new String[] { ContactsContract.CommonDataKinds.Note.NOTE };
-
-        String noteWhere = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-        String[] noteWhereParams = new String[]{contact_id,
-        ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE};
-        
-        Cursor noteCur = cr.query(ContactsContract.Data.CONTENT_URI, columns, noteWhere, noteWhereParams, null);
-        startManagingCursor(noteCur);
-
-        while (noteCur.moveToNext()) {
-        	try {
-                note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
-            	System.out.println("NOTE: " + note);
-        	} catch (NullPointerException e) {
-        		note.isEmpty();
-        	}
-
-            contact.setNotes(note);
-
-            if (!note.isEmpty())
-            {
-            	System.out.println("visible");
-            	noteLayout.setVisibility(View.VISIBLE);
-                lblNoteContent.setText(note);
-            }
-        }
-	}
-
-	@SuppressWarnings("deprecation")
 	private void getOrganizationInfo(String contact_id) {
 
         lblCompany = (TextView) findViewById(R.id.c_detail_header_company);
         lblCompany.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
-		
-        ContentResolver cr = getContentResolver();
-		
+				
 		String orgWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
         String[] orgWhereParams = new String[]{contact_id,
                 ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
@@ -1146,13 +1088,11 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         c = null;
         
         try {
-    		c = cr.query(ContactsContract.Data.CONTENT_URI,
+    		c = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
                     null, orgWhere, orgWhereParams, null);
         } catch (NullPointerException e) {
         	e.printStackTrace();
         }
-
-        //startManagingCursor(c);
 
         while (c.moveToNext()) {
             company = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
@@ -1176,7 +1116,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         });
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getWebsiteInfo(String contact_id) {
 		
 		TextView websiteHeader = (TextView) findViewById(R.id.c_detail_website_header);
@@ -1189,7 +1128,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         LinearLayout websiteLayout = (LinearLayout) findViewById(R.id.c_detail_website_layout);
         
-		ContentResolver cr = getContentResolver();
 		String websiteType = null;
 		
 		String websiteWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -1198,7 +1136,7 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         c = null;
         try {
-    		c = cr.query(ContactsContract.Data.CONTENT_URI,
+    		c = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
                     null, websiteWhere, websiteWhereParams, null);
         } catch (NullPointerException e) {
         	e.printStackTrace();
@@ -1322,7 +1260,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         }
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getAddressInfo(String contact_id) {
 		
 		TextView addressHeader = (TextView) findViewById(R.id.c_detail_address_header);
@@ -1342,7 +1279,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         LinearLayout addressLayout = (LinearLayout) findViewById(R.id.c_detail_address_layout);
         
-		ContentResolver cr = getContentResolver();
 		String addressType = null;
 		
 		String addressWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -1351,8 +1287,13 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         
         c = null;
         try {
-    		c = cr.query(ContactsContract.Data.CONTENT_URI,
-                    null, addressWhere, addressWhereParams, null);
+    		c = getContentResolver().query(
+    				ContactsContract.Data.CONTENT_URI,
+                    null,
+                    addressWhere,
+                    addressWhereParams,
+                    null
+                );
         } catch (NullPointerException e) {
         	e.printStackTrace();
         }
@@ -1499,7 +1440,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		    return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getEmailInfo(String contact_id) {
 		
 		TextView emailHeader = (TextView) findViewById(R.id.c_detail_email_header);
@@ -1512,17 +1452,17 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
         LinearLayout emailLayout = (LinearLayout) findViewById(R.id.c_detail_email_layout);
         
-		ContentResolver cr = getContentResolver();
 		String emailType = null;
 		
 		c = null;
 		try {
-			c = cr.query(
+			c = getContentResolver().query(
 	                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
 	                null,
 	                ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
 	                new String[]{contact_id},
-	                null);
+	                null
+	            );
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -1642,19 +1582,20 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	}
 
 
-	@SuppressWarnings("deprecation")
 	private void getNameInfo(String contact_id) {
 		
         lblName = (TextView) findViewById(R.id.c_detail_header_name);
         lblName.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf"));
                 
-		ContentResolver cr = getContentResolver();
 		
 		c = null;
-		c = cr.query(ContactsContract.Contacts.CONTENT_URI,null,
+		c = getContentResolver().query(
+				ContactsContract.Contacts.CONTENT_URI,
+				null,
                 ContactsContract.Contacts._ID + " =? ",
-                new String[]{contact_id}, null);
-        //startManagingCursor(c);
+                new String[]{contact_id},
+                null
+            );
 
         while (c.moveToNext()) {
             name = c.getString(
@@ -1668,10 +1609,9 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
         lblName.setTextIsSelectable(true);
         lblName.setEllipsize(TextUtils.TruncateAt.END);
         ActionBar ab = getActionBar();
-        ab.setTitle(name);
+        ab.setTitle(name.toUpperCase());
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getPhoneInfo(String contact_id) {
 		
 		TextView phoneHeader = (TextView) findViewById(R.id.c_detail_phone_header);
@@ -1684,14 +1624,17 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		
         LinearLayout phoneLayout = (LinearLayout) findViewById(R.id.c_detail_phone_layout);
         
-		ContentResolver cr = getContentResolver();
 		String phoneType = null;
 		
 		c = null;
 		try {
-			c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+			c = getContentResolver().query(
+					ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+					null,
 	                ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
-	                new String[]{contact_id}, null);	
+	                new String[]{contact_id},
+	                null
+	           );	
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -2017,32 +1960,6 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 	    }
 	}
 	
-	/*
-	@SuppressLint("NewApi")
-	Bitmap BlurImage (Bitmap input)
-	{
-		Bitmap result = null;
-		try {
-			RenderScript rsScript = RenderScript.create(getApplicationContext());
-			Allocation alloc = Allocation.crea	teFromBitmap(rsScript, input);
-
-			ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rsScript, Element.U8_4(rsScript));
-			blur.setRadius (12);
-			blur.setInput (alloc);
-
-			result = Bitmap.createBitmap(input.getWidth(), input.getHeight(), input.getConfig ());
-			Allocation outAlloc = Allocation.createFromBitmap (rsScript, result);
-			blur.forEach (outAlloc);
-			outAlloc.copyTo (result);
-
-			rsScript.destroy ();
-			
-		} catch (OutOfMemoryError e) {
-			e.printStackTrace();
-		}
-		return result;
-	}*/
-	
 	public Bitmap BlurImageLegacy(Bitmap input, int radius) {
 
         // Stack Blur v1.0 from
@@ -2281,29 +2198,32 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
-		   	ContactDetailActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(ContactDetailActivity.this, DialerActivity.class);
+		   	ContactDetailActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(ContactDetailActivity.this, FavActivity.class);
+		   ContactDetailActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(ContactDetailActivity.this, RecentActivity.class);
 		   ContactDetailActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(ContactDetailActivity.this, GraphActivity.class);
-	   		ContactDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
-	   		ContactDetailActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(ContactDetailActivity.this, GraphActivity.class);
+		   ContactDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(ContactDetailActivity.this, GroupActivity.class);
-		   	ContactDetailActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(ContactDetailActivity.this, MainActivity.class);
+		   ContactDetailActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(ContactDetailActivity.this, ShuffleActivity.class);
-		   	ContactDetailActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(ContactDetailActivity.this, GroupActivity.class);
+		   ContactDetailActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
-		   	ContactDetailActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(ContactDetailActivity.this, ShuffleActivity.class);
+			ContactDetailActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
+		   Intent iIntent = new Intent(ContactDetailActivity.this, FBActivity.class);
+		   ContactDetailActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(ContactDetailActivity.this, LoginActivity.class);
 		   	ContactDetailActivity.this.startActivity(iIntent);
 	   }
 	}
@@ -2334,30 +2254,16 @@ public class ContactDetailActivity extends Activity implements OnClickListener, 
 		   }
 		}
 	  
+	  @Override
+	  public void onResume() {
+	      super.onResume();  // Always call the superclass method first
+	      setupActionBar();
+	      c = null;
+	  }
+	  
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	// Causing tons of crashes, remove it
-	@SuppressWarnings("unused")
-	private boolean isAppInstalled(String packageName) {
-	    PackageManager pm = getPackageManager();
-	    boolean installed = false;
-	    try {
-	       pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-	       installed = true;
-	    } catch (PackageManager.NameNotFoundException e) {
-	       installed = false;
-	    }
-	    return installed;
-	}
-	
-  @Override
-  public void onResume() {
-      super.onResume();  // Always call the superclass method first
-      setupActionBar();
-      c = null;
-  }
+	}	
 }

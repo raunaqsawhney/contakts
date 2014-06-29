@@ -87,7 +87,7 @@ public class RecentGraph extends Activity {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
         
@@ -95,6 +95,7 @@ public class RecentGraph extends Activity {
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
         bar.setHomeButtonEnabled(true);
+        bar.setTitle(getString(R.string.logGraph).toUpperCase());
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

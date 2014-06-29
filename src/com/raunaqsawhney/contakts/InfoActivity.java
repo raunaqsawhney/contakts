@@ -38,6 +38,8 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 
 	private String fontTitle;
 
+	private String fontContent;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		
 		theme = prefs.getString("theme", "#0099CC");
 		fontTitle = prefs.getString("fontTitle", null);
+		fontContent = prefs.getString("fontContent", null);
        	
 	}
 
@@ -65,14 +68,17 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMAbout).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
-        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+        bar.setHomeButtonEnabled(true); 
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -104,7 +110,9 @@ public class InfoActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -114,7 +122,9 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -159,8 +169,8 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 	        R.layout.info_item_layout, R.id.info_item, list);
 	    
-	    View header = getLayoutInflater().inflate(R.layout.info_header, null);
-	    listview.addHeaderView(header, null, false);
+	   // View header = getLayoutInflater().inflate(R.layout.info_header, null);
+	    //listview.addHeaderView(header, null, false);
 	    listview.setAdapter(adapter);
 	   
 	    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,14 +180,14 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 	            int position, long id) {
 	        	
 	        	switch(position) {
-	        	case 1:
+	        	case 0:
 	        		Intent shareWithFriendsIntent = new Intent();
 	        		shareWithFriendsIntent.setAction(Intent.ACTION_SEND);
 	        		shareWithFriendsIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareMarketingText)); 
 	        		shareWithFriendsIntent.setType("text/plain");
 	        		startActivity(shareWithFriendsIntent);
 	        		break;
-	        	case 2:
+	        	case 1:
 	        		Intent feedBackIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
     		                "mailto","contaktsapp@gmail.com", null));
 	        		try {
@@ -189,17 +199,17 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 					}
     		    	startActivity(feedBackIntent);
 	        		break;
-	        	case 3:
+	        	case 2:
 	        		final String appPackageName = getPackageName();
 	        		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
 	        		break;
-	        	case 4:
+	        	case 3:
 	        		String url = "http://www.contaktsapp.com";
 	        		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
 	        		websiteIntent.setData(Uri.parse(url));
 	        		startActivity(websiteIntent);
 	        		break;
-	        	case 5:
+	        	case 4:
 	        		String urlTOS = "http://www.contaktsapp.com/tos";
 	        		Intent websiteTOSIntent = new Intent(Intent.ACTION_VIEW);
 	        		websiteTOSIntent.setData(Uri.parse(urlTOS));
@@ -226,29 +236,32 @@ public class InfoActivity extends Activity implements OnItemClickListener {
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent favIntent = new Intent(InfoActivity.this, FavActivity.class);
-		   	InfoActivity.this.startActivity(favIntent);
+		   	Intent dialIntent = new Intent(InfoActivity.this, DialerActivity.class);
+		   	InfoActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(InfoActivity.this, FavActivity.class);
+		   InfoActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(InfoActivity.this, RecentActivity.class);
 		   InfoActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(InfoActivity.this, GraphActivity.class);
-	   		InfoActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(InfoActivity.this, MainActivity.class);
-	   		InfoActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(InfoActivity.this, GraphActivity.class);
+		   InfoActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(InfoActivity.this, GroupActivity.class);
-		   	InfoActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(InfoActivity.this, MainActivity.class);
+		   InfoActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(InfoActivity.this, ShuffleActivity.class);
-		   	InfoActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(InfoActivity.this, GroupActivity.class);
+		   InfoActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(InfoActivity.this, FBActivity.class);
-		   	InfoActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(InfoActivity.this, ShuffleActivity.class);
+			InfoActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(InfoActivity.this, LoginActivity.class);
-		   	InfoActivity.this.startActivity(iIntent);
+		   Intent iIntent = new Intent(InfoActivity.this, FBActivity.class);
+		   InfoActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(InfoActivity.this, LoginActivity.class);
+		   InfoActivity.this.startActivity(iIntent);
 	   }
 	}
 	

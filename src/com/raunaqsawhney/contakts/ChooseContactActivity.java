@@ -126,9 +126,10 @@ public class ChooseContactActivity extends Activity implements OnQueryTextListen
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.chooseSpeedDialContact));
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));

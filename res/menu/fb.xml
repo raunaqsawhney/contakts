@@ -5,18 +5,11 @@
 		  android:icon="@drawable/ic_menu_search"
           android:showAsAction="collapseActionView|ifRoom"
           android:actionViewClass="android.widget.SearchView" />
-    
-	<item 
-	    android:id="@+id/menu_dial"
-	    android:title="Dial"
-	    android:icon="@drawable/ic_menu_call"
-	    android:showAsAction="always" />
-
-    
+        
     <item 
         android:id="@+id/fb_logout"
-        android:showAsAction="always"
-        android:title="Logout"
-        android:icon="@drawable/ic_action_logout"/>
+        android:title="@string/logout"
+        android:icon="@drawable/ic_action_logout"
+        android:showAsAction="never"/>
 
 </menu>

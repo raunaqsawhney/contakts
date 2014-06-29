@@ -8,23 +8,18 @@
 		  android:icon="@drawable/ic_menu_search"
 		  android:showAsAction="ifRoom|collapseActionView"
 		  android:actionViewClass="android.widget.SearchView" />
-	
-	<item 
-	    android:id="@+id/menu_dial"
-	    android:title="Dial"
-	    android:icon="@drawable/ic_menu_call"
-	    android:showAsAction="ifRoom|collapseActionView" />
+
 	
 	<item 
 	    android:id="@+id/menu_add"
-	    android:title="Add Contact"
+	    android:title="@string/addContact"
 	    android:icon="@drawable/ic_action_add_person"
-	    android:showAsAction="ifRoom|collapseActionView" />
+	    android:showAsAction="never" />
 	
 	<item
 	    android:id="@+id/menu_allcontacts"
 	    android:title="@string/sMGoogleContacts"
 	    android:icon="@drawable/ic_allcontacts"
-	    android:showAsAction="ifRoom|collapseActionView"/>
+	    android:showAsAction="never"/>
 
 </menu>

@@ -288,4 +288,13 @@
 	<string name="afternoonMAX">A Mid-day socialite!</string>
 	<string name="eveningMAX">The evening talker!</string>
 	<string name="nightMAX">The Night Owl!</string>
+	
+	<string name="chooseSpeedDialContact">SELECT CONTACT</string>
+	<string name="editSpeedDialContact">EDIT SPEED DIAL</string>
+	
+	<string name="addContact">Add Contact</string>
+	<string name="editSpeedDial">Edit Speed Dial</string>
+	<string name="logout">Logout</string>
+	<string name="list">List</string>
+	
 </resources>

@@ -317,4 +317,11 @@
 	<string name="eveningMAX"></string>
 	<string name="nightMAX"></string>
 	
+	<string name="chooseSpeedDialContact">SELECIONAR CONTATO</string>
+	
+	<string name="addContact">Adicionar contato</string>
+	<string name="editSpeedDial">Editar discagem velocidade</string>
+	<string name="logout">Sair</string>
+	<string name="list">Lista</string>
+	
 </resources>

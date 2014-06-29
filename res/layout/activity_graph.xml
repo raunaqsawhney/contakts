@@ -47,7 +47,7 @@
         android:fitsSystemWindows="true"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
-        android:paddingTop="10dip"
+        android:layout_marginTop="10dip"
         android:scrollingCache="true"
         android:soundEffectsEnabled="true"
         android:paddingBottom="50dip">

@@ -48,7 +48,7 @@ public class FriendAdapter extends ArrayAdapter<fbFriend> implements Filterable{
 	       this.imageLoader = ImageLoader.getInstance();
 	        
 	       options = new DisplayImageOptions.Builder()
-           .showImageOnLoading(R.drawable.ic_contact_picture)
+           .showImageOnLoading(R.drawable.ic_contact_picture_small)
            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
            .build();
 	        

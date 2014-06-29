@@ -29,6 +29,7 @@
         android:gravity="center"
 		android:layout_marginTop="10dp"
         android:text="@string/themeButton"
+        android:textAllCaps="true"
         android:textColor="@android:color/white" />
     
      <Button
@@ -40,6 +41,7 @@
         android:gravity="center"
 		android:layout_marginTop="10dp"
         android:text="@string/startupViewBtn"
+        android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
     <Button
@@ -51,6 +53,7 @@
         android:gravity="center"
         android:onClick="buyApp"
         android:text="@string/removeAds"
+        android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:layout_marginTop="10dip" />
 
@@ -60,6 +63,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:text="@string/enableWhatsApp"
+        android:textAllCaps="true"
         android:layout_marginTop="10dip"  />
     
     <TextView 

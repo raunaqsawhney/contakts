@@ -1,16 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	
-	<item 
-	    android:id="@+id/menu_dial"
-	    android:title="Dial"
-	    android:icon="@drawable/ic_menu_call"
-	    android:showAsAction="always" />
-	
 	<item 
 	    android:id="@+id/menu_add"
-	    android:title="Add Contact"
+	    android:title="@string/addContact"
 	    android:icon="@drawable/ic_action_add_person"
-	    android:showAsAction="always" />
+	    android:showAsAction="never" />
 
 </menu>

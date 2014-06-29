@@ -228,9 +228,10 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMSettings).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -294,7 +295,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -304,7 +307,9 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -572,30 +577,34 @@ public class LoginActivity extends FragmentActivity implements OnItemClickListen
 		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
+		
 		if (selected == 0) {
-		   	Intent favIntent = new Intent(LoginActivity.this, FavActivity.class);
-		   	LoginActivity.this.startActivity(favIntent);
+		   	Intent dialIntent = new Intent(LoginActivity.this, DialerActivity.class);
+		   	LoginActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(LoginActivity.this, FavActivity.class);
+		   LoginActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(LoginActivity.this, RecentActivity.class);
 		   LoginActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(LoginActivity.this, GraphActivity.class);
-	   		LoginActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(LoginActivity.this, MainActivity.class);
-	   		LoginActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(LoginActivity.this, GraphActivity.class);
+		   LoginActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(LoginActivity.this, GroupActivity.class);
-		   	LoginActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(LoginActivity.this, MainActivity.class);
+		   LoginActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(LoginActivity.this, ShuffleActivity.class);
-		   	LoginActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(LoginActivity.this, GroupActivity.class);
+		   LoginActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(LoginActivity.this, FBActivity.class);
-		   	LoginActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(LoginActivity.this, ShuffleActivity.class);
+			LoginActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(LoginActivity.this, LoginActivity.class);
-		   	LoginActivity.this.startActivity(iIntent);
+		   Intent iIntent = new Intent(LoginActivity.this, FBActivity.class);
+		   LoginActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(LoginActivity.this, LoginActivity.class);
+		   LoginActivity.this.startActivity(iIntent);
 	   }
 	}
 

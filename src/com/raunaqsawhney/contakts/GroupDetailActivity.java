@@ -138,13 +138,16 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(group_name.toUpperCase());
+       
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
+        bar.setHomeButtonEnabled(true);
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -178,7 +181,9 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -188,7 +193,9 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -290,7 +297,7 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
         
 	    getLoaderManager().initLoader(0, null, this);
 	    
-	    contactGroupListView.addHeaderView(header, null, false);
+	    //contactGroupListView.addHeaderView(header, null, false);
 	    contactGroupListView.setAdapter(mAdapter);	
 	    
 	}
@@ -340,45 +347,40 @@ public class GroupDetailActivity extends Activity implements OnItemClickListener
 		
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(GroupDetailActivity.this, FavActivity.class);
-		   	GroupDetailActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(GroupDetailActivity.this, DialerActivity.class);
+		   	GroupDetailActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(GroupDetailActivity.this, FavActivity.class);
+		   GroupDetailActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(GroupDetailActivity.this, RecentActivity.class);
 		   GroupDetailActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(GroupDetailActivity.this, GraphActivity.class);
-	   		GroupDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(GroupDetailActivity.this, MainActivity.class);
-	   		GroupDetailActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(GroupDetailActivity.this, GraphActivity.class);
+		   GroupDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(GroupDetailActivity.this, GroupActivity.class);
-		   	GroupDetailActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(GroupDetailActivity.this, MainActivity.class);
+		   GroupDetailActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(GroupDetailActivity.this, ShuffleActivity.class);
-		   	GroupDetailActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(GroupDetailActivity.this, GroupActivity.class);
+		   GroupDetailActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(GroupDetailActivity.this, FBActivity.class);
-		   	GroupDetailActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(GroupDetailActivity.this, ShuffleActivity.class);
+			GroupDetailActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(GroupDetailActivity.this, LoginActivity.class);
-		   	GroupDetailActivity.this.startActivity(iIntent);
+		   Intent iIntent = new Intent(GroupDetailActivity.this, FBActivity.class);
+		   GroupDetailActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(GroupDetailActivity.this, LoginActivity.class);
+		   GroupDetailActivity.this.startActivity(iIntent);
 	   }
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.menu_dial:
-	        	try {
-	        		Intent dialIntent = new Intent(GroupDetailActivity.this, DialerActivity.class);
-	    		   	GroupDetailActivity.this.startActivity(dialIntent);
-	        	} catch (ActivityNotFoundException e) {
-	        		Toast.makeText(getApplicationContext(), getString(R.string.dialerNotFound), Toast.LENGTH_LONG).show();
-	        	}
-	            return true;  
-	            
+
 	        case R.id.menu_add:
 	        	try {
 	        		Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);

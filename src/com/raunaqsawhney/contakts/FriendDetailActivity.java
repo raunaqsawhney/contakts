@@ -693,9 +693,9 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
-        actionBarTitleText.setTextSize(21);
+        actionBarTitleText.setTextSize(22);
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -734,7 +734,9 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -744,7 +746,9 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -1052,7 +1056,7 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 
 						    	friend_name_tv.setText(friend.getName());
 					    		ActionBar ab = getActionBar();
-					            ab.setTitle(friend.getName());
+					            ab.setTitle(friend.getName().toUpperCase());
 					    		
 					    		friend_username_tv.setText(friend.getUsername());
 					    		friend_birthday_tv.setText(friend.getBirthday());
@@ -1122,29 +1126,32 @@ public class FriendDetailActivity extends Activity implements OnItemClickListene
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(FriendDetailActivity.this, FavActivity.class);
-		   	FriendDetailActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(FriendDetailActivity.this, DialerActivity.class);
+		   	FriendDetailActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(FriendDetailActivity.this, FavActivity.class);
+		   FriendDetailActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(FriendDetailActivity.this, RecentActivity.class);
 		   FriendDetailActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(FriendDetailActivity.this, GraphActivity.class);
-	   		FriendDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(FriendDetailActivity.this, MainActivity.class);
-	   		FriendDetailActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(FriendDetailActivity.this, GraphActivity.class);
+		   FriendDetailActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(FriendDetailActivity.this, GroupActivity.class);
-		   	FriendDetailActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(FriendDetailActivity.this, MainActivity.class);
+		   FriendDetailActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(FriendDetailActivity.this, ShuffleActivity.class);
-		   	FriendDetailActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(FriendDetailActivity.this, GroupActivity.class);
+		   FriendDetailActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
-		   	FriendDetailActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(FriendDetailActivity.this, ShuffleActivity.class);
+			FriendDetailActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
+		   Intent iIntent = new Intent(FriendDetailActivity.this, FBActivity.class);
+		   FriendDetailActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(FriendDetailActivity.this, LoginActivity.class);
 		   	FriendDetailActivity.this.startActivity(iIntent);
 	   }
 	}

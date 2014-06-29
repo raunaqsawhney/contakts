@@ -272,15 +272,16 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         // Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMMostContacted).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
         bar.setHomeButtonEnabled(true);
-       
+        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -314,7 +315,9 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
         menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -324,7 +327,9 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -464,8 +469,8 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	            to,
 	            0);
 		
-	    View header = getLayoutInflater().inflate(R.layout.freq_header, null);
-	    freqList.addHeaderView(header, null, false);
+	    //View header = getLayoutInflater().inflate(R.layout.freq_header, null);
+	    //freqList.addHeaderView(header, null, false);
 	    getLoaderManager().initLoader(0, null, this);
         freqList.setAdapter(mAdapter);
         
@@ -754,29 +759,32 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(FrequentActivity.this, FavActivity.class);
-		   	FrequentActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(FrequentActivity.this, DialerActivity.class);
+		   	FrequentActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(FrequentActivity.this, FavActivity.class);
+		   FrequentActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(FrequentActivity.this, RecentActivity.class);
 		   FrequentActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(FrequentActivity.this, GraphActivity.class);
-	   		FrequentActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(FrequentActivity.this, MainActivity.class);
-	   		FrequentActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(FrequentActivity.this, GraphActivity.class);
+		   FrequentActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(FrequentActivity.this, GroupActivity.class);
-		   	FrequentActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(FrequentActivity.this, MainActivity.class);
+		   FrequentActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(FrequentActivity.this, ShuffleActivity.class);
-		   	FrequentActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(FrequentActivity.this, GroupActivity.class);
+		   FrequentActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(FrequentActivity.this, FBActivity.class);
-		   	FrequentActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(FrequentActivity.this, ShuffleActivity.class);
+			FrequentActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(FrequentActivity.this, LoginActivity.class);
+		   Intent iIntent = new Intent(FrequentActivity.this, FBActivity.class);
+		   FrequentActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(FrequentActivity.this, LoginActivity.class);
 		   	FrequentActivity.this.startActivity(iIntent);
 	   }
 	}
@@ -784,10 +792,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.menu_dial:
-        		Intent dialIntent = new Intent(FrequentActivity.this, DialerActivity.class);
-    		   	FrequentActivity.this.startActivity(dialIntent);
-	            return true;    
+	       
 	        case R.id.menu_add:
 	        	try {
 		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
@@ -796,10 +801,7 @@ public class FrequentActivity extends Activity implements LoaderManager.LoaderCa
 	        	} catch (ActivityNotFoundException e) {
 	        		Toast.makeText(this, getString(R.string.addNotFound), Toast.LENGTH_LONG).show();
 	        	} 
-	        	
-	        case android.R.id.home:
-        		menu.toggle(true);
-        		
+	      
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

@@ -121,9 +121,10 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMShuffle).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -131,7 +132,7 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
         bar.setDisplayHomeAsUpEnabled(true);
         bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
         bar.setHomeButtonEnabled(true); 
-       
+        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 	        SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -164,7 +165,9 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
         menu.setMenu(R.layout.menu_frame);
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -174,7 +177,9 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -938,29 +943,32 @@ public class ShuffleActivity extends Activity implements OnItemClickListener {
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent favIntent = new Intent(ShuffleActivity.this, FavActivity.class);
-		   	ShuffleActivity.this.startActivity(favIntent);
+		   	Intent dialIntent = new Intent(ShuffleActivity.this, DialerActivity.class);
+		   	ShuffleActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(ShuffleActivity.this, FavActivity.class);
+		   ShuffleActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(ShuffleActivity.this, RecentActivity.class);
 		   ShuffleActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(ShuffleActivity.this, GraphActivity.class);
-	   		ShuffleActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(ShuffleActivity.this, MainActivity.class);
-	   		ShuffleActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(ShuffleActivity.this, GraphActivity.class);
+		   ShuffleActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(ShuffleActivity.this, GroupActivity.class);
-		   	ShuffleActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(ShuffleActivity.this, MainActivity.class);
+		   ShuffleActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(ShuffleActivity.this, ShuffleActivity.class);
-		   	ShuffleActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(ShuffleActivity.this, GroupActivity.class);
+		   ShuffleActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(ShuffleActivity.this, FBActivity.class);
-		   	ShuffleActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(ShuffleActivity.this, ShuffleActivity.class);
+			ShuffleActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(ShuffleActivity.this, LoginActivity.class);
-		   	ShuffleActivity.this.startActivity(iIntent);
+		   Intent iIntent = new Intent(ShuffleActivity.this, FBActivity.class);
+		   ShuffleActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(ShuffleActivity.this, LoginActivity.class);
+		   ShuffleActivity.this.startActivity(iIntent);
 	   }
 	}
 	

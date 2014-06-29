@@ -262,9 +262,10 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMGoogleContacts).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -307,7 +308,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
         
         navListView = (ListView) findViewById(R.id.nav_menu);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -317,7 +320,9 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -522,8 +527,8 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	private void initializeLoader() {
 		
         contactList = (ListView)findViewById(R.id.list);
-        View header = getLayoutInflater().inflate(R.layout.google_header, null);
-	    contactList.addHeaderView(header, null, false);
+        //View header = getLayoutInflater().inflate(R.layout.google_header, null);
+	    //contactList.View(header, null, false);
 		
 		// Set up the ListView for contacts to be displayed
         contactList.setOnItemClickListener(new OnItemClickListener() {
@@ -864,10 +869,7 @@ public class GoogleActivity extends Activity implements OnQueryTextListener, Loa
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
-        	case R.id.menu_dial:
-        		Intent dialIntent = new Intent(GoogleActivity.this, DialerActivity.class);
-    		   	GoogleActivity.this.startActivity(dialIntent);
-            return true;
+        	
 	        case R.id.menu_add:
 	        	try {
 		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);

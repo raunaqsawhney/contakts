@@ -172,9 +172,10 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMRecent).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -218,7 +219,9 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
         menu.setSecondaryMenu(R.layout.extra_options_rec);
         menu.setSecondaryShadowDrawable(R.drawable.shadow_right);
       
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -228,7 +231,9 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -484,29 +489,32 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent favIntent = new Intent(RecentActivity.this, FavActivity.class);
-		   	RecentActivity.this.startActivity(favIntent);
+		   	Intent dialIntent = new Intent(RecentActivity.this, DialerActivity.class);
+		   	RecentActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(RecentActivity.this, FavActivity.class);
+		   RecentActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(RecentActivity.this, RecentActivity.class);
 		   RecentActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(RecentActivity.this, GraphActivity.class);
-	   		RecentActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(RecentActivity.this, MainActivity.class);
-	   		RecentActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(RecentActivity.this, GraphActivity.class);
+		   RecentActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(RecentActivity.this, GroupActivity.class);
-		   	RecentActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(RecentActivity.this, MainActivity.class);
+		   RecentActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(RecentActivity.this, ShuffleActivity.class);
-		   	RecentActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(RecentActivity.this, GroupActivity.class);
+		   RecentActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(RecentActivity.this, FBActivity.class);
-		   	RecentActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(RecentActivity.this, ShuffleActivity.class);
+			RecentActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(RecentActivity.this, LoginActivity.class);
-		   	RecentActivity.this.startActivity(iIntent);
+		   Intent iIntent = new Intent(RecentActivity.this, FBActivity.class);
+		   RecentActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(RecentActivity.this, LoginActivity.class);
+		   RecentActivity.this.startActivity(iIntent);
 	   }
 	}
 	
@@ -539,16 +547,7 @@ public class RecentActivity extends Activity implements LoaderManager.LoaderCall
 	            deleteAlert.show();
 	            
 				return true;
-				
-			case R.id.menu_dial:
-	        	try {
-	        		Intent dialIntent = new Intent(RecentActivity.this, DialerActivity.class);
-	    		   	RecentActivity.this.startActivity(dialIntent);
-	        	} catch (ActivityNotFoundException e) {
-	        		Toast.makeText(getApplicationContext(), getString(R.string.dialerNotFound), Toast.LENGTH_LONG).show();
-	        	}
-	            return true; 
-	            
+		        
 			case R.id.menu_add:
 				try {
 		    		Intent addIntent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);

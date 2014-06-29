@@ -283,16 +283,18 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		// Set up Action Bar
         TextView actionBarTitleText = (TextView) findViewById(getResources()
         		.getIdentifier("action_bar_title", "id","android"));
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMPhoneContacts).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
         bar.setDisplayShowHomeEnabled(false);
         bar.setDisplayHomeAsUpEnabled(true);
         bar.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
-        bar.setHomeButtonEnabled(true);        
+        bar.setHomeButtonEnabled(true); 
+        bar.setIcon(R.drawable.blank_icon);      
        
         // Do Tint if KitKat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -330,7 +332,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -340,7 +344,9 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -591,8 +597,8 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
                 0);
         	
 	    
-        View header = getLayoutInflater().inflate(R.layout.phone_header, null);
-	    contactList.addHeaderView(header, null, false);
+        //View header = getLayoutInflater().inflate(R.layout.phone_header, null);
+	   // contactList.addHeaderView(header, null, false);
 	    getLoaderManager().initLoader(0, null, this);
         contactList.setAdapter(mAdapter);
         
@@ -881,29 +887,32 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 		long selected = (navListView.getItemIdAtPosition(position));
 		
 		if (selected == 0) {
-		   	Intent favIntent = new Intent(MainActivity.this, FavActivity.class);
-		   	MainActivity.this.startActivity(favIntent);
+		   	Intent dialIntent = new Intent(MainActivity.this, DialerActivity.class);
+		   	MainActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(MainActivity.this, FavActivity.class);
+		   MainActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(MainActivity.this, RecentActivity.class);
 		   MainActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(MainActivity.this, GraphActivity.class);
-	   		MainActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(MainActivity.this, MainActivity.class);
-	   		MainActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(MainActivity.this, GraphActivity.class);
+		   MainActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(MainActivity.this, GroupActivity.class);
-		   	MainActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(MainActivity.this, MainActivity.class);
+		   MainActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(MainActivity.this, ShuffleActivity.class);
-		   	MainActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(MainActivity.this, GroupActivity.class);
+		   MainActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(MainActivity.this, FBActivity.class);
-		   	MainActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(MainActivity.this, ShuffleActivity.class);
+			MainActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(MainActivity.this, LoginActivity.class);
-		   	MainActivity.this.startActivity(iIntent);
+		   Intent iIntent = new Intent(MainActivity.this, FBActivity.class);
+		   MainActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(MainActivity.this, LoginActivity.class);
+		   MainActivity.this.startActivity(iIntent);
 	   }
 	}
 	
@@ -930,14 +939,7 @@ public class MainActivity extends Activity implements OnQueryTextListener, Loade
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.menu_dial:
-	        	try {
-	        		Intent dialIntent = new Intent(MainActivity.this, DialerActivity.class);
-	    		   	MainActivity.this.startActivity(dialIntent);
-	        	} catch (ActivityNotFoundException e) {
-	        		Toast.makeText(getApplicationContext(), getString(R.string.dialerNotFound), Toast.LENGTH_LONG).show();
-	        	}
-	            return true;  
+	          
 	            
 	        case R.id.menu_add:
 	        	try {

@@ -285,9 +285,10 @@ private void initializePayments() {
         int titleId = getResources().getIdentifier("action_bar_title", "id",
                 "android");
         TextView actionBarTitleText = (TextView) findViewById(titleId);
-        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontTitle));
+        actionBarTitleText.setTypeface(Typeface.createFromAsset(this.getAssets(), fontContent));
         actionBarTitleText.setTextColor(Color.WHITE);
         actionBarTitleText.setTextSize(22);
+        actionBarTitleText.setText(getString(R.string.sMFacebook).toUpperCase());
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(theme)));
@@ -328,7 +329,9 @@ private void initializePayments() {
         
         navListView = (ListView) findViewById(R.id.nav_menu);
         
-        final String[] nav = { getString(R.string.sMfavourites).toUpperCase(),
+        final String[] nav = { 
+        		getString(R.string.dialer).toUpperCase(),
+        		getString(R.string.sMfavourites).toUpperCase(),
         		getString(R.string.sMRecent).toUpperCase(),
 				getString(R.string.sMMostContacted).toUpperCase(),
 				getString(R.string.sMPhoneContacts).toUpperCase(),
@@ -338,7 +341,9 @@ private void initializePayments() {
 				getString(R.string.sMSettings).toUpperCase()
 		};
 		
-		final Integer[] navPhoto = { R.drawable.ic_nav_star,
+		final Integer[] navPhoto = { 
+				R.drawable.ic_nav_dial,
+				R.drawable.ic_nav_star,
 				R.drawable.ic_nav_recent,
 				R.drawable.ic_nav_popular,
 				R.drawable.ic_nav_phone,
@@ -423,8 +428,8 @@ private void initializePayments() {
 					        
 					    	adapter = new FriendAdapter(FBActivity.this, friendList);
 
-				    	    View header = getLayoutInflater().inflate(R.layout.fb_header, null);
-				            fbListView.addHeaderView(header, null, false);
+				    	    //View header = getLayoutInflater().inflate(R.layout.fb_header, null);
+				            //fbListView.addHeaderView(header, null, false);
 				            
 				            fbListView.setOnItemClickListener(new OnItemClickListener() {
 				                @Override
@@ -477,29 +482,32 @@ private void initializePayments() {
 
 		long selected = (navListView.getItemIdAtPosition(position));
 		
-	if (selected == 0) {
-		   	Intent favIntent = new Intent(FBActivity.this, FavActivity.class);
-		   	FBActivity.this.startActivity(favIntent);
+		if (selected == 0) {
+		   	Intent dialIntent = new Intent(FBActivity.this, DialerActivity.class);
+		   	FBActivity.this.startActivity(dialIntent);
 	   } else if (selected == 1) {
+		   Intent favIntent = new Intent(FBActivity.this, FavActivity.class);
+		   FBActivity.this.startActivity(favIntent);
+	   } else if (selected == 2) {
 		   Intent recIntent = new Intent(FBActivity.this, RecentActivity.class);
 		   FBActivity.this.startActivity(recIntent);
-	   } else if (selected == 2) {
-	   		Intent freqIntent = new Intent(FBActivity.this, GraphActivity.class);
-	   		FBActivity.this.startActivity(freqIntent);
 	   } else if (selected == 3) {
-	   		Intent phoneIntent = new Intent(FBActivity.this, MainActivity.class);
-	   		FBActivity.this.startActivity(phoneIntent);
+		   Intent freqIntent = new Intent(FBActivity.this, GraphActivity.class);
+		   FBActivity.this.startActivity(freqIntent);
 	   } else if (selected == 4) {
-		   	Intent fbIntent = new Intent(FBActivity.this, GroupActivity.class);
-		   	FBActivity.this.startActivity(fbIntent);
+		   Intent phoneIntent = new Intent(FBActivity.this, MainActivity.class);
+		   FBActivity.this.startActivity(phoneIntent);
 	   }  else if (selected == 5) {
-		   	Intent loIntent = new Intent(FBActivity.this, ShuffleActivity.class);
-		   	FBActivity.this.startActivity(loIntent);
+		   Intent fbIntent = new Intent(FBActivity.this, GroupActivity.class);
+		   FBActivity.this.startActivity(fbIntent);
 	   }  else if (selected == 6) {
-		   	Intent iIntent = new Intent(FBActivity.this, FBActivity.class);
-		   	FBActivity.this.startActivity(iIntent);
+			Intent loIntent = new Intent(FBActivity.this, ShuffleActivity.class);
+			FBActivity.this.startActivity(loIntent);
 	   }   else if (selected == 7) {
-		   	Intent iIntent = new Intent(FBActivity.this, LoginActivity.class);
+		   Intent iIntent = new Intent(FBActivity.this, FBActivity.class);
+		   FBActivity.this.startActivity(iIntent);
+	   } else if (selected == 8) {
+		   Intent iIntent = new Intent(FBActivity.this, LoginActivity.class);
 		   	FBActivity.this.startActivity(iIntent);
 	   }
 	}
@@ -508,11 +516,7 @@ private void initializePayments() {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
-		    case R.id.menu_dial:
-	    		Intent dialIntent = new Intent(FBActivity.this, DialerActivity.class);
-			   	FBActivity.this.startActivity(dialIntent);
-	            return true;
-            
+		    
 	        case R.id.fb_logout:
 	        	logoutFromFB();
 	        	
